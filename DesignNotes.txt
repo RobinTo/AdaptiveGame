@@ -1,0 +1,21 @@
+Stylistic choices:
+Plants vs zombies style
+Fixed path, e.g. bloons tower defense
+Walk anywhere, takes shortest path around towers
+
+Modifiable Tower Stats:
+Damage
+Possibly health? E.g. certain creeps will shoot back
+
+Modifiable Enemy Stats:
+Health
+Velocity
+Armor
+? AoEarmor
+? Single Target Armor
+
+Other things:
+Towers - Give access to different types of towers based on what user places?
+Enemies - Attempt to send mostly fun enemies, e.g. if a user hates stealthed creeps, don't send.
+Graphics - Different levels of "bling" such as effects when lasers shoot, exploding enemies, etc.
+Map - Depending on style, fixed path generate maps to the users preference.
