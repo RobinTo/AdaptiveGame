@@ -27,12 +27,15 @@ namespace AdaptiveTD
             m.LoadMap("test");
             assets.addImage("testEnemy", Content.Load<Texture2D>("testEnemy"));
             enemies.Add(new Enemy(new Vector2(m.StartPoint.X, m.StartPoint.Y), assets.getImage("testEnemy"), 64, 20, 2, m.Directions));
+            towers.Add(new Tower(Content.Load<Texture2D>("arrowTower"), new Vector2(5,3)));
         }
 
         public void Update(GameTime gameTime)
         {
             foreach (Enemy e in enemies)
                 e.Update(gameTime);
+            foreach (Tower t in towers)
+                t.Update(gameTime, enemies, null);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -40,6 +43,8 @@ namespace AdaptiveTD
             m.Draw(spriteBatch);
             foreach (Enemy e in enemies)
                 e.Draw(spriteBatch);
+            foreach (Tower t in towers)
+                t.Draw(spriteBatch);
         }
     }
 }

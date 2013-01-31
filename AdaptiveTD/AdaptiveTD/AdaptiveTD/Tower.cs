@@ -12,14 +12,12 @@ namespace AdaptiveTD
         Texture2D towerTexture;
         float rotation;
         Vector2 position, origin;
-        Rectangle selfRectangle;
 
         public Tower(Texture2D towerTexture, Vector2 tilePosition)
         {
             this.towerTexture = towerTexture;
             this.position = new Vector2(tilePosition.X * 64, tilePosition.Y * 64);
             this.origin = new Vector2(32, 32);
-            this.selfRectangle = new Rectangle((int)position.X, (int)position.Y, 64, 64);
             this.rotation = 0.0f;
         }
 
@@ -62,7 +60,7 @@ namespace AdaptiveTD
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(towerTexture, position, selfRectangle, Color.White, rotation, origin, 1.0f, SpriteEffects.None, 1.0f);
+            spriteBatch.Draw(towerTexture, position + origin, null, Color.White, rotation, origin, 1.0f, SpriteEffects.None, 1.0f);
 
         }
 
