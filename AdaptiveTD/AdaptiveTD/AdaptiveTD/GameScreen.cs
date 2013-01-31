@@ -15,6 +15,7 @@ namespace AdaptiveTD
         Enemy targetEnemy;
         List<Tower> towers = new List<Tower>();
         AssetManager assets = new AssetManager();
+        List<Missile> missiles = new List<Missile>();
 
         public GameScreen()
         {
@@ -27,7 +28,8 @@ namespace AdaptiveTD
             m.LoadMap("test");
             assets.addImage("testEnemy", Content.Load<Texture2D>("testEnemy"));
             enemies.Add(new Enemy(new Vector2(m.StartPoint.X, m.StartPoint.Y), assets.getImage("testEnemy"), 64, 20, 2, m.Directions));
-            towers.Add(new Tower(Content.Load<Texture2D>("arrowTower"), new Vector2(5,3)));
+            towers.Add(new Tower(Content.Load<Texture2D>("arrowTower"), Content.Load<Texture2D>("blackBullet"), new Vector2(5, 3), 0.5f));
+            towers.Add(new Tower(Content.Load<Texture2D>("arrowTower"), Content.Load<Texture2D>("blackBullet"), new Vector2(0, 0), 0.5f));
         }
 
         public void Update(GameTime gameTime)
@@ -35,7 +37,16 @@ namespace AdaptiveTD
             foreach (Enemy e in enemies)
                 e.Update(gameTime);
             foreach (Tower t in towers)
-                t.Update(gameTime, enemies, null);
+                t.Update(gameTime, enemies, null, missiles);
+            for (int counter = 0; counter < missiles.Count; counter++)
+            {
+                missiles[counter].Update(gameTime);
+                if (missiles[counter].remove)
+                {
+                    missiles.RemoveAt(counter);
+                    counter--;
+                }
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -45,6 +56,8 @@ namespace AdaptiveTD
                 e.Draw(spriteBatch);
             foreach (Tower t in towers)
                 t.Draw(spriteBatch);
+            foreach (Missile missile in missiles)
+                missile.Draw(spriteBatch);
         }
     }
 }

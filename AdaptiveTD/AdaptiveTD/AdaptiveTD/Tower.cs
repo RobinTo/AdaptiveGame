@@ -9,26 +9,32 @@ namespace AdaptiveTD
 {
     class Tower
     {
-        Texture2D towerTexture;
-        float rotation;
+        Texture2D towerTexture, missileTexture;
+        float rotation, distanceToTargetEnemy;
         Vector2 position, origin;
+        float reloadTime, towerReloadTime;
+        Enemy targetEnemy;
+        
 
-        public Tower(Texture2D towerTexture, Vector2 tilePosition)
+        public Tower(Texture2D towerTexture, Texture2D missileTexture, Vector2 tilePosition, float towerReloadTime)
         {
             this.towerTexture = towerTexture;
+            this.missileTexture = missileTexture;
             this.position = new Vector2(tilePosition.X * 64, tilePosition.Y * 64);
             this.origin = new Vector2(32, 32);
             this.rotation = 0.0f;
+            this.towerReloadTime = towerReloadTime;
+            this.reloadTime = towerReloadTime;
         }
 
-        public void Shoot()
+        private void Shoot(List<Missile> missiles)
         {
-
+            missiles.Add(new Missile(missileTexture, this.position + this.origin, distanceToTargetEnemy, rotation, 1024.0f));
         }
 
-        public void Update(GameTime gameTime, List<Enemy> enemies, Enemy targetEnemy)
+        public void Update(GameTime gameTime, List<Enemy> enemies, Enemy focusFireEnemy, List<Missile> missiles)
         {
-            if (targetEnemy == null)
+            if (focusFireEnemy == null)
             {
                 Enemy closestEnemy = enemies[0];
                 foreach (Enemy candidateEnemy in enemies) //Algoritme kan improves ved å ikke teste på første element
@@ -37,13 +43,17 @@ namespace AdaptiveTD
                     double deltaYClosest = (closestEnemy.Position.Y + closestEnemy.Origin.Y) - (this.position.Y + this.origin.Y);
                     double distanceToClosest = Math.Sqrt(Math.Pow(deltaXClosest, 2) + Math.Pow(deltaYClosest, 2));
 
-                    double deltaXCandidate = (closestEnemy.Position.X + closestEnemy.Origin.X) - (this.position.X + this.origin.X);
-                    double deltaYCandidate = (closestEnemy.Position.Y + closestEnemy.Origin.Y) - (this.position.Y + this.origin.Y);
+                    double deltaXCandidate = (candidateEnemy.Position.X + candidateEnemy.Origin.X) - (this.position.X + this.origin.X);
+                    double deltaYCandidate = (candidateEnemy.Position.Y + candidateEnemy.Origin.Y) - (this.position.Y + this.origin.Y);
                     double distanceToCandidate = Math.Sqrt(Math.Pow(deltaXCandidate, 2) + Math.Pow(deltaYCandidate, 2));
 
-                    if (distanceToCandidate < distanceToClosest)
+                    if (distanceToCandidate <= distanceToClosest)
+                    {
                         closestEnemy = candidateEnemy;
+                        distanceToTargetEnemy = (float)distanceToCandidate;
+                    }
                 }
+                targetEnemy = closestEnemy;
 
                 double deltaX = (closestEnemy.Position.X + closestEnemy.Origin.X) - (this.position.X + this.origin.X);
                 double deltaY = (closestEnemy.Position.Y + closestEnemy.Origin.Y) - (this.position.Y + this.origin.Y);
@@ -51,11 +61,20 @@ namespace AdaptiveTD
             }
             else
             {
-                double deltaX = (targetEnemy.Position.X + targetEnemy.Origin.X) - (this.position.X + this.origin.X);
-                double deltaY = (targetEnemy.Position.Y + targetEnemy.Origin.Y) - (this.position.Y + this.origin.Y);
+                targetEnemy = focusFireEnemy;
+                double deltaX = (focusFireEnemy.Position.X + focusFireEnemy.Origin.X) - (this.position.X + this.origin.X);
+                double deltaY = (focusFireEnemy.Position.Y + focusFireEnemy.Origin.Y) - (this.position.Y + this.origin.Y);
+                distanceToTargetEnemy = (float)Math.Sqrt(Math.Pow(deltaX, 2) + Math.Pow(deltaY, 2));
+
                 rotation = (float)Math.Atan2(deltaY, deltaX);
+            } //Må ha en else if på om targetEnemy er instansiert.
+
+            reloadTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (reloadTime <= 0)
+            {
+                this.Shoot(missiles);
+                reloadTime = towerReloadTime;
             }
-          
         }
 
         public void Draw(SpriteBatch spriteBatch)
