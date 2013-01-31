@@ -107,7 +107,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssetManager.cs" />
     <Compile Include="Enemy.cs" />
+    <Compile Include="GameConstants.cs" />
     <Compile Include="GameScreen.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

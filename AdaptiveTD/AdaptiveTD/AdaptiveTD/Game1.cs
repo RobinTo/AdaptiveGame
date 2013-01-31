@@ -19,10 +19,13 @@ namespace AdaptiveTD
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        GameScreen gameScreen;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            gameScreen = new GameScreen();
         }
 
         /// <summary>
@@ -46,7 +49,7 @@ namespace AdaptiveTD
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            gameScreen.LoadContent(Content);
             // TODO: use this.Content to load your game content here
         }
 
@@ -84,6 +87,10 @@ namespace AdaptiveTD
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            gameScreen.Draw(spriteBatch);
+            spriteBatch.End();
+
 
             base.Draw(gameTime);
         }
