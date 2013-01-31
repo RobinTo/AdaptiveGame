@@ -26,6 +26,9 @@ namespace AdaptiveTD
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             gameScreen = new GameScreen();
+            graphics.PreferredBackBufferWidth = GameConstants.screenWidth;
+            graphics.PreferredBackBufferHeight = GameConstants.screenHeight;
+            IsMouseVisible = true;
         }
 
         /// <summary>
