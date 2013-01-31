@@ -8,7 +8,8 @@ namespace AdaptiveTD
 {
     public enum Direction
     {
-        Up = 0,
+        None = 0,
+        Up,
         Down,
         Right,
         Left
@@ -20,6 +21,11 @@ namespace AdaptiveTD
         Texture2D imageOne;
 
         List<Direction> directions = new List<Direction>();
+
+        public List<Direction> Directions
+        {
+            get { return directions; }
+        }
 
         Point startPoint = new Point(0, 5);
         public Point StartPoint
@@ -57,9 +63,11 @@ namespace AdaptiveTD
                         map[x, y] = 0;
                 }
             }
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 20; i++)
             {
                 directions.Add(Direction.Right);
+                if (i == 2)
+                    directions.Add(Direction.Up);
             }
         }
 

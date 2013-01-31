@@ -77,6 +77,7 @@ namespace AdaptiveTD
                 this.Exit();
 
             // TODO: Add your update logic here
+            gameScreen.Update(gameTime);
 
             base.Update(gameTime);
         }

@@ -28,7 +28,6 @@ namespace AdaptiveTD
 
         }
 
-
         public void Update(GameTime gameTime, List<Enemy> enemies, Enemy targetEnemy)
         {
             if (targetEnemy == null)
