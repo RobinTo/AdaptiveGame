@@ -26,6 +26,11 @@ namespace AdaptiveTD
         {
             get { return origin; }
         }
+        float distanceTravelled;
+        public float DistanceTravelled
+        {
+            get { return distanceTravelled; }
+        }
 
         public Enemy(Vector2 startPosition, Texture2D image, int speed, int health, int goldYield, List<Direction> directions)
         {
@@ -95,6 +100,8 @@ namespace AdaptiveTD
                     position.X += (float)(speed * gameTime.ElapsedGameTime.TotalSeconds);
                     break;
             }
+
+            distanceTravelled += (float)(speed * gameTime.ElapsedGameTime.TotalSeconds);
 
             if (Math.Abs(position.X - targetPosition.X) < 1 && Math.Abs(position.Y - targetPosition.Y) < 1)
             {
