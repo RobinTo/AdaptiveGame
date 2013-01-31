@@ -28,14 +28,22 @@ namespace AdaptiveTD
             m.LoadMap("test");
             assets.addImage("testEnemy", Content.Load<Texture2D>("testEnemy"));
             enemies.Add(new Enemy(new Vector2(m.StartPoint.X, m.StartPoint.Y), assets.getImage("testEnemy"), 64, 20, 2, m.Directions));
-            towers.Add(new Tower(Content.Load<Texture2D>("arrowTower"), Content.Load<Texture2D>("blackBullet"), new Vector2(5, 3), 0.5f));
-            towers.Add(new Tower(Content.Load<Texture2D>("arrowTower"), Content.Load<Texture2D>("blackBullet"), new Vector2(0, 0), 0.5f));
+            enemies.Add(new Enemy(new Vector2(m.StartPoint.X-2, m.StartPoint.Y), assets.getImage("testEnemy"), 64, 2000, 2, m.Directions));
+            towers.Add(new Tower(Content.Load<Texture2D>("arrowTower"), Content.Load<Texture2D>("blackBullet"), new Vector2(5, 3), 0.5f, 10));
+            towers.Add(new Tower(Content.Load<Texture2D>("arrowTower"), Content.Load<Texture2D>("blackBullet"), new Vector2(0, 0), 0.5f, 10));
         }
 
         public void Update(GameTime gameTime)
         {
-            foreach (Enemy e in enemies)
-                e.Update(gameTime);
+            for (int counter = 0; counter < enemies.Count; counter++)
+            {
+                enemies[counter].Update(gameTime);
+                if (enemies[counter].Health <= 0)
+                {
+                    enemies.RemoveAt(counter);
+                    counter--;
+                }
+            }
             foreach (Tower t in towers)
                 t.Update(gameTime, enemies, null, missiles);
             for (int counter = 0; counter < missiles.Count; counter++)

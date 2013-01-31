@@ -14,9 +14,9 @@ namespace AdaptiveTD
         Vector2 position, origin;
         float reloadTime, towerReloadTime;
         Enemy targetEnemy;
-        
+        int damage;
 
-        public Tower(Texture2D towerTexture, Texture2D missileTexture, Vector2 tilePosition, float towerReloadTime)
+        public Tower(Texture2D towerTexture, Texture2D missileTexture, Vector2 tilePosition, float towerReloadTime, int damage)
         {
             this.towerTexture = towerTexture;
             this.missileTexture = missileTexture;
@@ -25,11 +25,12 @@ namespace AdaptiveTD
             this.rotation = 0.0f;
             this.towerReloadTime = towerReloadTime;
             this.reloadTime = towerReloadTime;
+            this.damage = damage;
         }
 
         private void Shoot(List<Missile> missiles)
         {
-            missiles.Add(new Missile(missileTexture, this.position + this.origin, distanceToTargetEnemy, rotation, 1024.0f));
+            missiles.Add(new Missile(missileTexture, this.position + this.origin, distanceToTargetEnemy, rotation, 1024.0f, targetEnemy, damage));
         }
 
         public void Update(GameTime gameTime, List<Enemy> enemies, Enemy focusFireEnemy, List<Missile> missiles)

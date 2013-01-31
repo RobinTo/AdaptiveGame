@@ -9,6 +9,11 @@ namespace AdaptiveTD
     {
         Texture2D texture;
         int health;
+        public int Health
+        {
+            get { return health; }
+            set { health = value; }
+        }
         int speed;
         int goldYield;
         Vector2 targetPosition;
