@@ -28,25 +28,37 @@ namespace AdaptiveTD
 
         }
 
-        public void Update(GameTime gameTime, Enemy? targetEnemy)
+
+        public void Update(GameTime gameTime, List<Enemy> enemies, Enemy targetEnemy)
         {
             if (targetEnemy == null)
-                return;
+            {
+                Enemy closestEnemy = enemies[0];
+                foreach (Enemy candidateEnemy in enemies) //Algoritme kan improves ved å ikke teste på første element
+                {
+                    double deltaXClosest = (closestEnemy.Position.X + closestEnemy.Origin.X) - (this.position.X + this.origin.X);
+                    double deltaYClosest = (closestEnemy.Position.Y + closestEnemy.Origin.Y) - (this.position.Y + this.origin.Y);
+                    double distanceToClosest = Math.Sqrt(Math.Pow(deltaXClosest, 2) + Math.Pow(deltaYClosest, 2));
+
+                    double deltaXCandidate = (closestEnemy.Position.X + closestEnemy.Origin.X) - (this.position.X + this.origin.X);
+                    double deltaYCandidate = (closestEnemy.Position.Y + closestEnemy.Origin.Y) - (this.position.Y + this.origin.Y);
+                    double distanceToCandidate = Math.Sqrt(Math.Pow(deltaXCandidate, 2) + Math.Pow(deltaYCandidate, 2));
+
+                    if (distanceToCandidate < distanceToClosest)
+                        closestEnemy = candidateEnemy;
+                }
+
+                double deltaX = (closestEnemy.Position.X + closestEnemy.Origin.X) - (this.position.X + this.origin.X);
+                double deltaY = (closestEnemy.Position.Y + closestEnemy.Origin.Y) - (this.position.Y + this.origin.Y);
+                rotation = (float)Math.Atan2(deltaY, deltaX);
+            }
             else
-                return;  
-//                rotation = 
-
-//            targetEnemy.position
-//x1 = 0.5
-//y1 = 0.0
-
-//x2 = -0.5
-//y2 = -1.0
-
-//deltax = x2 - x1
-//deltay = y2 - y1
-
-//angle_rad = atan2(deltay,deltax)
+            {
+                double deltaX = (targetEnemy.Position.X + targetEnemy.Origin.X) - (this.position.X + this.origin.X);
+                double deltaY = (targetEnemy.Position.Y + targetEnemy.Origin.Y) - (this.position.Y + this.origin.Y);
+                rotation = (float)Math.Atan2(deltaY, deltaX);
+            }
+          
         }
 
         public void Draw(SpriteBatch spriteBatch)
