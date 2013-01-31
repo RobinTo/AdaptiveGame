@@ -111,6 +111,7 @@
     <Compile Include="Enemy.cs" />
     <Compile Include="GameConstants.cs" />
     <Compile Include="GameScreen.cs" />
+    <Compile Include="GUI.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Missile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

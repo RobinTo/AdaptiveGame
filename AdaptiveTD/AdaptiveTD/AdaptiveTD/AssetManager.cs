@@ -9,7 +9,7 @@ namespace AdaptiveTD
     {
         Dictionary<string, Texture2D> images = new Dictionary<string, Texture2D>();
 
-        public Texture2D getImage(string imageName)
+        public Texture2D GetImage(string imageName)
         {
             if (images.ContainsKey(imageName))
             {
@@ -19,7 +19,7 @@ namespace AdaptiveTD
                 return null;
         }
 
-        public void addImage(string imageName, Texture2D texture)
+        public void AddImage(string imageName, Texture2D texture)
         {
             if (!images.ContainsKey(imageName))
             {

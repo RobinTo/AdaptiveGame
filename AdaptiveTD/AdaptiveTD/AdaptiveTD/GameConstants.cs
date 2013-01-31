@@ -9,6 +9,6 @@ namespace AdaptiveTD
     {
         public const int tileSize = 64;
         public const int screenWidth = 1280;
-        public const int screenHeight = 640;
+        public const int screenHeight = 768;
     }
 }
