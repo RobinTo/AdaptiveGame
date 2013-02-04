@@ -113,6 +113,7 @@
     <Compile Include="GameScreen.cs" />
     <Compile Include="GUI.cs" />
     <Compile Include="GUIButton.cs" />
+    <Compile Include="InputHandler.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Missile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

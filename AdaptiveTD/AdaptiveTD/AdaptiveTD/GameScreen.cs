@@ -12,6 +12,7 @@ namespace AdaptiveTD
 
         Dictionary<string, TowerStats> towerInfo = new Dictionary<string, TowerStats>();
 
+        InputHandler input = new InputHandler();
         GUI gui;
 
         Map m;
@@ -52,6 +53,7 @@ namespace AdaptiveTD
 
         public void Update(GameTime gameTime)
         {
+            input.StartUpdate();
             for (int counter = 0; counter < enemies.Count; counter++)
             {
                 enemies[counter].Update(gameTime);
@@ -74,6 +76,7 @@ namespace AdaptiveTD
             }
 
             gui.Update(gameTime);
+            input.EndUpdate();
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -88,5 +91,6 @@ namespace AdaptiveTD
 
             gui.Draw(spriteBatch);
         }
+
     }
 }
