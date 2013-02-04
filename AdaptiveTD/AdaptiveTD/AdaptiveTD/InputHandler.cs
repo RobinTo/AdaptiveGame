@@ -34,8 +34,10 @@ namespace AdaptiveTD
             get { return newMouseState; }
         }
 
-        public void StartUpdate()
+        public void Update()
         {
+            oldKeyState = newKeyState;
+            oldMouseState = newMouseState;
             newKeyState = Keyboard.GetState();
             newMouseState = Mouse.GetState();
         }
@@ -80,15 +82,12 @@ namespace AdaptiveTD
             return false;
         }
 
-        public Vector2 MousePosition()
+        public Vector2 MousePosition
         {
-            return new Vector2(newMouseState.X, newMouseState.Y);
-        }
-
-        public void EndUpdate()
-        {
-            oldKeyState = newKeyState;
-            oldMouseState = newMouseState;
+            get
+            {
+                return new Vector2(newMouseState.X, newMouseState.Y);
+            }
         }
 
         public bool KeyPress(Keys k)

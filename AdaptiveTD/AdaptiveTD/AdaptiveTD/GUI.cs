@@ -65,12 +65,12 @@ namespace AdaptiveTD
             this.GUITexture = GUITexture;
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, InputHandler input)
         {
-            Vector2 hitPosition = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+            Vector2 hitPosition = input.MousePosition;
             foreach (KeyValuePair<GUIButton, TowerStats> button in towerButtons)
             {
-                if (button.Key.ButtonClicked((int)hitPosition.X, (int)hitPosition.Y))
+                if (button.Key.ButtonClicked(hitPosition.X, hitPosition.Y))
                     button.Key.Color = Color.Red;
                 else
                     button.Key.Color = Color.White;

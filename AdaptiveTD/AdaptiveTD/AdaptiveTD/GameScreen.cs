@@ -53,7 +53,7 @@ namespace AdaptiveTD
 
         public void Update(GameTime gameTime)
         {
-            input.StartUpdate();
+            input.Update();
             for (int counter = 0; counter < enemies.Count; counter++)
             {
                 enemies[counter].Update(gameTime);
@@ -75,8 +75,7 @@ namespace AdaptiveTD
                 }
             }
 
-            gui.Update(gameTime);
-            input.EndUpdate();
+            gui.Update(gameTime, input);
         }
 
         public void Draw(SpriteBatch spriteBatch)

@@ -22,7 +22,7 @@ namespace AdaptiveTD
             color = Color.White;
         }
 
-        public bool ButtonClicked(int x, int y)
+        public bool ButtonClicked(float x, float y)
         {
             if (x >= position.X && x <= position.X + texture.Width && y >= position.Y && y <= position.Y + texture.Height)
                 return true;
