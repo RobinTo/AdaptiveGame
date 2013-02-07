@@ -66,8 +66,9 @@ namespace AdaptiveTD
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            gameScreen.LoadContent(Content);
+
             font = Content.Load<SpriteFont>("spriteFont");
+            gameScreen.LoadContent(Content, font);
             // TODO: use this.Content to load your game content here
         }
 

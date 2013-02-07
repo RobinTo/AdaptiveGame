@@ -123,6 +123,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="ThinkTank.cs" />
     <Compile Include="Tower.cs" />
+    <Compile Include="WinPopup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

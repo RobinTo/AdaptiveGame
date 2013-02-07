@@ -11,6 +11,7 @@ namespace AdaptiveTD
     {
 
         Dictionary<string, TowerStats> towerInfo = new Dictionary<string, TowerStats>();
+        SortedList<float, Enemy> enemyWave = new SortedList<float, Enemy>();
 
         EventHandler eventHandler = new EventHandler();
 
@@ -24,23 +25,27 @@ namespace AdaptiveTD
         AssetManager assets = new AssetManager();
         List<Missile> missiles = new List<Missile>();
 
-        Dictionary<float, Enemy> enemyWave = new Dictionary<float, Enemy>();
+        bool won;
+        WinPopup winPopup;
+        float TotalTime;
 
         public GameScreen()
         {
 
         }
 
-        public void LoadContent(ContentManager Content)
+        public void LoadContent(ContentManager Content, SpriteFont font)
         {
             map = new Map(Content.Load<Texture2D>("imageZero"), Content.Load<Texture2D>("imageOne"));
             map.LoadMap("test");
             assets.AddImage("testEnemy", Content.Load<Texture2D>("testEnemy"));
-            enemies.Add(new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), 64, 20, 2, map.Directions));
-            enemies.Add(new Enemy(new Vector2(map.StartPoint.X-2, map.StartPoint.Y), assets.GetImage("testEnemy"), 64, 2000, 2, map.Directions));
 
+            enemyWave.Add(0.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), 64, 20, 2, map.Directions));
+            enemyWave.Add(1.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), 64, 20, 2, map.Directions));
+            enemyWave.Add(2.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), 64, 20, 2, map.Directions));
+            
             assets.AddImage("basicTower", Content.Load<Texture2D>("arrowTower"));
-            assets.AddImage("basicBullet", Content.Load<Texture2D>("blackBullet"));
+            assets.AddImage("basicMissile", Content.Load<Texture2D>("blackBullet"));
             assets.AddImage("flameTower", Content.Load<Texture2D>("redTower"));
             assets.AddImage("frostTower", Content.Load<Texture2D>("blueTower"));
             assets.AddImage("flameMissile", Content.Load<Texture2D>("redBullet"));
@@ -50,37 +55,57 @@ namespace AdaptiveTD
             towerInfo.Add("flame", new TowerStats("flame", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 1.0f, 30));
             towerInfo.Add("frost", new TowerStats("frost", assets.GetImage("frostTower"), assets.GetImage("frostMissile"), 1.0f, 5));
 
+            winPopup = new WinPopup(Content.Load<SpriteFont>("Winfont"));
+
             gui = new GUI(new Vector2(0, 640), towerInfo, Content.Load<Texture2D>("UIBar"));
         }
 
         public void Update(float gameTime)
         {
-            eventHandler.NewRound();
-            input.Update();
-            HandleInput();
-            HandleEvents();
-            for (int counter = 0; counter < enemies.Count; counter++)
-            {
-                enemies[counter].Update(gameTime);
-                if (enemies[counter].Health <= 0)
-                {
-                    enemies.RemoveAt(counter);
-                    counter--;
-                }
-            }
-            foreach (Tower t in towers)
-                t.Update(gameTime, enemies, null, missiles);
-            for (int counter = 0; counter < missiles.Count; counter++)
-            {
-                missiles[counter].Update(gameTime);
-                if (missiles[counter].remove)
-                {
-                    missiles.RemoveAt(counter);
-                    counter--;
-                }
-            }
 
-            gui.Update(gameTime, input);
+            TotalTime += gameTime;
+            if (enemyWave.Count > 0)
+            {
+                if (TotalTime >= enemyWave.Keys[0])
+                {
+                    enemies.Add(enemyWave[enemyWave.Keys[0]]);
+                    enemyWave.Remove(enemyWave.Keys[0]);
+                }
+            }
+            if (!won)
+            {
+                eventHandler.NewRound();
+                input.Update();
+                HandleInput();
+                HandleEvents();
+                for (int counter = 0; counter < enemies.Count; counter++)
+                {
+                    enemies[counter].Update(gameTime);
+                    if (enemies[counter].Health <= 0)
+                    {
+                        enemies.RemoveAt(counter);
+                        counter--;
+                    }
+                }
+                foreach (Tower t in towers)
+                {
+                    if(enemies.Count > 0)
+                        t.Update(gameTime, enemies, null, missiles);
+                }
+                for (int counter = 0; counter < missiles.Count; counter++)
+                {
+                    missiles[counter].Update(gameTime);
+                    if (missiles[counter].remove)
+                    {
+                        missiles.RemoveAt(counter);
+                        counter--;
+                    }
+                }
+
+                gui.Update(gameTime, input);
+            }
+            if (enemies.Count <= 0 && enemyWave.Count <= 0)
+                won = true;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -100,6 +125,8 @@ namespace AdaptiveTD
             }
 
             gui.Draw(spriteBatch);
+            if (won)
+                winPopup.Draw(spriteBatch);
         }
 
         private void HandleEvents()
