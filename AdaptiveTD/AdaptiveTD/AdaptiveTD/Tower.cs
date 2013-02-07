@@ -9,6 +9,11 @@ namespace AdaptiveTD
 {
     class Tower
     {
+        string type;
+        public string Type
+        {
+            get { return type; }
+        }
         Texture2D towerTexture, missileTexture;
         float rotation, distanceToTargetEnemy;
         Vector2 position, origin;
@@ -21,9 +26,17 @@ namespace AdaptiveTD
         Enemy targetEnemy;
         int damage;
         int goldCost;
+        Color color = Color.White;
 
-        public Tower(Texture2D towerTexture, Texture2D missileTexture, Vector2 tilePosition, float towerReloadTime, int damage, int goldCost)
+        public Color Color
         {
+            get { return color; }
+            set { color = value; }
+        }
+
+        public Tower(string type, Texture2D towerTexture, Texture2D missileTexture, Vector2 tilePosition, float towerReloadTime, int damage, int goldCost)
+        {
+            this.type = type;
             this.goldCost = goldCost;
             this.towerTexture = towerTexture;
             this.missileTexture = missileTexture;
@@ -88,7 +101,7 @@ namespace AdaptiveTD
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(towerTexture, position + origin, null, Color.White, rotation, origin, 1.0f, SpriteEffects.None, 1.0f);
+            spriteBatch.Draw(towerTexture, position + origin, null, color, rotation, origin, 1.0f, SpriteEffects.None, 1.0f);
 
         }
 

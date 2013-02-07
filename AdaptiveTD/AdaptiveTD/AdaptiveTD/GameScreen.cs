@@ -24,6 +24,7 @@ namespace AdaptiveTD
         List<Tower> towers = new List<Tower>();
         AssetManager assets = new AssetManager();
         List<Missile> missiles = new List<Missile>();
+        Tower selectedTower;
 
         bool won;
         WinPopup winPopup;
@@ -42,6 +43,7 @@ namespace AdaptiveTD
             map = new Map(Content.Load<Texture2D>("imageZero"), Content.Load<Texture2D>("imageOne"));
             map.LoadMap("test");
             assets.AddImage("testEnemy", Content.Load<Texture2D>("testEnemy"));
+
             assets.AddImage("healthBarRed", Content.Load<Texture2D>("healthBarRed"));
             assets.AddImage("healthBarYellow", Content.Load<Texture2D>("healthBarYellow"));
 
@@ -109,7 +111,7 @@ namespace AdaptiveTD
                     }
                 }
 
-                gui.Update(gameTime, input, currentGold);
+                gui.Update(gameTime, input, currentGold, selectedTower, eventHandler);
             }
             if (enemies.Count <= 0 && enemyWave.Count <= 0)
                 won = true;
@@ -158,6 +160,7 @@ namespace AdaptiveTD
             gui.building = false;
             TotalTime = 0;
             winPopup.Randomize();
+            selectedTower = null;
         }
 
         // Currently static
@@ -179,6 +182,16 @@ namespace AdaptiveTD
                     case EventType.build:
                         BuildTower(towerInfo[e.TowerType], e.TilePosition);
                         break;
+                    case EventType.sell:
+                        for(int t = 0; t<towers.Count; t++)
+                        {
+                            if (towers[t].TilePosition == e.TilePosition)
+                            {
+                                currentGold += towerInfo[towers[t].Type].GoldCost / 2;
+                                towers.RemoveAt(t);
+                            }
+                        }
+                        break;
                 }
             }
         }
@@ -187,14 +200,32 @@ namespace AdaptiveTD
         {
             if (input.MousePress(MouseButtons.Left))
             {
+                Vector2 tileClicked = new Vector2((float)Math.Floor(input.MousePosition.X / GameConstants.tileSize), (float)Math.Floor(input.MousePosition.Y / GameConstants.tileSize));
                 if (gui.building)
                 {
-                    Vector2 position = new Vector2((float)Math.Floor(input.MousePosition.X / GameConstants.tileSize), (float)Math.Floor(input.MousePosition.Y / GameConstants.tileSize));
-                    if (position.X <= map.MapWidth && position.X >= 0 && position.Y >= 0 && position.Y <= map.MapHeight)
+
+                    if (tileClicked.X <= map.MapWidth && tileClicked.X >= 0 && tileClicked.Y >= 0 && tileClicked.Y <= map.MapHeight)
                     {
-                        Event e = new Event(EventType.build, position, gui.selectedTower.Type);
+                        Event e = new Event(EventType.build, tileClicked, gui.selectedTower.Type);
                         eventHandler.QueueEvent(e);
                     }
+                }
+                else
+                {
+                    bool towerSelected = false;
+                    foreach (Tower t in towers)
+                    {
+                        if (t.TilePosition == tileClicked)
+                        {
+                            selectedTower = t;
+                            t.Color = Color.Firebrick;
+                            towerSelected = true;
+                        }
+                        else
+                            t.Color = Color.White;
+                    }
+                    if (!towerSelected)
+                        selectedTower = null;
                 }
             }
         }
@@ -211,7 +242,7 @@ namespace AdaptiveTD
                 canBuild = false;
             if (canBuild)
             {
-                towers.Add(new Tower(t.TowerTexture, t.MissileTexture, position, t.TowerReloadTime, t.Damage, t.GoldCost));
+                towers.Add(new Tower(t.Type, t.TowerTexture, t.MissileTexture, position, t.TowerReloadTime, t.Damage, t.GoldCost));
                 currentGold -= t.GoldCost;
             }
         }

@@ -9,6 +9,7 @@ namespace AdaptiveTD
     class GUI
     {
         Dictionary<GUIButton, TowerStats> towerButtons = new Dictionary<GUIButton, TowerStats>();
+        Dictionary<string, TowerStats> towers = new Dictionary<string, TowerStats>();
 
         GUIButton sellTowerButton;
 
@@ -19,13 +20,15 @@ namespace AdaptiveTD
         int buttonPadding = 10;
 
         Texture2D GUITexture;
-
+        TowerStats selected;
+        bool isSelected = false;
 
         SpriteFont font;
         int currentGold = 0;
 
         public GUI(Vector2 position, Dictionary<string, TowerStats> towers, Texture2D GUITexture, Texture2D sellTowerButtonTexture, SpriteFont font)
         {
+            this.towers = towers;
             this.position = position;
             this.font = font;
             foreach (KeyValuePair<string, TowerStats> tower in towers)
@@ -39,11 +42,25 @@ namespace AdaptiveTD
 
 
 
-        public void Update(float gameTime, InputHandler input, int currentGold)
+        public void Update(float gameTime, InputHandler input, int currentGold, Tower selected, EventHandler eventHandler)
         {
+            if (selected != null)
+            {
+                this.selected = towers[selected.Type];
+                isSelected = true;
+            }
+            else
+                isSelected = false;
+
             this.currentGold = currentGold;
             Vector2 hitPosition = input.MousePosition;
             bool hitAny = false;
+            if (input.MousePress(MouseButtons.Left) && sellTowerButton.ButtonClicked(hitPosition.X, hitPosition.Y))
+            {
+                Event e = new Event(EventType.sell, selected.TilePosition, selected.Type);
+                eventHandler.QueueEvent(e);
+            }
+
             if (input.MousePress(MouseButtons.Left) && hitPosition.Y >= position.Y)
             {
                 foreach (KeyValuePair<GUIButton, TowerStats> button in towerButtons)
@@ -82,8 +99,22 @@ namespace AdaptiveTD
             {
                 tower.Key.Draw(spriteBatch);
             }
-            sellTowerButton.Draw(spriteBatch);
-            spriteBatch.DrawString(font, "Gold: " + currentGold, position + new Vector2(800, 10), Color.White);
+            spriteBatch.DrawString(font, "Gold: " + currentGold, position + new Vector2(700, 10), Color.White);
+
+            if (isSelected)
+            {
+                sellTowerButton.Draw(spriteBatch);
+                DrawInfo(spriteBatch, selected);
+            }
+        }
+
+        private void DrawInfo(SpriteBatch spriteBatch, TowerStats towerStats)
+        {
+            Vector2 infoPosition = new Vector2(startingDrawPos.X + 600, startingDrawPos.Y + position.Y);
+            spriteBatch.Draw(towerStats.TowerTexture, infoPosition, Color.White);
+            spriteBatch.DrawString(font, "Cost: " + towerStats.GoldCost, new Vector2(infoPosition.X + 66, infoPosition.Y), Color.Black);
+            spriteBatch.DrawString(font, "Damage: " + towerStats.Damage, new Vector2(infoPosition.X + 66, infoPosition.Y+30), Color.Black);
+            spriteBatch.DrawString(font, "Reload Time: " + towerStats.TowerReloadTime, new Vector2(infoPosition.X + 66, infoPosition.Y+60), Color.Black);
         }
     }
 }
