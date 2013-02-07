@@ -20,9 +20,11 @@ namespace AdaptiveTD
         float reloadTime, towerReloadTime;
         Enemy targetEnemy;
         int damage;
+        int goldCost;
 
-        public Tower(Texture2D towerTexture, Texture2D missileTexture, Vector2 tilePosition, float towerReloadTime, int damage)
+        public Tower(Texture2D towerTexture, Texture2D missileTexture, Vector2 tilePosition, float towerReloadTime, int damage, int goldCost)
         {
+            this.goldCost = goldCost;
             this.towerTexture = towerTexture;
             this.missileTexture = missileTexture;
             this.tilePosition = tilePosition;
@@ -127,13 +129,20 @@ namespace AdaptiveTD
             get { return damage; }
             set { damage = value; }
         }
-        public TowerStats(string type, Texture2D towerTexture, Texture2D missileTexture, float towerReloadTime, int damage)
+        int goldCost;
+        public int GoldCost
+        {
+            get { return goldCost; }
+            set { goldCost = value; }
+        }
+        public TowerStats(string type, Texture2D towerTexture, Texture2D missileTexture, float towerReloadTime, int damage, int goldCost)
         {
             this.type = type;
             this.towerTexture = towerTexture;
             this.missileTexture = missileTexture;
             this.towerReloadTime = towerReloadTime;
             this.damage = damage;
+            this.goldCost = goldCost;
         }
     }
  

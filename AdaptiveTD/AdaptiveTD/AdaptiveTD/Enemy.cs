@@ -16,6 +16,10 @@ namespace AdaptiveTD
         }
         int speed;
         int goldYield;
+        public int GoldYield
+        {
+            get { return goldYield; }
+        }
         Vector2 targetPosition;
         Vector2 position;
         public Vector2 Position

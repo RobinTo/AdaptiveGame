@@ -29,6 +29,8 @@ namespace AdaptiveTD
         WinPopup winPopup;
         float TotalTime;
 
+        int currentGold = 0;
+
         public GameScreen()
         {
 
@@ -40,6 +42,9 @@ namespace AdaptiveTD
             map.LoadMap("test");
             assets.AddImage("testEnemy", Content.Load<Texture2D>("testEnemy"));
 
+            enemies.Add(new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), 64, 20, 1, map.Directions));
+            enemies.Add(new Enemy(new Vector2(map.StartPoint.X-2, map.StartPoint.Y), assets.GetImage("testEnemy"), 64, 2000, 1, map.Directions));
+
             CreateWave();
             
             assets.AddImage("basicTower", Content.Load<Texture2D>("arrowTower"));
@@ -49,13 +54,16 @@ namespace AdaptiveTD
             assets.AddImage("flameMissile", Content.Load<Texture2D>("redBullet"));
             assets.AddImage("frostMissile", Content.Load<Texture2D>("blueBullet"));
 
-            towerInfo.Add("basic", new TowerStats("basic", assets.GetImage("basicTower"), assets.GetImage("basicMissile"), 0.5f, 10));
-            towerInfo.Add("flame", new TowerStats("flame", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 1.0f, 30));
-            towerInfo.Add("frost", new TowerStats("frost", assets.GetImage("frostTower"), assets.GetImage("frostMissile"), 1.0f, 5));
+            towerInfo.Add("basic", new TowerStats("basic", assets.GetImage("basicTower"), assets.GetImage("basicMissile"), 0.5f, 10, 5));
+            towerInfo.Add("flame", new TowerStats("flame", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 1.0f, 30, 25));
+            towerInfo.Add("frost", new TowerStats("frost", assets.GetImage("frostTower"), assets.GetImage("frostMissile"), 1.0f, 5, 500));
+
+            gui = new GUI(new Vector2(0, 640), towerInfo, Content.Load<Texture2D>("UIBar"), Content.Load<Texture2D>("sellTowerButton"), font);
 
             winPopup = new WinPopup(Content.Load<SpriteFont>("Winfont"));
 
-            gui = new GUI(new Vector2(0, 640), towerInfo, Content.Load<Texture2D>("UIBar"));
+            currentGold = 1000;
+
         }
 
         public void Update(float gameTime)
@@ -81,6 +89,7 @@ namespace AdaptiveTD
                     enemies[counter].Update(gameTime);
                     if (enemies[counter].Health <= 0)
                     {
+                        currentGold += enemies[counter].GoldYield;
                         enemies.RemoveAt(counter);
                         counter--;
                     }
@@ -100,10 +109,11 @@ namespace AdaptiveTD
                     }
                 }
 
-                gui.Update(gameTime, input);
+                gui.Update(gameTime, input, currentGold);
             }
             if (enemies.Count <= 0 && enemyWave.Count <= 0)
                 won = true;
+
 
             if (won)
             {
@@ -111,6 +121,8 @@ namespace AdaptiveTD
                 if (input.KeyPress(Keys.Enter))
                     RestartGame();
             }
+
+            
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -195,8 +207,13 @@ namespace AdaptiveTD
                 if (to.TilePosition == position)
                     canBuild = false;
             }
-            if(canBuild)
-                towers.Add(new Tower(t.TowerTexture, t.MissileTexture, position, t.TowerReloadTime, t.Damage));
+            if (currentGold < t.GoldCost)
+                canBuild = false;
+            if (canBuild)
+            {
+                towers.Add(new Tower(t.TowerTexture, t.MissileTexture, position, t.TowerReloadTime, t.Damage, t.GoldCost));
+                currentGold -= t.GoldCost;
+            }
         }
 
     }

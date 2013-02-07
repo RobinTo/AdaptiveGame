@@ -62,11 +62,11 @@ namespace AdaptiveTD
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
         /// </summary>
+        /// 
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
             font = Content.Load<SpriteFont>("spriteFont");
             gameScreen.LoadContent(Content, font);
             // TODO: use this.Content to load your game content here
