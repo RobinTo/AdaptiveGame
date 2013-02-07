@@ -1,3 +1,22 @@
+Tasklist:
+- Penger/Cost/Drop/Sell towers
+- Vinne spillet (ikke klikke)
+- Predefinerte waves
+- Towerinfo i GUI
+- Helsebar
+
+- Forskjellige monstre og tårn
+- Monsterinfo i GUI
+- Nytt map(hvert map har path)
+
+
+
+
+
+
+
+
+
 Stylistic choices:
 Plants vs zombies style
 Fixed path, e.g. bloons tower defense
