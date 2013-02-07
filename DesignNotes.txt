@@ -1,9 +1,8 @@
 Tasklist:
-- Penger/Cost/Drop/Sell towers
-- Vinne spillet (ikke klikke)
-- Predefinerte waves
+- Sell towers
 - Towerinfo i GUI
 - Helsebar
+- Upgrade towers
 
 - Forskjellige monstre og tårn
 - Monsterinfo i GUI

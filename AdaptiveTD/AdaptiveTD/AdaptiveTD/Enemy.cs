@@ -7,8 +7,8 @@ namespace AdaptiveTD
 {
     class Enemy
     {
-        Texture2D texture;
-        int health;
+        Texture2D enemyTexture, healthBarRedTexture, healthBarYellowTexture;
+        int health, maxHealth, healthPercentageLost;
         public int Health
         {
             get { return health; }
@@ -40,14 +40,19 @@ namespace AdaptiveTD
         {
             get { return distanceTravelled; }
         }
+        Rectangle healthBarYellowRectangle, healthBarRedRectangle;
 
-        public Enemy(Vector2 startPosition, Texture2D image, int speed, int health, int goldYield, List<Direction> directions)
+
+        public Enemy(Vector2 startPosition, Texture2D enemyTexture, Texture2D healthBarYellowTexture, Texture2D healthBarRedTexture, int speed, int health, int goldYield, List<Direction> directions)
         {
-            this.texture = image;
-            origin = new Vector2(texture.Width / 2, texture.Height / 2);
+            this.enemyTexture = enemyTexture;
+            this.healthBarRedTexture = healthBarRedTexture;
+            this.healthBarYellowTexture = healthBarYellowTexture;
+            origin = new Vector2(enemyTexture.Width / 2, enemyTexture.Height / 2);
             this.position = new Vector2(startPosition.X * GameConstants.tileSize, startPosition.Y * GameConstants.tileSize);
             targetPosition = position;
             this.health = health;
+            this.maxHealth = health;
             this.speed = speed;
             this.goldYield = goldYield;
             this.directions = directions;
@@ -117,12 +122,18 @@ namespace AdaptiveTD
                 position = targetPosition;
                 currentDirection = Direction.None;
             }
+
+            healthBarRedRectangle = new Rectangle((int)position.X, (int)position.Y - 10, 64, 5);
+            healthBarYellowRectangle = new Rectangle((int)position.X, (int)position.Y - 10, (int)((float)64 * (float)health / (float)maxHealth), 5);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             Vector2 drawPosition = position + origin;
-            spriteBatch.Draw(texture, drawPosition, null, Color.White, rotation, origin, 1.0f, SpriteEffects.None, 1.0f);
+            spriteBatch.Draw(enemyTexture, drawPosition, null, Color.White, rotation, origin, 1.0f, SpriteEffects.None, 1.0f);
+            spriteBatch.Draw(healthBarRedTexture, healthBarRedRectangle, Color.White);
+            spriteBatch.Draw(healthBarYellowTexture, healthBarYellowRectangle, Color.White);
+            
         }
     }
 }
