@@ -69,6 +69,7 @@ namespace AdaptiveTD
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = Content.Load<SpriteFont>("spriteFont");
             gameScreen.LoadContent(Content, font);
+            Texture2D t2 = Content.Load<Texture2D>("duploBlu");
             // TODO: use this.Content to load your game content here
         }
 
