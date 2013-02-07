@@ -26,6 +26,9 @@ namespace AdaptiveTD
 
         GameScreen gameScreen;
 
+        bool onlyUpdates = false;
+        bool showUpdatesPerSecond = false;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -33,10 +36,13 @@ namespace AdaptiveTD
             gameScreen = new GameScreen();
             graphics.PreferredBackBufferWidth = GameConstants.screenWidth;
             graphics.PreferredBackBufferHeight = GameConstants.screenHeight;
-            graphics.IsFullScreen = true;
+            graphics.IsFullScreen = false;
             IsMouseVisible = true;
-            IsFixedTimeStep = false;
-            graphics.SynchronizeWithVerticalRetrace = false;
+            if (onlyUpdates)
+            {
+                IsFixedTimeStep = false;
+                graphics.SynchronizeWithVerticalRetrace = false;
+            }
         }
 
         /// <summary>
@@ -91,13 +97,16 @@ namespace AdaptiveTD
             // TODO: Add your update logic here
             gameScreen.Update(gameTimeFloat);
 
-            updates++;
-            updateTimer -= gameTimeFloat;
-            if (updateTimer <= 0)
+            if (showUpdatesPerSecond)
             {
-                oldUpdates = updates;
-                updates = 0;
-                updateTimer = 1.0f;
+                updates++;
+                updateTimer -= gameTimeFloat;
+                if (updateTimer <= 0)
+                {
+                    oldUpdates = updates;
+                    updates = 0;
+                    updateTimer = 1.0f;
+                }
             }
 
             base.Update(gameTime);
@@ -110,16 +119,19 @@ namespace AdaptiveTD
         ///
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            if (!onlyUpdates || showUpdatesPerSecond)
+            {
 
-            // TODO: Add your drawing code here
-            spriteBatch.Begin();
-            //gameScreen.Draw(spriteBatch);
-            spriteBatch.DrawString(font, oldUpdates.ToString(), Vector2.Zero, Color.Black);
-            spriteBatch.End();
+                GraphicsDevice.Clear(Color.CornflowerBlue);
+                // TODO: Add your drawing code here
+                spriteBatch.Begin();
+                gameScreen.Draw(spriteBatch);
+                if(showUpdatesPerSecond)
+                    spriteBatch.DrawString(font, oldUpdates.ToString(), Vector2.Zero, Color.Black);
+                spriteBatch.End();
 
-
-            //base.Draw(gameTime);
+                base.Draw(gameTime);
+            }
         }
     }
 }

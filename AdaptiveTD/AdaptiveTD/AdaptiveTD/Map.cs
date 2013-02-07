@@ -50,7 +50,20 @@ namespace AdaptiveTD
             return map[x, y] == 0 ? true : false;
         }
 
-
+        public int MapWidth
+        {
+            get
+            {
+                return map.GetUpperBound(0);
+            }
+        }
+        public int MapHeight
+        {
+            get
+            {
+                return map.GetUpperBound(1);
+            }
+        }
         public void LoadMap(string path)
         {
             for (int x = 0; x <= map.GetUpperBound(0); x++)
@@ -66,8 +79,6 @@ namespace AdaptiveTD
             for (int i = 0; i < 20; i++)
             {
                 directions.Add(Direction.Right);
-                if (i == 2)
-                    directions.Add(Direction.Up);
             }
         }
 

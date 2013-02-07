@@ -109,6 +109,8 @@
   <ItemGroup>
     <Compile Include="AssetManager.cs" />
     <Compile Include="Enemy.cs" />
+    <Compile Include="Event.cs" />
+    <Compile Include="EventHandler.cs" />
     <Compile Include="GameConstants.cs" />
     <Compile Include="GameScreen.cs" />
     <Compile Include="GUI.cs" />

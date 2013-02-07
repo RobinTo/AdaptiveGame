@@ -12,6 +12,11 @@ namespace AdaptiveTD
         Texture2D towerTexture, missileTexture;
         float rotation, distanceToTargetEnemy;
         Vector2 position, origin;
+        Vector2 tilePosition;
+        public Vector2 TilePosition
+        {
+            get { return tilePosition; }
+        }
         float reloadTime, towerReloadTime;
         Enemy targetEnemy;
         int damage;
@@ -20,6 +25,7 @@ namespace AdaptiveTD
         {
             this.towerTexture = towerTexture;
             this.missileTexture = missileTexture;
+            this.tilePosition = tilePosition;
             this.position = new Vector2(tilePosition.X * 64, tilePosition.Y * 64);
             this.origin = new Vector2(32, 32);
             this.rotation = 0.0f;
@@ -86,4 +92,49 @@ namespace AdaptiveTD
 
 
     }
+
+    public struct TowerStats
+    {
+        string type;
+        public string Type
+        {
+            get { return type; }
+            set { type = value; }
+        }
+        Texture2D towerTexture;
+        public Texture2D TowerTexture
+        {
+            get { return towerTexture; }
+            set { towerTexture = value; }
+        }
+        Texture2D missileTexture;
+
+        public Texture2D MissileTexture
+        {
+            get { return missileTexture; }
+            set { missileTexture = value; }
+        }
+        float towerReloadTime;
+
+        public float TowerReloadTime
+        {
+            get { return towerReloadTime; }
+            set { towerReloadTime = value; }
+        }
+        int damage;
+        public int Damage
+        {
+            get { return damage; }
+            set { damage = value; }
+        }
+        public TowerStats(string type, Texture2D towerTexture, Texture2D missileTexture, float towerReloadTime, int damage)
+        {
+            this.type = type;
+            this.towerTexture = towerTexture;
+            this.missileTexture = missileTexture;
+            this.towerReloadTime = towerReloadTime;
+            this.damage = damage;
+        }
+    }
+ 
 }
