@@ -1,11 +1,18 @@
 Tasklist:
 - Upgrade towers
-
-- Forskjellige monstre og tårn
+- Player HP
+- Ikke bygge i path
+- Map editor
+- Select map
+- Tower range
+- Tower priority
+- Highlight range
+- More monsters
+- More effects and towers
 - Monsterinfo i GUI
-- Nytt map(hvert map har path)
-
-
+- Keybindings
+- Lagre events
+- Replaye spill
 
 
 
