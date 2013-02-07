@@ -30,7 +30,7 @@ namespace AdaptiveTD
         WinPopup winPopup;
         float TotalTime;
 
-        int startGold = 1000;
+        int startGold = 20;
         int currentGold = 0;
 
         public GameScreen()
@@ -56,9 +56,9 @@ namespace AdaptiveTD
             assets.AddImage("flameMissile", Content.Load<Texture2D>("redBullet"));
             assets.AddImage("frostMissile", Content.Load<Texture2D>("blueBullet"));
 
-            towerInfo.Add("basic", new TowerStats("basic", assets.GetImage("basicTower"), assets.GetImage("basicMissile"), 0.5f, 10, 5));
-            towerInfo.Add("flame", new TowerStats("flame", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 1.0f, 30, 25));
-            towerInfo.Add("frost", new TowerStats("frost", assets.GetImage("frostTower"), assets.GetImage("frostMissile"), 1.0f, 5, 500));
+            towerInfo.Add("basic", new TowerStats("basic", assets.GetImage("basicTower"), assets.GetImage("basicMissile"), 0.5f, 6, 10));
+            towerInfo.Add("flame", new TowerStats("flame", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 1.0f, 12, 20));
+            towerInfo.Add("frost", new TowerStats("frost", assets.GetImage("frostTower"), assets.GetImage("frostMissile"), 5.0f, 25, 15));
 
             gui = new GUI(new Vector2(0, 640), towerInfo, Content.Load<Texture2D>("UIBar"), Content.Load<Texture2D>("sellTowerButton"), font);
 
@@ -120,7 +120,7 @@ namespace AdaptiveTD
             if (won)
             {
                 input.Update();
-                if (input.KeyPress(Keys.Enter))
+                if (input.KeyPress(Keys.Enter) || input.KeyPress(Keys.Space))
                     RestartGame();
             }
 
@@ -153,6 +153,7 @@ namespace AdaptiveTD
             towers.Clear();
             enemies.Clear();
             enemyWave.Clear();
+            missiles.Clear();
             eventHandler.Clear();
             currentGold = startGold;
             CreateWave();
@@ -169,6 +170,15 @@ namespace AdaptiveTD
             enemyWave.Add(0.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
             enemyWave.Add(1.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
             enemyWave.Add(2.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
+            enemyWave.Add(3.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
+            enemyWave.Add(3.8f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
+            enemyWave.Add(4.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
+            enemyWave.Add(5.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
+            enemyWave.Add(6.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
+            enemyWave.Add(6.7f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
+            enemyWave.Add(7.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
+            enemyWave.Add(7.2f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
+            enemyWave.Add(1.0f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
         }
 
         private void HandleEvents()
@@ -227,6 +237,21 @@ namespace AdaptiveTD
                     if (!towerSelected)
                         selectedTower = null;
                 }
+            }
+            if (input.KeyPress(Keys.D1))
+            {
+                gui.selectedTower = towerInfo["basic"];
+                gui.building = true;
+            }
+            else if (input.KeyPress(Keys.D2))
+            {
+                gui.selectedTower = towerInfo["flame"];
+                gui.building = true;
+            }
+            else if (input.KeyPress(Keys.D3))
+            {
+                gui.selectedTower = towerInfo["frost"];
+                gui.building = true;
             }
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace AdaptiveTD
 {
@@ -10,16 +11,22 @@ namespace AdaptiveTD
         Texture2D texture;
         Vector2 position;
         Color color;
+        Keys keyBinding;
+        public Keys KeyBinding
+        {
+            get { return keyBinding; }
+        }
         public Color Color
         {
             set { color = value; }
         }
 
-        public GUIButton(Texture2D texture, Vector2 position)
+        public GUIButton(Texture2D texture, Vector2 position, Keys keyBinding)
         {
             this.texture = texture;
             this.position = position;
             color = Color.White;
+            this.keyBinding = keyBinding;
         }
 
         public bool ButtonClicked(float x, float y)

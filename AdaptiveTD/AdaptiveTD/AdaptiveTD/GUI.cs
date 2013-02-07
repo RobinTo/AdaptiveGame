@@ -31,12 +31,24 @@ namespace AdaptiveTD
             this.towers = towers;
             this.position = position;
             this.font = font;
+            List<Keys> digits = new List<Keys>();
+            digits.Add(Keys.D1);
+            digits.Add(Keys.D2);
+            digits.Add(Keys.D3);
+            digits.Add(Keys.D4);
+            digits.Add(Keys.D5);
+            digits.Add(Keys.D6);
+            digits.Add(Keys.D7);
+            digits.Add(Keys.D8);
+            digits.Add(Keys.D9);
+            int counter = 0;
             foreach (KeyValuePair<string, TowerStats> tower in towers)
             {
-                towerButtons.Add(new GUIButton(tower.Value.TowerTexture, new Vector2(startingDrawPos.X + position.X + towerButtons.Count * buttonPadding, position.Y + startingDrawPos.Y)), tower.Value);
+                towerButtons.Add(new GUIButton(tower.Value.TowerTexture, new Vector2(startingDrawPos.X + position.X + towerButtons.Count * buttonPadding, position.Y + startingDrawPos.Y), digits[counter]), tower.Value);
                 startingDrawPos.X += tower.Value.TowerTexture.Width;
+                counter++;
             }
-            sellTowerButton = new GUIButton(sellTowerButtonTexture, new Vector2(startingDrawPos.X + 400, position.Y + startingDrawPos.Y));
+            sellTowerButton = new GUIButton(sellTowerButtonTexture, new Vector2(startingDrawPos.X + 400, position.Y + startingDrawPos.Y), Keys.S);
             this.GUITexture = GUITexture;
         }
 
@@ -54,30 +66,31 @@ namespace AdaptiveTD
 
             this.currentGold = currentGold;
             Vector2 hitPosition = input.MousePosition;
-            bool hitAny = false;
-            if (input.MousePress(MouseButtons.Left) && sellTowerButton.ButtonClicked(hitPosition.X, hitPosition.Y))
+            if ((input.MousePress(MouseButtons.Left) && sellTowerButton.ButtonClicked(hitPosition.X, hitPosition.Y)) || input.KeyPress(sellTowerButton.KeyBinding)) 
             {
-                Event e = new Event(EventType.sell, selected.TilePosition, selected.Type);
-                eventHandler.QueueEvent(e);
-            }
-
-            if (input.MousePress(MouseButtons.Left) && hitPosition.Y >= position.Y)
-            {
-                foreach (KeyValuePair<GUIButton, TowerStats> button in towerButtons)
+                if (selected != null)
                 {
-                    if (button.Key.ButtonClicked(hitPosition.X, hitPosition.Y))
-                    {
-                        selectedTower = button.Value;
-                        button.Key.Color = Color.Red;
-                        building = true;
-                        hitAny = true;
-                    }
-                    else
-                        button.Key.Color = Color.White;
+                    Event e = new Event(EventType.sell, selected.TilePosition, selected.Type);
+                    eventHandler.QueueEvent(e);
                 }
-                if (!hitAny)
-                    building = false;
             }
+            
+            bool hitAny = false;
+            foreach (KeyValuePair<GUIButton, TowerStats> button in towerButtons)
+            {
+                if ((button.Key.ButtonClicked(hitPosition.X, hitPosition.Y) && input.MousePress(MouseButtons.Left)) || input.KeyPress(button.Key.KeyBinding))
+                {
+                    selectedTower = button.Value;
+                    button.Key.Color = Color.Red;
+                    building = true;
+                    hitAny = true;
+                }
+                else
+                    button.Key.Color = Color.White;
+            }
+            if (!hitAny && input.MousePress(MouseButtons.Left))
+                building = false;
+            
             else if (input.MousePress(MouseButtons.Right))
             {
                 building = false;
