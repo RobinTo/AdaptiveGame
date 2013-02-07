@@ -1,7 +1,4 @@
 Tasklist:
-- Sell towers
-- Towerinfo i GUI
-- Helsebar
 - Upgrade towers
 
 - Forskjellige monstre og tårn
