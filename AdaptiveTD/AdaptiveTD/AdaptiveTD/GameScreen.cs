@@ -40,9 +40,7 @@ namespace AdaptiveTD
             map.LoadMap("test");
             assets.AddImage("testEnemy", Content.Load<Texture2D>("testEnemy"));
 
-            enemyWave.Add(0.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), 64, 20, 2, map.Directions));
-            enemyWave.Add(1.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), 64, 20, 2, map.Directions));
-            enemyWave.Add(2.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), 64, 20, 2, map.Directions));
+            CreateWave();
             
             assets.AddImage("basicTower", Content.Load<Texture2D>("arrowTower"));
             assets.AddImage("basicMissile", Content.Load<Texture2D>("blackBullet"));
@@ -106,6 +104,13 @@ namespace AdaptiveTD
             }
             if (enemies.Count <= 0 && enemyWave.Count <= 0)
                 won = true;
+
+            if (won)
+            {
+                input.Update();
+                if (input.KeyPress(Keys.Enter))
+                    RestartGame();
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -127,6 +132,28 @@ namespace AdaptiveTD
             gui.Draw(spriteBatch);
             if (won)
                 winPopup.Draw(spriteBatch);
+        }
+
+        private void RestartGame()
+        {
+            towers.Clear();
+            enemies.Clear();
+            enemyWave.Clear();
+            eventHandler.Clear();
+            // Money = startMoney;
+            CreateWave();
+            won = false;
+            gui.building = false;
+            TotalTime = 0;
+            winPopup.Randomize();
+        }
+
+        // Currently static
+        private void CreateWave()
+        {
+            enemyWave.Add(0.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), 64, 20, 2, map.Directions));
+            enemyWave.Add(1.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), 64, 20, 2, map.Directions));
+            enemyWave.Add(2.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), 64, 20, 2, map.Directions));
         }
 
         private void HandleEvents()

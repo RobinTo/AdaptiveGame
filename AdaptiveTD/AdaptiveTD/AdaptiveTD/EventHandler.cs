@@ -32,5 +32,11 @@ namespace AdaptiveTD
         {
             queuedEvents.Add(e);
         }
+
+        public void Clear()
+        {
+            queuedEvents.Clear();
+            events.Clear();
+        }
     }
 }
