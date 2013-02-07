@@ -65,7 +65,7 @@ namespace AdaptiveTD
             this.GUITexture = GUITexture;
         }
 
-        public void Update(GameTime gameTime, InputHandler input)
+        public void Update(float gameTime, InputHandler input)
         {
             Vector2 hitPosition = input.MousePosition;
             foreach (KeyValuePair<GUIButton, TowerStats> button in towerButtons)

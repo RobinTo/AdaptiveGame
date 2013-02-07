@@ -33,7 +33,7 @@ namespace AdaptiveTD
             missiles.Add(new Missile(missileTexture, this.position + this.origin, distanceToTargetEnemy, rotation, 1024.0f, targetEnemy, damage));
         }
 
-        public void Update(GameTime gameTime, List<Enemy> enemies, Enemy focusFireEnemy, List<Missile> missiles)
+        public void Update(float gameTime, List<Enemy> enemies, Enemy focusFireEnemy, List<Missile> missiles)
         {
             if (focusFireEnemy == null)
             {
@@ -70,7 +70,7 @@ namespace AdaptiveTD
                 rotation = (float)Math.Atan2(deltaY, deltaX);
             } //Må ha en else if på om targetEnemy er instansiert.
 
-            reloadTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            reloadTime -= (float)gameTime;
             if (reloadTime <= 0)
             {
                 this.Shoot(missiles);

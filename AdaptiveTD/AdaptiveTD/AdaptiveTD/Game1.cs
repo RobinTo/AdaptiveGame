@@ -18,6 +18,11 @@ namespace AdaptiveTD
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        SpriteFont font;
+
+        int updates = 0;
+        int oldUpdates = 0;
+        float updateTimer = 1.0f;
 
         GameScreen gameScreen;
 
@@ -28,7 +33,10 @@ namespace AdaptiveTD
             gameScreen = new GameScreen();
             graphics.PreferredBackBufferWidth = GameConstants.screenWidth;
             graphics.PreferredBackBufferHeight = GameConstants.screenHeight;
+            graphics.IsFullScreen = true;
             IsMouseVisible = true;
+            IsFixedTimeStep = false;
+            graphics.SynchronizeWithVerticalRetrace = false;
         }
 
         /// <summary>
@@ -53,6 +61,7 @@ namespace AdaptiveTD
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             gameScreen.LoadContent(Content);
+            font = Content.Load<SpriteFont>("spriteFont");
             // TODO: use this.Content to load your game content here
         }
 
@@ -70,14 +79,26 @@ namespace AdaptiveTD
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        float gameTimeFloat;
         protected override void Update(GameTime gameTime)
         {
+            gameTimeFloat = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
             // TODO: Add your update logic here
-            gameScreen.Update(gameTime);
+            gameScreen.Update(gameTimeFloat);
+
+            updates++;
+            updateTimer -= gameTimeFloat;
+            if (updateTimer <= 0)
+            {
+                oldUpdates = updates;
+                updates = 0;
+                updateTimer = 1.0f;
+            }
 
             base.Update(gameTime);
         }
@@ -86,17 +107,19 @@ namespace AdaptiveTD
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        ///
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            gameScreen.Draw(spriteBatch);
+            //gameScreen.Draw(spriteBatch);
+            spriteBatch.DrawString(font, oldUpdates.ToString(), Vector2.Zero, Color.Black);
             spriteBatch.End();
 
 
-            base.Draw(gameTime);
+            //base.Draw(gameTime);
         }
     }
 }

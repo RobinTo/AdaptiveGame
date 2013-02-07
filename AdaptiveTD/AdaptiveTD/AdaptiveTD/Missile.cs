@@ -30,10 +30,10 @@ namespace AdaptiveTD
             velocity.Y = (float)(totalVelocity * Math.Sin(angle));
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(float gameTime)
         {
             oldPosition = position;
-            position += velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            position += velocity * (float)gameTime;
             travelledDistance += (float)(Math.Sqrt(Math.Pow(position.X - oldPosition.X, 2) + Math.Pow(position.Y - oldPosition.Y, 2)));
             if (travelledDistance >= distanceToTarget)
             {

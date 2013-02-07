@@ -51,7 +51,7 @@ namespace AdaptiveTD
             gui = new GUI(new Vector2(0, 640), towerInfo, Content.Load<Texture2D>("UIBar"));
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(float gameTime)
         {
             input.Update();
             for (int counter = 0; counter < enemies.Count; counter++)

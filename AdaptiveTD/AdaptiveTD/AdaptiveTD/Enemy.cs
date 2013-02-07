@@ -62,7 +62,7 @@ namespace AdaptiveTD
 
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(float gameTime)
         {
             if (currentDirection == Direction.None)
             {
@@ -93,20 +93,20 @@ namespace AdaptiveTD
             switch (currentDirection)
             {
                 case Direction.Up:
-                    position.Y -= (float)(speed * gameTime.ElapsedGameTime.TotalSeconds);
+                    position.Y -= (float)(speed * gameTime);
                     break;
                 case Direction.Down:
-                    position.Y += (float)(speed * gameTime.ElapsedGameTime.TotalSeconds);
+                    position.Y += (float)(speed * gameTime);
                     break;
                 case Direction.Left:
-                    position.X -= (float)(speed * gameTime.ElapsedGameTime.TotalSeconds);
+                    position.X -= (float)(speed * gameTime);
                     break;
                 case Direction.Right:
-                    position.X += (float)(speed * gameTime.ElapsedGameTime.TotalSeconds);
+                    position.X += (float)(speed * gameTime);
                     break;
             }
 
-            distanceTravelled += (float)(speed * gameTime.ElapsedGameTime.TotalSeconds);
+            distanceTravelled += (float)(speed * gameTime);
 
             if (Math.Abs(position.X - targetPosition.X) < 1 && Math.Abs(position.Y - targetPosition.Y) < 1)
             {
