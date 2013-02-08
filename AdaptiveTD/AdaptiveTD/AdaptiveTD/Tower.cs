@@ -33,12 +33,19 @@ namespace AdaptiveTD
         float rotation, distanceToTargetEnemy;
         Enemy targetEnemy;
         float currentReloadTime;
+        Rectangle rangeHighlightRectangle;
+        public Rectangle RangeHighlightRectangle
+        {
+            get { return rangeHighlightRectangle; }
+            set { rangeHighlightRectangle = value; }
+        }
         Color color;
         public Color Color
         {
             get { return color; }
             set { color = value; }
         }
+
 
         public Tower(TowerStats towerStats, Vector2 tilePosition)
         {
@@ -49,6 +56,7 @@ namespace AdaptiveTD
             this.rotation = 0.0f;
             this.color = Color.White;
             this.tilePosition = tilePosition;
+            this.rangeHighlightRectangle = new Rectangle((int)position.X + (int)origin.X - towerStats.Range, (int)position.Y + (int)origin.Y - towerStats.Range, towerStats.Range * 2, towerStats.Range * 2);
         }
 
         private void Shoot(List<Missile> missiles)

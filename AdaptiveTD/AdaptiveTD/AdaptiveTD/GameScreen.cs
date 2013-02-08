@@ -124,8 +124,6 @@ namespace AdaptiveTD
                 if (input.KeyPress(Keys.Enter) || input.KeyPress(Keys.Space))
                     RestartGame();
             }
-
-            
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -149,7 +147,7 @@ namespace AdaptiveTD
                 winPopup.Draw(spriteBatch);
 
             if (selectedTower != null)
-                spriteBatch.Draw(assets.GetImage("rangeHighlight"), new Rectangle((int)selectedTower.Position.X + (int)selectedTower.Origin.X - selectedTower.TowerStats.Range, (int)selectedTower.Position.Y + (int)selectedTower.Origin.Y - selectedTower.TowerStats.Range, selectedTower.TowerStats.Range * 2, selectedTower.TowerStats.Range * 2), new Rectangle(0, 0, 64, 64), Color.White);
+                spriteBatch.Draw(assets.GetImage("rangeHighlight"), selectedTower.RangeHighlightRectangle, new Rectangle(0, 0, 64, 64), Color.White); //Kan evt lage rectangelet før draw-metoden.
         }
 
         private void RestartGame()

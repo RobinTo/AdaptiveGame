@@ -4,15 +4,16 @@ Tasklist:
 - Map editor
 - Select map
 - Tower priority
-- Highlight range
 - More monsters
 - More effects and towers
 - Monsterinfo i GUI
 - Lagre events
 - Replaye spill
+- Bug: Selected tower beholdes når man bygger et nytt et
+- Highlight  range on on new towers.
+- Select tower after build
 
 Code cleanup
-- Merge Towerstats med tower stats i Tower class
 - Merge GUI og GameScreen
 
 
