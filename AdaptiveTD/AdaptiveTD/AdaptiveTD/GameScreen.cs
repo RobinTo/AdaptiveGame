@@ -43,8 +43,8 @@ namespace AdaptiveTD
 
         public void LoadContent(ContentManager Content, SpriteFont font)
         {
-            map = new Map(Content.Load<Texture2D>("imageZero"), Content.Load<Texture2D>("imageOne"));
-            map.LoadMap("test");
+            map = new Map();
+            map.LoadMap(".\\Content\\map.txt", Content);
             assets.AddImage("testEnemy", Content.Load<Texture2D>("testEnemy"));
 
             assets.AddImage("healthBarRed", Content.Load<Texture2D>("healthBarRed"));

@@ -36,7 +36,7 @@ namespace AdaptiveTD
             gameScreen = new GameScreen();
             graphics.PreferredBackBufferWidth = GameConstants.screenWidth;
             graphics.PreferredBackBufferHeight = GameConstants.screenHeight;
-            graphics.IsFullScreen = true;
+            graphics.IsFullScreen = false;
             IsMouseVisible = true;
 
             if (onlyUpdates)

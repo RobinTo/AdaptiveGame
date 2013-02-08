@@ -3,6 +3,8 @@ using System.IO;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+
 
 namespace AdaptiveTD
 {
@@ -16,10 +18,10 @@ namespace AdaptiveTD
     }
     class Map
     {
-        int[,] mapTiles = new int[20, 10];
+        int[,] map = new int[20, 10];
         public int[,] MapTiles
         {
-            get { return mapTiles; }
+            get { return map; }
         }
         Texture2D imageZero;
         Texture2D imageOne;
@@ -41,45 +43,67 @@ namespace AdaptiveTD
         {
             get { return endPoint; }
         }
+        Dictionary<int, Texture2D> textures = new Dictionary<int, Texture2D>();
 
+        List<int> pathTiles = new List<int>();
 
-        public Map(Texture2D imageZero, Texture2D imageOne)
+        public Map()
         {
-            this.imageZero = imageZero;
-            this.imageOne = imageOne;
         }
 
         public bool CanBuild(int x, int y)
         {
-            return mapTiles[x, y] == 0 ? true : false;
+            return pathTiles.Contains(map[x,y]) ? false : true;
         }
 
         public int MapWidth
         {
             get
             {
-                return mapTiles.GetUpperBound(0);
+                return map.GetUpperBound(0);
             }
         }
         public int MapHeight
         {
             get
             {
-                return mapTiles.GetUpperBound(1);
+                return map.GetUpperBound(1);
             }
         }
-        public void LoadMap(string path)
+        public void LoadMap(string path, ContentManager Content)
         {
-            for (int x = 0; x <= mapTiles.GetUpperBound(0); x++)
+            for (int x = 0; x <= map.GetUpperBound(0); x++)
             {
-                for (int y = 0; y <= mapTiles.GetUpperBound(1); y++)
+                for (int y = 0; y <= map.GetUpperBound(1); y++)
                 {
-                    if (y == 5)
-                        mapTiles[x, y] = 1;
-                    else
-                        mapTiles[x, y] = 0;
+                    map[x, y] = 0;
                 }
             }
+
+            string[] fileContent = File.ReadAllLines(path);
+            int yCounter = 0;
+            foreach (string s in fileContent)
+            {
+                string[] split = s.Split(':');
+                switch (split[0])
+                {
+                    case "t":
+                        textures.Add(Convert.ToInt32(split[1]), Content.Load<Texture2D>(split[2]));
+                        break;
+                    case "p":
+                        pathTiles.Add(Convert.ToInt32(split[1]));
+                        break;
+                    case "m":
+                        for(int xCounter = 0; xCounter <= map.GetUpperBound(0); xCounter++)
+                        {
+                            map[xCounter, yCounter] = Convert.ToInt32(split[xCounter+1]);
+                        }
+                        yCounter++;
+                        break;
+                }
+            }
+
+
             for (int i = 0; i < 20; i++)
             {
                 directions.Add(Direction.Right);
@@ -88,19 +112,11 @@ namespace AdaptiveTD
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            for (int x = 0; x <= mapTiles.GetUpperBound(0); x++)
+            for (int x = 0; x <= map.GetUpperBound(0); x++)
             {
-                for (int y = 0; y <= mapTiles.GetUpperBound(1); y++)
+                for (int y = 0; y <= map.GetUpperBound(1); y++)
                 {
-                    switch (mapTiles[x, y])
-                    {
-                        case 0:
-                            spriteBatch.Draw(imageZero, new Vector2(x * GameConstants.tileSize, y * GameConstants.tileSize), Color.White);
-                            break;
-                        case 1:
-                            spriteBatch.Draw(imageOne, new Vector2(x * GameConstants.tileSize, y * GameConstants.tileSize), Color.White);
-                            break;
-                    }
+                    spriteBatch.Draw(textures[map[x,y]], new Vector2(x * GameConstants.tileSize, y * GameConstants.tileSize), Color.White);
                 }
             }
         }
