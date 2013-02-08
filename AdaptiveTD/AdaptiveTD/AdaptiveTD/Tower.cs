@@ -15,7 +15,21 @@ namespace AdaptiveTD
             get { return towerStats; }
             set { towerStats = value; }
         }
-        Vector2 position, origin;
+        Vector2 position, tilePosition, origin;
+        public Vector2 Origin
+        {
+            get { return origin; }
+            set { origin = value; }
+        }
+        public Vector2 Position
+        {
+            get { return position; }
+            set { position = value; }
+        }
+        public Vector2 TilePosition
+        {
+            get { return tilePosition; }
+        }
         float rotation, distanceToTargetEnemy;
         Enemy targetEnemy;
         float currentReloadTime;
@@ -25,16 +39,11 @@ namespace AdaptiveTD
             get { return color; }
             set { color = value; }
         }
-        Vector2 tilePosition;
-        public Vector2 TilePosition
-        {
-            get { return tilePosition; }
-        }
 
-        public Tower(TowerStats towerStats, string type, Texture2D towerTexture, Texture2D missileTexture, Vector2 tilePosition, float towerReloadTime, int damage, int goldCost, int range)
+        public Tower(TowerStats towerStats, Vector2 tilePosition)
         {
             this.towerStats = towerStats;
-            this.currentReloadTime = towerReloadTime;
+            this.currentReloadTime = towerStats.ReloadTime;
             this.position = new Vector2(tilePosition.X * 64, tilePosition.Y * 64);
             this.origin = new Vector2(32, 32);
             this.rotation = 0.0f;
@@ -103,7 +112,6 @@ namespace AdaptiveTD
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(towerStats.TowerTexture, position + origin, null, color, rotation, origin, 1.0f, SpriteEffects.None, 1.0f);
-
         }
     }
 
@@ -122,14 +130,12 @@ namespace AdaptiveTD
             set { towerTexture = value; }
         }
         Texture2D missileTexture;
-
         public Texture2D MissileTexture
         {
             get { return missileTexture; }
             set { missileTexture = value; }
         }
         float reloadTime;
-
         public float ReloadTime
         {
             get { return reloadTime; }

@@ -55,6 +55,7 @@ namespace AdaptiveTD
             assets.AddImage("frostTower", Content.Load<Texture2D>("blueTower"));
             assets.AddImage("flameMissile", Content.Load<Texture2D>("redBullet"));
             assets.AddImage("frostMissile", Content.Load<Texture2D>("blueBullet"));
+            assets.AddImage("rangeHighlight", Content.Load<Texture2D>("rangeHighlight"));
 
             towerInfo.Add("basic", new TowerStats("basic", assets.GetImage("basicTower"), assets.GetImage("basicMissile"), 0.5f, 6, 10, 3));
             towerInfo.Add("flame", new TowerStats("flame", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 1.0f, 12, 20, 2));
@@ -146,6 +147,9 @@ namespace AdaptiveTD
             gui.Draw(spriteBatch);
             if (won)
                 winPopup.Draw(spriteBatch);
+
+            if (selectedTower != null)
+                spriteBatch.Draw(assets.GetImage("rangeHighlight"), new Rectangle((int)selectedTower.Position.X + (int)selectedTower.Origin.X - selectedTower.TowerStats.Range, (int)selectedTower.Position.Y + (int)selectedTower.Origin.Y - selectedTower.TowerStats.Range, selectedTower.TowerStats.Range * 2, selectedTower.TowerStats.Range * 2), new Rectangle(0, 0, 64, 64), Color.White);
         }
 
         private void RestartGame()
@@ -286,7 +290,7 @@ namespace AdaptiveTD
                 canBuild = false;
             if (canBuild)
             {
-                towers.Add(new Tower(t, t.Type, t.TowerTexture, t.MissileTexture, position, t.ReloadTime, t.Damage, t.GoldCost, t.Range));
+                towers.Add(new Tower(t, position));
                 currentGold -= t.GoldCost;
             }
         }
