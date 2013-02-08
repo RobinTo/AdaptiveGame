@@ -11,7 +11,7 @@ namespace AdaptiveTD
         Dictionary<GUIButton, TowerStats> towerButtons = new Dictionary<GUIButton, TowerStats>();
         Dictionary<string, TowerStats> towers = new Dictionary<string, TowerStats>();
 
-        GUIButton sellTowerButton;
+        public GUIButton sellTowerButton;
 
         public TowerStats selectedTower;
         public bool building = false;
@@ -20,7 +20,7 @@ namespace AdaptiveTD
         int buttonPadding = 10;
 
         Texture2D GUITexture;
-        TowerStats selected;
+        public TowerStats selected;
         bool isSelected = false;
 
         SpriteFont font;
@@ -66,6 +66,8 @@ namespace AdaptiveTD
 
             this.currentGold = currentGold;
             Vector2 hitPosition = input.MousePosition;
+            
+            /*
             if ((input.MousePress(MouseButtons.Left) && sellTowerButton.ButtonClicked(hitPosition.X, hitPosition.Y)) || input.KeyPress(sellTowerButton.KeyBinding)) 
             {
                 if (selected != null)
@@ -74,6 +76,7 @@ namespace AdaptiveTD
                     eventHandler.QueueEvent(e);
                 }
             }
+            */
             
             bool hitAny = false;
             foreach (KeyValuePair<GUIButton, TowerStats> button in towerButtons)

@@ -24,8 +24,7 @@ namespace AdaptiveTD
         }
         float reloadTime, towerReloadTime;
         Enemy targetEnemy;
-        int damage;
-        int goldCost;
+        int damage, range, goldCost;
         Color color = Color.White;
 
         public Color Color
@@ -34,7 +33,7 @@ namespace AdaptiveTD
             set { color = value; }
         }
 
-        public Tower(string type, Texture2D towerTexture, Texture2D missileTexture, Vector2 tilePosition, float towerReloadTime, int damage, int goldCost)
+        public Tower(string type, Texture2D towerTexture, Texture2D missileTexture, Vector2 tilePosition, float towerReloadTime, int damage, int goldCost, int range)
         {
             this.type = type;
             this.goldCost = goldCost;
@@ -47,6 +46,7 @@ namespace AdaptiveTD
             this.towerReloadTime = towerReloadTime;
             this.reloadTime = towerReloadTime;
             this.damage = damage;
+            this.range = range * GameConstants.tileSize;
         }
 
         private void Shoot(List<Missile> missiles)
@@ -75,11 +75,17 @@ namespace AdaptiveTD
                         distanceToTargetEnemy = (float)distanceToCandidate;
                     }
                 }
-                targetEnemy = closestEnemy;
-
-                double deltaX = (closestEnemy.Position.X + closestEnemy.Origin.X) - (this.position.X + this.origin.X);
-                double deltaY = (closestEnemy.Position.Y + closestEnemy.Origin.Y) - (this.position.Y + this.origin.Y);
-                rotation = (float)Math.Atan2(deltaY, deltaX);
+                if (distanceToTargetEnemy > this.range)
+                {
+                    targetEnemy = null;
+                }
+                else
+                {
+                    targetEnemy = closestEnemy;
+                    double deltaX = (closestEnemy.Position.X + closestEnemy.Origin.X) - (this.position.X + this.origin.X);
+                    double deltaY = (closestEnemy.Position.Y + closestEnemy.Origin.Y) - (this.position.Y + this.origin.Y);
+                    rotation = (float)Math.Atan2(deltaY, deltaX);
+                }
             }
             else
             {
@@ -90,9 +96,11 @@ namespace AdaptiveTD
 
                 rotation = (float)Math.Atan2(deltaY, deltaX);
             } //Må ha en else if på om targetEnemy er instansiert.
-
+            
             reloadTime -= (float)gameTime;
-            if (reloadTime <= 0)
+            reloadTime = (reloadTime < 0) ? 0 : reloadTime ;
+
+            if (targetEnemy != null && reloadTime <= 0)
             {
                 this.Shoot(missiles);
                 reloadTime = towerReloadTime;
@@ -148,7 +156,14 @@ namespace AdaptiveTD
             get { return goldCost; }
             set { goldCost = value; }
         }
-        public TowerStats(string type, Texture2D towerTexture, Texture2D missileTexture, float towerReloadTime, int damage, int goldCost)
+        int range;
+        public int Range
+        {
+            get { return range; }
+            set { range = value; }
+        }
+
+        public TowerStats(string type, Texture2D towerTexture, Texture2D missileTexture, float towerReloadTime, int damage, int goldCost, int range)
         {
             this.type = type;
             this.towerTexture = towerTexture;
@@ -156,6 +171,7 @@ namespace AdaptiveTD
             this.towerReloadTime = towerReloadTime;
             this.damage = damage;
             this.goldCost = goldCost;
+            this.range = range;
         }
     }
  

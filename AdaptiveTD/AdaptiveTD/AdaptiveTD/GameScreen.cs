@@ -56,9 +56,9 @@ namespace AdaptiveTD
             assets.AddImage("flameMissile", Content.Load<Texture2D>("redBullet"));
             assets.AddImage("frostMissile", Content.Load<Texture2D>("blueBullet"));
 
-            towerInfo.Add("basic", new TowerStats("basic", assets.GetImage("basicTower"), assets.GetImage("basicMissile"), 0.5f, 6, 10));
-            towerInfo.Add("flame", new TowerStats("flame", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 1.0f, 12, 20));
-            towerInfo.Add("frost", new TowerStats("frost", assets.GetImage("frostTower"), assets.GetImage("frostMissile"), 5.0f, 25, 15));
+            towerInfo.Add("basic", new TowerStats("basic", assets.GetImage("basicTower"), assets.GetImage("basicMissile"), 0.5f, 6, 10, 3));
+            towerInfo.Add("flame", new TowerStats("flame", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 1.0f, 12, 20, 2));
+            towerInfo.Add("frost", new TowerStats("frost", assets.GetImage("frostTower"), assets.GetImage("frostMissile"), 5.0f, 25, 15, 3));
 
             gui = new GUI(new Vector2(0, 640), towerInfo, Content.Load<Texture2D>("UIBar"), Content.Load<Texture2D>("sellTowerButton"), font);
 
@@ -220,9 +220,18 @@ namespace AdaptiveTD
                         eventHandler.QueueEvent(e);
                     }
                 }
+                else if (gui.sellTowerButton.ButtonClicked(input.MousePosition.X, input.MousePosition.Y))
+                {
+                    if (selectedTower != null)
+                    {
+                        Event e = new Event(EventType.sell, selectedTower.TilePosition, selectedTower.Type);
+                        eventHandler.QueueEvent(e);
+                    }
+                }
                 else
                 {
                     bool towerSelected = false;
+
                     foreach (Tower t in towers)
                     {
                         if (t.TilePosition == tileClicked)
@@ -253,6 +262,14 @@ namespace AdaptiveTD
                 gui.selectedTower = towerInfo["frost"];
                 gui.building = true;
             }
+            else if (input.KeyPress(gui.sellTowerButton.KeyBinding))
+            {
+                if (selectedTower != null)
+                {
+                    Event e = new Event(EventType.sell, selectedTower.TilePosition, selectedTower.Type);
+                    eventHandler.QueueEvent(e);
+                }
+            }
         }
 
         private void BuildTower(TowerStats t, Vector2 position)
@@ -269,7 +286,7 @@ namespace AdaptiveTD
                 canBuild = false;
             if (canBuild)
             {
-                towers.Add(new Tower(t.Type, t.TowerTexture, t.MissileTexture, position, t.TowerReloadTime, t.Damage, t.GoldCost));
+                towers.Add(new Tower(t.Type, t.TowerTexture, t.MissileTexture, position, t.TowerReloadTime, t.Damage, t.GoldCost, t.Range));
                 currentGold -= t.GoldCost;
             }
         }
