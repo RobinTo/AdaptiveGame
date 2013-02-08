@@ -8,8 +8,6 @@ Tasklist:
 - Monsterinfo i GUI
 - Lagre events
 - Replaye spill
-- Bug: Rødt tårn etter deselect.
-- Select tower after build
 - Bug: Enemies følger ikke path.
 - Ta vekk grid/Transparante tårn-hjørner
 - Polishe på Map Editor / Random map generation
