@@ -25,6 +25,7 @@ namespace AdaptiveTD
         }
         Texture2D imageZero;
         Texture2D imageOne;
+        bool mapDone = false;
 
         List<Direction> directions = new List<Direction>();
 
@@ -33,7 +34,7 @@ namespace AdaptiveTD
             get { return directions; }
         }
 
-        Point startPoint = new Point(0, 5);
+        Point startPoint = new Point(-1, 0);
         public Point StartPoint
         {
             get { return startPoint; }
@@ -50,6 +51,77 @@ namespace AdaptiveTD
         public Map()
         {
         }
+        private void GenerateDirections()
+        {
+            mapDone = false;
+            for (int y = 0; y <= map.GetUpperBound(1); y++)
+            {
+                if (pathTiles.Contains(map[0, y]))
+                {
+                    startPoint.Y = y;
+                }
+            }
+            Vector2 currentPosition = new Vector2(startPoint.X, startPoint.Y);
+            while (!mapDone)
+            {
+                if(directions.Count > 0)
+                    currentPosition = NextStep(currentPosition, directions[directions.Count - 1]);
+                else
+                    currentPosition = NextStep(currentPosition, Direction.Right);
+            }
+
+        }
+
+        private Vector2 NextStep(Vector2 currentTile, Direction lastDir)
+        {
+            Vector2 newTile = new Vector2(currentTile.X, currentTile.Y);
+            bool incremented = false;
+            if (!incremented && currentTile.X > 0 && pathTiles.Contains(map[(int)currentTile.X - 1, (int)currentTile.Y]))
+            {
+                if (lastDir != Direction.Right)
+                {
+                    Directions.Add(Direction.Left);
+                    newTile.X -= 1;
+                    incremented = true;
+                }
+            }
+            if (!incremented && currentTile.X < map.GetUpperBound(0) && pathTiles.Contains(map[(int)currentTile.X + 1, (int)currentTile.Y]))
+            {
+                if (lastDir != Direction.Left)
+                {
+                    Directions.Add(Direction.Right);
+                    newTile.X += 1;
+                    incremented = true;
+                }
+            }
+            if (!incremented && currentTile.Y > 0 && pathTiles.Contains(map[(int)currentTile.X, (int)currentTile.Y - 1]))
+            {
+                if (lastDir != Direction.Down)
+                {
+                    Directions.Add(Direction.Up);
+                    newTile.Y -= 1;
+                    incremented = true;
+                }
+            }
+            if (!incremented && currentTile.Y < map.GetUpperBound(1) && pathTiles.Contains(map[(int)currentTile.X, (int)currentTile.Y + 1]))
+            {
+                if (lastDir != Direction.Up)
+                {
+                    Directions.Add(Direction.Down);
+                    newTile.Y += 1;
+                    incremented = true;
+                }
+            }
+            if (!incremented && currentTile.X + 1 > map.GetUpperBound(0)) // given our decided layout that maps end to the right
+            {
+                directions.Add(Direction.Right);
+                mapDone = true;
+                newTile.X++;
+            }
+
+            return newTile;
+        }
+
 
         public bool CanBuild(int x, int y)
         {
@@ -104,10 +176,7 @@ namespace AdaptiveTD
             }
 
 
-            for (int i = 0; i < 20; i++)
-            {
-                directions.Add(Direction.Right);
-            }
+            GenerateDirections();
         }
 
         public void Draw(SpriteBatch spriteBatch)

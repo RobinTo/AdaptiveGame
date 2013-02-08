@@ -40,6 +40,7 @@ namespace AdaptiveTD
         {
             get { return distanceTravelled; }
         }
+        int directionCounter = 0;
         Rectangle healthBarYellowRectangle, healthBarRedRectangle;
 
 
@@ -75,10 +76,10 @@ namespace AdaptiveTD
         {
             if (currentDirection == Direction.None)
             {
-                if (directions.Count > 0)
+                if (directionCounter < directions.Count)
                 {
-                    currentDirection = directions[0];
-                    directions.RemoveAt(0);
+                    currentDirection = directions[directionCounter];
+                    directionCounter++;
                 }
                 else
                     currentDirection = Direction.Right;
