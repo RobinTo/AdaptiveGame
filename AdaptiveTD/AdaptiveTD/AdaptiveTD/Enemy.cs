@@ -14,7 +14,7 @@ namespace AdaptiveTD
             get { return health; }
             set { health = value; }
         }
-        int speed;
+        int normalSpeed, currentSpeed;
         int goldYield;
         public int GoldYield
         {
@@ -42,7 +42,18 @@ namespace AdaptiveTD
         }
         int directionCounter = 0;
         Rectangle healthBarYellowRectangle, healthBarRedRectangle;
-
+        Slow slow;
+        public Slow Slow
+        {
+            get { return slow; }
+            set { slow = value; }
+        }
+        DamageOverTime damageOverTime;
+        public DamageOverTime DamageOverTime
+        {
+            get { return damageOverTime; }
+            set { damageOverTime = value; }
+        }
 
         public Enemy(Vector2 startPosition, Texture2D enemyTexture, Texture2D healthBarYellowTexture, Texture2D healthBarRedTexture, int speed, int health, int goldYield, List<Direction> directions)
         {
@@ -54,9 +65,12 @@ namespace AdaptiveTD
             targetPosition = position;
             this.health = health;
             this.maxHealth = health;
-            this.speed = speed;
+            this.normalSpeed = speed;
+            this.currentSpeed = normalSpeed;
             this.goldYield = goldYield;
             this.directions = directions;
+            slow = new Slow(false);
+            damageOverTime = new DamageOverTime(false);
         }
 
         public void Turn(bool right)
@@ -86,16 +100,16 @@ namespace AdaptiveTD
                 switch (currentDirection)
                 {
                     case Direction.Up:
-                        targetPosition += new Vector2(0, -64);
+                        targetPosition += new Vector2(0, -GameConstants.tileSize);
                         break;
                     case Direction.Down:
-                        targetPosition += new Vector2(0, 64);
+                        targetPosition += new Vector2(0, GameConstants.tileSize);
                         break;
                     case Direction.Left:
-                        targetPosition += new Vector2(-64, 0);
+                        targetPosition += new Vector2(-GameConstants.tileSize, 0);
                         break;
                     case Direction.Right:
-                        targetPosition += new Vector2(64, 0);
+                        targetPosition += new Vector2(GameConstants.tileSize, 0);
                         break;
                 }
             }
@@ -103,26 +117,37 @@ namespace AdaptiveTD
             switch (currentDirection)
             {
                 case Direction.Up:
-                    position.Y -= (float)(speed * gameTime);
+                    position.Y -= (float)(currentSpeed * gameTime * slow.Percentage / 100);
                     break;
                 case Direction.Down:
-                    position.Y += (float)(speed * gameTime);
+                    position.Y += (float)(currentSpeed * gameTime * slow.Percentage / 100);
                     break;
                 case Direction.Left:
-                    position.X -= (float)(speed * gameTime);
+                    position.X -= (float)(currentSpeed * gameTime * slow.Percentage / 100);
                     break;
                 case Direction.Right:
-                    position.X += (float)(speed * gameTime);
+                    position.X += (float)(currentSpeed * gameTime * slow.Percentage / 100);
                     break;
             }
 
-            distanceTravelled += (float)(speed * gameTime);
+            distanceTravelled += (float)(currentSpeed * gameTime);
 
             if (Math.Abs(position.X - targetPosition.X) < 1 && Math.Abs(position.Y - targetPosition.Y) < 1)
             {
                 position = targetPosition;
                 currentDirection = Direction.None;
             }
+
+            damageOverTime.DurationSinceLastTick -= gameTime;
+            if (damageOverTime.DurationSinceLastTick <= 0)
+            {
+                damageOverTime.DurationSinceLastTick = damageOverTime.Duration / damageOverTime.Ticks;
+                health -= damageOverTime.DamagePerTick;
+            }
+            damageOverTime.Duration -= gameTime;
+            if (damageOverTime.Duration <= 0)
+                damageOverTime = new DamageOverTime(false);
+            
 
             healthBarRedRectangle = new Rectangle((int)position.X, (int)position.Y - 10, 64, 5);
             healthBarYellowRectangle = new Rectangle((int)position.X, (int)position.Y - 10, (int)((float)64 * (float)health / (float)maxHealth), 5);

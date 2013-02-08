@@ -15,8 +15,10 @@ namespace AdaptiveTD
         public bool remove;
         int damage;
         Enemy targetEnemy;
+        DamageOverTime damageOverTime;
+        Slow slow;
 
-        public Missile(Texture2D selfTexture, Vector2 start, float distanceToTarget, float angle, float totalVelocity, Enemy targetEnemy, int damage)
+        public Missile(Texture2D selfTexture, Vector2 start, float distanceToTarget, float angle, float totalVelocity, Enemy targetEnemy, int damage, DamageOverTime damageOverTime, Slow slow)
         {
             this.selfTexture = selfTexture;
             position = start;
@@ -25,6 +27,8 @@ namespace AdaptiveTD
             this.remove = false;
             this.targetEnemy = targetEnemy;
             this.damage = damage;
+            this.damageOverTime = damageOverTime;
+            this.slow = slow;
 
             velocity.X = (float)(totalVelocity * Math.Cos(angle));
             velocity.Y = (float)(totalVelocity * Math.Sin(angle));
@@ -39,6 +43,8 @@ namespace AdaptiveTD
             {
                 remove = true;
                 targetEnemy.Health -= damage;
+                targetEnemy.DamageOverTime = damageOverTime;
+                targetEnemy.Slow = slow;
             }
         }
 

@@ -30,7 +30,7 @@ namespace AdaptiveTD
         WinPopup winPopup;
         float TotalTime;
 
-        int startGold = 20;
+        int startGold = 200;
         int currentGold = 0;
 
         int currentLives = 5;
@@ -60,9 +60,9 @@ namespace AdaptiveTD
             assets.AddImage("frostMissile", Content.Load<Texture2D>("blueBullet"));
             assets.AddImage("rangeHighlight", Content.Load<Texture2D>("rangeHighlight"));
 
-            towerInfo.Add("basic", new TowerStats("basic", assets.GetImage("basicTower"), assets.GetImage("basicMissile"), 0.5f, 6, 10, 3));
-            towerInfo.Add("flame", new TowerStats("flame", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 1.0f, 12, 20, 2));
-            towerInfo.Add("frost", new TowerStats("frost", assets.GetImage("frostTower"), assets.GetImage("frostMissile"), 5.0f, 25, 15, 3));
+            towerInfo.Add("basic", new TowerStats("basic", assets.GetImage("basicTower"), assets.GetImage("basicMissile"), 0.5f, 2, 10, 3, new DamageOverTime(false), new Slow(false)));
+            towerInfo.Add("flame", new TowerStats("flame", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 1.0f, 6, 20, 2, new DamageOverTime(3, 4, 6f), new Slow(false)));
+            towerInfo.Add("frost", new TowerStats("frost", assets.GetImage("frostTower"), assets.GetImage("frostMissile"), 1.0f, 0, 15, 3, new DamageOverTime(false), new Slow(50, 2f)));
 
             gui = new GUI(new Vector2(0, 640), towerInfo, Content.Load<Texture2D>("UIBar"), Content.Load<Texture2D>("sellTowerButton"), font);
 

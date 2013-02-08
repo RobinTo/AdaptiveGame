@@ -60,7 +60,7 @@ namespace AdaptiveTD
 
         private void Shoot(List<Missile> missiles)
         {
-            missiles.Add(new Missile(towerStats.MissileTexture, this.position + this.origin, distanceToTargetEnemy, rotation, 1024.0f, targetEnemy, towerStats.Damage));
+            missiles.Add(new Missile(towerStats.MissileTexture, this.position + this.origin, distanceToTargetEnemy, rotation, 1024.0f, targetEnemy, towerStats.Damage, towerStats.DamageOverTime, towerStats.Slow));
         }
 
         public void Update(float gameTime, List<Enemy> enemies, Enemy focusFireEnemy, List<Missile> missiles)
@@ -166,8 +166,20 @@ namespace AdaptiveTD
             get { return range; }
             set { range = value; }
         }
+        DamageOverTime damageOverTime;
+        public DamageOverTime DamageOverTime
+        {
+            get { return damageOverTime; }
+            set { damageOverTime = value; }
+        }
+        Slow slow;
+        public Slow Slow
+        {
+            get { return slow; }
+            set { slow = value; }
+        }
 
-        public TowerStats(string type, Texture2D towerTexture, Texture2D missileTexture, float ReloadTime, int damage, int goldCost, int range)
+        public TowerStats(string type, Texture2D towerTexture, Texture2D missileTexture, float ReloadTime, int damage, int goldCost, int range, DamageOverTime damageOverTime, Slow slow)
         {
             this.type = type;
             this.towerTexture = towerTexture;
@@ -176,6 +188,84 @@ namespace AdaptiveTD
             this.damage = damage;
             this.goldCost = goldCost;
             this.range = range * GameConstants.tileSize;
+            this.damageOverTime = damageOverTime;
+            this.slow = slow;
+        }
+    }
+
+    public struct DamageOverTime
+    {
+        int damagePerTick;
+
+        public int DamagePerTick
+        {
+            get { return damagePerTick; }
+            set { damagePerTick = value; }
+        }
+        int ticks;
+
+        public int Ticks
+        {
+            get { return ticks; }
+            set { ticks = value; }
+        }
+        float duration;
+
+        public float Duration
+        {
+            get { return duration; }
+            set { duration = value; }
+        }
+        float durationSinceLastTick;
+
+        public float DurationSinceLastTick
+        {
+            get { return durationSinceLastTick; }
+            set { durationSinceLastTick = value; }
+        }
+
+        public DamageOverTime(bool parameter)
+        {
+            this.damagePerTick = 0;
+            this.ticks = 2;
+            this.duration = 1000f;
+            this.durationSinceLastTick = duration / ticks;
+        }
+        public DamageOverTime(int damagePerTick, int ticks, float duration)
+        {
+            this.damagePerTick = damagePerTick;
+            this.ticks = ticks;
+            this.duration = duration;
+            this.durationSinceLastTick = duration / ticks;
+        }
+    }
+
+    public struct Slow
+    {
+        int percentage;
+
+        public int Percentage
+        {
+            get { return percentage; }
+            set { percentage = value; }
+        }
+        float duration;
+
+        public float Duration
+        {
+            get { return duration; }
+            set { duration = value; }
+        }
+
+        public Slow(bool parameter)
+        {
+            this.percentage = 100;
+            this.duration = 1000f;
+        }
+        public Slow(int percentage, float duration)
+        {
+            this.percentage = percentage;
+            this.duration = duration;
         }
     }
  
