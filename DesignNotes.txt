@@ -9,8 +9,7 @@ Tasklist:
 - Monsterinfo i GUI
 - Lagre events
 - Replaye spill
-- Bug: Selected tower beholdes når man bygger et nytt et
-- Highlight range on on new towers.
+- Bug: Rødt tårn etter deselect.
 - Select tower after build
 - Ta vekk grid/Transparante tårn-hjørner
 
