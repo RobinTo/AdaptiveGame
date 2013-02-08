@@ -3,8 +3,6 @@ Tasklist:
 - More monsters
 - AOE splash
 - Monsterinfo i GUI
-- Lagre events
-- Replaye spill
 - Ta vekk grid/Transparante tårn-hjørner
 - Bug: No highlighting of towerbuttons when building.
 - Bug: Damage over time gir ingen farge (vet hvorfor).
