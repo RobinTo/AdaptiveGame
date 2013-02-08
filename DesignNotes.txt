@@ -1,7 +1,6 @@
 Tasklist:
 - Upgrade towers
 - Player HP
-- Map editor
 - Select map
 - Tower priority
 - More monsters
@@ -11,7 +10,9 @@ Tasklist:
 - Replaye spill
 - Bug: Rødt tårn etter deselect.
 - Select tower after build
+- Bug: Enemies følger ikke path.
 - Ta vekk grid/Transparante tårn-hjørner
+- Polishe på Map Editor / Random map generation
 
 Code cleanup
 - Merge GUI og GameScreen

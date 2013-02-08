@@ -218,6 +218,7 @@ namespace AdaptiveTD
                         {
                             if (towers[t].TilePosition == e.TilePosition)
                             {
+                                selectedTower = null;
                                 currentGold += towerInfo[towers[t].TowerStats.Type].GoldCost / 2;
                                 towers.RemoveAt(t);
                             }
@@ -310,7 +311,8 @@ namespace AdaptiveTD
                 canBuild = false;
             if (canBuild)
             {
-                towers.Add(new Tower(t, position));
+                selectedTower = new Tower(t, position);
+                towers.Add(selectedTower);
                 currentGold -= t.GoldCost;
             }
         }
