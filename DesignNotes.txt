@@ -1,11 +1,13 @@
 Tasklist:
 - Tower priority
 - More monsters
-- More effects and towers
+- AOE splash
 - Monsterinfo i GUI
 - Lagre events
 - Replaye spill
 - Ta vekk grid/Transparante tårn-hjørner
+- Bug: No highlighting of towerbuttons when building.
+- Bug: Damage over time gir ingen farge (vet hvorfor).
 
 Later
 - Polishe på Map Editor / Random map generation

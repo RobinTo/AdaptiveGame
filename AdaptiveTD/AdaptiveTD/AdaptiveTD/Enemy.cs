@@ -54,6 +54,12 @@ namespace AdaptiveTD
             get { return damageOverTime; }
             set { damageOverTime = value; }
         }
+        Color color;
+        public Color Color
+        {
+            get { return color; }
+            set { color = value; }
+        }
 
         public Enemy(Vector2 startPosition, Texture2D enemyTexture, Texture2D healthBarYellowTexture, Texture2D healthBarRedTexture, int speed, int health, int goldYield, List<Direction> directions)
         {
@@ -69,6 +75,7 @@ namespace AdaptiveTD
             this.currentSpeed = normalSpeed;
             this.goldYield = goldYield;
             this.directions = directions;
+            color = Color.White;
             slow = new Slow(false);
             damageOverTime = new DamageOverTime(false);
         }
@@ -146,9 +153,25 @@ namespace AdaptiveTD
             }
             damageOverTime.Duration -= gameTime;
             if (damageOverTime.Duration <= 0)
+            {
                 damageOverTime = new DamageOverTime(false);
-            
+                color = Color.White;
+            }
+            else
+            {
+                color = Color.LightBlue;
+            }
 
+            slow.Duration -= gameTime;
+            if (slow.Duration <= 0)
+            {
+                slow = new Slow(false);
+                color = Color.White;
+            }
+            else
+            {
+                color = Color.LightBlue;
+            }
             healthBarRedRectangle = new Rectangle((int)position.X, (int)position.Y - 10, 64, 5);
             healthBarYellowRectangle = new Rectangle((int)position.X, (int)position.Y - 10, (int)((float)64 * (float)health / (float)maxHealth), 5);
         }
@@ -156,7 +179,7 @@ namespace AdaptiveTD
         public void Draw(SpriteBatch spriteBatch)
         {
             Vector2 drawPosition = position + origin;
-            spriteBatch.Draw(enemyTexture, drawPosition, null, Color.White, rotation, origin, 1.0f, SpriteEffects.None, 1.0f);
+            spriteBatch.Draw(enemyTexture, drawPosition, null, color, rotation, origin, 1.0f, SpriteEffects.None, 1.0f);
             spriteBatch.Draw(healthBarRedTexture, healthBarRedRectangle, Color.White);
             spriteBatch.Draw(healthBarYellowTexture, healthBarYellowRectangle, Color.White);
             

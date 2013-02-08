@@ -46,6 +46,7 @@ namespace AdaptiveTD
             map = new Map();
             map.LoadMap(".\\Content\\map.txt", Content);
             assets.AddImage("testEnemy", Content.Load<Texture2D>("testEnemy"));
+            assets.AddImage("toughEnemy", Content.Load<Texture2D>("toughEnemy"));
 
             assets.AddImage("healthBarRed", Content.Load<Texture2D>("healthBarRed"));
             assets.AddImage("healthBarYellow", Content.Load<Texture2D>("healthBarYellow"));
@@ -190,16 +191,17 @@ namespace AdaptiveTD
         {
             enemyWave.Add(0.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
             enemyWave.Add(1.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
-            enemyWave.Add(2.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
-            enemyWave.Add(3.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
-            enemyWave.Add(3.8f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
+            enemyWave.Add(3.0f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
             enemyWave.Add(4.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
-            enemyWave.Add(5.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
-            enemyWave.Add(6.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
-            enemyWave.Add(6.7f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
+            enemyWave.Add(6.0f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
             enemyWave.Add(7.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
-            enemyWave.Add(7.2f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
-            enemyWave.Add(1.0f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
+            enemyWave.Add(9.0f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("toughEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 40, 1, map.Directions));
+            enemyWave.Add(10.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
+            enemyWave.Add(12.0f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
+            enemyWave.Add(13.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
+            enemyWave.Add(15.0f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
+            enemyWave.Add(16.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
+            enemyWave.Add(18.0f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
         }
 
         private void HandleEvents()

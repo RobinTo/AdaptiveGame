@@ -228,7 +228,7 @@ namespace AdaptiveTD
         {
             this.damagePerTick = 0;
             this.ticks = 2;
-            this.duration = 1000f;
+            this.duration = 0;
             this.durationSinceLastTick = duration / ticks;
         }
         public DamageOverTime(int damagePerTick, int ticks, float duration)
@@ -260,7 +260,7 @@ namespace AdaptiveTD
         public Slow(bool parameter)
         {
             this.percentage = 100;
-            this.duration = 1000f;
+            this.duration = 0;
         }
         public Slow(int percentage, float duration)
         {
