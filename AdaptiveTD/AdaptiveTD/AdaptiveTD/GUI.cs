@@ -22,6 +22,7 @@ namespace AdaptiveTD
         Texture2D GUITexture;
         public TowerStats selected;
         bool isSelected = false;
+        bool towerButtonIsSelected = false;
 
         SpriteFont font;
         int currentGold = 0;
@@ -89,6 +90,8 @@ namespace AdaptiveTD
                     button.Key.Color = Color.Red;
                     building = true;
                     hitAny = true;
+                    towerButtonIsSelected = true;
+                    this.selected = selectedTower;
                 }
                 else
                     button.Key.Color = Color.White;
@@ -120,7 +123,7 @@ namespace AdaptiveTD
             spriteBatch.DrawString(font, "Gold: " + currentGold, position + new Vector2(700, 10), Color.White);
             spriteBatch.DrawString(font, "Lives: " + currentLives, position + new Vector2(700, 30), Color.White);
 
-            if (isSelected)
+            if (isSelected || towerButtonIsSelected)
             {
                 sellTowerButton.Draw(spriteBatch);
                 DrawInfo(spriteBatch, selected);
