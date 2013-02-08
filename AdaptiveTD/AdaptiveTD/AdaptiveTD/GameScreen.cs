@@ -272,16 +272,19 @@ namespace AdaptiveTD
             {
                 gui.selectedTower = towerInfo["basic"];
                 gui.building = true;
+                selectedTower = null;
             }
             else if (input.KeyPress(Keys.D2))
             {
                 gui.selectedTower = towerInfo["flame"];
                 gui.building = true;
+                selectedTower = null;
             }
             else if (input.KeyPress(Keys.D3))
             {
                 gui.selectedTower = towerInfo["frost"];
                 gui.building = true;
+                selectedTower = null;
             }
             else if (input.KeyPress(gui.sellTowerButton.KeyBinding))
             {
