@@ -265,6 +265,8 @@ namespace AdaptiveTD
             }
             if (currentGold < t.GoldCost)
                 canBuild = false;
+            if (map.MapTiles[(int)position.X, (int)position.Y] == 1)
+                canBuild = false;
             if (canBuild)
             {
                 towers.Add(new Tower(t.Type, t.TowerTexture, t.MissileTexture, position, t.TowerReloadTime, t.Damage, t.GoldCost));

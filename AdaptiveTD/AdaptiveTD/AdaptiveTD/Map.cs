@@ -16,7 +16,11 @@ namespace AdaptiveTD
     }
     class Map
     {
-        int[,] map = new int[20,10];
+        int[,] mapTiles = new int[20, 10];
+        public int[,] MapTiles
+        {
+            get { return mapTiles; }
+        }
         Texture2D imageZero;
         Texture2D imageOne;
 
@@ -47,33 +51,33 @@ namespace AdaptiveTD
 
         public bool CanBuild(int x, int y)
         {
-            return map[x, y] == 0 ? true : false;
+            return mapTiles[x, y] == 0 ? true : false;
         }
 
         public int MapWidth
         {
             get
             {
-                return map.GetUpperBound(0);
+                return mapTiles.GetUpperBound(0);
             }
         }
         public int MapHeight
         {
             get
             {
-                return map.GetUpperBound(1);
+                return mapTiles.GetUpperBound(1);
             }
         }
         public void LoadMap(string path)
         {
-            for (int x = 0; x <= map.GetUpperBound(0); x++)
+            for (int x = 0; x <= mapTiles.GetUpperBound(0); x++)
             {
-                for (int y = 0; y <= map.GetUpperBound(1); y++)
+                for (int y = 0; y <= mapTiles.GetUpperBound(1); y++)
                 {
                     if (y == 5)
-                        map[x, y] = 1;
+                        mapTiles[x, y] = 1;
                     else
-                        map[x, y] = 0;
+                        mapTiles[x, y] = 0;
                 }
             }
             for (int i = 0; i < 20; i++)
@@ -84,11 +88,11 @@ namespace AdaptiveTD
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            for (int x = 0; x <= map.GetUpperBound(0); x++)
+            for (int x = 0; x <= mapTiles.GetUpperBound(0); x++)
             {
-                for (int y = 0; y <= map.GetUpperBound(1); y++)
+                for (int y = 0; y <= mapTiles.GetUpperBound(1); y++)
                 {
-                    switch (map[x, y])
+                    switch (mapTiles[x, y])
                     {
                         case 0:
                             spriteBatch.Draw(imageZero, new Vector2(x * GameConstants.tileSize, y * GameConstants.tileSize), Color.White);
