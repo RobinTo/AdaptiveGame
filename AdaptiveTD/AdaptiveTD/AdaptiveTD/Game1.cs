@@ -36,8 +36,9 @@ namespace AdaptiveTD
             gameScreen = new GameScreen();
             graphics.PreferredBackBufferWidth = GameConstants.screenWidth;
             graphics.PreferredBackBufferHeight = GameConstants.screenHeight;
-            graphics.IsFullScreen = false;
+            graphics.IsFullScreen = true;
             IsMouseVisible = true;
+
             if (onlyUpdates)
             {
                 IsFixedTimeStep = false;
@@ -93,7 +94,7 @@ namespace AdaptiveTD
             gameTimeFloat = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
 
             // TODO: Add your update logic here
