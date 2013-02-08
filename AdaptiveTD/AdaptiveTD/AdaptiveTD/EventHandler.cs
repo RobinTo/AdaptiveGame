@@ -10,15 +10,14 @@ namespace AdaptiveTD
 
         List<Event> events = new List<Event>();
 
-        List<Event> queuedEvents = new List<Event>();
-
         public List<Event> Events
         {
-            get
-            {
-                return events;
-            }
+            get { return events; }
+            set { events = value; }
         }
+
+        List<Event> queuedEvents = new List<Event>();
+
 
         public void NewRound()
         {

@@ -17,7 +17,7 @@ namespace AdaptiveTD
         [Description("upgrade")]
         upgrade
     }
-    class Event
+    public class Event
     {
         EventType type;
         public EventType Type
@@ -45,7 +45,7 @@ namespace AdaptiveTD
 
         public string SaveString()
         {
-            return GetDescription(type) + ":" + towerType + ":" + tilePosition.X.ToString() + ":" + tilePosition.Y.ToString();
+            return "e:"+GetDescription(type) + ":" + towerType + ":" + tilePosition.X.ToString() + ":" + tilePosition.Y.ToString();
         }
 
         public static string GetDescription(object enumValue)

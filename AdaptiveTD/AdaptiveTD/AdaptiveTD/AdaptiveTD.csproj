@@ -121,6 +121,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="ReplayHandler.cs" />
     <Compile Include="ThinkTank.cs" />
     <Compile Include="Tower.cs" />
     <Compile Include="WinPopup.cs" />

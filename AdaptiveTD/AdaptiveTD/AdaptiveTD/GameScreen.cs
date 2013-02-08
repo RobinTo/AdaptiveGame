@@ -4,11 +4,17 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
+using System.IO;
 
 namespace AdaptiveTD
 {
     class GameScreen
     {
+        bool saveReplay = false;
+        bool saved = false;
+        ReplayHandler replayHandler = new ReplayHandler();
+        bool useReplay = true;
+        string replayString = "..\\08022013155022.txt";
 
         Dictionary<string, TowerStats> towerInfo = new Dictionary<string, TowerStats>();
         SortedList<float, Enemy> enemyWave = new SortedList<float, Enemy>();
@@ -70,27 +76,45 @@ namespace AdaptiveTD
             winPopup = new WinPopup(Content.Load<SpriteFont>("Winfont"));
 
             currentGold = startGold;
-
+            if (useReplay)
+                replayHandler.PlaybackReplay(replayString);
         }
 
         public void Update(float gameTime)
         {
 
-            TotalTime += gameTime;
-            if (enemyWave.Count > 0)
-            {
-                if (TotalTime >= enemyWave.Keys[0])
-                {
-                    enemies.Add(enemyWave[enemyWave.Keys[0]]);
-                    enemyWave.Remove(enemyWave.Keys[0]);
-                }
-            }
+            
             if (!won)
             {
-                eventHandler.NewRound();
-                input.Update();
-                HandleInput();
+                if (useReplay)
+                {
+                    NextUpdate next = replayHandler.GetNextUpdate();
+                    gameTime = next.Gametime;
+                    eventHandler.Events = next.Events;
+                }
+                else
+                {
+                    eventHandler.NewRound();
+                    input.Update();
+                    HandleInput();
+                }
+
+                TotalTime += gameTime;
+                if (enemyWave.Count > 0)
+                {
+                    if (TotalTime >= enemyWave.Keys[0])
+                    {
+                        enemies.Add(enemyWave[enemyWave.Keys[0]]);
+                        enemyWave.Remove(enemyWave.Keys[0]);
+                    }
+                }
+                if(saveReplay)
+                {
+                    replayHandler.Update(TotalTime, eventHandler.Events);
+                }
+
                 HandleEvents();
+
                 for (int counter = 0; counter < enemies.Count; counter++)
                 {
                     enemies[counter].Update(gameTime);
@@ -130,6 +154,11 @@ namespace AdaptiveTD
 
             if (won)
             {
+                if (saveReplay && !saved)
+                {
+                    replayHandler.SaveReplay();
+                    saved = true;
+                }
                 input.Update();
                 if (input.KeyPress(Keys.Enter) || input.KeyPress(Keys.Space))
                     RestartGame();
@@ -184,6 +213,7 @@ namespace AdaptiveTD
             winPopup.Randomize();
             selectedTower = null;
             currentLives = startingLives;
+            saved = false;
         }
 
         // Currently static
