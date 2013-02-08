@@ -90,6 +90,8 @@ namespace AdaptiveTD
                 {
                     NextUpdate next = replayHandler.GetNextUpdate();
                     gameTime = next.Gametime;
+                    if (gameTime == 0)                  // If no more updates in replay, use a fixed 60fps step.
+                        gameTime = (float)(1.0 / 60.0); // To be able to run simulations past ending time in the original game in replay.
                     eventHandler.Events = next.Events;
                 }
                 else
@@ -235,6 +237,9 @@ namespace AdaptiveTD
             enemyWave.Add(15.0f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
             enemyWave.Add(16.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
             enemyWave.Add(18.0f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
+            enemyWave.Add(19.0f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("toughEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 40, 1, map.Directions));
+            enemyWave.Add(21.0f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("toughEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 40, 1, map.Directions));
+            enemyWave.Add(22.0f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("toughEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 40, 1, map.Directions));
         }
 
         private void HandleEvents()
