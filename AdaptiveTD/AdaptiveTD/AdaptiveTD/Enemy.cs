@@ -151,8 +151,8 @@ namespace AdaptiveTD
                 damageOverTime.DurationSinceLastTick = damageOverTime.Duration / damageOverTime.Ticks;
                 health -= damageOverTime.DamagePerTick;
             }
-            damageOverTime.Duration -= gameTime;
-            if (damageOverTime.Duration <= 0)
+            damageOverTime.RemainingDuration -= gameTime;
+            if (damageOverTime.RemainingDuration <= 0)
             {
                 damageOverTime = new DamageOverTime(false);
                 color = Color.White;

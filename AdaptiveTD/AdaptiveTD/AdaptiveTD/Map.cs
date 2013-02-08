@@ -23,8 +23,6 @@ namespace AdaptiveTD
         {
             get { return map; }
         }
-        Texture2D imageZero;
-        Texture2D imageOne;
         bool mapDone = false;
 
         List<Direction> directions = new List<Direction>();

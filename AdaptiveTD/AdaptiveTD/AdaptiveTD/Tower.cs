@@ -218,6 +218,13 @@ namespace AdaptiveTD
         }
         float durationSinceLastTick;
 
+        float remainingDuration;
+        public float RemainingDuration
+        {
+            get { return remainingDuration; }
+            set { remainingDuration = value; }
+        }
+
         public float DurationSinceLastTick
         {
             get { return durationSinceLastTick; }
@@ -229,6 +236,7 @@ namespace AdaptiveTD
             this.damagePerTick = 0;
             this.ticks = 2;
             this.duration = 0;
+            this.remainingDuration = 0;
             this.durationSinceLastTick = duration / ticks;
         }
         public DamageOverTime(int damagePerTick, int ticks, float duration)
@@ -236,6 +244,7 @@ namespace AdaptiveTD
             this.damagePerTick = damagePerTick;
             this.ticks = ticks;
             this.duration = duration;
+            this.remainingDuration = duration;
             this.durationSinceLastTick = duration / ticks;
         }
     }

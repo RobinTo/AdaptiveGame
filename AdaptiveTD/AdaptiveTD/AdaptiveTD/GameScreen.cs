@@ -13,7 +13,7 @@ namespace AdaptiveTD
         bool saveReplay = false;                                // Save replay from game? Does not save regardless if useReplay is true.
         bool saved = false;                                     // 
         ReplayHandler replayHandler = new ReplayHandler();      // Replay handler, saving, loading, etc. of replays.
-        bool useReplay = true;                                  // Use replay?
+        bool useReplay = false;                                  // Use replay?
         string replayString = ".\\Replay08022013220115.txt";    // Path to replay file to use, if useReplay is true.
 
         Dictionary<string, TowerStats> towerInfo = new Dictionary<string, TowerStats>();
