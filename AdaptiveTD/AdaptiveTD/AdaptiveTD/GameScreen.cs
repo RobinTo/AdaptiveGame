@@ -10,11 +10,11 @@ namespace AdaptiveTD
 {
     class GameScreen
     {
-        bool saveReplay = false;
-        bool saved = false;
-        ReplayHandler replayHandler = new ReplayHandler();
-        bool useReplay = true;
-        string replayString = "..\\08022013155022.txt";
+        bool saveReplay = false;                                // Save replay from game? Does not save regardless if useReplay is true.
+        bool saved = false;                                     // 
+        ReplayHandler replayHandler = new ReplayHandler();      // Replay handler, saving, loading, etc. of replays.
+        bool useReplay = true;                                  // Use replay?
+        string replayString = ".\\Replay08022013220115.txt";    // Path to replay file to use, if useReplay is true.
 
         Dictionary<string, TowerStats> towerInfo = new Dictionary<string, TowerStats>();
         SortedList<float, Enemy> enemyWave = new SortedList<float, Enemy>();
@@ -77,7 +77,7 @@ namespace AdaptiveTD
 
             currentGold = startGold;
             if (useReplay)
-                replayHandler.PlaybackReplay(replayString);
+                replayHandler.LoadReplay(replayString);
         }
 
         public void Update(float gameTime)
@@ -154,7 +154,7 @@ namespace AdaptiveTD
 
             if (won)
             {
-                if (saveReplay && !saved)
+                if (saveReplay && !saved && !useReplay)
                 {
                     replayHandler.SaveReplay();
                     saved = true;
@@ -214,6 +214,9 @@ namespace AdaptiveTD
             selectedTower = null;
             currentLives = startingLives;
             saved = false;
+            replayHandler.Clear();
+            if (useReplay)
+                replayHandler.LoadReplay(replayString);
         }
 
         // Currently static

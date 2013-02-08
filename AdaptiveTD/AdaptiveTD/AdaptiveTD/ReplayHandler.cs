@@ -38,13 +38,27 @@ namespace AdaptiveTD
         {
 
         }
+
+        public void Clear()
+        {
+            totalTimeRecordEvents.Clear();
+            totalTimePlaybackEvents.Clear();
+            lastTime = 0;
+        }
         float lastTime = 0;
         public NextUpdate GetNextUpdate()
         {
-            NextUpdate next = new NextUpdate(totalTimePlaybackEvents.Keys[0] - lastTime, totalTimePlaybackEvents[totalTimePlaybackEvents.Keys[0]]);
-            lastTime = totalTimePlaybackEvents.Keys[0];
-            totalTimePlaybackEvents.Remove(totalTimePlaybackEvents.Keys[0]);
-            return next;
+            if (totalTimePlaybackEvents.Count > 0)
+            {
+                NextUpdate next = new NextUpdate(totalTimePlaybackEvents.Keys[0] - lastTime, totalTimePlaybackEvents[totalTimePlaybackEvents.Keys[0]]);
+                lastTime = totalTimePlaybackEvents.Keys[0];
+                totalTimePlaybackEvents.Remove(totalTimePlaybackEvents.Keys[0]);
+                return next;
+            }
+            else
+            {
+                return new NextUpdate(0.0f, new List<Event>());
+            }
         }
 
         public void Update(float totalTime, List<Event> events)
@@ -56,7 +70,7 @@ namespace AdaptiveTD
             totalTimeRecordEvents.Add(totalTime, eventCopy);
         }
 
-        public void PlaybackReplay(string fileName)
+        public void LoadReplay(string fileName)
         {
             string[] fileLines = File.ReadAllLines(fileName);
             float currentTime = 0;
@@ -100,7 +114,7 @@ namespace AdaptiveTD
                     fileContent.Add(e.SaveString());
                 }
             }
-            File.WriteAllLines("..\\" + fileName, fileContent);
+            File.WriteAllLines(".\\Replay" + fileName, fileContent);
         }
     }
 
