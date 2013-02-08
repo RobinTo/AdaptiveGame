@@ -25,6 +25,7 @@ namespace AdaptiveTD
 
         SpriteFont font;
         int currentGold = 0;
+        int currentLives = 0;
 
         public GUI(Vector2 position, Dictionary<string, TowerStats> towers, Texture2D GUITexture, Texture2D sellTowerButtonTexture, SpriteFont font)
         {
@@ -54,7 +55,7 @@ namespace AdaptiveTD
 
 
 
-        public void Update(float gameTime, InputHandler input, int currentGold, Tower selected, EventHandler eventHandler)
+        public void Update(float gameTime, InputHandler input, int currentLives, int currentGold, Tower selected, EventHandler eventHandler)
         {
             if (selected != null)
             {
@@ -65,6 +66,7 @@ namespace AdaptiveTD
                 isSelected = false;
 
             this.currentGold = currentGold;
+            this.currentLives = currentLives;
             Vector2 hitPosition = input.MousePosition;
             
             /*
@@ -116,6 +118,7 @@ namespace AdaptiveTD
                 tower.Key.Draw(spriteBatch);
             }
             spriteBatch.DrawString(font, "Gold: " + currentGold, position + new Vector2(700, 10), Color.White);
+            spriteBatch.DrawString(font, "Lives: " + currentLives, position + new Vector2(700, 30), Color.White);
 
             if (isSelected)
             {

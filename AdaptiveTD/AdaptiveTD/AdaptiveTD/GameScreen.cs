@@ -33,6 +33,9 @@ namespace AdaptiveTD
         int startGold = 20;
         int currentGold = 0;
 
+        int currentLives = 5;
+        int startingLives = 5;
+
         public GameScreen()
         {
 
@@ -96,6 +99,12 @@ namespace AdaptiveTD
                         enemies.RemoveAt(counter);
                         counter--;
                     }
+                    else if (enemies[counter].Position.X >= GameConstants.screenWidth)
+                    {
+                        currentLives--;
+                        enemies.RemoveAt(counter);
+                        counter--;
+                    }
                 }
                 foreach (Tower t in towers)
                 {
@@ -112,7 +121,7 @@ namespace AdaptiveTD
                     }
                 }
 
-                gui.Update(gameTime, input, currentGold, selectedTower, eventHandler);
+                gui.Update(gameTime, input, currentLives, currentGold, selectedTower, eventHandler);
             }
             if (enemies.Count <= 0 && enemyWave.Count <= 0)
                 won = true;
@@ -142,12 +151,20 @@ namespace AdaptiveTD
                 spriteBatch.Draw(gui.selectedTower.TowerTexture, position*GameConstants.tileSize, Color.White);
             }
 
-            gui.Draw(spriteBatch);
-            if (won)
-                winPopup.Draw(spriteBatch);
-
             if (selectedTower != null)
                 spriteBatch.Draw(assets.GetImage("rangeHighlight"), selectedTower.RangeHighlightRectangle, new Rectangle(0, 0, 64, 64), Color.White); //Kan evt lage rectangelet før draw-metoden.
+
+            gui.Draw(spriteBatch);
+            
+            if (currentLives <= 0)
+            {
+                winPopup.Draw(false, spriteBatch);
+                won = true;
+            }
+            else if (won)
+            {
+                winPopup.Draw(true, spriteBatch);
+            }
         }
 
         private void RestartGame()
@@ -164,6 +181,7 @@ namespace AdaptiveTD
             TotalTime = 0;
             winPopup.Randomize();
             selectedTower = null;
+            currentLives = startingLives;
         }
 
         // Currently static
