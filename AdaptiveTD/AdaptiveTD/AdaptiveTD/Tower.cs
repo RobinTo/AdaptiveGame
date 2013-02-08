@@ -9,49 +9,42 @@ namespace AdaptiveTD
 {
     class Tower
     {
-        string type;
-        public string Type
+        TowerStats towerStats;
+        public TowerStats TowerStats
         {
-            get { return type; }
+            get { return towerStats; }
+            set { towerStats = value; }
         }
-        Texture2D towerTexture, missileTexture;
-        float rotation, distanceToTargetEnemy;
         Vector2 position, origin;
-        Vector2 tilePosition;
-        public Vector2 TilePosition
-        {
-            get { return tilePosition; }
-        }
-        float reloadTime, towerReloadTime;
+        float rotation, distanceToTargetEnemy;
         Enemy targetEnemy;
-        int damage, range, goldCost;
-        Color color = Color.White;
-
+        float currentReloadTime;
+        Color color;
         public Color Color
         {
             get { return color; }
             set { color = value; }
         }
-
-        public Tower(string type, Texture2D towerTexture, Texture2D missileTexture, Vector2 tilePosition, float towerReloadTime, int damage, int goldCost, int range)
+        Vector2 tilePosition;
+        public Vector2 TilePosition
         {
-            this.type = type;
-            this.goldCost = goldCost;
-            this.towerTexture = towerTexture;
-            this.missileTexture = missileTexture;
-            this.tilePosition = tilePosition;
+            get { return tilePosition; }
+        }
+
+        public Tower(TowerStats towerStats, string type, Texture2D towerTexture, Texture2D missileTexture, Vector2 tilePosition, float towerReloadTime, int damage, int goldCost, int range)
+        {
+            this.towerStats = towerStats;
+            this.currentReloadTime = towerReloadTime;
             this.position = new Vector2(tilePosition.X * 64, tilePosition.Y * 64);
             this.origin = new Vector2(32, 32);
             this.rotation = 0.0f;
-            this.towerReloadTime = towerReloadTime;
-            this.reloadTime = towerReloadTime;
-            this.damage = damage;
-            this.range = range * GameConstants.tileSize;
+            this.color = Color.White;
+            this.tilePosition = tilePosition;
         }
 
         private void Shoot(List<Missile> missiles)
         {
-            missiles.Add(new Missile(missileTexture, this.position + this.origin, distanceToTargetEnemy, rotation, 1024.0f, targetEnemy, damage));
+            missiles.Add(new Missile(towerStats.MissileTexture, this.position + this.origin, distanceToTargetEnemy, rotation, 1024.0f, targetEnemy, towerStats.Damage));
         }
 
         public void Update(float gameTime, List<Enemy> enemies, Enemy focusFireEnemy, List<Missile> missiles)
@@ -75,7 +68,7 @@ namespace AdaptiveTD
                         distanceToTargetEnemy = (float)distanceToCandidate;
                     }
                 }
-                if (distanceToTargetEnemy > this.range)
+                if (distanceToTargetEnemy > towerStats.Range)
                 {
                     targetEnemy = null;
                 }
@@ -97,23 +90,21 @@ namespace AdaptiveTD
                 rotation = (float)Math.Atan2(deltaY, deltaX);
             } //Må ha en else if på om targetEnemy er instansiert.
             
-            reloadTime -= (float)gameTime;
-            reloadTime = (reloadTime < 0) ? 0 : reloadTime ;
+            currentReloadTime -= (float)gameTime;
+            currentReloadTime = (currentReloadTime < 0) ? 0 : currentReloadTime;
 
-            if (targetEnemy != null && reloadTime <= 0)
+            if (targetEnemy != null && currentReloadTime <= 0)
             {
                 this.Shoot(missiles);
-                reloadTime = towerReloadTime;
+                currentReloadTime = towerStats.ReloadTime;
             }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(towerTexture, position + origin, null, color, rotation, origin, 1.0f, SpriteEffects.None, 1.0f);
+            spriteBatch.Draw(towerStats.TowerTexture, position + origin, null, color, rotation, origin, 1.0f, SpriteEffects.None, 1.0f);
 
         }
-
-
     }
 
     public struct TowerStats
@@ -137,12 +128,12 @@ namespace AdaptiveTD
             get { return missileTexture; }
             set { missileTexture = value; }
         }
-        float towerReloadTime;
+        float reloadTime;
 
-        public float TowerReloadTime
+        public float ReloadTime
         {
-            get { return towerReloadTime; }
-            set { towerReloadTime = value; }
+            get { return reloadTime; }
+            set { reloadTime = value; }
         }
         int damage;
         public int Damage
@@ -163,15 +154,15 @@ namespace AdaptiveTD
             set { range = value; }
         }
 
-        public TowerStats(string type, Texture2D towerTexture, Texture2D missileTexture, float towerReloadTime, int damage, int goldCost, int range)
+        public TowerStats(string type, Texture2D towerTexture, Texture2D missileTexture, float ReloadTime, int damage, int goldCost, int range)
         {
             this.type = type;
             this.towerTexture = towerTexture;
             this.missileTexture = missileTexture;
-            this.towerReloadTime = towerReloadTime;
+            this.reloadTime = ReloadTime;
             this.damage = damage;
             this.goldCost = goldCost;
-            this.range = range;
+            this.range = range * GameConstants.tileSize;
         }
     }
  

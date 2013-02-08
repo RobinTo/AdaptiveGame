@@ -58,7 +58,7 @@ namespace AdaptiveTD
         {
             if (selected != null)
             {
-                this.selected = towers[selected.Type];
+                this.selected = towers[selected.TowerStats.Type];
                 isSelected = true;
             }
             else
@@ -130,7 +130,7 @@ namespace AdaptiveTD
             spriteBatch.Draw(towerStats.TowerTexture, infoPosition, Color.White);
             spriteBatch.DrawString(font, "Cost: " + towerStats.GoldCost, new Vector2(infoPosition.X + 66, infoPosition.Y), Color.Black);
             spriteBatch.DrawString(font, "Damage: " + towerStats.Damage, new Vector2(infoPosition.X + 66, infoPosition.Y+30), Color.Black);
-            spriteBatch.DrawString(font, "Reload Time: " + towerStats.TowerReloadTime, new Vector2(infoPosition.X + 66, infoPosition.Y+60), Color.Black);
+            spriteBatch.DrawString(font, "Reload Time: " + towerStats.ReloadTime, new Vector2(infoPosition.X + 66, infoPosition.Y+60), Color.Black);
         }
     }
 }

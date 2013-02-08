@@ -197,7 +197,7 @@ namespace AdaptiveTD
                         {
                             if (towers[t].TilePosition == e.TilePosition)
                             {
-                                currentGold += towerInfo[towers[t].Type].GoldCost / 2;
+                                currentGold += towerInfo[towers[t].TowerStats.Type].GoldCost / 2;
                                 towers.RemoveAt(t);
                             }
                         }
@@ -224,7 +224,7 @@ namespace AdaptiveTD
                 {
                     if (selectedTower != null)
                     {
-                        Event e = new Event(EventType.sell, selectedTower.TilePosition, selectedTower.Type);
+                        Event e = new Event(EventType.sell, selectedTower.TilePosition, selectedTower.TowerStats.Type);
                         eventHandler.QueueEvent(e);
                     }
                 }
@@ -266,7 +266,7 @@ namespace AdaptiveTD
             {
                 if (selectedTower != null)
                 {
-                    Event e = new Event(EventType.sell, selectedTower.TilePosition, selectedTower.Type);
+                    Event e = new Event(EventType.sell, selectedTower.TilePosition, selectedTower.TowerStats.Type);
                     eventHandler.QueueEvent(e);
                 }
             }
@@ -286,7 +286,7 @@ namespace AdaptiveTD
                 canBuild = false;
             if (canBuild)
             {
-                towers.Add(new Tower(t.Type, t.TowerTexture, t.MissileTexture, position, t.TowerReloadTime, t.Damage, t.GoldCost, t.Range));
+                towers.Add(new Tower(t, t.Type, t.TowerTexture, t.MissileTexture, position, t.ReloadTime, t.Damage, t.GoldCost, t.Range));
                 currentGold -= t.GoldCost;
             }
         }
