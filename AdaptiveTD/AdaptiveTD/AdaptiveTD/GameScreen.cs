@@ -149,6 +149,7 @@ namespace AdaptiveTD
             {
                 Vector2 position = new Vector2((float)Math.Floor(input.MousePosition.X / GameConstants.tileSize), (float)Math.Floor(input.MousePosition.Y / GameConstants.tileSize));
                 spriteBatch.Draw(gui.selectedTower.TowerTexture, position*GameConstants.tileSize, Color.White);
+                spriteBatch.Draw(assets.GetImage("rangeHighlight"), new Rectangle((int)position.X * GameConstants.tileSize + GameConstants.tileSize / 2 - gui.selectedTower.Range, (int)position.Y * GameConstants.tileSize + GameConstants.tileSize / 2 - gui.selectedTower.Range, gui.selectedTower.Range * 2, gui.selectedTower.Range * 2), new Rectangle(0, 0, 64, 64), Color.White); // Kan optimaliseres.
             }
 
             if (selectedTower != null)

@@ -46,7 +46,6 @@ namespace AdaptiveTD
             set { color = value; }
         }
 
-
         public Tower(TowerStats towerStats, Vector2 tilePosition)
         {
             this.towerStats = towerStats;
