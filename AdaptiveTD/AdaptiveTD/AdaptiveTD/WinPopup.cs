@@ -18,19 +18,18 @@ namespace AdaptiveTD
         public WinPopup(SpriteFont font)
         {
             this.font = font;
-            winStrings.Add("Well done!");
-            winStrings.Add("Experiment complete!");
+            winStrings.Add("Today you, tomorrow me.");
             winStrings.Add("You win! This time...");
-            winStrings.Add("I hate you.");
             winStrings.Add("Good job, just one more, then there will be cake!");
-            winStrings.Add("Are you even human?");
-            winStrings.Add("Splendid!");
-            winStrings.Add("BG NOOB TEAM! Rematch 1v1?");
+            winStrings.Add("Impossible to carry these stupid monsters.");
+            winStrings.Add("You only win because I lagged!");
 
-            loseStrings.Add("Haha!");
+            loseStrings.Add("Winning isn't everything, it's the only thing.");
             loseStrings.Add("Human intelligence is no match for me.");
             loseStrings.Add("Ah, the familiar, sweet taste of victory!");
             loseStrings.Add("I win, again.");
+            loseStrings.Add("Veni Vidi Vici!");
+            loseStrings.Add("No soup for you!");
 
             this.screenDimensions = new Vector2(GameConstants.screenWidth, GameConstants.screenHeight);
             Randomize();

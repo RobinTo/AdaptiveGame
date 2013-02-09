@@ -51,8 +51,8 @@ namespace AdaptiveTD
         {
             map = new Map();
             map.LoadMap(".\\Content\\map.txt", Content);
-            assets.AddImage("testEnemy", Content.Load<Texture2D>("testEnemy"));
-            assets.AddImage("toughEnemy", Content.Load<Texture2D>("toughEnemy"));
+            assets.AddImage("testEnemy", Content.Load<Texture2D>("heartmonster2"));
+            assets.AddImage("toughEnemy", Content.Load<Texture2D>("defaultMonster"));
 
             assets.AddImage("healthBarRed", Content.Load<Texture2D>("healthBarRed"));
             assets.AddImage("healthBarYellow", Content.Load<Texture2D>("healthBarYellow"));
