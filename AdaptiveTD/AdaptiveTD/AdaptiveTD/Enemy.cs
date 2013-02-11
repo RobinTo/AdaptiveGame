@@ -8,7 +8,7 @@ namespace AdaptiveTD
     class Enemy
     {
         Texture2D enemyTexture, healthBarRedTexture, healthBarYellowTexture;
-        int health, maxHealth, healthPercentageLost;
+        int health, maxHealth;
         public int Health
         {
             get { return health; }

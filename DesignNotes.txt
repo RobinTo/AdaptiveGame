@@ -16,6 +16,8 @@ Code cleanup
 - Merge GUI og GameScreen
 - EffectArray på tower-effects
 
+- Have tower targeting algorithm test for enemeis in a SortedList with distance travelled as sort parameter.
+This way just test from one until one is inside range, instead of testing for all which one is closer.
 
 
 Stylistic choices:
