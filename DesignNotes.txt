@@ -7,6 +7,18 @@ Tasklist:
 - Bug: No highlighting of towerbuttons when building.
 - Bug: Damage over time gir ingen farge (vet hvorfor).
 
+- Questionaire
+  - Guidelines
+- Global session settings, lese ut, og endre på.
+  - Parametere (liste)
+- Polishe
+- Enkel testing
+- Intuitivt spill
+- Se på gaussiske prosesser.
+- Enkel installasjon
+- Kompabilitet
+
+
 Later
 - Polishe på Map Editor / Random map generation
 - Select map

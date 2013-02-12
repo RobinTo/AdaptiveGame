@@ -10,11 +10,11 @@ namespace AdaptiveTD
 {
     class GameScreen
     {
-        bool saveReplay = false;                                // Save replay from game? Does not save regardless if useReplay is true.
+        bool saveReplay = true;                                // Save replay from game? Does not save regardless if useReplay is true.
         bool saved = false;                                     // 
         ReplayHandler replayHandler = new ReplayHandler();      // Replay handler, saving, loading, etc. of replays.
-        bool useReplay = false;                                  // Use replay?
-        string replayString = ".\\Replay12022013124609.txt";    // Path to replay file to use, if useReplay is true.
+        bool useReplay = true;                                  // Use replay?
+        string replayString = ".\\Replay12022013132536.txt";    // Path to replay file to use, if useReplay is true.
 
         Dictionary<string, TowerStats> towerInfo = new Dictionary<string, TowerStats>();
         SortedList<float, Enemy> enemyWave = new SortedList<float, Enemy>();
