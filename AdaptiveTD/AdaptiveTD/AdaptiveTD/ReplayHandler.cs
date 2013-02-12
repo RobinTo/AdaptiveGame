@@ -33,6 +33,8 @@ namespace AdaptiveTD
     {
         SortedList<float, List<Event>> totalTimeRecordEvents = new SortedList<float, List<Event>>();
         SortedList<float, List<Event>> totalTimePlaybackEvents = new SortedList<float, List<Event>>();
+        SortedList<float, float> totalTimeGameTime = new SortedList<float, float>();
+        SortedList<float, float> totalTimeGameTimePlayback = new SortedList<float, float>();
 
         public ReplayHandler()
         {
@@ -43,6 +45,8 @@ namespace AdaptiveTD
         {
             totalTimeRecordEvents.Clear();
             totalTimePlaybackEvents.Clear();
+            totalTimeGameTime.Clear();
+            totalTimeGameTimePlayback.Clear();
             lastTime = 0;
         }
         float lastTime = 0;
@@ -50,23 +54,25 @@ namespace AdaptiveTD
         {
             if (totalTimePlaybackEvents.Count > 0)
             {
-                NextUpdate next = new NextUpdate(totalTimePlaybackEvents.Keys[0] - lastTime, totalTimePlaybackEvents[totalTimePlaybackEvents.Keys[0]]);
+                NextUpdate next = new NextUpdate(totalTimeGameTimePlayback[totalTimePlaybackEvents.Keys[0]], totalTimePlaybackEvents[totalTimePlaybackEvents.Keys[0]]);
                 lastTime = totalTimePlaybackEvents.Keys[0];
                 totalTimePlaybackEvents.Remove(totalTimePlaybackEvents.Keys[0]);
                 return next;
             }
             else
             {
-                return new NextUpdate(0.0f, new List<Event>());
+                return new NextUpdate(-1.0f, new List<Event>());
             }
         }
 
-        public void Update(float totalTime, List<Event> events)
+        public void Update(float gameTime, float totalTime, List<Event> events)
         {
             List<Event> eventCopy = new List<Event>();
             foreach (Event e in events)
                 eventCopy.Add(e);
 
+
+            totalTimeGameTime.Add(totalTime, gameTime);
             totalTimeRecordEvents.Add(totalTime, eventCopy);
         }
 
@@ -82,6 +88,7 @@ namespace AdaptiveTD
                     case "t":
                         currentTime = float.Parse(split[1]);
                         totalTimePlaybackEvents.Add(currentTime, new List<Event>());
+                        totalTimeGameTimePlayback.Add(currentTime, float.Parse(split[2]));
                         break;
                     case "e":
                         switch (split[1])
@@ -108,7 +115,7 @@ namespace AdaptiveTD
 
             foreach (KeyValuePair<float, List<Event>> gametime in totalTimeRecordEvents)
             {
-                fileContent.Add("t:"+gametime.Key.ToString());
+                fileContent.Add("t:"+gametime.Key.ToString()+":"+totalTimeGameTime[gametime.Key].ToString());
                 foreach (Event e in gametime.Value)
                 {
                     fileContent.Add(e.SaveString());

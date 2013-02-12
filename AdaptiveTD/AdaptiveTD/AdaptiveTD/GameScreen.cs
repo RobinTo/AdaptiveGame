@@ -14,7 +14,7 @@ namespace AdaptiveTD
         bool saved = false;                                     // 
         ReplayHandler replayHandler = new ReplayHandler();      // Replay handler, saving, loading, etc. of replays.
         bool useReplay = false;                                  // Use replay?
-        string replayString = ".\\Replay08022013220115.txt";    // Path to replay file to use, if useReplay is true.
+        string replayString = ".\\Replay12022013124609.txt";    // Path to replay file to use, if useReplay is true.
 
         Dictionary<string, TowerStats> towerInfo = new Dictionary<string, TowerStats>();
         SortedList<float, Enemy> enemyWave = new SortedList<float, Enemy>();
@@ -90,7 +90,7 @@ namespace AdaptiveTD
                 {
                     NextUpdate next = replayHandler.GetNextUpdate();
                     gameTime = next.Gametime;
-                    if (gameTime == 0)                  // If no more updates in replay, use a fixed 60fps step.
+                    if (gameTime < 0)                   // If no more updates in replay, use a fixed 60fps step.
                         gameTime = (float)(1.0 / 60.0); // To be able to run simulations past ending time in the original game in replay.
                     eventHandler.Events = next.Events;
                 }
@@ -112,7 +112,7 @@ namespace AdaptiveTD
                 }
                 if(saveReplay)
                 {
-                    replayHandler.Update(TotalTime, eventHandler.Events);
+                    replayHandler.Update(gameTime, TotalTime, eventHandler.Events);
                 }
 
                 HandleEvents();
