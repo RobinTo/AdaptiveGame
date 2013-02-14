@@ -148,7 +148,7 @@ namespace AdaptiveTD
                 foreach (Tower t in towers)
                 {
                     if(enemies.Count > 0)
-                        t.Update(gameTime, enemies, null, missiles);
+                        t.Update(gameTime, enemies, targetEnemy, missiles);
                 }
                 for (int counter = 0; counter < missiles.Count; counter++)
                 {
