@@ -72,9 +72,17 @@ namespace AdaptiveTD
             get { return color; }
             set { color = value; }
         }
+        string type;
+
+        public string Type
+        {
+            get { return type; }
+            set { type = value; }
+        }
         
         public Enemy(Vector2 startPosition, EnemyInfo enemyInfo, List<Direction> directions)
         {
+            this.type = enemyInfo.Type;
             this.enemyTexture = enemyInfo.EnemyTexture;
             this.healthBarRedTexture = enemyInfo.RedHealthBar;
             this.healthBarYellowTexture = enemyInfo.YellowHealthBar;
@@ -251,9 +259,17 @@ namespace AdaptiveTD
             get { return enemyTexture; }
             set { enemyTexture = value; }
         }
+        string type;
 
-        public EnemyInfo(int health, int speed, int goldYield, Texture2D enemyTexture, Texture2D redHealthBar, Texture2D yellowHealthBar)
+        public string Type
         {
+            get { return type; }
+            set { type = value; }
+        }
+
+        public EnemyInfo(string type, int health, int speed, int goldYield, Texture2D enemyTexture, Texture2D redHealthBar, Texture2D yellowHealthBar)
+        {
+            this.type = type;
             this.health = health;
             this.speed = speed;
             this.goldYield = goldYield;

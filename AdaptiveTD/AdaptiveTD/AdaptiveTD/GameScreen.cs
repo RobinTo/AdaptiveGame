@@ -77,8 +77,8 @@ namespace AdaptiveTD
             towerInfo.Add("frost", new TowerStats("frost", assets.GetImage("frostTower"), assets.GetImage("frostMissile"), 1.0f, 0, 15, 3, new DamageOverTime(false), new Slow(70, 2f), new AreaOfEffect(0)));
             towerInfo.Add("flameAoE", new TowerStats("flameAoE", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 2.0f, 5, 20, 2, new DamageOverTime(false), new Slow(false), new AreaOfEffect(128)));
 
-            enemyInfo.Add("basic", new EnemyInfo(20, 64, 10, assets.GetImage("testEnemy"), assets.GetImage("redHealthBar"), assets.GetImage("yellowHealthBar")));
-            enemyInfo.Add("tough", new EnemyInfo(40, 32, 10, assets.GetImage("toughEnemy"), assets.GetImage("redHealthBar"), assets.GetImage("yellowHealthBar")));
+            enemyInfo.Add("basic", new EnemyInfo("basic", 20, 64, 10, assets.GetImage("testEnemy"), assets.GetImage("redHealthBar"), assets.GetImage("yellowHealthBar")));
+            enemyInfo.Add("tough", new EnemyInfo("tough", 40, 32, 10, assets.GetImage("toughEnemy"), assets.GetImage("redHealthBar"), assets.GetImage("yellowHealthBar")));
 
             CreateWave(); // After all enemies are added to enemyInfo.
 
@@ -325,9 +325,10 @@ namespace AdaptiveTD
 
                     foreach (Enemy e in enemies)
                     {
-                        if (input.NewMouseState.X > e.Position.X - e.Origin.X && input.NewMouseState.Y > e.Position.Y - e.Origin.Y && input.NewMouseState.X < e.Position.X + e.Origin.X && input.NewMouseState.Y < e.Position.Y + e.Origin.Y)
+                        if (input.NewMouseState.X > e.Position.X && input.NewMouseState.Y > e.Position.Y && input.NewMouseState.X < e.Position.X + GameConstants.tileSize && input.NewMouseState.Y < e.Position.Y + GameConstants.tileSize)
                         {
                             selectedEnemy = e;
+                            gui.SelectedEnemy = enemyInfo[e.Type];
                             break;
                         }
                     }

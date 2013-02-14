@@ -27,6 +27,14 @@ namespace AdaptiveTD
         SpriteFont font;
         int currentGold = 0;
         int currentLives = 0;
+        EnemyInfo selectedEnemy;
+        bool isEnemySelected = false;
+
+        public EnemyInfo SelectedEnemy
+        {
+            get { return selectedEnemy; }
+            set { selectedEnemy = value; isEnemySelected = true; }
+        }
 
         public GUI(Vector2 position, Dictionary<string, TowerStats> towers, Texture2D GUITexture, Texture2D sellTowerButtonTexture, SpriteFont font)
         {
@@ -129,6 +137,8 @@ namespace AdaptiveTD
                 sellTowerButton.Draw(spriteBatch);
                 DrawInfo(spriteBatch, selected);
             }
+            if (isEnemySelected)
+                DrawEnemyInfo(spriteBatch, selectedEnemy);
         }
 
         private void DrawInfo(SpriteBatch spriteBatch, TowerStats towerStats)
@@ -142,7 +152,14 @@ namespace AdaptiveTD
 
         private void DrawEnemyInfo(SpriteBatch spriteBatch, EnemyInfo enemyInfo)
         {
-
+            Vector2 infoPosition = new Vector2(startingDrawPos.X + 800, startingDrawPos.Y + position.Y);
+            spriteBatch.Draw(enemyInfo.EnemyTexture, infoPosition, Color.White);
+            infoPosition.X += 66;
+            spriteBatch.DrawString(font, "Health: " + enemyInfo.Health, infoPosition, Color.Black);
+            infoPosition.Y += 30;
+            spriteBatch.DrawString(font, "Speed: " + enemyInfo.Speed, infoPosition, Color.Black);
+            infoPosition.Y += 30;
+            spriteBatch.DrawString(font, "Gold: " + enemyInfo.GoldYield, infoPosition, Color.Black);
         }
     }
 }
