@@ -1,12 +1,7 @@
 Tasklist:
-- Tower priority
-- Upgrade towers
-- Focus Fire Function
-- Monsterinfo i GUI
-- Ta vekk grid/Transparante tårn-hjørner
-- More monsters
-- More towers
-
+- Bug: Selecteed Tower color GUI (If selected and pressing keybinding)
+- Bug: Upgrade and sell buttons when building
+- Bug: Halfway selection of towers after build
 
 - Polishe
 - Questionaire
@@ -22,11 +17,13 @@ Tasklist:
 Later
 - Polishe på Map Editor / Random map generation
 - Select map
+- More monsters
+- More towers
+- Ta vekk grid/Transparante tårn-hjørner
 
 Code cleanup
 - Merge GUI og GameScreen
 - EffectArray på tower-effects
-
 - Have tower targeting algorithm test for enemeis in a SortedList with distance travelled as sort parameter.
 This way just test from one until one is inside range, instead of testing for all which one is closer.
 

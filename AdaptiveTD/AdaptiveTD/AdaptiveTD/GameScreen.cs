@@ -42,7 +42,7 @@ namespace AdaptiveTD
         WinPopup winPopup;
         float TotalTime;
 
-        int startGold = 200;
+        int startGold = 30;
         int currentGold = 0;
 
         int currentLives = 5;
@@ -72,21 +72,21 @@ namespace AdaptiveTD
             assets.AddImage("frostMissile", Content.Load<Texture2D>("blueBullet"));
             assets.AddImage("rangeHighlight", Content.Load<Texture2D>("rangeHighlight"));
 
-            towerInfo.Add("basic1", new TowerStats("basic1", assets.GetImage("basicTower"), assets.GetImage("basicMissile"), 0.5f, 2, 10, 7, 3, 3, new DamageOverTime(false), new Slow(false), new AreaOfEffect(0)));
-            towerInfo.Add("flame1", new TowerStats("flame1", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 1.0f, 6, 20, 14, 3, 2, new DamageOverTime(3, 4, 6f), new Slow(false), new AreaOfEffect(0)));
-            towerInfo.Add("frost1", new TowerStats("frost1", assets.GetImage("frostTower"), assets.GetImage("frostMissile"), 1.0f, 0, 15, 10, 3, 3, new DamageOverTime(false), new Slow(70, 2f), new AreaOfEffect(0)));
-            towerInfo.Add("flameAoE1", new TowerStats("flameAoE1", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 2.0f, 5, 20, 14, 3, 2, new DamageOverTime(false), new Slow(false), new AreaOfEffect(128)));
-            towerInfo.Add("basic2", new TowerStats("basic2", assets.GetImage("basicTower"), assets.GetImage("basicMissile"), 0.5f, 20, 10, 7, 3, 3, new DamageOverTime(false), new Slow(false), new AreaOfEffect(0)));
-            towerInfo.Add("flame2", new TowerStats("flame2", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 1.0f, 6, 20, 14, 3, 2, new DamageOverTime(3, 4, 6f), new Slow(false), new AreaOfEffect(0)));
-            towerInfo.Add("frost2", new TowerStats("frost2", assets.GetImage("frostTower"), assets.GetImage("frostMissile"), 1.0f, 0, 15, 10, 3, 3, new DamageOverTime(false), new Slow(70, 2f), new AreaOfEffect(0)));
-            towerInfo.Add("flameAoE2", new TowerStats("flameAoE2", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 2.0f, 5, 20, 14, 3, 2, new DamageOverTime(false), new Slow(false), new AreaOfEffect(128)));
-            towerInfo.Add("basic3", new TowerStats("basic3", assets.GetImage("basicTower"), assets.GetImage("basicMissile"), 0.5f, 2, 10, 7, 3, 3, new DamageOverTime(false), new Slow(false), new AreaOfEffect(0)));
-            towerInfo.Add("flame3", new TowerStats("flame3", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 1.0f, 6, 20, 14, 3, 2, new DamageOverTime(3, 4, 6f), new Slow(false), new AreaOfEffect(0)));
-            towerInfo.Add("frost3", new TowerStats("frost3", assets.GetImage("frostTower"), assets.GetImage("frostMissile"), 1.0f, 0, 15, 10, 3, 3, new DamageOverTime(false), new Slow(70, 2f), new AreaOfEffect(0)));
-            towerInfo.Add("flameAoE3", new TowerStats("flameAoE3", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 2.0f, 5, 20, 14, 3, 2, new DamageOverTime(false), new Slow(false), new AreaOfEffect(128)));
+            towerInfo.Add("basic1", new TowerStats("basic1", assets.GetImage("basicTower"), assets.GetImage("basicMissile"), 0.5f, 1, 5, 7, 3, 3, new DamageOverTime(false), new Slow(false), new AreaOfEffect(0)));
+            towerInfo.Add("flame1", new TowerStats("flame1", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 1.0f, 2, 20, 14, 3, 2, new DamageOverTime(2, 3, 6f), new Slow(false), new AreaOfEffect(0)));
+            towerInfo.Add("frost1", new TowerStats("frost1", assets.GetImage("frostTower"), assets.GetImage("frostMissile"), 1.0f, 0, 15, 10, 3, 3, new DamageOverTime(false), new Slow(30, 2f), new AreaOfEffect(0)));
+            towerInfo.Add("flameAoE1", new TowerStats("flameAoE1", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 2.0f, 5, 30, 14, 3, 2, new DamageOverTime(false), new Slow(false), new AreaOfEffect(128)));
+            towerInfo.Add("basic2", new TowerStats("basic2", assets.GetImage("basicTower"), assets.GetImage("basicMissile"), 0.5f, 2, 10, 7, 3, 3, new DamageOverTime(false), new Slow(false), new AreaOfEffect(0)));
+            towerInfo.Add("flame2", new TowerStats("flame2", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 1.0f, 4, 20, 14, 3, 2, new DamageOverTime(4, 3, 6f), new Slow(false), new AreaOfEffect(0)));
+            towerInfo.Add("frost2", new TowerStats("frost2", assets.GetImage("frostTower"), assets.GetImage("frostMissile"), 1.0f, 0, 15, 10, 3, 3, new DamageOverTime(false), new Slow(50, 2f), new AreaOfEffect(0)));
+            towerInfo.Add("flameAoE2", new TowerStats("flameAoE2", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 2.0f, 10, 20, 14, 3, 2, new DamageOverTime(false), new Slow(false), new AreaOfEffect(128)));
+            towerInfo.Add("basic3", new TowerStats("basic3", assets.GetImage("basicTower"), assets.GetImage("basicMissile"), 0.5f, 3, 10, 0, 3, 3, new DamageOverTime(false), new Slow(false), new AreaOfEffect(0)));
+            towerInfo.Add("flame3", new TowerStats("flame3", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 1.0f, 6, 20, 0, 3, 2, new DamageOverTime(6, 3, 6f), new Slow(false), new AreaOfEffect(0)));
+            towerInfo.Add("frost3", new TowerStats("frost3", assets.GetImage("frostTower"), assets.GetImage("frostMissile"), 1.0f, 0, 15, 0, 3, 3, new DamageOverTime(false), new Slow(70, 2f), new AreaOfEffect(0)));
+            towerInfo.Add("flameAoE3", new TowerStats("flameAoE3", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 2.0f, 15, 2, 0, 3, 2, new DamageOverTime(false), new Slow(false), new AreaOfEffect(128)));
 
-            enemyInfo.Add("basic", new EnemyInfo("basic", 20, 64, 10, assets.GetImage("testEnemy"), assets.GetImage("redHealthBar"), assets.GetImage("yellowHealthBar")));
-            enemyInfo.Add("tough", new EnemyInfo("tough", 40, 32, 10, assets.GetImage("toughEnemy"), assets.GetImage("redHealthBar"), assets.GetImage("yellowHealthBar")));
+            enemyInfo.Add("basic", new EnemyInfo("basic", 20, 64, 2, assets.GetImage("testEnemy"), assets.GetImage("redHealthBar"), assets.GetImage("yellowHealthBar")));
+            enemyInfo.Add("tough", new EnemyInfo("tough", 40, 32, 5, assets.GetImage("toughEnemy"), assets.GetImage("redHealthBar"), assets.GetImage("yellowHealthBar")));
 
             CreateWave(); // After all enemies are added to enemyInfo.
 
@@ -295,6 +295,7 @@ namespace AdaptiveTD
                                 UpgradeTower(e.TilePosition);
                             }
                         }
+                        
                         break;
                 }
             }
@@ -394,6 +395,14 @@ namespace AdaptiveTD
                 if (selectedTower != null)
                 {
                     Event e = new Event(EventType.sell, selectedTower.TilePosition, selectedTower.TowerStats.Type);
+                    eventHandler.QueueEvent(e);
+                }
+            }
+            else if (input.KeyPress(gui.upgradeTowerButton.KeyBinding))
+            {
+                if (selectedTower != null)
+                {
+                    Event e = new Event(EventType.upgrade, selectedTower.TilePosition, selectedTower.TowerStats.Type);
                     eventHandler.QueueEvent(e);
                 }
             }
