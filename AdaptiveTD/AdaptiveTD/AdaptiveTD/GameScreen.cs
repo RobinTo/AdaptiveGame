@@ -72,17 +72,25 @@ namespace AdaptiveTD
             assets.AddImage("frostMissile", Content.Load<Texture2D>("blueBullet"));
             assets.AddImage("rangeHighlight", Content.Load<Texture2D>("rangeHighlight"));
 
-            towerInfo.Add("basic", new TowerStats("basic", assets.GetImage("basicTower"), assets.GetImage("basicMissile"), 0.5f, 2, 10, 3, new DamageOverTime(false), new Slow(false), new AreaOfEffect(0)));
-            towerInfo.Add("flame", new TowerStats("flame", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 1.0f, 6, 20, 2, new DamageOverTime(3, 4, 6f), new Slow(false), new AreaOfEffect(0)));
-            towerInfo.Add("frost", new TowerStats("frost", assets.GetImage("frostTower"), assets.GetImage("frostMissile"), 1.0f, 0, 15, 3, new DamageOverTime(false), new Slow(70, 2f), new AreaOfEffect(0)));
-            towerInfo.Add("flameAoE", new TowerStats("flameAoE", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 2.0f, 5, 20, 2, new DamageOverTime(false), new Slow(false), new AreaOfEffect(128)));
+            towerInfo.Add("basic1", new TowerStats("basic1", assets.GetImage("basicTower"), assets.GetImage("basicMissile"), 0.5f, 2, 10, 7, 3, 3, new DamageOverTime(false), new Slow(false), new AreaOfEffect(0)));
+            towerInfo.Add("flame1", new TowerStats("flame1", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 1.0f, 6, 20, 14, 3, 2, new DamageOverTime(3, 4, 6f), new Slow(false), new AreaOfEffect(0)));
+            towerInfo.Add("frost1", new TowerStats("frost1", assets.GetImage("frostTower"), assets.GetImage("frostMissile"), 1.0f, 0, 15, 10, 3, 3, new DamageOverTime(false), new Slow(70, 2f), new AreaOfEffect(0)));
+            towerInfo.Add("flameAoE1", new TowerStats("flameAoE1", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 2.0f, 5, 20, 14, 3, 2, new DamageOverTime(false), new Slow(false), new AreaOfEffect(128)));
+            towerInfo.Add("basic2", new TowerStats("basic2", assets.GetImage("basicTower"), assets.GetImage("basicMissile"), 0.5f, 20, 10, 7, 3, 3, new DamageOverTime(false), new Slow(false), new AreaOfEffect(0)));
+            towerInfo.Add("flame2", new TowerStats("flame2", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 1.0f, 6, 20, 14, 3, 2, new DamageOverTime(3, 4, 6f), new Slow(false), new AreaOfEffect(0)));
+            towerInfo.Add("frost2", new TowerStats("frost2", assets.GetImage("frostTower"), assets.GetImage("frostMissile"), 1.0f, 0, 15, 10, 3, 3, new DamageOverTime(false), new Slow(70, 2f), new AreaOfEffect(0)));
+            towerInfo.Add("flameAoE2", new TowerStats("flameAoE2", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 2.0f, 5, 20, 14, 3, 2, new DamageOverTime(false), new Slow(false), new AreaOfEffect(128)));
+            towerInfo.Add("basic3", new TowerStats("basic3", assets.GetImage("basicTower"), assets.GetImage("basicMissile"), 0.5f, 2, 10, 7, 3, 3, new DamageOverTime(false), new Slow(false), new AreaOfEffect(0)));
+            towerInfo.Add("flame3", new TowerStats("flame3", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 1.0f, 6, 20, 14, 3, 2, new DamageOverTime(3, 4, 6f), new Slow(false), new AreaOfEffect(0)));
+            towerInfo.Add("frost3", new TowerStats("frost3", assets.GetImage("frostTower"), assets.GetImage("frostMissile"), 1.0f, 0, 15, 10, 3, 3, new DamageOverTime(false), new Slow(70, 2f), new AreaOfEffect(0)));
+            towerInfo.Add("flameAoE3", new TowerStats("flameAoE3", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 2.0f, 5, 20, 14, 3, 2, new DamageOverTime(false), new Slow(false), new AreaOfEffect(128)));
 
             enemyInfo.Add("basic", new EnemyInfo("basic", 20, 64, 10, assets.GetImage("testEnemy"), assets.GetImage("redHealthBar"), assets.GetImage("yellowHealthBar")));
             enemyInfo.Add("tough", new EnemyInfo("tough", 40, 32, 10, assets.GetImage("toughEnemy"), assets.GetImage("redHealthBar"), assets.GetImage("yellowHealthBar")));
 
             CreateWave(); // After all enemies are added to enemyInfo.
 
-            gui = new GUI(new Vector2(0, 640), towerInfo, Content.Load<Texture2D>("UIBar"), Content.Load<Texture2D>("sellTowerButton"), font);
+            gui = new GUI(new Vector2(0, 640), towerInfo, Content.Load<Texture2D>("UIBar"), Content.Load<Texture2D>("sellTowerButton"), Content.Load<Texture2D>("upgradeTowerButton"), font);
             
             winPopup = new WinPopup(Content.Load<SpriteFont>("Winfont"));
 
@@ -279,6 +287,15 @@ namespace AdaptiveTD
                             }
                         }
                         break;
+                    case EventType.upgrade:
+                        for (int t = 0; t < towers.Count; t++)
+                        {
+                            if (towers[t].TilePosition == e.TilePosition)
+                            {
+                                UpgradeTower(e.TilePosition);
+                            }
+                        }
+                        break;
                 }
             }
         }
@@ -302,6 +319,14 @@ namespace AdaptiveTD
                     if (selectedTower != null)
                     {
                         Event e = new Event(EventType.sell, selectedTower.TilePosition, selectedTower.TowerStats.Type);
+                        eventHandler.QueueEvent(e);
+                    }
+                }
+                else if (gui.upgradeTowerButton.ButtonClicked(input.MousePosition.X, input.MousePosition.Y))
+                {
+                    if (selectedTower != null)
+                    {
+                        Event e = new Event(EventType.upgrade, selectedTower.TilePosition, selectedTower.TowerStats.Type);
                         eventHandler.QueueEvent(e);
                     }
                 }
@@ -348,19 +373,19 @@ namespace AdaptiveTD
             }
             if (input.KeyPress(Keys.D1))
             {
-                gui.selectedTower = towerInfo["basic"];
+                gui.selectedTower = towerInfo["basic1"];
                 gui.building = true;
                 selectedTower = null;
             }
             else if (input.KeyPress(Keys.D2))
             {
-                gui.selectedTower = towerInfo["flame"];
+                gui.selectedTower = towerInfo["flame2"];
                 gui.building = true;
                 selectedTower = null;
             }
             else if (input.KeyPress(Keys.D3))
             {
-                gui.selectedTower = towerInfo["frost"];
+                gui.selectedTower = towerInfo["frost3"];
                 gui.building = true;
                 selectedTower = null;
             }
@@ -394,5 +419,22 @@ namespace AdaptiveTD
             }
         }
 
+        private void UpgradeTower(Vector2 position)
+        {
+            bool canUpgrade = true;
+            if (currentGold < selectedTower.TowerStats.UpgradeCost)
+                canUpgrade = false;
+            if (selectedTower.CurrentLevel == selectedTower.TowerStats.MaxLevel)
+                canUpgrade = false;
+
+            if (canUpgrade)
+            {
+                selectedTower.CurrentLevel ++;
+                selectedTower.TowerStats = towerInfo[selectedTower.TowerStats.Type.Substring(0,selectedTower.TowerStats.Type.Length-1)  + selectedTower.CurrentLevel];
+                currentGold -= selectedTower.TowerStats.UpgradeCost;
+
+            }
+        }
+        
     }
 }

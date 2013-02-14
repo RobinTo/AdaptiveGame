@@ -33,6 +33,12 @@ namespace AdaptiveTD
         float rotation, distanceToTargetEnemy;
         Enemy targetEnemy;
         float currentReloadTime;
+        int currentLevel;
+        public int CurrentLevel
+        {
+            get { return currentLevel; }
+            set { currentLevel = value; }
+        }
         Rectangle rangeHighlightRectangle;
         public Rectangle RangeHighlightRectangle
         {
@@ -56,6 +62,7 @@ namespace AdaptiveTD
             this.color = Color.White;
             this.tilePosition = tilePosition;
             this.rangeHighlightRectangle = new Rectangle((int)position.X + (int)origin.X - towerStats.Range, (int)position.Y + (int)origin.Y - towerStats.Range, towerStats.Range * 2, towerStats.Range * 2);
+            currentLevel = 1;
         }
 
         private void Shoot(List<Missile> missiles)
@@ -162,6 +169,19 @@ namespace AdaptiveTD
             get { return goldCost; }
             set { goldCost = value; }
         }
+        int upgradeCost;
+        public int UpgradeCost
+        {
+            get { return upgradeCost; }
+            set { upgradeCost = value; }
+        }
+        int maxLevel;
+        public int MaxLevel
+        {
+            get { return maxLevel; }
+            set { maxLevel = value; }
+        }
+
         int range;
         public int Range
         {
@@ -189,7 +209,7 @@ namespace AdaptiveTD
         }
 
 
-        public TowerStats(string type, Texture2D towerTexture, Texture2D missileTexture, float ReloadTime, int damage, int goldCost, int range, DamageOverTime damageOverTime, Slow slow, AreaOfEffect areaOfEffect)
+        public TowerStats(string type, Texture2D towerTexture, Texture2D missileTexture, float ReloadTime, int damage, int goldCost, int upgradeCost, int maxLevel, int range, DamageOverTime damageOverTime, Slow slow, AreaOfEffect areaOfEffect)
         {
             this.type = type;
             this.towerTexture = towerTexture;
@@ -197,6 +217,8 @@ namespace AdaptiveTD
             this.reloadTime = ReloadTime;
             this.damage = damage;
             this.goldCost = goldCost;
+            this.upgradeCost = upgradeCost;
+            this.maxLevel = maxLevel;
             this.range = range * GameConstants.tileSize;
             this.damageOverTime = damageOverTime;
             this.slow = slow;

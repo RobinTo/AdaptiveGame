@@ -148,8 +148,8 @@
       <Name>map</Name>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-	</ItemGroup>
-	<ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="targetCircle.png">
       <Name>targetCircle</Name>
       <Importer>TextureImporter</Importer>
@@ -159,6 +159,13 @@
   <ItemGroup>
     <Compile Include="toughEnemy.png">
       <Name>toughEnemy</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="upgradeTowerButton.png">
+      <Name>upgradeTowerButton</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

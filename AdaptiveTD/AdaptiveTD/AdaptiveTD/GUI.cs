@@ -11,7 +11,7 @@ namespace AdaptiveTD
         Dictionary<GUIButton, TowerStats> towerButtons = new Dictionary<GUIButton, TowerStats>();
         Dictionary<string, TowerStats> towers = new Dictionary<string, TowerStats>();
 
-        public GUIButton sellTowerButton;
+        public GUIButton sellTowerButton, upgradeTowerButton;
 
         public TowerStats selectedTower;
         public bool building = false;
@@ -36,7 +36,7 @@ namespace AdaptiveTD
             set { selectedEnemy = value; isEnemySelected = true; }
         }
 
-        public GUI(Vector2 position, Dictionary<string, TowerStats> towers, Texture2D GUITexture, Texture2D sellTowerButtonTexture, SpriteFont font)
+        public GUI(Vector2 position, Dictionary<string, TowerStats> towers, Texture2D GUITexture, Texture2D sellTowerButtonTexture, Texture2D upgradeTowerTexture, SpriteFont font)
         {
             this.towers = towers;
             this.position = position;
@@ -51,14 +51,25 @@ namespace AdaptiveTD
             digits.Add(Keys.D7);
             digits.Add(Keys.D8);
             digits.Add(Keys.D9);
-            int counter = 0;
-            foreach (KeyValuePair<string, TowerStats> tower in towers)
+
+            int i = 0;
+            using (Dictionary<String, TowerStats>.KeyCollection.Enumerator enumerator = towers.Keys.GetEnumerator())
             {
-                towerButtons.Add(new GUIButton(tower.Value.TowerTexture, new Vector2(startingDrawPos.X + position.X + towerButtons.Count * buttonPadding, position.Y + startingDrawPos.Y), digits[counter]), tower.Value);
-                startingDrawPos.X += tower.Value.TowerTexture.Width;
-                counter++;
+                while (i < towers.Count / 3)
+                {
+                    enumerator.MoveNext();
+                    TowerStats towerStats = towers[enumerator.Current];
+                    towerButtons.Add(new GUIButton(towerStats.TowerTexture, new Vector2(startingDrawPos.X + position.X + towerButtons.Count * buttonPadding, position.Y + startingDrawPos.Y), digits[i]), towerStats);
+                    startingDrawPos.X += towerStats.TowerTexture.Width;
+                    
+                    i++;
+                }
+
             }
+            
+            
             sellTowerButton = new GUIButton(sellTowerButtonTexture, new Vector2(startingDrawPos.X + 400, position.Y + startingDrawPos.Y), Keys.S);
+            upgradeTowerButton = new GUIButton(upgradeTowerTexture, new Vector2(startingDrawPos.X + 300, position.Y + startingDrawPos.Y), Keys.U);
             this.GUITexture = GUITexture;
         }
 
@@ -135,6 +146,7 @@ namespace AdaptiveTD
             if (isSelected || towerButtonIsSelected)
             {
                 sellTowerButton.Draw(spriteBatch);
+                upgradeTowerButton.Draw(spriteBatch);
                 DrawInfo(spriteBatch, selected);
             }
             if (isEnemySelected)
