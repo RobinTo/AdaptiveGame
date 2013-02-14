@@ -389,7 +389,6 @@ namespace AdaptiveTD
             {
                 selectedTower = new Tower(t, position);
                 towers.Add(selectedTower);
-                selectedTower.Color = Color.Red;
                 currentGold -= t.GoldCost;
             }
         }
