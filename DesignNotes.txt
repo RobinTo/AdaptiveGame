@@ -1,14 +1,11 @@
 Tasklist:
 - Tower priority
-- AOE splash
 - Upgrade towers
 - Focus Fire Function
 - Monsterinfo i GUI
 - Ta vekk grid/Transparante tårn-hjørner
 - More monsters
 - More towers
-- Bug: No highlighting of towerbuttons when building.
-- Bug: Damage over time gir ingen farge (vet hvorfor).
 
 
 - Polishe
