@@ -60,7 +60,7 @@ namespace AdaptiveTD
 
         private void Shoot(List<Missile> missiles)
         {
-            missiles.Add(new Missile(towerStats.MissileTexture, this.position + this.origin, distanceToTargetEnemy, rotation, 1024.0f, targetEnemy, towerStats.Damage, towerStats.DamageOverTime, towerStats.Slow));
+            missiles.Add(new Missile(towerStats.MissileTexture, this.position + this.origin, distanceToTargetEnemy, rotation, 1024.0f, targetEnemy, towerStats.Damage, towerStats.DamageOverTime, towerStats.Slow, towerStats.AreaOfEffect));
         }
 
         public void Update(float gameTime, List<Enemy> enemies, Enemy focusFireEnemy, List<Missile> missiles)
@@ -178,8 +178,16 @@ namespace AdaptiveTD
             get { return slow; }
             set { slow = value; }
         }
+        AreaOfEffect areaOfEffect;
 
-        public TowerStats(string type, Texture2D towerTexture, Texture2D missileTexture, float ReloadTime, int damage, int goldCost, int range, DamageOverTime damageOverTime, Slow slow)
+        public AreaOfEffect AreaOfEffect
+        {
+            get { return areaOfEffect; }
+            set { areaOfEffect = value; }
+        }
+
+
+        public TowerStats(string type, Texture2D towerTexture, Texture2D missileTexture, float ReloadTime, int damage, int goldCost, int range, DamageOverTime damageOverTime, Slow slow, AreaOfEffect areaOfEffect)
         {
             this.type = type;
             this.towerTexture = towerTexture;
@@ -190,6 +198,21 @@ namespace AdaptiveTD
             this.range = range * GameConstants.tileSize;
             this.damageOverTime = damageOverTime;
             this.slow = slow;
+            this.areaOfEffect = areaOfEffect;
+        }
+    }
+
+    public struct AreaOfEffect
+    {
+        float radius;
+        public float Radius
+        {
+            get { return radius; }
+            set { radius = value; }
+        }
+        public AreaOfEffect(float radius)
+        {
+            this.radius = radius;
         }
     }
 

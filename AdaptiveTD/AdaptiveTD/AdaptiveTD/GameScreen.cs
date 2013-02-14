@@ -10,14 +10,17 @@ namespace AdaptiveTD
 {
     class GameScreen
     {
-        bool saveReplay = true;                                // Save replay from game? Does not save regardless if useReplay is true.
+        bool saveReplay = false;                                // Save replay from game? Does not save regardless if useReplay is true.
         bool saved = false;                                     // 
         ReplayHandler replayHandler = new ReplayHandler();      // Replay handler, saving, loading, etc. of replays.
-        bool useReplay = true;                                  // Use replay?
+        bool useReplay = false;                                  // Use replay?
         string replayString = ".\\Replay12022013132536.txt";    // Path to replay file to use, if useReplay is true.
 
         Dictionary<string, TowerStats> towerInfo = new Dictionary<string, TowerStats>();
+        Dictionary<string, EnemyInfo> enemyInfo = new Dictionary<string, EnemyInfo>();
         SortedList<float, Enemy> enemyWave = new SortedList<float, Enemy>();
+
+        Texture2D targetCircle;
 
         EventHandler eventHandler = new EventHandler();
 
@@ -26,7 +29,10 @@ namespace AdaptiveTD
 
         Map map;
         List<Enemy> enemies = new List<Enemy>();
-        //Enemy targetEnemy; was added in case of player choosing monster for focus fire.
+        
+        Enemy targetEnemy;
+        Enemy selectedEnemy;
+
         List<Tower> towers = new List<Tower>();
         AssetManager assets = new AssetManager();
         List<Missile> missiles = new List<Missile>();
@@ -51,14 +57,13 @@ namespace AdaptiveTD
         {
             map = new Map();
             map.LoadMap(".\\Content\\map.txt", Content);
+            targetCircle = Content.Load<Texture2D>("targetCircle");
             assets.AddImage("testEnemy", Content.Load<Texture2D>("testEnemy"));
             assets.AddImage("toughEnemy", Content.Load<Texture2D>("toughEnemy"));
 
-            assets.AddImage("healthBarRed", Content.Load<Texture2D>("healthBarRed"));
-            assets.AddImage("healthBarYellow", Content.Load<Texture2D>("healthBarYellow"));
+            assets.AddImage("redHealthBar", Content.Load<Texture2D>("healthBarRed"));
+            assets.AddImage("yellowHealthBar", Content.Load<Texture2D>("healthBarYellow"));
 
-            CreateWave();
-            
             assets.AddImage("basicTower", Content.Load<Texture2D>("arrowTower"));
             assets.AddImage("basicMissile", Content.Load<Texture2D>("blackBullet"));
             assets.AddImage("flameTower", Content.Load<Texture2D>("redTower"));
@@ -67,12 +72,18 @@ namespace AdaptiveTD
             assets.AddImage("frostMissile", Content.Load<Texture2D>("blueBullet"));
             assets.AddImage("rangeHighlight", Content.Load<Texture2D>("rangeHighlight"));
 
-            towerInfo.Add("basic", new TowerStats("basic", assets.GetImage("basicTower"), assets.GetImage("basicMissile"), 0.5f, 2, 10, 3, new DamageOverTime(false), new Slow(false)));
-            towerInfo.Add("flame", new TowerStats("flame", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 1.0f, 6, 20, 2, new DamageOverTime(3, 4, 6f), new Slow(false)));
-            towerInfo.Add("frost", new TowerStats("frost", assets.GetImage("frostTower"), assets.GetImage("frostMissile"), 1.0f, 0, 15, 3, new DamageOverTime(false), new Slow(50, 2f)));
+            towerInfo.Add("basic", new TowerStats("basic", assets.GetImage("basicTower"), assets.GetImage("basicMissile"), 0.5f, 2, 10, 3, new DamageOverTime(false), new Slow(false), new AreaOfEffect(0)));
+            towerInfo.Add("flame", new TowerStats("flame", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 1.0f, 6, 20, 2, new DamageOverTime(3, 4, 6f), new Slow(false), new AreaOfEffect(0)));
+            towerInfo.Add("frost", new TowerStats("frost", assets.GetImage("frostTower"), assets.GetImage("frostMissile"), 1.0f, 0, 15, 3, new DamageOverTime(false), new Slow(50, 2f), new AreaOfEffect(0)));
+            towerInfo.Add("flameAoE", new TowerStats("flameAoE", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 2.0f, 5, 20, 2, new DamageOverTime(false), new Slow(false), new AreaOfEffect(128)));
+
+            enemyInfo.Add("basic", new EnemyInfo(20, 64, 10, assets.GetImage("testEnemy"), assets.GetImage("redHealthBar"), assets.GetImage("yellowHealthBar")));
+            enemyInfo.Add("tough", new EnemyInfo(40, 32, 10, assets.GetImage("toughEnemy"), assets.GetImage("redHealthBar"), assets.GetImage("yellowHealthBar")));
+
+            CreateWave(); // After all enemies are added to enemyInfo.
 
             gui = new GUI(new Vector2(0, 640), towerInfo, Content.Load<Texture2D>("UIBar"), Content.Load<Texture2D>("sellTowerButton"), font);
-
+            
             winPopup = new WinPopup(Content.Load<SpriteFont>("Winfont"));
 
             currentGold = startGold;
@@ -83,7 +94,8 @@ namespace AdaptiveTD
         public void Update(float gameTime)
         {
 
-            
+            if (targetEnemy != null && targetEnemy.Health <= 0)
+                targetEnemy = null;
             if (!won)
             {
                 if (useReplay)
@@ -140,7 +152,7 @@ namespace AdaptiveTD
                 }
                 for (int counter = 0; counter < missiles.Count; counter++)
                 {
-                    missiles[counter].Update(gameTime);
+                    missiles[counter].Update(gameTime, enemies);
                     if (missiles[counter].remove)
                     {
                         missiles.RemoveAt(counter);
@@ -176,6 +188,9 @@ namespace AdaptiveTD
                 t.Draw(spriteBatch);
             foreach (Missile missile in missiles)
                 missile.Draw(spriteBatch);
+
+            if (targetEnemy != null)
+                spriteBatch.Draw(targetCircle, targetEnemy.Position, Color.White);
 
             if (gui.building)
             {
@@ -224,22 +239,22 @@ namespace AdaptiveTD
         // Currently static
         private void CreateWave()
         {
-            enemyWave.Add(0.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
-            enemyWave.Add(1.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
-            enemyWave.Add(3.0f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
-            enemyWave.Add(4.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
-            enemyWave.Add(6.0f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
-            enemyWave.Add(7.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
-            enemyWave.Add(9.0f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("toughEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 40, 1, map.Directions));
-            enemyWave.Add(10.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
-            enemyWave.Add(12.0f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
-            enemyWave.Add(13.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
-            enemyWave.Add(15.0f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
-            enemyWave.Add(16.5f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
-            enemyWave.Add(18.0f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("testEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 20, 1, map.Directions));
-            enemyWave.Add(19.0f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("toughEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 40, 1, map.Directions));
-            enemyWave.Add(21.0f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("toughEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 40, 1, map.Directions));
-            enemyWave.Add(22.0f, new Enemy(new Vector2(map.StartPoint.X, map.StartPoint.Y), assets.GetImage("toughEnemy"), assets.GetImage("healthBarYellow"), assets.GetImage("healthBarRed"), 64, 40, 1, map.Directions));
+
+            Vector2 startPoint = new Vector2(map.StartPoint.X, map.StartPoint.Y);
+            enemyWave.Add(0.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
+            enemyWave.Add(1.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
+            enemyWave.Add(2.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
+            enemyWave.Add(4.0f, new Enemy(startPoint, enemyInfo["tough"], map.Directions));
+            enemyWave.Add(4.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
+            enemyWave.Add(5.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
+            enemyWave.Add(5.9f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
+            enemyWave.Add(6.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
+            enemyWave.Add(7.0f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
+            enemyWave.Add(8.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
+            enemyWave.Add(8.9f, new Enemy(startPoint, enemyInfo["tough"], map.Directions));
+            enemyWave.Add(9.0f, new Enemy(startPoint, enemyInfo["tough"], map.Directions));
+            enemyWave.Add(10.5f, new Enemy(startPoint, enemyInfo["tough"], map.Directions));
+            enemyWave.Add(11.5f, new Enemy(startPoint, enemyInfo["tough"], map.Directions));
         }
 
         private void HandleEvents()
@@ -307,6 +322,27 @@ namespace AdaptiveTD
                     }
                     if (!towerSelected)
                         selectedTower = null;
+
+                    foreach (Enemy e in enemies)
+                    {
+                        if (input.NewMouseState.X > e.Position.X - e.Origin.X && input.NewMouseState.Y > e.Position.Y - e.Origin.Y && input.NewMouseState.X < e.Position.X + e.Origin.X && input.NewMouseState.Y < e.Position.Y + e.Origin.Y)
+                        {
+                            selectedEnemy = e;
+                            break;
+                        }
+                    }
+                }
+            }
+            else if(input.MousePress(MouseButtons.Right))
+            {
+                targetEnemy = null;
+                foreach (Enemy e in enemies)
+                {
+                    if (input.NewMouseState.X > e.Position.X && input.NewMouseState.Y > e.Position.Y && input.NewMouseState.X < e.Position.X + GameConstants.tileSize && input.NewMouseState.Y < e.Position.Y + GameConstants.tileSize)
+                    {
+                        targetEnemy = e;
+                        break;
+                    }
                 }
             }
             if (input.KeyPress(Keys.D1))

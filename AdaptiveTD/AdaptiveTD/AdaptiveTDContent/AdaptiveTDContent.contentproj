@@ -148,6 +148,13 @@
       <Name>map</Name>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+	</ItemGroup>
+	<ItemGroup>
+    <Compile Include="targetCircle.png">
+      <Name>targetCircle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="toughEnemy.png">

@@ -60,20 +60,20 @@ namespace AdaptiveTD
             get { return color; }
             set { color = value; }
         }
-
-        public Enemy(Vector2 startPosition, Texture2D enemyTexture, Texture2D healthBarYellowTexture, Texture2D healthBarRedTexture, int speed, int health, int goldYield, List<Direction> directions)
+        
+        public Enemy(Vector2 startPosition, EnemyInfo enemyInfo, List<Direction> directions)
         {
-            this.enemyTexture = enemyTexture;
-            this.healthBarRedTexture = healthBarRedTexture;
-            this.healthBarYellowTexture = healthBarYellowTexture;
+            this.enemyTexture = enemyInfo.EnemyTexture;
+            this.healthBarRedTexture = enemyInfo.RedHealthBar;
+            this.healthBarYellowTexture = enemyInfo.YellowHealthBar;
             origin = new Vector2(enemyTexture.Width / 2, enemyTexture.Height / 2);
             this.position = new Vector2(startPosition.X * GameConstants.tileSize, startPosition.Y * GameConstants.tileSize);
             targetPosition = position;
-            this.health = health;
+            this.health = enemyInfo.Health;
             this.maxHealth = health;
-            this.normalSpeed = speed;
+            this.normalSpeed = enemyInfo.Speed;
             this.currentSpeed = normalSpeed;
-            this.goldYield = goldYield;
+            this.goldYield = enemyInfo.GoldYield;
             this.directions = directions;
             color = Color.White;
             slow = new Slow(false);
@@ -183,6 +183,65 @@ namespace AdaptiveTD
             spriteBatch.Draw(healthBarRedTexture, healthBarRedRectangle, Color.White);
             spriteBatch.Draw(healthBarYellowTexture, healthBarYellowRectangle, Color.White);
             
+        }
+
+    }
+
+    public struct EnemyInfo
+    {
+        int health;
+
+        public int Health
+        {
+            get { return health; }
+            set { health = value; }
+        }
+        int speed;
+
+        public int Speed
+        {
+            get { return speed; }
+            set { speed = value; }
+        }
+
+        int goldYield;
+
+        public int GoldYield
+        {
+            get { return goldYield; }
+            set { goldYield = value; }
+        }
+
+        Texture2D redHealthBar;
+
+        public Texture2D RedHealthBar
+        {
+            get { return redHealthBar; }
+            set { redHealthBar = value; }
+        }
+        Texture2D yellowHealthBar;
+
+        public Texture2D YellowHealthBar
+        {
+            get { return yellowHealthBar; }
+            set { yellowHealthBar = value; }
+        }
+        Texture2D enemyTexture;
+
+        public Texture2D EnemyTexture
+        {
+            get { return enemyTexture; }
+            set { enemyTexture = value; }
+        }
+
+        public EnemyInfo(int health, int speed, int goldYield, Texture2D enemyTexture, Texture2D redHealthBar, Texture2D yellowHealthBar)
+        {
+            this.health = health;
+            this.speed = speed;
+            this.goldYield = goldYield;
+            this.enemyTexture = enemyTexture;
+            this.yellowHealthBar = yellowHealthBar;
+            this.redHealthBar = redHealthBar;
         }
     }
 }
