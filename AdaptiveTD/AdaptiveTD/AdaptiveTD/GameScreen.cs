@@ -74,7 +74,7 @@ namespace AdaptiveTD
 
             towerInfo.Add("basic", new TowerStats("basic", assets.GetImage("basicTower"), assets.GetImage("basicMissile"), 0.5f, 2, 10, 3, new DamageOverTime(false), new Slow(false), new AreaOfEffect(0)));
             towerInfo.Add("flame", new TowerStats("flame", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 1.0f, 6, 20, 2, new DamageOverTime(3, 4, 6f), new Slow(false), new AreaOfEffect(0)));
-            towerInfo.Add("frost", new TowerStats("frost", assets.GetImage("frostTower"), assets.GetImage("frostMissile"), 1.0f, 0, 15, 3, new DamageOverTime(false), new Slow(50, 2f), new AreaOfEffect(0)));
+            towerInfo.Add("frost", new TowerStats("frost", assets.GetImage("frostTower"), assets.GetImage("frostMissile"), 1.0f, 0, 15, 3, new DamageOverTime(false), new Slow(70, 2f), new AreaOfEffect(0)));
             towerInfo.Add("flameAoE", new TowerStats("flameAoE", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 2.0f, 5, 20, 2, new DamageOverTime(false), new Slow(false), new AreaOfEffect(128)));
 
             enemyInfo.Add("basic", new EnemyInfo(20, 64, 10, assets.GetImage("testEnemy"), assets.GetImage("redHealthBar"), assets.GetImage("yellowHealthBar")));

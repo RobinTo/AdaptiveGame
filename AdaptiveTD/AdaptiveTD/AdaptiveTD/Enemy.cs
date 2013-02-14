@@ -46,13 +46,25 @@ namespace AdaptiveTD
         public Slow Slow
         {
             get { return slow; }
-            set { slow = value; }
+            set
+            {
+                if (slow.Percentage > (int)value.Percentage)
+                    return;
+                else
+                    slow = value;
+            }
         }
         DamageOverTime damageOverTime;
         public DamageOverTime DamageOverTime
         {
             get { return damageOverTime; }
-            set { damageOverTime = value; }
+            set
+            {
+                if (value.DamagePerTick == 0)
+                    return;
+                else
+                    damageOverTime = value;
+            }
         }
         Color color;
         public Color Color
@@ -124,16 +136,16 @@ namespace AdaptiveTD
             switch (currentDirection)
             {
                 case Direction.Up:
-                    position.Y -= (float)(currentSpeed * gameTime * slow.Percentage / 100);
+                    position.Y -= (float)(currentSpeed * gameTime - currentSpeed * gameTime * slow.Percentage / 100);
                     break;
                 case Direction.Down:
-                    position.Y += (float)(currentSpeed * gameTime * slow.Percentage / 100);
+                    position.Y += (float)(currentSpeed * gameTime - currentSpeed * gameTime * slow.Percentage / 100);
                     break;
                 case Direction.Left:
-                    position.X -= (float)(currentSpeed * gameTime * slow.Percentage / 100);
+                    position.X -= (float)(currentSpeed * gameTime - currentSpeed * gameTime * slow.Percentage / 100);
                     break;
                 case Direction.Right:
-                    position.X += (float)(currentSpeed * gameTime * slow.Percentage / 100);
+                    position.X += (float)(currentSpeed * gameTime - currentSpeed * gameTime * slow.Percentage / 100);
                     break;
             }
 
@@ -151,27 +163,33 @@ namespace AdaptiveTD
                 damageOverTime.DurationSinceLastTick = damageOverTime.Duration / damageOverTime.Ticks;
                 health -= damageOverTime.DamagePerTick;
             }
+            bool isSlowed, isDotted, isAffected;
             damageOverTime.RemainingDuration -= gameTime;
             if (damageOverTime.RemainingDuration <= 0)
             {
                 damageOverTime = new DamageOverTime(false);
-                color = Color.White;
+                isDotted = false;
             }
             else
             {
-                color = Color.LightBlue;
+                isDotted = true;
             }
 
             slow.Duration -= gameTime;
             if (slow.Duration <= 0)
             {
                 slow = new Slow(false);
-                color = Color.White;
+                isSlowed = false;
             }
             else
             {
-                color = Color.LightBlue;
+                isSlowed = true;
             }
+            isAffected = isSlowed || isDotted;
+            if (isAffected)
+                color = Color.LightGreen;
+            else
+                color = Color.White;
             healthBarRedRectangle = new Rectangle((int)position.X, (int)position.Y - 10, 64, 5);
             healthBarYellowRectangle = new Rectangle((int)position.X, (int)position.Y - 10, (int)((float)64 * (float)health / (float)maxHealth), 5);
         }

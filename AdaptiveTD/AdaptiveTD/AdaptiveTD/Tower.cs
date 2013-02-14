@@ -291,7 +291,7 @@ namespace AdaptiveTD
 
         public Slow(bool parameter)
         {
-            this.percentage = 100;
+            this.percentage = 0;
             this.duration = 0;
         }
         public Slow(int percentage, float duration)
