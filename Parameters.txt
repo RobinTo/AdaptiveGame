@@ -1,0 +1,37 @@
+Parameters
+- Global Monster HP multiplier
+- Global Tower Damage multiplier
+- Wave composition
+- Map
+  - Length
+  - Curvage
+- Tower access
+- Pr Monster
+  - HP 
+  - Speed
+  - Gold yield
+- Pr Tower
+  - Damage
+  - Cost
+  - ReloadTime
+  - Effects
+    - Slow percentage
+    - Damage Over Time
+    - AOE
+
+Sensors
+- Actions Per Minute
+- Gold left
+- Leaks
+- Money spent on types of towers
+- Towers placed in range of path
+- Damage done on slowed units
+- AOE effect on many or few units
+- DoT towers at the end is bad
+- Keybindings used?
+- Upgrades
+- Selling is generally impulsive, not planned (bad)
+- Using focus fire function
+
+
+

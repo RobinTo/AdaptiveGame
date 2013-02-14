@@ -1,17 +1,20 @@
 Tasklist:
 - Tower priority
-- More monsters
 - AOE splash
+- Upgrade towers
+- Focus Fire Function
 - Monsterinfo i GUI
 - Ta vekk grid/Transparante tårn-hjørner
+- More monsters
+- More towers
 - Bug: No highlighting of towerbuttons when building.
 - Bug: Damage over time gir ingen farge (vet hvorfor).
 
+
+- Polishe
 - Questionaire
   - Guidelines
 - Global session settings, lese ut, og endre på.
-  - Parametere (liste)
-- Polishe
 - Enkel testing
 - Intuitivt spill
 - Se på gaussiske prosesser.
@@ -22,7 +25,6 @@ Tasklist:
 Later
 - Polishe på Map Editor / Random map generation
 - Select map
-- Upgrade towers
 
 Code cleanup
 - Merge GUI og GameScreen
@@ -53,3 +55,17 @@ Towers - Give access to different types of towers based on what user places?
 Enemies - Attempt to send mostly fun enemies, e.g. if a user hates stealthed creeps, don't send.
 Graphics - Different levels of "bling" such as effects when lasers shoot, exploding enemies, etc.
 Map - Depending on style, fixed path generate maps to the users preference.
+
+
+
+From Sondre (12.02.2013)
+- Questionaire
+  - Guidelines
+- Global session settings, lese ut, og endre på.
+  - Parametere (liste)
+- Polishe
+- Enkel testing
+- Intuitivt spill
+- Se på gaussiske prosesser.
+- Enkel installasjon
+- Kompabilitet
