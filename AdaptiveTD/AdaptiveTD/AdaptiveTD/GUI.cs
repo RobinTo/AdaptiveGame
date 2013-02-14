@@ -138,5 +138,10 @@ namespace AdaptiveTD
             spriteBatch.DrawString(font, "Damage: " + towerStats.Damage, new Vector2(infoPosition.X + 66, infoPosition.Y+30), Color.Black);
             spriteBatch.DrawString(font, "Reload Time: " + towerStats.ReloadTime, new Vector2(infoPosition.X + 66, infoPosition.Y+60), Color.Black);
         }
+
+        private void DrawEnemyInfo(SpriteBatch spriteBatch, EnemyInfo enemyInfo)
+        {
+
+        }
     }
 }
