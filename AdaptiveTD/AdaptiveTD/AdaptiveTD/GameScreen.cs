@@ -60,6 +60,7 @@ namespace AdaptiveTD
             targetCircle = Content.Load<Texture2D>("targetCircle");
             assets.AddImage("testEnemy", Content.Load<Texture2D>("testEnemy"));
             assets.AddImage("toughEnemy", Content.Load<Texture2D>("toughEnemy"));
+            assets.AddImage("fastEnemy", Content.Load<Texture2D>("fastEnemy"));
 
             assets.AddImage("redHealthBar", Content.Load<Texture2D>("healthBarRed"));
             assets.AddImage("yellowHealthBar", Content.Load<Texture2D>("healthBarYellow"));
@@ -87,6 +88,7 @@ namespace AdaptiveTD
 
             enemyInfo.Add("basic", new EnemyInfo("basic", 20, 64, 2, assets.GetImage("testEnemy"), assets.GetImage("redHealthBar"), assets.GetImage("yellowHealthBar")));
             enemyInfo.Add("tough", new EnemyInfo("tough", 40, 32, 5, assets.GetImage("toughEnemy"), assets.GetImage("redHealthBar"), assets.GetImage("yellowHealthBar")));
+            enemyInfo.Add("fast", new EnemyInfo("tough", 30, 128, 3, assets.GetImage("fastEnemy"), assets.GetImage("redHealthBar"), assets.GetImage("yellowHealthBar")));
 
             CreateWave(); // After all enemies are added to enemyInfo.
 
@@ -263,6 +265,10 @@ namespace AdaptiveTD
             enemyWave.Add(9.0f, new Enemy(startPoint, enemyInfo["tough"], map.Directions));
             enemyWave.Add(10.5f, new Enemy(startPoint, enemyInfo["tough"], map.Directions));
             enemyWave.Add(11.5f, new Enemy(startPoint, enemyInfo["tough"], map.Directions));
+            enemyWave.Add(13.0f, new Enemy(startPoint, enemyInfo["fast"], map.Directions));
+            enemyWave.Add(14.0f, new Enemy(startPoint, enemyInfo["fast"], map.Directions));
+            enemyWave.Add(15.0f, new Enemy(startPoint, enemyInfo["fast"], map.Directions));
+            enemyWave.Add(16.0f, new Enemy(startPoint, enemyInfo["fast"], map.Directions));
         }
 
         private void HandleEvents()
