@@ -157,7 +157,7 @@ namespace AdaptiveTD
                     break;
             }
 
-            distanceTravelled += (float)(currentSpeed * gameTime);
+            distanceTravelled += (float)(currentSpeed * gameTime - currentSpeed * gameTime * slow.Percentage / 100);
 
             if (Math.Abs(position.X - targetPosition.X) < 1 && Math.Abs(position.Y - targetPosition.Y) < 1)
             {

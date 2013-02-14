@@ -68,8 +68,8 @@ namespace AdaptiveTD
             }
             
             
-            sellTowerButton = new GUIButton(sellTowerButtonTexture, new Vector2(startingDrawPos.X + 400, position.Y + startingDrawPos.Y), Keys.S);
-            upgradeTowerButton = new GUIButton(upgradeTowerTexture, new Vector2(startingDrawPos.X + 300, position.Y + startingDrawPos.Y), Keys.U);
+            sellTowerButton = new GUIButton(sellTowerButtonTexture, new Vector2(startingDrawPos.X + 324, position.Y + startingDrawPos.Y), Keys.S);
+            upgradeTowerButton = new GUIButton(upgradeTowerTexture, new Vector2(startingDrawPos.X + 250, position.Y + startingDrawPos.Y), Keys.U);
             this.GUITexture = GUITexture;
         }
 
@@ -155,7 +155,7 @@ namespace AdaptiveTD
 
         private void DrawInfo(SpriteBatch spriteBatch, TowerStats towerStats)
         {
-            Vector2 infoPosition = new Vector2(startingDrawPos.X + 600, startingDrawPos.Y + position.Y);
+            Vector2 infoPosition = new Vector2(startingDrawPos.X + 550, startingDrawPos.Y + position.Y);
             spriteBatch.Draw(towerStats.TowerTexture, infoPosition, Color.White);
             spriteBatch.DrawString(font, "Cost: " + towerStats.GoldCost, new Vector2(infoPosition.X + 66, infoPosition.Y), Color.Black);
             spriteBatch.DrawString(font, "Damage: " + towerStats.Damage, new Vector2(infoPosition.X + 66, infoPosition.Y+30), Color.Black);
