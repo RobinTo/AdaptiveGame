@@ -87,21 +87,22 @@ namespace AdaptiveTD
                 if ((button.Key.ButtonClicked(hitPosition.X, hitPosition.Y) && input.MousePress(MouseButtons.Left)) || input.KeyPress(button.Key.KeyBinding))
                 {
                     selectedTower = button.Value;
-                    button.Key.Color = Color.Red;
                     building = true;
                     hitAny = true;
                     towerButtonIsSelected = true;
                     this.selected = selectedTower;
                 }
-                else
-                    button.Key.Color = Color.White;
             }
             if (!hitAny && input.MousePress(MouseButtons.Left))
+            {
                 building = false;
-            
+                towerButtonIsSelected = false;
+            }
+
             else if (input.MousePress(MouseButtons.Right))
             {
                 building = false;
+                towerButtonIsSelected = false;
             }
             if (!building)
             {
