@@ -21,6 +21,7 @@ namespace AdaptiveTD
         string basePath = Path.Combine(Environment.GetFolderPath(
             Environment.SpecialFolder.ApplicationData), "AdaptiveTD\\");
         string savePath;
+        double backSpaceTimer = 0;
         public string SavePath
         {
             get
@@ -59,6 +60,7 @@ namespace AdaptiveTD
             this.namePosition = namePosition;
             this.font = font;
             #region Alphabet
+            acceptedKeys.Add(Keys.Space);
             acceptedKeys.Add(Keys.A);
             acceptedKeys.Add(Keys.B);
             acceptedKeys.Add(Keys.C);
@@ -88,9 +90,9 @@ namespace AdaptiveTD
 #endregion
         }
 
-        public void Update(InputHandler input)
+        public void Update(float gameTime, InputHandler input)
         {
-            HandleInput(input);
+            HandleInput(gameTime, input);
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -98,22 +100,40 @@ namespace AdaptiveTD
             spriteBatch.DrawString(font, name, namePosition, Color.Black);
         }
 
-        public void HandleInput(InputHandler input)
+        public void HandleInput(float gameTime, InputHandler input)
         {
+            if (backSpaceTimer > 0)
+                backSpaceTimer -= gameTime;
             List<Keys> pressedKeys = new List<Keys>();
-            foreach (Keys k in acceptedKeys)
+            if (name.Length < 14)
             {
-                if (input.KeyPress(k))
+                foreach (Keys k in acceptedKeys)
                 {
-                    if (input.IsKeyDown(Keys.LeftShift) || input.IsKeyDown(Keys.RightShift))
-                        name += (char)k.ToString().ToUpper()[0];
-                    else
-                        name += (char)k.ToString().ToLower()[0];
+                    if (input.KeyPress(k))
+                    {
+                        if (k == Keys.Space)
+                        {
+                            if (name.Length > 0 && name[name.Length - 1] != ' ')
+                                name += " ";
+                        }
+                        else if (input.IsKeyDown(Keys.LeftShift) || input.IsKeyDown(Keys.RightShift))
+                            name += (char)k.ToString().ToUpper()[0];
+                        else
+                            name += (char)k.ToString().ToLower()[0];
+                    }
                 }
             }
 
             if (input.KeyPress(Keys.Back) && name.Length > 0)
-                name = name.Substring(0, name.Length-1);
+            {
+                name = name.Substring(0, name.Length - 1);
+                backSpaceTimer = 0.2;
+            }
+            else if (input.IsKeyDown(Keys.Back) && name.Length > 0 && backSpaceTimer <= 0)
+            {
+                name = name.Substring(0, name.Length - 1);
+                backSpaceTimer = 0.2;
+            }
 
             if (input.KeyPress(Keys.Enter) && name.Length > 1)
             {

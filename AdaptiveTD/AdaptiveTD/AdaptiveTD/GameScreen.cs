@@ -99,7 +99,7 @@ namespace AdaptiveTD
             gui = new GUI(new Vector2(0, 640), towerInfo, Content.Load<Texture2D>("UIBar"), Content.Load<Texture2D>("sellTowerButton"), Content.Load<Texture2D>("upgradeTowerButton"), font);
             
             winPopup = new WinPopup(Content.Load<SpriteFont>("Winfont"));
-            loginScreen = new LoginScreen(assets.GetImage("loginBackground"), new Vector2(GameConstants.screenWidth/2 - assets.GetImage("loginBackground").Width/2, GameConstants.screenHeight/2 - assets.GetImage("loginBackground").Height/2), new Vector2(600, 400), font);
+            loginScreen = new LoginScreen(assets.GetImage("loginBackground"), new Vector2(GameConstants.screenWidth/2 - assets.GetImage("loginBackground").Width/2, GameConstants.screenHeight/2 - assets.GetImage("loginBackground").Height/2), new Vector2(580, 360), font);
 
             currentGold = startGold;
             if (useReplay)
@@ -108,7 +108,7 @@ namespace AdaptiveTD
 
         public void Update(float gameTime)
         {
-            if (loggedIn)
+            if (loggedIn || useReplay)
             {
                 if (targetEnemy != null && targetEnemy.Health <= 0)
                     targetEnemy = null;
@@ -197,7 +197,7 @@ namespace AdaptiveTD
             else
             {
                 input.Update();
-                loginScreen.Update(input);
+                loginScreen.Update(gameTime, input);
                 if (loginScreen.Name != "null")
                     loggedIn = true;
             }
@@ -237,7 +237,7 @@ namespace AdaptiveTD
             {
                 winPopup.Draw(true, spriteBatch);
             }
-            if (!loggedIn)
+            if (!loggedIn && !useReplay)
                 loginScreen.Draw(spriteBatch);
         }
 
