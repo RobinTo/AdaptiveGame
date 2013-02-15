@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using System.IO;
-using ParameterReadingContentLibrary;
 
 namespace AdaptiveTD
 {
@@ -26,8 +25,6 @@ namespace AdaptiveTD
         Texture2D targetCircle;
 
         SaveParametersXML ioParametersXML;
-        MonsterParameters monsterParameters;
-        TowerParameters towerParameters;
 
         EventHandler eventHandler = new EventHandler();
 
@@ -114,8 +111,6 @@ namespace AdaptiveTD
 
             ioParametersXML = new SaveParametersXML();
             //ioParametersXML.ReadParameters();
-            monsterParameters = Content.Load<MonsterParameters>("monsterParameters");
-            towerParameters = Content.Load<TowerParameters>("towerParameters");
         }
 
         public void Update(float gameTime)
@@ -473,7 +468,7 @@ namespace AdaptiveTD
             {
 
                 selectedTower = new Tower(t, position, assets.GetImage(t.TowerTexture), assets.GetImage(t.MissileTexture));
-                selectedTower.Color = Color.FireBrick;
+                selectedTower.Color = Color.Firebrick;
                 towers.Add(selectedTower);
                 currentGold -= t.GoldCost;
             }
