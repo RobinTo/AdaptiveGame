@@ -182,28 +182,6 @@
       <Name>loginPopup</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-	</Compile>
-   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="monsterParameters.xml">
-      <Name>monsterParameters</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>PassThroughProcessor</Processor>
-      <SubType>Designer</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\ParameterReadingContentLibrary\ParameterReadingContentLibrary.csproj">
-      <Project>{7175E918-C80F-4E66-AF97-9B33C6895E14}</Project>
-      <Name>ParameterReadingContentLibrary</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="TowerParameters.xml">
-      <Name>TowerParameters</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>PassThroughProcessor</Processor>
-      <SubType>Designer</SubType>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
