@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using System.IO;
+using ParameterReadingContentLibrary;
 
 namespace AdaptiveTD
 {
@@ -15,12 +16,18 @@ namespace AdaptiveTD
         ReplayHandler replayHandler = new ReplayHandler();      // Replay handler, saving, loading, etc. of replays.
         bool useReplay = false;                                  // Use replay?
         string replayString = ".\\Replay12022013132536.txt";    // Path to replay file to use, if useReplay is true.
+        bool savedParameters = false;
+
 
         Dictionary<string, TowerStats> towerInfo = new Dictionary<string, TowerStats>();
         Dictionary<string, EnemyInfo> enemyInfo = new Dictionary<string, EnemyInfo>();
         SortedList<float, Enemy> enemyWave = new SortedList<float, Enemy>();
 
         Texture2D targetCircle;
+
+        SaveParametersXML ioParametersXML;
+        MonsterParameters monsterParameters;
+        TowerParameters towerParameters;
 
         EventHandler eventHandler = new EventHandler();
 
@@ -44,7 +51,7 @@ namespace AdaptiveTD
         WinPopup winPopup;
         float TotalTime;
 
-        int startGold = 30;
+        int startGold = 3000;
         int currentGold = 0;
 
         int currentLives = 5;
@@ -75,18 +82,18 @@ namespace AdaptiveTD
             assets.AddImage("frostMissile", Content.Load<Texture2D>("blueBullet"));
             assets.AddImage("rangeHighlight", Content.Load<Texture2D>("rangeHighlight"));
 
-            towerInfo.Add("basic1", new TowerStats("basic1", assets.GetImage("basicTower"), assets.GetImage("basicMissile"), 0.5f, 1, 5, 7, 3, 3, new DamageOverTime(false), new Slow(false), new AreaOfEffect(0)));
-            towerInfo.Add("flame1", new TowerStats("flame1", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 1.0f, 2, 20, 14, 3, 2, new DamageOverTime(2, 3, 6f), new Slow(false), new AreaOfEffect(0)));
-            towerInfo.Add("frost1", new TowerStats("frost1", assets.GetImage("frostTower"), assets.GetImage("frostMissile"), 1.0f, 0, 15, 10, 3, 3, new DamageOverTime(false), new Slow(30, 2f), new AreaOfEffect(0)));
-            towerInfo.Add("flameAoE1", new TowerStats("flameAoE1", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 2.0f, 5, 30, 14, 3, 2, new DamageOverTime(false), new Slow(false), new AreaOfEffect(128)));
-            towerInfo.Add("basic2", new TowerStats("basic2", assets.GetImage("basicTower"), assets.GetImage("basicMissile"), 0.5f, 2, 10, 7, 3, 3, new DamageOverTime(false), new Slow(false), new AreaOfEffect(0)));
-            towerInfo.Add("flame2", new TowerStats("flame2", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 1.0f, 4, 20, 14, 3, 2, new DamageOverTime(4, 3, 6f), new Slow(false), new AreaOfEffect(0)));
-            towerInfo.Add("frost2", new TowerStats("frost2", assets.GetImage("frostTower"), assets.GetImage("frostMissile"), 1.0f, 0, 15, 10, 3, 3, new DamageOverTime(false), new Slow(50, 2f), new AreaOfEffect(0)));
-            towerInfo.Add("flameAoE2", new TowerStats("flameAoE2", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 2.0f, 10, 20, 14, 3, 2, new DamageOverTime(false), new Slow(false), new AreaOfEffect(128)));
-            towerInfo.Add("basic3", new TowerStats("basic3", assets.GetImage("basicTower"), assets.GetImage("basicMissile"), 0.5f, 3, 10, 0, 3, 3, new DamageOverTime(false), new Slow(false), new AreaOfEffect(0)));
-            towerInfo.Add("flame3", new TowerStats("flame3", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 1.0f, 6, 20, 0, 3, 2, new DamageOverTime(6, 3, 6f), new Slow(false), new AreaOfEffect(0)));
-            towerInfo.Add("frost3", new TowerStats("frost3", assets.GetImage("frostTower"), assets.GetImage("frostMissile"), 1.0f, 0, 15, 0, 3, 3, new DamageOverTime(false), new Slow(70, 2f), new AreaOfEffect(0)));
-            towerInfo.Add("flameAoE3", new TowerStats("flameAoE3", assets.GetImage("flameTower"), assets.GetImage("flameMissile"), 2.0f, 15, 2, 0, 3, 2, new DamageOverTime(false), new Slow(false), new AreaOfEffect(128)));
+            towerInfo.Add("basic1", new TowerStats("basic1", "basicTower", "basicMissile", 0.5f, 1, 5, 7, 3, 3, new DamageOverTime(false), new Slow(false), new AreaOfEffect(0)));
+            towerInfo.Add("flame1", new TowerStats("flame1", "flameTower", "flameMissile", 1.0f, 2, 20, 14, 3, 2, new DamageOverTime(2, 3, 6f), new Slow(false), new AreaOfEffect(0)));
+            towerInfo.Add("frost1", new TowerStats("frost1", "frostTower", "frostMissile", 1.0f, 0, 15, 10, 3, 3, new DamageOverTime(false), new Slow(30, 2f), new AreaOfEffect(0)));
+            towerInfo.Add("flameAoE1", new TowerStats("flameAoE1", "flameTower", "flameMissile", 2.0f, 5, 30, 14, 3, 2, new DamageOverTime(false), new Slow(false), new AreaOfEffect(128)));
+            towerInfo.Add("basic2", new TowerStats("basic2", "basicTower", "basicMissile", 0.5f, 2, 10, 7, 3, 3, new DamageOverTime(false), new Slow(false), new AreaOfEffect(0)));
+            towerInfo.Add("flame2", new TowerStats("flame2", "flameTower", "flameMissile", 1.0f, 4, 20, 14, 3, 2, new DamageOverTime(4, 3, 6f), new Slow(false), new AreaOfEffect(0)));
+            towerInfo.Add("frost2", new TowerStats("frost2", "frostTower", "frostMissile", 1.0f, 0, 15, 10, 3, 3, new DamageOverTime(false), new Slow(50, 2f), new AreaOfEffect(0)));
+            towerInfo.Add("flameAoE2", new TowerStats("flameAoE2", "flameTower", "flameMissile", 2.0f, 10, 20, 14, 3, 2, new DamageOverTime(false), new Slow(false), new AreaOfEffect(128)));
+            towerInfo.Add("basic3", new TowerStats("basic3", "basicTower", "basicMissile", 0.5f, 3, 10, 0, 3, 3, new DamageOverTime(false), new Slow(false), new AreaOfEffect(0)));
+            towerInfo.Add("flame3", new TowerStats("flame3", "flameTower", "flameMissile", 1.0f, 6, 20, 0, 3, 2, new DamageOverTime(6, 3, 6f), new Slow(false), new AreaOfEffect(0)));
+            towerInfo.Add("frost3", new TowerStats("frost3", "frostTower", "frostMissile", 1.0f, 0, 15, 0, 3, 3, new DamageOverTime(false), new Slow(70, 2f), new AreaOfEffect(0)));
+            towerInfo.Add("flameAoE3", new TowerStats("flameAoE3", "flameTower", "flameMissile", 2.0f, 15, 2, 0, 3, 2, new DamageOverTime(false), new Slow(false), new AreaOfEffect(128)));
 
             enemyInfo.Add("basic", new EnemyInfo("basic", 20, 64, 2, assets.GetImage("testEnemy"), assets.GetImage("redHealthBar"), assets.GetImage("yellowHealthBar")));
             enemyInfo.Add("tough", new EnemyInfo("tough", 40, 32, 5, assets.GetImage("toughEnemy"), assets.GetImage("redHealthBar"), assets.GetImage("yellowHealthBar")));
@@ -96,7 +103,7 @@ namespace AdaptiveTD
 
             assets.AddImage("loginBackground", Content.Load<Texture2D>("loginPopup"));
 
-            gui = new GUI(new Vector2(0, 640), towerInfo, Content.Load<Texture2D>("UIBar"), Content.Load<Texture2D>("sellTowerButton"), Content.Load<Texture2D>("upgradeTowerButton"), font);
+            gui = new GUI(new Vector2(0, 640), towerInfo, Content.Load<Texture2D>("UIBar"), Content.Load<Texture2D>("sellTowerButton"), Content.Load<Texture2D>("upgradeTowerButton"), font, assets);
             
             winPopup = new WinPopup(Content.Load<SpriteFont>("Winfont"));
             loginScreen = new LoginScreen(assets.GetImage("loginBackground"), new Vector2(GameConstants.screenWidth/2 - assets.GetImage("loginBackground").Width/2, GameConstants.screenHeight/2 - assets.GetImage("loginBackground").Height/2), new Vector2(580, 360), font);
@@ -104,6 +111,11 @@ namespace AdaptiveTD
             currentGold = startGold;
             if (useReplay)
                 replayHandler.LoadReplay(replayString);
+
+            ioParametersXML = new SaveParametersXML();
+            //ioParametersXML.ReadParameters();
+            monsterParameters = Content.Load<MonsterParameters>("monsterParameters");
+            towerParameters = Content.Load<TowerParameters>("towerParameters");
         }
 
         public void Update(float gameTime)
@@ -201,9 +213,17 @@ namespace AdaptiveTD
             else
             {
                 input.Update();
+
                 loginScreen.Update(gameTime, input);
                 if (loginScreen.Name != "null")
                     loggedIn = true;
+
+                if (input.KeyPress(Keys.Enter) || input.KeyPress(Keys.Space))
+                    RestartGame();
+
+                if (!savedParameters)
+                    savedParameters = ioParametersXML.SaveParameters(towerInfo, enemyInfo);
+
             }
         }
 
@@ -223,7 +243,7 @@ namespace AdaptiveTD
             if (gui.building)
             {
                 Vector2 position = new Vector2((float)Math.Floor(input.MousePosition.X / GameConstants.tileSize), (float)Math.Floor(input.MousePosition.Y / GameConstants.tileSize));
-                spriteBatch.Draw(gui.selectedTower.TowerTexture, position*GameConstants.tileSize, Color.White);
+                spriteBatch.Draw(assets.GetImage(gui.selectedTower.TowerTexture), position*GameConstants.tileSize, Color.White);
                 spriteBatch.Draw(assets.GetImage("rangeHighlight"), new Rectangle((int)position.X * GameConstants.tileSize + GameConstants.tileSize / 2 - gui.selectedTower.Range, (int)position.Y * GameConstants.tileSize + GameConstants.tileSize / 2 - gui.selectedTower.Range, gui.selectedTower.Range * 2, gui.selectedTower.Range * 2), new Rectangle(0, 0, 64, 64), Color.White); // Kan optimaliseres.
             }
 
@@ -261,6 +281,7 @@ namespace AdaptiveTD
             selectedTower = null;
             currentLives = startingLives;
             saved = false;
+            savedParameters = false;
             replayHandler.Clear();
             targetEnemy = null;
             if (useReplay)
@@ -273,7 +294,7 @@ namespace AdaptiveTD
 
             Vector2 startPoint = new Vector2(map.StartPoint.X, map.StartPoint.Y);
             enemyWave.Add(0.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
-            enemyWave.Add(1.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
+            /*enemyWave.Add(1.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
             enemyWave.Add(2.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
             enemyWave.Add(4.0f, new Enemy(startPoint, enemyInfo["tough"], map.Directions));
             enemyWave.Add(4.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
@@ -290,6 +311,7 @@ namespace AdaptiveTD
             enemyWave.Add(14.0f, new Enemy(startPoint, enemyInfo["fast"], map.Directions));
             enemyWave.Add(15.0f, new Enemy(startPoint, enemyInfo["fast"], map.Directions));
             enemyWave.Add(16.0f, new Enemy(startPoint, enemyInfo["fast"], map.Directions));
+            */
         }
 
         private void HandleEvents()
@@ -449,7 +471,8 @@ namespace AdaptiveTD
                 canBuild = false;
             if (canBuild)
             {
-                selectedTower = new Tower(t, position);
+
+                selectedTower = new Tower(t, position, assets.GetImage(t.TowerTexture), assets.GetImage(t.MissileTexture));
                 selectedTower.Color = Color.FireBrick;
                 towers.Add(selectedTower);
                 currentGold -= t.GoldCost;
@@ -472,6 +495,5 @@ namespace AdaptiveTD
 
             }
         }
-        
     }
 }

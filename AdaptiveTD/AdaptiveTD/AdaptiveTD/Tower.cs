@@ -51,10 +51,24 @@ namespace AdaptiveTD
             get { return color; }
             set { color = value; }
         }
+        Texture2D towerTexture;
+        public Texture2D TowerTexture
+        {
+            get { return towerTexture; }
+            set { towerTexture = value; }
+        }
+        Texture2D missileTexture;
+        public Texture2D MissileTexture
+        {
+            get { return missileTexture; }
+            set { missileTexture = value; }
+        }
 
-        public Tower(TowerStats towerStats, Vector2 tilePosition)
+        public Tower(TowerStats towerStats, Vector2 tilePosition, Texture2D towerTexture, Texture2D missileTexture)
         {
             this.towerStats = towerStats;
+            this.towerTexture = towerTexture;
+            this.missileTexture = missileTexture;
             this.currentReloadTime = towerStats.ReloadTime;
             this.position = new Vector2(tilePosition.X * 64, tilePosition.Y * 64);
             this.origin = new Vector2(32, 32);
@@ -67,7 +81,7 @@ namespace AdaptiveTD
 
         private void Shoot(List<Missile> missiles)
         {
-            missiles.Add(new Missile(towerStats.MissileTexture, this.position + this.origin, distanceToTargetEnemy, rotation, 1024.0f, targetEnemy, towerStats.Damage, towerStats.DamageOverTime, towerStats.Slow, towerStats.AreaOfEffect));
+            missiles.Add(new Missile(missileTexture, this.position + this.origin, distanceToTargetEnemy, rotation, 1024.0f, targetEnemy, towerStats.Damage, towerStats.DamageOverTime, towerStats.Slow, towerStats.AreaOfEffect));
         }
 
         public void Update(float gameTime, List<Enemy> enemies, Enemy focusFireEnemy, List<Missile> missiles)
@@ -127,7 +141,7 @@ namespace AdaptiveTD
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(towerStats.TowerTexture, position + origin, null, color, rotation, origin, 1.0f, SpriteEffects.None, 1.0f);
+            spriteBatch.Draw(towerTexture, position + origin, null, color, rotation, origin, 1.0f, SpriteEffects.None, 1.0f);
         }
     }
 
@@ -139,14 +153,14 @@ namespace AdaptiveTD
             get { return type; }
             set { type = value; }
         }
-        Texture2D towerTexture;
-        public Texture2D TowerTexture
+        string towerTexture;
+        public string TowerTexture
         {
             get { return towerTexture; }
             set { towerTexture = value; }
         }
-        Texture2D missileTexture;
-        public Texture2D MissileTexture
+        string missileTexture;
+        public string MissileTexture
         {
             get { return missileTexture; }
             set { missileTexture = value; }
@@ -209,7 +223,7 @@ namespace AdaptiveTD
         }
 
 
-        public TowerStats(string type, Texture2D towerTexture, Texture2D missileTexture, float ReloadTime, int damage, int goldCost, int upgradeCost, int maxLevel, int range, DamageOverTime damageOverTime, Slow slow, AreaOfEffect areaOfEffect)
+        public TowerStats(string type, string towerTexture, string missileTexture, float ReloadTime, int damage, int goldCost, int upgradeCost, int maxLevel, int range, DamageOverTime damageOverTime, Slow slow, AreaOfEffect areaOfEffect)
         {
             this.type = type;
             this.towerTexture = towerTexture;

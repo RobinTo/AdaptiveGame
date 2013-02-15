@@ -30,17 +30,20 @@ namespace AdaptiveTD
         EnemyInfo selectedEnemy;
         bool isEnemySelected = false;
 
+        AssetManager assets;
+
         public EnemyInfo SelectedEnemy
         {
             get { return selectedEnemy; }
             set { selectedEnemy = value; isEnemySelected = true; }
         }
 
-        public GUI(Vector2 position, Dictionary<string, TowerStats> towers, Texture2D GUITexture, Texture2D sellTowerButtonTexture, Texture2D upgradeTowerTexture, SpriteFont font)
+        public GUI(Vector2 position, Dictionary<string, TowerStats> towers, Texture2D GUITexture, Texture2D sellTowerButtonTexture, Texture2D upgradeTowerTexture, SpriteFont font, AssetManager assets)
         {
             this.towers = towers;
             this.position = position;
             this.font = font;
+            this.assets = assets;
             List<Keys> digits = new List<Keys>();
             digits.Add(Keys.D1);
             digits.Add(Keys.D2);
@@ -59,8 +62,8 @@ namespace AdaptiveTD
                 {
                     enumerator.MoveNext();
                     TowerStats towerStats = towers[enumerator.Current];
-                    towerButtons.Add(new GUIButton(towerStats.TowerTexture, new Vector2(startingDrawPos.X + position.X + towerButtons.Count * buttonPadding, position.Y + startingDrawPos.Y), digits[i]), towerStats);
-                    startingDrawPos.X += towerStats.TowerTexture.Width;
+                    towerButtons.Add(new GUIButton(assets.GetImage(towerStats.TowerTexture), new Vector2(startingDrawPos.X + position.X + towerButtons.Count * buttonPadding, position.Y + startingDrawPos.Y), digits[i]), towerStats);
+                    startingDrawPos.X += assets.GetImage(towerStats.TowerTexture).Width;
                     
                     i++;
                 }
@@ -159,7 +162,7 @@ namespace AdaptiveTD
         private void DrawInfo(SpriteBatch spriteBatch, TowerStats towerStats)
         {
             Vector2 infoPosition = new Vector2(startingDrawPos.X + 550, startingDrawPos.Y + position.Y);
-            spriteBatch.Draw(towerStats.TowerTexture, infoPosition, Color.White);
+            spriteBatch.Draw(assets.GetImage(towerStats.TowerTexture), infoPosition, Color.White);
             spriteBatch.DrawString(font, "Cost: " + towerStats.GoldCost, new Vector2(infoPosition.X + 66, infoPosition.Y), Color.Black);
             spriteBatch.DrawString(font, "Damage: " + towerStats.Damage, new Vector2(infoPosition.X + 66, infoPosition.Y+30), Color.Black);
             spriteBatch.DrawString(font, "Reload Time: " + towerStats.ReloadTime, new Vector2(infoPosition.X + 66, infoPosition.Y+60), Color.Black);

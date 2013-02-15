@@ -10,7 +10,8 @@
     <RootNamespace>AdaptiveTD</RootNamespace>
     <AssemblyName>AdaptiveTD</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
     <XnaPlatform>Windows</XnaPlatform>
     <XnaProfile>HiDef</XnaProfile>
@@ -63,6 +64,7 @@
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
       <Private>False</Private>
     </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
       <Private>False</Private>
     </Reference>
@@ -117,6 +119,7 @@
     <Compile Include="GUIButton.cs" />
     <Compile Include="InputHandler.cs" />
     <Compile Include="LoginScreen.cs" />
+    <Compile Include="SaveParametersXML.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Missile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -163,6 +166,13 @@
       <Project>{A2FF3928-65C7-443A-A730-50CC21C06C41}</Project>
       <Name>ContentLibrary</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ParameterReadingContentLibrary\ParameterReadingContentLibrary.csproj">
+      <Project>{7175E918-C80F-4E66-AF97-9B33C6895E14}</Project>
+      <Name>ParameterReadingContentLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

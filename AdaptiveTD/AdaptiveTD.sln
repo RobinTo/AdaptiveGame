@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapEditor", "MapEditor\MapE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentLibrary", "ContentLibrary\ContentLibrary.csproj", "{A2FF3928-65C7-443A-A730-50CC21C06C41}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParameterReadingContentLibrary", "ParameterReadingContentLibrary\ParameterReadingContentLibrary.csproj", "{7175E918-C80F-4E66-AF97-9B33C6895E14}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -29,6 +31,10 @@ Global
 		{A2FF3928-65C7-443A-A730-50CC21C06C41}.Debug|x86.Build.0 = Debug|x86
 		{A2FF3928-65C7-443A-A730-50CC21C06C41}.Release|x86.ActiveCfg = Release|x86
 		{A2FF3928-65C7-443A-A730-50CC21C06C41}.Release|x86.Build.0 = Release|x86
+		{7175E918-C80F-4E66-AF97-9B33C6895E14}.Debug|x86.ActiveCfg = Debug|x86
+		{7175E918-C80F-4E66-AF97-9B33C6895E14}.Debug|x86.Build.0 = Debug|x86
+		{7175E918-C80F-4E66-AF97-9B33C6895E14}.Release|x86.ActiveCfg = Release|x86
+		{7175E918-C80F-4E66-AF97-9B33C6895E14}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
