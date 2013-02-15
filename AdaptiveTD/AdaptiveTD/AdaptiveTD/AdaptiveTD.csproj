@@ -116,6 +116,7 @@
     <Compile Include="GUI.cs" />
     <Compile Include="GUIButton.cs" />
     <Compile Include="InputHandler.cs" />
+    <Compile Include="LoginScreen.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Missile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

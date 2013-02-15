@@ -26,6 +26,8 @@ namespace AdaptiveTD
 
         InputHandler input = new InputHandler();
         GUI gui;
+        LoginScreen loginScreen;
+        bool loggedIn = false;
 
         Map map;
         List<Enemy> enemies = new List<Enemy>();
@@ -92,9 +94,12 @@ namespace AdaptiveTD
 
             CreateWave(); // After all enemies are added to enemyInfo.
 
+            assets.AddImage("loginBackground", Content.Load<Texture2D>("loginPopup"));
+
             gui = new GUI(new Vector2(0, 640), towerInfo, Content.Load<Texture2D>("UIBar"), Content.Load<Texture2D>("sellTowerButton"), Content.Load<Texture2D>("upgradeTowerButton"), font);
             
             winPopup = new WinPopup(Content.Load<SpriteFont>("Winfont"));
+            loginScreen = new LoginScreen(assets.GetImage("loginBackground"), new Vector2(GameConstants.screenWidth/2 - assets.GetImage("loginBackground").Width/2, GameConstants.screenHeight/2 - assets.GetImage("loginBackground").Height/2), new Vector2(600, 400), font);
 
             currentGold = startGold;
             if (useReplay)
@@ -103,89 +108,98 @@ namespace AdaptiveTD
 
         public void Update(float gameTime)
         {
-
-            if (targetEnemy != null && targetEnemy.Health <= 0)
-                targetEnemy = null;
-            if (!won)
+            if (loggedIn)
             {
-                if (useReplay)
+                if (targetEnemy != null && targetEnemy.Health <= 0)
+                    targetEnemy = null;
+                if (!won)
                 {
-                    NextUpdate next = replayHandler.GetNextUpdate();
-                    gameTime = next.Gametime;
-                    if (gameTime < 0)                   // If no more updates in replay, use a fixed 60fps step.
-                        gameTime = (float)(1.0 / 60.0); // To be able to run simulations past ending time in the original game in replay.
-                    eventHandler.Events = next.Events;
+                    if (useReplay)
+                    {
+                        NextUpdate next = replayHandler.GetNextUpdate();
+                        gameTime = next.Gametime;
+                        if (gameTime < 0)                   // If no more updates in replay, use a fixed 60fps step.
+                            gameTime = (float)(1.0 / 60.0); // To be able to run simulations past ending time in the original game in replay.
+                        eventHandler.Events = next.Events;
+                    }
+                    else
+                    {
+                        eventHandler.NewRound();
+                        input.Update();
+                        HandleInput();
+                    }
+
+                    TotalTime += gameTime;
+                    if (enemyWave.Count > 0)
+                    {
+                        if (TotalTime >= enemyWave.Keys[0])
+                        {
+                            enemies.Add(enemyWave[enemyWave.Keys[0]]);
+                            enemyWave.Remove(enemyWave.Keys[0]);
+                        }
+                    }
+                    if (saveReplay)
+                    {
+                        replayHandler.Update(gameTime, TotalTime, eventHandler.Events);
+                    }
+
+                    HandleEvents();
+
+                    for (int counter = 0; counter < enemies.Count; counter++)
+                    {
+                        enemies[counter].Update(gameTime);
+                        if (enemies[counter].Health <= 0)
+                        {
+                            currentGold += enemies[counter].GoldYield;
+                            enemies.RemoveAt(counter);
+                            counter--;
+                        }
+                        else if (enemies[counter].Position.X >= GameConstants.screenWidth)
+                        {
+                            currentLives--;
+                            enemies.RemoveAt(counter);
+                            counter--;
+                        }
+                    }
+                    foreach (Tower t in towers)
+                    {
+                        if (enemies.Count > 0)
+                            t.Update(gameTime, enemies, targetEnemy, missiles);
+                    }
+                    for (int counter = 0; counter < missiles.Count; counter++)
+                    {
+                        missiles[counter].Update(gameTime, enemies);
+                        if (missiles[counter].remove)
+                        {
+                            missiles.RemoveAt(counter);
+                            counter--;
+                        }
+                    }
+
+                    gui.Update(gameTime, input, currentLives, currentGold, selectedTower, eventHandler);
                 }
-                else
+                if (enemies.Count <= 0 && enemyWave.Count <= 0)
+                    won = true;
+
+
+                if (won)
                 {
-                    eventHandler.NewRound();
+                    if (saveReplay && !saved && !useReplay)
+                    {
+                        replayHandler.SaveReplay();
+                        saved = true;
+                    }
                     input.Update();
-                    HandleInput();
+                    if (input.KeyPress(Keys.Enter) || input.KeyPress(Keys.Space))
+                        RestartGame();
                 }
-
-                TotalTime += gameTime;
-                if (enemyWave.Count > 0)
-                {
-                    if (TotalTime >= enemyWave.Keys[0])
-                    {
-                        enemies.Add(enemyWave[enemyWave.Keys[0]]);
-                        enemyWave.Remove(enemyWave.Keys[0]);
-                    }
-                }
-                if(saveReplay)
-                {
-                    replayHandler.Update(gameTime, TotalTime, eventHandler.Events);
-                }
-
-                HandleEvents();
-
-                for (int counter = 0; counter < enemies.Count; counter++)
-                {
-                    enemies[counter].Update(gameTime);
-                    if (enemies[counter].Health <= 0)
-                    {
-                        currentGold += enemies[counter].GoldYield;
-                        enemies.RemoveAt(counter);
-                        counter--;
-                    }
-                    else if (enemies[counter].Position.X >= GameConstants.screenWidth)
-                    {
-                        currentLives--;
-                        enemies.RemoveAt(counter);
-                        counter--;
-                    }
-                }
-                foreach (Tower t in towers)
-                {
-                    if(enemies.Count > 0)
-                        t.Update(gameTime, enemies, targetEnemy, missiles);
-                }
-                for (int counter = 0; counter < missiles.Count; counter++)
-                {
-                    missiles[counter].Update(gameTime, enemies);
-                    if (missiles[counter].remove)
-                    {
-                        missiles.RemoveAt(counter);
-                        counter--;
-                    }
-                }
-
-                gui.Update(gameTime, input, currentLives, currentGold, selectedTower, eventHandler);
             }
-            if (enemies.Count <= 0 && enemyWave.Count <= 0)
-                won = true;
-
-
-            if (won)
+            else
             {
-                if (saveReplay && !saved && !useReplay)
-                {
-                    replayHandler.SaveReplay();
-                    saved = true;
-                }
                 input.Update();
-                if (input.KeyPress(Keys.Enter) || input.KeyPress(Keys.Space))
-                    RestartGame();
+                loginScreen.Update(input);
+                if (loginScreen.Name != "null")
+                    loggedIn = true;
             }
         }
 
@@ -223,6 +237,8 @@ namespace AdaptiveTD
             {
                 winPopup.Draw(true, spriteBatch);
             }
+            if (!loggedIn)
+                loginScreen.Draw(spriteBatch);
         }
 
         private void RestartGame()
@@ -242,6 +258,7 @@ namespace AdaptiveTD
             currentLives = startingLives;
             saved = false;
             replayHandler.Clear();
+            targetEnemy = null;
             if (useReplay)
                 replayHandler.LoadReplay(replayString);
         }
