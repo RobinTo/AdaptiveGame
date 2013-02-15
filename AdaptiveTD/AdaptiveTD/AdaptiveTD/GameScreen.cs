@@ -45,7 +45,7 @@ namespace AdaptiveTD
         List<Missile> missiles = new List<Missile>();
         Tower selectedTower;
 
-        bool won;
+        bool gameOver;
         WinPopup winPopup;
         float TotalTime;
 
@@ -123,7 +123,7 @@ namespace AdaptiveTD
         {
             if (targetEnemy != null && targetEnemy.Health <= 0)
                 targetEnemy = null;
-            if (!won)
+            if (!gameOver)
             {
                 if (useReplay)
                 {
@@ -194,10 +194,10 @@ namespace AdaptiveTD
                 gui.Update(gameTime, input, currentLives, currentGold, selectedTower, eventHandler);
             }
             if (enemies.Count <= 0 && enemyWave.Count <= 0)
-                won = true;
+                gameOver = true;
 
 
-            if (won)
+            if (gameOver)
             {
                 if (saveReplay && !saved && !useReplay)
                 {
@@ -208,6 +208,11 @@ namespace AdaptiveTD
                 if (input.KeyPress(Keys.Enter) || input.KeyPress(Keys.Space))
                     RestartGame();
 
+                if (!savedParameters)
+                {
+                    ioParametersXML.SaveParameters(towerInfo, enemyInfo, loginScreen.SavePath);
+                    savedParameters = true;
+                }
             }
         }
 
@@ -239,9 +244,9 @@ namespace AdaptiveTD
             if (currentLives <= 0)
             {
                 winPopup.Draw(false, spriteBatch);
-                won = true;
+                gameOver = true;
             }
-            else if (won)
+            else if (gameOver)
             {
                 winPopup.Draw(true, spriteBatch);
             }
@@ -256,7 +261,7 @@ namespace AdaptiveTD
             eventHandler.Clear();
             currentGold = startGold;
             CreateWave();
-            won = false;
+            gameOver = false;
             gui.building = false;
             TotalTime = 0;
             winPopup.Randomize();
