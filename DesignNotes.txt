@@ -1,9 +1,6 @@
 Tasklist:
 
-- Read Tower
-- Read Monster
-- Save Monster
-- Save Wave
+- Upgrade cost i gui
 
 - Polishe
 - Questionaire
@@ -21,6 +18,8 @@ Later
 - More monsters
 - More towers
 - Ta vekk grid/Transparante tårn-hjørner
+- Lydeffekter
+- Grafikk
 
 Code cleanup
 - Merge GUI og GameScreen

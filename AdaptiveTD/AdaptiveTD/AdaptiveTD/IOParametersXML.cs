@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using System.Xml;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -32,12 +33,20 @@ namespace AdaptiveTD
         }
         public Dictionary<string, TowerStats> ReadTowerParameters(ContentManager contentManager, string path)
         {
-            return contentManager.Load<Dictionary<string, TowerStats>>(path + "Towers.xml");
+            if (File.Exists(path + "Towers.xml"))
+                return IntermediateSerializer.Deserialize<Dictionary<string, TowerStats>>(XmlReader.Create(new FileStream(path + "Towers.xml", FileMode.Open)), null); 
+            else
+                return IntermediateSerializer.Deserialize<Dictionary<string, TowerStats>>(XmlReader.Create(new FileStream(".\\Content\\defaultTowers.xml", FileMode.Open)), null); 
         }
         
-        public Dictionary<string, TowerStats> ReadMonsterParameters(ContentManager contentManager, string path)
+        public Dictionary<string, EnemyInfo> ReadMonsterParameters(ContentManager contentManager, string path)
         {
-            return contentManager.Load<Dictionary<string, TowerStats>>(path + "Monsters.xml");
+            if (File.Exists(path + "Monsters.xml"))
+                return IntermediateSerializer.Deserialize<Dictionary<string, EnemyInfo>>(XmlReader.Create(new FileStream(path + "Monsters.xml", FileMode.Open)), null); 
+            else
+                return IntermediateSerializer.Deserialize<Dictionary<string, EnemyInfo>>(XmlReader.Create(new FileStream(".\\Content\\defaultMonsters.xml", FileMode.Open)), null); 
+        
+            
         }
     }
 }

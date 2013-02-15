@@ -49,7 +49,7 @@ namespace AdaptiveTD
         WinPopup winPopup;
         float TotalTime;
 
-        int startGold = 3000;
+        int startGold = 30;
         int currentGold = 0;
 
         int currentLives = 5;
@@ -83,29 +83,16 @@ namespace AdaptiveTD
             assets.AddImage("frostMissile", Content.Load<Texture2D>("blueBullet"));
             assets.AddImage("rangeHighlight", Content.Load<Texture2D>("rangeHighlight"));
 
-            towerInfo.Add("basic1", new TowerStats("basic1", "basicTower", "basicMissile", 0.5f, 1, 5, 7, 3, 3, new DamageOverTime(false), new Slow(false), new AreaOfEffect(0)));
-            towerInfo.Add("flame1", new TowerStats("flame1", "flameTower", "flameMissile", 1.0f, 2, 20, 14, 3, 2, new DamageOverTime(2, 3, 6f), new Slow(false), new AreaOfEffect(0)));
-            towerInfo.Add("frost1", new TowerStats("frost1", "frostTower", "frostMissile", 1.0f, 0, 15, 10, 3, 3, new DamageOverTime(false), new Slow(30, 2f), new AreaOfEffect(0)));
-            towerInfo.Add("flameAoE1", new TowerStats("flameAoE1", "flameTower", "flameMissile", 2.0f, 5, 30, 14, 3, 2, new DamageOverTime(false), new Slow(false), new AreaOfEffect(128)));
-            towerInfo.Add("basic2", new TowerStats("basic2", "basicTower", "basicMissile", 0.5f, 2, 10, 7, 3, 3, new DamageOverTime(false), new Slow(false), new AreaOfEffect(0)));
-            towerInfo.Add("flame2", new TowerStats("flame2", "flameTower", "flameMissile", 1.0f, 4, 20, 14, 3, 2, new DamageOverTime(4, 3, 6f), new Slow(false), new AreaOfEffect(0)));
-            towerInfo.Add("frost2", new TowerStats("frost2", "frostTower", "frostMissile", 1.0f, 0, 15, 10, 3, 3, new DamageOverTime(false), new Slow(50, 2f), new AreaOfEffect(0)));
-            towerInfo.Add("flameAoE2", new TowerStats("flameAoE2", "flameTower", "flameMissile", 2.0f, 10, 20, 14, 3, 2, new DamageOverTime(false), new Slow(false), new AreaOfEffect(128)));
-            towerInfo.Add("basic3", new TowerStats("basic3", "basicTower", "basicMissile", 0.5f, 3, 10, 0, 3, 3, new DamageOverTime(false), new Slow(false), new AreaOfEffect(0)));
-            towerInfo.Add("flame3", new TowerStats("flame3", "flameTower", "flameMissile", 1.0f, 6, 20, 0, 3, 2, new DamageOverTime(6, 3, 6f), new Slow(false), new AreaOfEffect(0)));
-            towerInfo.Add("frost3", new TowerStats("frost3", "frostTower", "frostMissile", 1.0f, 0, 15, 0, 3, 3, new DamageOverTime(false), new Slow(70, 2f), new AreaOfEffect(0)));
-            towerInfo.Add("flameAoE3", new TowerStats("flameAoE3", "flameTower", "flameMissile", 2.0f, 15, 2, 0, 3, 2, new DamageOverTime(false), new Slow(false), new AreaOfEffect(128)));
-
-            enemyInfo.Add("basic", new EnemyInfo("basic", 20, 64, 2, "testEnemy", "redHealthBar", "yellowHealthBar"));
-            enemyInfo.Add("tough", new EnemyInfo("tough", 40, 32, 5, "toughEnemy", "redHealthBar", "yellowHealthBar"));
-            enemyInfo.Add("fast", new EnemyInfo("tough", 30, 128, 3, "fastEnemy", "redHealthBar", "yellowHealthBar"));
+            ioParametersXML = new IOParametersXML();
+            towerInfo = ioParametersXML.ReadTowerParameters(Content, loginScreen.SavePath);
+            enemyInfo = ioParametersXML.ReadMonsterParameters(Content, loginScreen.SavePath);
 
             CreateWave(); // After all enemies are added to enemyInfo.
 
             assets.AddImage("loginBackground", Content.Load<Texture2D>("loginPopup"));
 
             gui = new GUI(new Vector2(0, 640), towerInfo, Content.Load<Texture2D>("UIBar"), Content.Load<Texture2D>("sellTowerButton"), Content.Load<Texture2D>("upgradeTowerButton"), font, assets);
-            
+
             winPopup = new WinPopup(Content.Load<SpriteFont>("Winfont"));
 
             currentGold = startGold;
@@ -113,10 +100,6 @@ namespace AdaptiveTD
                 replayHandler.LoadReplay(replayString);
             else
                 useReplay = false;
-
-            ioParametersXML = new IOParametersXML();
-
-            //towerInfo = ioParametersXML.ReadParameters(Content, loginScreen.SavePath);
         }
 
         public void Update(float gameTime)
