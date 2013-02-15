@@ -1,10 +1,9 @@
 Tasklist:
-- Bug: Selected Tower color GUI (If selected and pressing keybinding)
-- Bug: Upgrade and sell buttons when building
-- Bug: Halfway selection of towers after build
-- Global session settings, lese ut, og endre på.
-  - XML
-- Login
+
+- Read Tower
+- Read Monster
+- Save Monster
+- Save Wave
 
 - Polishe
 - Questionaire

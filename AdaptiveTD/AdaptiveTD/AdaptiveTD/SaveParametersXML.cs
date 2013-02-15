@@ -17,21 +17,17 @@ namespace AdaptiveTD
         {
             XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
             xmlWriterSettings.Indent = true;
-            xmlWriterSettings.ConformanceLevel = ConformanceLevel.Auto;
-            //foreach (KeyValuePair<string, TowerStats> stringTowerStatPair in towerInfo)
-            //{
+            
             using (XmlWriter xmlWriter = XmlWriter.Create(Path + "Towers.xml", xmlWriterSettings))
             {
-
                 IntermediateSerializer.Serialize(xmlWriter, towerInfo, null);
             }
-            //}
 
             return true;
-        }/*
-        public Dictionary<string, TowerStats> ReadParameters()
+        }
+        public Dictionary<string, TowerStats> ReadParameters(ContentManager contentManager)
         {
-         //   TowerStats = Content.Load<MonsterParameters>("monsterParameters");
-        }*/
+            return contentManager.Load<Dictionary<string, TowerStats>>("example");
+        }
     }
 }

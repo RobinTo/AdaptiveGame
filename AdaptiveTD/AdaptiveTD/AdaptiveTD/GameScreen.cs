@@ -115,7 +115,7 @@ namespace AdaptiveTD
                 useReplay = false;
 
             ioParametersXML = new SaveParametersXML();
-            //ioParametersXML.ReadParameters();
+            towerInfo = ioParametersXML.ReadParameters(Content);
         }
 
         public void Update(float gameTime)
