@@ -77,7 +77,7 @@ namespace AdaptiveTD
             acceptedKeys.Add(Keys.N);
             acceptedKeys.Add(Keys.O);
             acceptedKeys.Add(Keys.P);
-            acceptedKeys.Add(Keys.K);
+            acceptedKeys.Add(Keys.Q);
             acceptedKeys.Add(Keys.R);
             acceptedKeys.Add(Keys.S);
             acceptedKeys.Add(Keys.T);

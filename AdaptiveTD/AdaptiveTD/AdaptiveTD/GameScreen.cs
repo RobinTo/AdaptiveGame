@@ -278,7 +278,7 @@ namespace AdaptiveTD
         // Currently static
         private void CreateWave()
         {
-            enemyBaseWave = waveHandler.GenerateNextWave(loginScreen.SavePath);/*parameters for wave caculation*/
+            enemyBaseWave = waveHandler.GenerateNextWave(loginScreen.SavePath);/*Use parameters for wave caculation*/
 
             foreach (KeyValuePair<float, string> kV in enemyBaseWave)
             {
