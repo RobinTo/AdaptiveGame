@@ -20,9 +20,17 @@ namespace AdaptiveTD
             return enemyWave;
         }
 
-        public Dictionary<float, string> GenerateNextWave()
+        public Dictionary<float, string> GenerateNextWave(string savePath)
         {
-            return new Dictionary<float, string>();
+            Dictionary<float, string> enemyBaseWave = new Dictionary<float, string>();
+            if (!File.Exists(savePath + "wave.txt"))
+                enemyBaseWave = LoadWave(".\\Content\\defaultWave.txt");
+            else
+                enemyBaseWave = LoadWave(savePath + "wave.txt");
+
+            if (enemyBaseWave.Count == 0)
+                enemyBaseWave.Add(0.5f, "basic");
+            return enemyBaseWave;
         }
 
         public void SaveWave(Dictionary<float, string> enemyWave, string Path)

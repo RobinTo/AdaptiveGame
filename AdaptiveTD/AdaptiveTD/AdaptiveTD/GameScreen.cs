@@ -100,14 +100,6 @@ namespace AdaptiveTD
             enemyInfo.Add("tough", new EnemyInfo("tough", 40, 32, 5, assets.GetImage("toughEnemy"), assets.GetImage("redHealthBar"), assets.GetImage("yellowHealthBar")));
             enemyInfo.Add("fast", new EnemyInfo("tough", 30, 128, 3, assets.GetImage("fastEnemy"), assets.GetImage("redHealthBar"), assets.GetImage("yellowHealthBar")));
 
-            if (!File.Exists(loginScreen.SavePath + "wave.txt"))
-                enemyBaseWave = waveHandler.LoadWave(".\\Content\\defaultWave.txt");
-            else
-                enemyBaseWave = waveHandler.LoadWave(loginScreen.SavePath + "wave.txt");
-
-            if(enemyBaseWave.Count == 0)
-                enemyBaseWave.Add(0.5f, "basic");
-
             CreateWave(); // After all enemies are added to enemyInfo.
 
             assets.AddImage("loginBackground", Content.Load<Texture2D>("loginPopup"));
@@ -279,8 +271,8 @@ namespace AdaptiveTD
         // Currently static
         private void CreateWave()
         {
-            // enemyBaseWave = waveHandler.GenerateWave(parameters);
-            // waveHandler.SaveWave(enemyBaseWave, Path);
+            enemyBaseWave = waveHandler.GenerateNextWave(loginScreen.SavePath);/*parameters for wave caculation*/
+
             foreach (KeyValuePair<float, string> kV in enemyBaseWave)
             {
                 SpawnEnemy(kV.Key, kV.Value);
