@@ -21,6 +21,7 @@ namespace MapEditor
 
         MapEditor mapEditor = new MapEditor();
 
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);

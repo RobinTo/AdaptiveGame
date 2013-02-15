@@ -25,7 +25,9 @@ namespace AdaptiveTD
         float updateTimer = 1.0f;
 
         GameScreen gameScreen;
-
+        LoginScreen loginScreen;
+        bool loggedIn = false;
+        InputHandler input = new InputHandler();
         bool onlyUpdates = false;
         bool showUpdatesPerSecond = false;
 
@@ -69,8 +71,10 @@ namespace AdaptiveTD
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = Content.Load<SpriteFont>("spriteFont");
-            gameScreen.LoadContent(Content, font);
-            
+
+            Texture2D loginBackground = Content.Load<Texture2D>("loginPopup");
+            loginScreen = new LoginScreen(loginBackground, new Vector2(GameConstants.screenWidth / 2 - loginBackground.Width / 2, GameConstants.screenHeight / 2 - loginBackground.Height / 2), new Vector2(580, 360), font);
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -97,21 +101,33 @@ namespace AdaptiveTD
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
 
-            // TODO: Add your update logic here
-            gameScreen.Update(gameTimeFloat);
-
-            if (showUpdatesPerSecond)
+            if (loginScreen.Name == "null")
             {
-                updates++;
-                updateTimer -= gameTimeFloat;
-                if (updateTimer <= 0)
+                input.Update();
+                loginScreen.Update(gameTimeFloat, input);
+                if (loginScreen.Name != "null")
                 {
-                    oldUpdates = updates;
-                    updates = 0;
-                    updateTimer = 1.0f;
+                    gameScreen.LoadContent(Content, font, loginScreen);
+                    loggedIn = true;
                 }
             }
+            else
+            {
+                // TODO: Add your update logic here
+                gameScreen.Update(gameTimeFloat);
 
+                if (showUpdatesPerSecond)
+                {
+                    updates++;
+                    updateTimer -= gameTimeFloat;
+                    if (updateTimer <= 0)
+                    {
+                        oldUpdates = updates;
+                        updates = 0;
+                        updateTimer = 1.0f;
+                    }
+                }
+            }
             base.Update(gameTime);
         }
 
@@ -124,11 +140,13 @@ namespace AdaptiveTD
         {
             if (!onlyUpdates || showUpdatesPerSecond)
             {
-
                 GraphicsDevice.Clear(Color.CornflowerBlue);
                 // TODO: Add your drawing code here
                 spriteBatch.Begin();
-                gameScreen.Draw(spriteBatch);
+                if(!loggedIn)
+                    loginScreen.Draw(spriteBatch);
+                if(loggedIn)
+                    gameScreen.Draw(spriteBatch);
                 if(showUpdatesPerSecond)
                     spriteBatch.DrawString(font, oldUpdates.ToString(), Vector2.Zero, Color.Black);
                 spriteBatch.End();

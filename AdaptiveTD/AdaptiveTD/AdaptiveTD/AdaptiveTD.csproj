@@ -128,6 +128,7 @@
     <Compile Include="ReplayHandler.cs" />
     <Compile Include="ThinkTank.cs" />
     <Compile Include="Tower.cs" />
+    <Compile Include="WaveHandler.cs" />
     <Compile Include="WinPopup.cs" />
   </ItemGroup>
   <ItemGroup>

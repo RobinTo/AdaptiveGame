@@ -30,14 +30,15 @@ namespace AdaptiveTD
 
         InputHandler input = new InputHandler();
         GUI gui;
-        LoginScreen loginScreen;
-        bool loggedIn = false;
 
         Map map;
         List<Enemy> enemies = new List<Enemy>();
         
         Enemy targetEnemy;
         Enemy selectedEnemy;
+
+        WaveHandler waveHandler = new WaveHandler();
+        Dictionary<float, string> enemyBaseWave = new Dictionary<float, string>();
 
         List<Tower> towers = new List<Tower>();
         AssetManager assets = new AssetManager();
@@ -54,13 +55,16 @@ namespace AdaptiveTD
         int currentLives = 5;
         int startingLives = 5;
 
+        LoginScreen loginScreen;
+
         public GameScreen()
         {
 
         }
 
-        public void LoadContent(ContentManager Content, SpriteFont font)
+        public void LoadContent(ContentManager Content, SpriteFont font, LoginScreen loginScreen)
         {
+            this.loginScreen = loginScreen;
             map = new Map();
             map.LoadMap(".\\Content\\map.txt", Content);
             targetCircle = Content.Load<Texture2D>("targetCircle");
@@ -96,6 +100,14 @@ namespace AdaptiveTD
             enemyInfo.Add("tough", new EnemyInfo("tough", 40, 32, 5, assets.GetImage("toughEnemy"), assets.GetImage("redHealthBar"), assets.GetImage("yellowHealthBar")));
             enemyInfo.Add("fast", new EnemyInfo("tough", 30, 128, 3, assets.GetImage("fastEnemy"), assets.GetImage("redHealthBar"), assets.GetImage("yellowHealthBar")));
 
+            if (!File.Exists(loginScreen.SavePath + "wave.txt"))
+                enemyBaseWave = waveHandler.LoadWave(".\\Content\\defaultWave.txt");
+            else
+                enemyBaseWave = waveHandler.LoadWave(loginScreen.SavePath + "wave.txt");
+
+            if(enemyBaseWave.Count == 0)
+                enemyBaseWave.Add(0.5f, "basic");
+
             CreateWave(); // After all enemies are added to enemyInfo.
 
             assets.AddImage("loginBackground", Content.Load<Texture2D>("loginPopup"));
@@ -103,7 +115,6 @@ namespace AdaptiveTD
             gui = new GUI(new Vector2(0, 640), towerInfo, Content.Load<Texture2D>("UIBar"), Content.Load<Texture2D>("sellTowerButton"), Content.Load<Texture2D>("upgradeTowerButton"), font, assets);
             
             winPopup = new WinPopup(Content.Load<SpriteFont>("Winfont"));
-            loginScreen = new LoginScreen(assets.GetImage("loginBackground"), new Vector2(GameConstants.screenWidth/2 - assets.GetImage("loginBackground").Width/2, GameConstants.screenHeight/2 - assets.GetImage("loginBackground").Height/2), new Vector2(580, 360), font);
 
             currentGold = startGold;
             if (useReplay && File.Exists(replayString))
@@ -117,110 +128,92 @@ namespace AdaptiveTD
 
         public void Update(float gameTime)
         {
-            if (loggedIn || useReplay)
+            if (targetEnemy != null && targetEnemy.Health <= 0)
+                targetEnemy = null;
+            if (!won)
             {
-                if (targetEnemy != null && targetEnemy.Health <= 0)
-                    targetEnemy = null;
-                if (!won)
+                if (useReplay)
                 {
-                    if (useReplay)
-                    {
-                        NextUpdate next = replayHandler.GetNextUpdate();
-                        gameTime = next.Gametime;
-                        if (gameTime < 0)                   // If no more updates in replay, use a fixed 60fps step.
-                            gameTime = (float)(1.0 / 60.0); // To be able to run simulations past ending time in the original game in replay.
-                        eventHandler.Events = next.Events;
-                    }
-                    else
-                    {
-                        eventHandler.NewRound();
-                        input.Update();
-                        HandleInput();
-                    }
-
-                    TotalTime += gameTime;
-                    if (enemyWave.Count > 0)
-                    {
-                        if (TotalTime >= enemyWave.Keys[0])
-                        {
-                            enemies.Add(enemyWave[enemyWave.Keys[0]]);
-                            enemyWave.Remove(enemyWave.Keys[0]);
-                        }
-                    }
-                    if (saveReplay)
-                    {
-                        replayHandler.Update(gameTime, TotalTime, eventHandler.Events);
-                    }
-
-                    HandleEvents();
-
-                    for (int counter = 0; counter < enemies.Count; counter++)
-                    {
-                        enemies[counter].Update(gameTime);
-                        if (enemies[counter].Health <= 0)
-                        {
-                            currentGold += enemies[counter].GoldYield;
-                            enemies.RemoveAt(counter);
-                            counter--;
-                        }
-                        else if (enemies[counter].Position.X >= GameConstants.screenWidth)
-                        {
-                            currentLives--;
-                            enemies.RemoveAt(counter);
-                            counter--;
-                        }
-                    }
-                    foreach (Tower t in towers)
-                    {
-                        if (enemies.Count > 0)
-                        {
-                            t.Update(gameTime, enemies, targetEnemy, missiles);
-                            if (gui.building)
-                                t.Color = Color.White;
-                        }
-                    }
-                    for (int counter = 0; counter < missiles.Count; counter++)
-                    {
-                        missiles[counter].Update(gameTime, enemies);
-                        if (missiles[counter].remove)
-                        {
-                            missiles.RemoveAt(counter);
-                            counter--;
-                        }
-                    }
-
-                    gui.Update(gameTime, input, currentLives, currentGold, selectedTower, eventHandler);
+                    NextUpdate next = replayHandler.GetNextUpdate();
+                    gameTime = next.Gametime;
+                    if (gameTime < 0)                   // If no more updates in replay, use a fixed 60fps step.
+                        gameTime = (float)(1.0 / 60.0); // To be able to run simulations past ending time in the original game in replay.
+                    eventHandler.Events = next.Events;
                 }
-                if (enemies.Count <= 0 && enemyWave.Count <= 0)
-                    won = true;
-
-
-                if (won)
+                else
                 {
-                    if (saveReplay && !saved && !useReplay)
-                    {
-                        replayHandler.SaveReplay();
-                        saved = true;
-                    }
+                    eventHandler.NewRound();
                     input.Update();
-                    if (input.KeyPress(Keys.Enter) || input.KeyPress(Keys.Space))
-                        RestartGame();
+                    HandleInput();
                 }
+
+                TotalTime += gameTime;
+                if (enemyWave.Count > 0)
+                {
+                    if (TotalTime >= enemyWave.Keys[0])
+                    {
+                        enemies.Add(enemyWave[enemyWave.Keys[0]]);
+                        enemyWave.Remove(enemyWave.Keys[0]);
+                    }
+                }
+                if (saveReplay)
+                {
+                    replayHandler.Update(gameTime, TotalTime, eventHandler.Events);
+                }
+
+                HandleEvents();
+
+                for (int counter = 0; counter < enemies.Count; counter++)
+                {
+                    enemies[counter].Update(gameTime);
+                    if (enemies[counter].Health <= 0)
+                    {
+                        currentGold += enemies[counter].GoldYield;
+                        enemies.RemoveAt(counter);
+                        counter--;
+                    }
+                    else if (enemies[counter].Position.X >= GameConstants.screenWidth)
+                    {
+                        currentLives--;
+                        enemies.RemoveAt(counter);
+                        counter--;
+                    }
+                }
+                foreach (Tower t in towers)
+                {
+                    if (enemies.Count > 0)
+                    {
+                        t.Update(gameTime, enemies, targetEnemy, missiles);
+                        if (gui.building)
+                            t.Color = Color.White;
+                    }
+                }
+                for (int counter = 0; counter < missiles.Count; counter++)
+                {
+                    missiles[counter].Update(gameTime, enemies);
+                    if (missiles[counter].remove)
+                    {
+                        missiles.RemoveAt(counter);
+                        counter--;
+                    }
+                }
+
+                gui.Update(gameTime, input, currentLives, currentGold, selectedTower, eventHandler);
             }
-            else
+            if (enemies.Count <= 0 && enemyWave.Count <= 0)
+                won = true;
+
+
+            if (won)
             {
+                if (saveReplay && !saved && !useReplay)
+                {
+                    replayHandler.SaveReplay();
+                    saved = true;
+                }
                 input.Update();
-
-                loginScreen.Update(gameTime, input);
-                if (loginScreen.Name != "null")
-                    loggedIn = true;
-
                 if (input.KeyPress(Keys.Enter) || input.KeyPress(Keys.Space))
                     RestartGame();
-
-                if (!savedParameters)
-                    savedParameters = ioParametersXML.SaveTowerParameters(towerInfo, enemyInfo, loginScreen.SavePath);
-
             }
         }
 
@@ -258,8 +251,6 @@ namespace AdaptiveTD
             {
                 winPopup.Draw(true, spriteBatch);
             }
-            if (!loggedIn && !useReplay)
-                loginScreen.Draw(spriteBatch);
         }
 
         private void RestartGame()
@@ -288,7 +279,12 @@ namespace AdaptiveTD
         // Currently static
         private void CreateWave()
         {
-            SpawnEnemy(0.5f, "basic");
+            // enemyBaseWave = waveHandler.GenerateWave(parameters);
+            // waveHandler.SaveWave(enemyBaseWave, Path);
+            foreach (KeyValuePair<float, string> kV in enemyBaseWave)
+            {
+                SpawnEnemy(kV.Key, kV.Value);
+            }
             /*enemyWave.Add(0.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
             enemyWave.Add(1.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
             enemyWave.Add(2.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
