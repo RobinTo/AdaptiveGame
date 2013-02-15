@@ -47,13 +47,13 @@ namespace AdaptiveTD
             {
                 position.X = (screenDimensions.X / 2) - (font.MeasureString(selectedWinString).X / 2);
                 position.Y = (screenDimensions.Y / 2) - font.MeasureString(selectedWinString).Y;
-                spriteBatch.DrawString(font, selectedWinString, position, Color.Black);
+                spriteBatch.DrawString(font, selectedWinString, position, Color.Orange);
             }
             else
             {
                 position.X = (screenDimensions.X / 2) - (font.MeasureString(selectedLoseString).X / 2);
                 position.Y = (screenDimensions.Y / 2) - font.MeasureString(selectedLoseString).Y;
-                spriteBatch.DrawString(font, selectedLoseString, position, Color.Black);
+                spriteBatch.DrawString(font, selectedLoseString, position, Color.Orange);
             }
         }
     }
