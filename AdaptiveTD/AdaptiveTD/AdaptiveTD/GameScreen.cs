@@ -24,7 +24,7 @@ namespace AdaptiveTD
 
         Texture2D targetCircle;
 
-        SaveParametersXML ioParametersXML;
+        IOParametersXML ioParametersXML;
 
         EventHandler eventHandler = new EventHandler();
 
@@ -96,9 +96,9 @@ namespace AdaptiveTD
             towerInfo.Add("frost3", new TowerStats("frost3", "frostTower", "frostMissile", 1.0f, 0, 15, 0, 3, 3, new DamageOverTime(false), new Slow(70, 2f), new AreaOfEffect(0)));
             towerInfo.Add("flameAoE3", new TowerStats("flameAoE3", "flameTower", "flameMissile", 2.0f, 15, 2, 0, 3, 2, new DamageOverTime(false), new Slow(false), new AreaOfEffect(128)));
 
-            enemyInfo.Add("basic", new EnemyInfo("basic", 20, 64, 2, assets.GetImage("testEnemy"), assets.GetImage("redHealthBar"), assets.GetImage("yellowHealthBar")));
-            enemyInfo.Add("tough", new EnemyInfo("tough", 40, 32, 5, assets.GetImage("toughEnemy"), assets.GetImage("redHealthBar"), assets.GetImage("yellowHealthBar")));
-            enemyInfo.Add("fast", new EnemyInfo("tough", 30, 128, 3, assets.GetImage("fastEnemy"), assets.GetImage("redHealthBar"), assets.GetImage("yellowHealthBar")));
+            enemyInfo.Add("basic", new EnemyInfo("basic", 20, 64, 2, "testEnemy", "redHealthBar", "yellowHealthBar"));
+            enemyInfo.Add("tough", new EnemyInfo("tough", 40, 32, 5, "toughEnemy", "redHealthBar", "yellowHealthBar"));
+            enemyInfo.Add("fast", new EnemyInfo("tough", 30, 128, 3, "fastEnemy", "redHealthBar", "yellowHealthBar"));
 
             CreateWave(); // After all enemies are added to enemyInfo.
 
@@ -114,8 +114,9 @@ namespace AdaptiveTD
             else
                 useReplay = false;
 
-            ioParametersXML = new SaveParametersXML();
-            towerInfo = ioParametersXML.ReadParameters(Content);
+            ioParametersXML = new IOParametersXML();
+
+            //towerInfo = ioParametersXML.ReadParameters(Content, loginScreen.SavePath);
         }
 
         public void Update(float gameTime)
@@ -206,6 +207,7 @@ namespace AdaptiveTD
                 input.Update();
                 if (input.KeyPress(Keys.Enter) || input.KeyPress(Keys.Space))
                     RestartGame();
+
             }
         }
 
@@ -300,7 +302,7 @@ namespace AdaptiveTD
 
         private void SpawnEnemy(float time, string enemyType)
         {
-            enemyWave.Add(time, new Enemy(map.StartPoint, enemyInfo[enemyType], map.Directions));
+            enemyWave.Add(time, new Enemy(map.StartPoint, enemyInfo[enemyType], map.Directions, assets.GetImage(enemyInfo[enemyType].EnemyTexture), assets.GetImage(enemyInfo[enemyType].YellowHealthBar), assets.GetImage(enemyInfo[enemyType].RedHealthBar)));
         }
 
         private void HandleEvents()

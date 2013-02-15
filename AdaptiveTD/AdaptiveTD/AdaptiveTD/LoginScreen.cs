@@ -53,9 +53,9 @@ namespace AdaptiveTD
             nameSet = false;
         }
 
-        public LoginScreen(Texture2D backround, Vector2 position, Vector2 namePosition, SpriteFont font)
+        public LoginScreen(Texture2D background, Vector2 position, Vector2 namePosition, SpriteFont font)
         {
-            this.backgroundTexture = backround;
+            this.backgroundTexture = background;
             this.position = position;
             this.namePosition = namePosition;
             this.font = font;

@@ -7,7 +7,26 @@ namespace AdaptiveTD
 {
     class Enemy
     {
-        Texture2D enemyTexture, healthBarRedTexture, healthBarYellowTexture;
+        Texture2D redHealthBar;
+        public Texture2D RedHealthBar
+        {
+            get { return redHealthBar; }
+            set { redHealthBar = value; }
+        }
+        Texture2D yellowHealthBar;
+
+        public Texture2D YellowHealthBar
+        {
+            get { return yellowHealthBar; }
+            set { yellowHealthBar = value; }
+        }
+        Texture2D enemyTexture;
+
+        public Texture2D EnemyTexture
+        {
+            get { return enemyTexture; }
+            set { enemyTexture = value; }
+        }
         int health, maxHealth;
         public int Health
         {
@@ -80,12 +99,12 @@ namespace AdaptiveTD
             set { type = value; }
         }
         
-        public Enemy(Vector2 startPosition, EnemyInfo enemyInfo, List<Direction> directions)
+        public Enemy(Vector2 startPosition, EnemyInfo enemyInfo, List<Direction> directions, Texture2D enemyTexture, Texture2D yellowHealthBar, Texture2D redHealthBar)
         {
             this.type = enemyInfo.Type;
-            this.enemyTexture = enemyInfo.EnemyTexture;
-            this.healthBarRedTexture = enemyInfo.RedHealthBar;
-            this.healthBarYellowTexture = enemyInfo.YellowHealthBar;
+            this.enemyTexture = enemyTexture;
+            this.redHealthBar = redHealthBar;
+            this.yellowHealthBar = yellowHealthBar;
             origin = new Vector2(enemyTexture.Width / 2, enemyTexture.Height / 2);
             this.position = new Vector2(startPosition.X * GameConstants.tileSize, startPosition.Y * GameConstants.tileSize);
             targetPosition = position;
@@ -206,8 +225,8 @@ namespace AdaptiveTD
         {
             Vector2 drawPosition = position + origin;
             spriteBatch.Draw(enemyTexture, drawPosition, null, color, rotation, origin, 1.0f, SpriteEffects.None, 1.0f);
-            spriteBatch.Draw(healthBarRedTexture, healthBarRedRectangle, Color.White);
-            spriteBatch.Draw(healthBarYellowTexture, healthBarYellowRectangle, Color.White);
+            spriteBatch.Draw(redHealthBar, healthBarRedRectangle, Color.White);
+            spriteBatch.Draw(yellowHealthBar, healthBarYellowRectangle, Color.White);
             
         }
 
@@ -237,37 +256,33 @@ namespace AdaptiveTD
             get { return goldYield; }
             set { goldYield = value; }
         }
-
-        Texture2D redHealthBar;
-
-        public Texture2D RedHealthBar
-        {
-            get { return redHealthBar; }
-            set { redHealthBar = value; }
-        }
-        Texture2D yellowHealthBar;
-
-        public Texture2D YellowHealthBar
-        {
-            get { return yellowHealthBar; }
-            set { yellowHealthBar = value; }
-        }
-        Texture2D enemyTexture;
-
-        public Texture2D EnemyTexture
+        string enemyTexture;
+        public string EnemyTexture
         {
             get { return enemyTexture; }
             set { enemyTexture = value; }
         }
-        string type;
 
+        string yellowHealthBar;
+        public string YellowHealthBar
+        {
+            get { return yellowHealthBar; }
+            set { yellowHealthBar = value; }
+        }
+        string redHealthBar;
+        public string RedHealthBar
+        {
+            get { return redHealthBar; }
+            set { redHealthBar = value; }
+        }
+        string type;
         public string Type
         {
             get { return type; }
             set { type = value; }
         }
 
-        public EnemyInfo(string type, int health, int speed, int goldYield, Texture2D enemyTexture, Texture2D redHealthBar, Texture2D yellowHealthBar)
+        public EnemyInfo(string type, int health, int speed, int goldYield, string enemyTexture, string redHealthBar, string yellowHealthBar)
         {
             this.type = type;
             this.health = health;

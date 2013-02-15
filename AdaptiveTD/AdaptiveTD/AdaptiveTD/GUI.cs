@@ -171,7 +171,7 @@ namespace AdaptiveTD
         private void DrawEnemyInfo(SpriteBatch spriteBatch, EnemyInfo enemyInfo)
         {
             Vector2 infoPosition = new Vector2(startingDrawPos.X + 800, startingDrawPos.Y + position.Y);
-            spriteBatch.Draw(enemyInfo.EnemyTexture, infoPosition, Color.White);
+            spriteBatch.Draw(assets.GetImage(enemyInfo.EnemyTexture), infoPosition, Color.White);
             infoPosition.X += 66;
             spriteBatch.DrawString(font, "Health: " + enemyInfo.Health, infoPosition, Color.Black);
             infoPosition.Y += 30;
