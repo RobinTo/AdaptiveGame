@@ -233,8 +233,8 @@
         <MissileTexture>basicMissile</MissileTexture>
         <ReloadTime>0.5</ReloadTime>
         <Damage>3</Damage>
-        <GoldCost>10</GoldCost>
-        <UpgradeCost>0</UpgradeCost>
+        <GoldCost>5</GoldCost>
+        <UpgradeCost>3</UpgradeCost>
         <MaxLevel>3</MaxLevel>
         <Range>192</Range>
         <DamageOverTime>
@@ -262,7 +262,7 @@
         <ReloadTime>1</ReloadTime>
         <Damage>6</Damage>
         <GoldCost>20</GoldCost>
-        <UpgradeCost>0</UpgradeCost>
+        <UpgradeCost>15</UpgradeCost>
         <MaxLevel>3</MaxLevel>
         <Range>128</Range>
         <DamageOverTime>
@@ -290,7 +290,7 @@
         <ReloadTime>1</ReloadTime>
         <Damage>0</Damage>
         <GoldCost>15</GoldCost>
-        <UpgradeCost>0</UpgradeCost>
+        <UpgradeCost>10</UpgradeCost>
         <MaxLevel>3</MaxLevel>
         <Range>192</Range>
         <DamageOverTime>
@@ -318,7 +318,7 @@
         <ReloadTime>2</ReloadTime>
         <Damage>15</Damage>
         <GoldCost>2</GoldCost>
-        <UpgradeCost>0</UpgradeCost>
+        <UpgradeCost>20</UpgradeCost>
         <MaxLevel>3</MaxLevel>
         <Range>128</Range>
         <DamageOverTime>
