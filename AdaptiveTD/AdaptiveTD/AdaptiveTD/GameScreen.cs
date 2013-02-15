@@ -109,8 +109,10 @@ namespace AdaptiveTD
             loginScreen = new LoginScreen(assets.GetImage("loginBackground"), new Vector2(GameConstants.screenWidth/2 - assets.GetImage("loginBackground").Width/2, GameConstants.screenHeight/2 - assets.GetImage("loginBackground").Height/2), new Vector2(580, 360), font);
 
             currentGold = startGold;
-            if (useReplay)
+            if (useReplay && File.Exists(replayString))
                 replayHandler.LoadReplay(replayString);
+            else
+                useReplay = false;
 
             ioParametersXML = new SaveParametersXML();
             //ioParametersXML.ReadParameters();
@@ -222,7 +224,7 @@ namespace AdaptiveTD
                     RestartGame();
 
                 if (!savedParameters)
-                    savedParameters = ioParametersXML.SaveParameters(towerInfo, enemyInfo);
+                    savedParameters = ioParametersXML.SaveTowerParameters(towerInfo, enemyInfo, loginScreen.SavePath);
 
             }
         }
@@ -291,10 +293,9 @@ namespace AdaptiveTD
         // Currently static
         private void CreateWave()
         {
-
-            Vector2 startPoint = new Vector2(map.StartPoint.X, map.StartPoint.Y);
-            enemyWave.Add(0.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
-            /*enemyWave.Add(1.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
+            SpawnEnemy(0.5f, "basic");
+            /*enemyWave.Add(0.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
+            enemyWave.Add(1.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
             enemyWave.Add(2.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
             enemyWave.Add(4.0f, new Enemy(startPoint, enemyInfo["tough"], map.Directions));
             enemyWave.Add(4.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
@@ -312,6 +313,11 @@ namespace AdaptiveTD
             enemyWave.Add(15.0f, new Enemy(startPoint, enemyInfo["fast"], map.Directions));
             enemyWave.Add(16.0f, new Enemy(startPoint, enemyInfo["fast"], map.Directions));
             */
+        }
+
+        private void SpawnEnemy(float time, string enemyType)
+        {
+            enemyWave.Add(time, new Enemy(map.StartPoint, enemyInfo[enemyType], map.Directions));
         }
 
         private void HandleEvents()
@@ -473,7 +479,7 @@ namespace AdaptiveTD
             {
 
                 selectedTower = new Tower(t, position, assets.GetImage(t.TowerTexture), assets.GetImage(t.MissileTexture));
-                selectedTower.Color = Color.FireBrick;
+                selectedTower.Color = Color.Firebrick;
                 towers.Add(selectedTower);
                 currentGold -= t.GoldCost;
             }

@@ -32,8 +32,8 @@ namespace AdaptiveTD
             get { return directions; }
         }
 
-        Point startPoint = new Point(-1, 0);
-        public Point StartPoint
+        Vector2 startPoint = new Vector2(-1, 0);
+        public Vector2 StartPoint
         {
             get { return startPoint; }
         }

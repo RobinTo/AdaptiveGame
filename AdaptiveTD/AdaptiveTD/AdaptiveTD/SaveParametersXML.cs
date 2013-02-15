@@ -13,14 +13,14 @@ namespace AdaptiveTD
 {
     class SaveParametersXML
     {
-        public bool SaveParameters(Dictionary<string, TowerStats> towerInfo, Dictionary<string, EnemyInfo> enemyInfo)
+        public bool SaveTowerParameters(Dictionary<string, TowerStats> towerInfo, Dictionary<string, EnemyInfo> enemyInfo, string Path)
         {
             XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
             xmlWriterSettings.Indent = true;
             xmlWriterSettings.ConformanceLevel = ConformanceLevel.Auto;
             //foreach (KeyValuePair<string, TowerStats> stringTowerStatPair in towerInfo)
             //{
-            using (XmlWriter xmlWriter = XmlWriter.Create("example.xml", xmlWriterSettings))
+            using (XmlWriter xmlWriter = XmlWriter.Create(Path + "Towers.xml", xmlWriterSettings))
             {
 
                 IntermediateSerializer.Serialize(xmlWriter, towerInfo, null);
