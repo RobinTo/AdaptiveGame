@@ -164,7 +164,11 @@ namespace AdaptiveTD
                     foreach (Tower t in towers)
                     {
                         if (enemies.Count > 0)
+                        {
                             t.Update(gameTime, enemies, targetEnemy, missiles);
+                            if (gui.building)
+                                t.Color = Color.White;
+                        }
                     }
                     for (int counter = 0; counter < missiles.Count; counter++)
                     {
@@ -446,6 +450,7 @@ namespace AdaptiveTD
             if (canBuild)
             {
                 selectedTower = new Tower(t, position);
+                selectedTower.Color = Color.FireBrick;
                 towers.Add(selectedTower);
                 currentGold -= t.GoldCost;
             }

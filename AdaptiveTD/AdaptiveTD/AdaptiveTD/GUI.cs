@@ -145,8 +145,11 @@ namespace AdaptiveTD
 
             if (isSelected || towerButtonIsSelected)
             {
-                sellTowerButton.Draw(spriteBatch);
-                upgradeTowerButton.Draw(spriteBatch);
+                if (!building)
+                {
+                    sellTowerButton.Draw(spriteBatch);
+                    upgradeTowerButton.Draw(spriteBatch);
+                }
                 DrawInfo(spriteBatch, selected);
             }
             if (isEnemySelected)
