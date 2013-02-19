@@ -79,6 +79,8 @@ namespace AdaptiveTD
             assets.AddImage("basicMissile", Content.Load<Texture2D>("blackBullet"));
             assets.AddImage("flameTower", Content.Load<Texture2D>("redTower"));
             assets.AddImage("frostTower", Content.Load<Texture2D>("blueTower"));
+            assets.AddImage("AoETower", Content.Load<Texture2D>("testTower"));
+            assets.AddImage("AoETower2", Content.Load<Texture2D>("testTower2"));
             assets.AddImage("flameMissile", Content.Load<Texture2D>("redBullet"));
             assets.AddImage("frostMissile", Content.Load<Texture2D>("blueBullet"));
             assets.AddImage("rangeHighlight", Content.Load<Texture2D>("rangeHighlight"));
@@ -470,6 +472,7 @@ namespace AdaptiveTD
             {
                 selectedTower.CurrentLevel ++;
                 selectedTower.TowerStats = towerInfo[selectedTower.TowerStats.Type.Substring(0,selectedTower.TowerStats.Type.Length-1)  + selectedTower.CurrentLevel];
+                selectedTower.TowerTexture = assets.GetImage(selectedTower.TowerStats.TowerTexture);
                 currentGold -= selectedTower.TowerStats.UpgradeCost;
 
             }

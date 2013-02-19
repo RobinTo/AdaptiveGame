@@ -15,7 +15,7 @@ namespace AdaptiveTD
             foreach (string s in fileContent)
             {
                 string[] split = s.Split(':');
-                enemyWave.Add(float.Parse(split[0].Replace('.', ',')), split[1]);
+                enemyWave.Add(float.Parse(split[0]), split[1]);
             }
             return enemyWave;
         }
