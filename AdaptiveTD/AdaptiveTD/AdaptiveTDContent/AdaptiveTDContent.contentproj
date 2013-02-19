@@ -42,6 +42,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="blueBullet.png">
+      <Name>blueBullet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="imageOne.png">
       <Name>imageOne</Name>
       <Importer>TextureImporter</Importer>
@@ -78,11 +83,6 @@
   <ItemGroup>
     <Compile Include="blackBullet.png">
       <Name>blackBullet</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="blueBullet.png">
-      <Name>blueBullet</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
