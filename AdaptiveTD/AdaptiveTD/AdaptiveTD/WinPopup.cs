@@ -19,8 +19,8 @@ namespace AdaptiveTD
         {
             this.font = font;
             winStrings.Add("Today you, tomorrow me.");
-            winStrings.Add("You win! This time...");
-            winStrings.Add("Good job, just one more, then there will be cake!");
+            winStrings.Add("This time...");
+            winStrings.Add("Just one more, then there will be cake!");
             winStrings.Add("Impossible to carry these stupid monsters.");
             winStrings.Add("You only win because I lagged!");
 
@@ -37,8 +37,8 @@ namespace AdaptiveTD
 
         public void Randomize()
         {
-            selectedWinString = winStrings[new Random().Next(0, winStrings.Count)];
-            selectedLoseString = loseStrings[new Random().Next(0, loseStrings.Count)];
+            selectedWinString = "You win! " + winStrings[new Random().Next(0, winStrings.Count)];
+            selectedLoseString = "You lose! " + loseStrings[new Random().Next(0, loseStrings.Count)];
         }
 
         public void Draw(bool won, SpriteBatch spriteBatch)

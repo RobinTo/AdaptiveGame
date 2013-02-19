@@ -34,17 +34,45 @@ namespace AdaptiveTD
         public Dictionary<string, TowerStats> ReadTowerParameters(ContentManager contentManager, string path)
         {
             if (File.Exists(path + "Towers.xml"))
-                return IntermediateSerializer.Deserialize<Dictionary<string, TowerStats>>(XmlReader.Create(new FileStream(path + "Towers.xml", FileMode.Open)), null); 
+            {
+                using (FileStream fs = new FileStream(path + "Towers.xml", FileMode.Open))
+                {
+                    Dictionary<string, TowerStats> towers = IntermediateSerializer.Deserialize<Dictionary<string, TowerStats>>(XmlReader.Create(fs), null);
+                    fs.Close();
+                    return towers;
+                }
+            }
             else
-                return IntermediateSerializer.Deserialize<Dictionary<string, TowerStats>>(XmlReader.Create(new FileStream(".\\Content\\defaultTowers.xml", FileMode.Open)), null); 
+            {
+                using (FileStream fs = new FileStream(".\\Content\\defaultTowers.xml", FileMode.Open))
+                {
+                    Dictionary<string, TowerStats> towers = IntermediateSerializer.Deserialize<Dictionary<string, TowerStats>>(XmlReader.Create(fs), null);
+                    fs.Close();
+                    return towers;
+                }
+            }
         }
         
         public Dictionary<string, EnemyInfo> ReadMonsterParameters(ContentManager contentManager, string path)
         {
             if (File.Exists(path + "Monsters.xml"))
-                return IntermediateSerializer.Deserialize<Dictionary<string, EnemyInfo>>(XmlReader.Create(new FileStream(path + "Monsters.xml", FileMode.Open)), null); 
+            {
+                using (FileStream fs = new FileStream(path + "Monsters.xml", FileMode.Open))
+                {
+                    Dictionary<string, EnemyInfo> monsters = IntermediateSerializer.Deserialize<Dictionary<string, EnemyInfo>>(XmlReader.Create(fs), null);
+                    fs.Close();
+                    return monsters;
+                }
+            }
             else
-                return IntermediateSerializer.Deserialize<Dictionary<string, EnemyInfo>>(XmlReader.Create(new FileStream(".\\Content\\defaultMonsters.xml", FileMode.Open)), null); 
+            {
+                using (FileStream fs = new FileStream(".\\Content\\defaultMonsters.xml", FileMode.Open))
+                {
+                    Dictionary<string, EnemyInfo> monsters = IntermediateSerializer.Deserialize<Dictionary<string, EnemyInfo>>(XmlReader.Create(fs), null);
+                    fs.Close();
+                    return monsters;
+                }
+            }
         
             
         }

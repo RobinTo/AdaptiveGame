@@ -410,13 +410,13 @@ namespace AdaptiveTD
             }
             else if (input.KeyPress(Keys.D2))
             {
-                gui.selectedTower = towerInfo["flame2"];
+                gui.selectedTower = towerInfo["flame1"];
                 gui.building = true;
                 selectedTower = null;
             }
             else if (input.KeyPress(Keys.D3))
             {
-                gui.selectedTower = towerInfo["frost3"];
+                gui.selectedTower = towerInfo["frost1"];
                 gui.building = true;
                 selectedTower = null;
             }
