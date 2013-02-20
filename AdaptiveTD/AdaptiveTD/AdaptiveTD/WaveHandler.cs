@@ -15,7 +15,13 @@ namespace AdaptiveTD
             foreach (string s in fileContent)
             {
                 string[] split = s.Split(':');
-                enemyWave.Add(float.Parse(split[0]), split[1]);
+                // Some computers use , some use . to separate numbers resulting in parsing errors.
+                // This makes the parsing return correct numbers regardless of what the computer uses.
+                System.Globalization.NumberFormatInfo nf = new System.Globalization.NumberFormatInfo()
+                {
+                    NumberGroupSeparator = "."
+                };
+                enemyWave.Add(float.Parse(split[0], nf), split[1]);
             }
             return enemyWave;
         }
