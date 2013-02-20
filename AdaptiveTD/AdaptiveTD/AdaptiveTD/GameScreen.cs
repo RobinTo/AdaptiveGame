@@ -49,7 +49,7 @@ namespace AdaptiveTD
         WinPopup winPopup;
         float TotalTime;
 
-        int startGold = 30;
+        int startGold = 50;
         int currentGold = 0;
 
         int currentLives = 5;
