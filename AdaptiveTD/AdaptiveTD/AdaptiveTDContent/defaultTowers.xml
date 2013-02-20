@@ -313,7 +313,7 @@
       <Key>flameAoE3</Key>
       <Value>
         <Type>flameAoE3</Type>
-        <TowerTexture>flameTower</TowerTexture>
+        <TowerTexture>AoETower2</TowerTexture>
         <MissileTexture>flameMissile</MissileTexture>
         <ReloadTime>2</ReloadTime>
         <Damage>15</Damage>

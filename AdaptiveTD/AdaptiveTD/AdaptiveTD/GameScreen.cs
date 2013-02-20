@@ -402,6 +402,7 @@ namespace AdaptiveTD
                     }
                 }
             }
+            // Should possibly use the keybindings as saved in the GUI, make the keybindings for buttons public.
             if (input.KeyPress(Keys.D1))
             {
                 gui.selectedTower = towerInfo["basic1"];
@@ -473,6 +474,7 @@ namespace AdaptiveTD
                 selectedTower.CurrentLevel ++;
                 selectedTower.TowerStats = towerInfo[selectedTower.TowerStats.Type.Substring(0,selectedTower.TowerStats.Type.Length-1)  + selectedTower.CurrentLevel];
                 selectedTower.TowerTexture = assets.GetImage(selectedTower.TowerStats.TowerTexture);
+                selectedTower.MissileTexture = assets.GetImage(selectedTower.TowerStats.MissileTexture);
                 currentGold -= selectedTower.TowerStats.UpgradeCost;
 
             }
