@@ -471,12 +471,11 @@ namespace AdaptiveTD
 
             if (canUpgrade)
             {
+                currentGold -= selectedTower.TowerStats.UpgradeCost;
                 selectedTower.CurrentLevel ++;
                 selectedTower.TowerStats = towerInfo[selectedTower.TowerStats.Type.Substring(0,selectedTower.TowerStats.Type.Length-1)  + selectedTower.CurrentLevel];
                 selectedTower.TowerTexture = assets.GetImage(selectedTower.TowerStats.TowerTexture);
                 selectedTower.MissileTexture = assets.GetImage(selectedTower.TowerStats.MissileTexture);
-                currentGold -= selectedTower.TowerStats.UpgradeCost;
-
             }
         }
     }

@@ -1,0 +1,6 @@
+Lots of balancing issues to keep in mind
+Tower effects need to be pre-programmed, cannot learn this
+Can combine multiple types instead
+Pathfinding vs. No-pathfinding
+Map generation vs. Pre-defined map
+

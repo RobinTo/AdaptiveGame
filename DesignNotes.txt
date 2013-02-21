@@ -1,12 +1,14 @@
 Tasklist:
-
 - Upgrade cost i gui
 - Keybindings ligger i GUIButton, bruke den fremfor hardkodet input i gameScreen.
-
-
-- Polishe
 - Questionaire
   - Guidelines
+- Installasjon
+- Map generation
+- Grafikk
+- Lydeffekter
+
+- Polishe
 - Enkel testing
 - Intuitivt spill
 - Se på gaussiske prosesser.
@@ -15,13 +17,11 @@ Tasklist:
 
 
 Later
-- Polishe på Map Editor / Random map generation
 - Select map
 - More monsters
 - More towers
 - Ta vekk grid/Transparante tårn-hjørner
-- Lydeffekter
-- Grafikk
+
 
 Code cleanup
 - Merge GUI og GameScreen
