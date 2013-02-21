@@ -104,9 +104,34 @@ namespace AdaptiveTD
             */
             
             bool hitAny = false;
+            if(input.MousePress(MouseButtons.Left))
+            {
+                foreach (KeyValuePair<GUIButton, TowerStats> button in towerButtons)
+                {
+                    if ((button.Key.ButtonClicked(hitPosition.X, hitPosition.Y) && input.MousePress(MouseButtons.Left)) || input.KeyPress(button.Key.KeyBinding))
+                    {
+                        selectedTower = button.Value;
+                        building = true;
+                        hitAny = true;
+                        towerButtonIsSelected = true;
+                        this.selected = selectedTower;
+                    }
+                }
+                if (!hitAny)
+                {
+                    building = false;
+                    towerButtonIsSelected = false;
+                }
+            }
+            else if (input.MousePress(MouseButtons.Right))
+            {
+                building = false;
+                towerButtonIsSelected = false;
+            }
+
             foreach (KeyValuePair<GUIButton, TowerStats> button in towerButtons)
             {
-                if ((button.Key.ButtonClicked(hitPosition.X, hitPosition.Y) && input.MousePress(MouseButtons.Left)) || input.KeyPress(button.Key.KeyBinding))
+                if (input.KeyPress(button.Key.KeyBinding))
                 {
                     selectedTower = button.Value;
                     building = true;
@@ -115,17 +140,7 @@ namespace AdaptiveTD
                     this.selected = selectedTower;
                 }
             }
-            if (!hitAny && input.MousePress(MouseButtons.Left))
-            {
-                building = false;
-                towerButtonIsSelected = false;
-            }
 
-            else if (input.MousePress(MouseButtons.Right))
-            {
-                building = false;
-                towerButtonIsSelected = false;
-            }
             if (!building)
             {
                 foreach (KeyValuePair<GUIButton, TowerStats> button in towerButtons)

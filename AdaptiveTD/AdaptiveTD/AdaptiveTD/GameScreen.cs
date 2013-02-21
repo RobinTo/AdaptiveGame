@@ -384,26 +384,8 @@ namespace AdaptiveTD
                     }
                 }
             }
-            // Should possibly use the keybindings as saved in the GUI, make the keybindings for buttons public.
-            if (input.KeyPress(Keys.D1))
-            {
-                gui.selectedTower = towerInfo["basic1"];
-                gui.building = true;
-                selectedTower = null;
-            }
-            else if (input.KeyPress(Keys.D2))
-            {
-                gui.selectedTower = towerInfo["flame1"];
-                gui.building = true;
-                selectedTower = null;
-            }
-            else if (input.KeyPress(Keys.D3))
-            {
-                gui.selectedTower = towerInfo["frost1"];
-                gui.building = true;
-                selectedTower = null;
-            }
-            else if (input.KeyPress(gui.sellTowerButton.KeyBinding))
+            
+            if (input.KeyPress(gui.sellTowerButton.KeyBinding))
             {
                 if (selectedTower != null)
                 {
