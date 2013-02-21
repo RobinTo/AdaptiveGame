@@ -1,0 +1,2 @@
+# Module no.uia.adaptiveTD.GwtDefinition
+# RPC service class, partial path of RPC policy file
