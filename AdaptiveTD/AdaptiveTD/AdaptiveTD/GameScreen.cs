@@ -10,6 +10,7 @@ namespace AdaptiveTD
 {
     class GameScreen
     {
+        #region Variables
         bool saveReplay = false;                                // Save replay from game? Does not save regardless if useReplay is true.
         bool saved = false;                                     // 
         ReplayHandler replayHandler = new ReplayHandler();      // Replay handler, saving, loading, etc. of replays.
@@ -56,6 +57,7 @@ namespace AdaptiveTD
         int startingLives = 5;
 
         LoginScreen loginScreen;
+        #endregion
 
         public GameScreen()
         {
@@ -260,7 +262,6 @@ namespace AdaptiveTD
                 replayHandler.LoadReplay(replayString);
         }
 
-        // Currently static
         private void CreateWave()
         {
             enemyBaseWave = waveHandler.GenerateNextWave(loginScreen.SavePath);/*Use parameters for wave caculation*/
@@ -269,25 +270,6 @@ namespace AdaptiveTD
             {
                 SpawnEnemy(kV.Key, kV.Value);
             }
-            /*enemyWave.Add(0.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
-            enemyWave.Add(1.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
-            enemyWave.Add(2.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
-            enemyWave.Add(4.0f, new Enemy(startPoint, enemyInfo["tough"], map.Directions));
-            enemyWave.Add(4.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
-            enemyWave.Add(5.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
-            enemyWave.Add(5.9f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
-            enemyWave.Add(6.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
-            enemyWave.Add(7.0f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
-            enemyWave.Add(8.5f, new Enemy(startPoint, enemyInfo["basic"], map.Directions));
-            enemyWave.Add(8.9f, new Enemy(startPoint, enemyInfo["tough"], map.Directions));
-            enemyWave.Add(9.0f, new Enemy(startPoint, enemyInfo["tough"], map.Directions));
-            enemyWave.Add(10.5f, new Enemy(startPoint, enemyInfo["tough"], map.Directions));
-            enemyWave.Add(11.5f, new Enemy(startPoint, enemyInfo["tough"], map.Directions));
-            enemyWave.Add(13.0f, new Enemy(startPoint, enemyInfo["fast"], map.Directions));
-            enemyWave.Add(14.0f, new Enemy(startPoint, enemyInfo["fast"], map.Directions));
-            enemyWave.Add(15.0f, new Enemy(startPoint, enemyInfo["fast"], map.Directions));
-            enemyWave.Add(16.0f, new Enemy(startPoint, enemyInfo["fast"], map.Directions));
-            */
         }
 
         private void SpawnEnemy(float time, string enemyType)
