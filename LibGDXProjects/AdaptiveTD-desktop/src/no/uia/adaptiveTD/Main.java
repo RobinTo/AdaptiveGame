@@ -15,7 +15,7 @@ public class Main {
 		Settings settings = new Settings();
 		settings.maxWidth = 512;
 		settings.maxHeight = 512;
-        TexturePacker2.process(settings, "D:/LibGDXProjects/PlatformTD-android/assets/images", "D:/LibGDXProjects/PlatformTD-android/assets/Images", "game");
+        TexturePacker2.process(settings, "assets\\images", "assets\\Images", "game");
 		
 		new LwjglApplication(new AdaptiveTD(), cfg);
 	}
