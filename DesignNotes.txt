@@ -1,9 +1,10 @@
 Tasklist:
+- Porte spill
+
 - Upgrade cost i gui
 - Keybindings ligger i GUIButton, bruke den fremfor hardkodet input i gameScreen.
 - Questionaire
   - Guidelines
-- Installasjon
 - Map generation
 - Grafikk
 - Lydeffekter
@@ -12,8 +13,6 @@ Tasklist:
 - Enkel testing
 - Intuitivt spill
 - Se på gaussiske prosesser.
-- Enkel installasjon
-- Kompabilitet
 
 
 Later
