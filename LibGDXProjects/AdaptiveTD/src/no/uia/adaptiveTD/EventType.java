@@ -1,7 +1,7 @@
 package no.uia.adaptiveTD;
 
 public enum EventType {
-	Buy,
+	Build,
 	Sell,
 	Upgrade,
 	FocusFire

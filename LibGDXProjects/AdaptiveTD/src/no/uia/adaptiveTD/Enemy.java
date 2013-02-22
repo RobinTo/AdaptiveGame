@@ -23,10 +23,11 @@ public class Enemy {
     
     public Enemy(Vector2 startPosition, EnemyStats enemyInfo, List<Direction> directions, Sprite enemySprite, Sprite redHealthBarSprite, Sprite yellowHealthBarSprite)
     {
+    	this.enemyInfo = enemyInfo;
     	this.directions = directions;
         origin = new Vector2(GameConstants.tileSize / 2, GameConstants.tileSize / 2);
         this.position = new Vector2(startPosition.x * GameConstants.tileSize, startPosition.y * GameConstants.tileSize);
-        targetPosition = position;
+        targetPosition = new Vector2(position.x, position.y);
         this.currentHealth = enemyInfo.getHealth();
         this.currentSpeed =  enemyInfo.getSpeed();
         this.sprites = new HashMap<Integer, Sprite>();
@@ -44,6 +45,7 @@ public class Enemy {
 
     public void Update(float gameTime)
     {
+    	System.out.println(gameTime);
         if (currentDirection == Direction.None)
         {
             if (directionCounter < directions.size())
@@ -67,6 +69,8 @@ public class Enemy {
                 case Right:
                     targetPosition.x += GameConstants.tileSize;
                     break;
+                default:
+                	break;
             }
         }
 
@@ -74,24 +78,26 @@ public class Enemy {
         {
             case Up:
                 //position.y -= (float)(currentSpeed * gameTime - currentSpeed * gameTime * slow.Percentage / 100);
-            	position.y -= (float)(currentSpeed * gameTime - currentSpeed * gameTime);
+            	position.y -= (float)(currentSpeed * gameTime);
                 break;
             case Down:
-                position.y += (float)(currentSpeed * gameTime - currentSpeed * gameTime);
+                position.y += (float)(currentSpeed * gameTime);
                 break;
             case Left:
-                position.x -= (float)(currentSpeed * gameTime - currentSpeed * gameTime);
+                position.x -= (float)(currentSpeed * gameTime);
                 break;
             case Right:
-                position.x += (float)(currentSpeed * gameTime - currentSpeed * gameTime);
+                position.x += (float)(currentSpeed * gameTime);
                 break;
+            default:
+            	break;
         }
 //distanceTravelled += (float)(currentSpeed * gameTime - currentSpeed * gameTime * slow.Percentage / 100);
         distanceTravelled += (float)(currentSpeed * gameTime - currentSpeed * gameTime);
 
         if (Math.abs(position.x - targetPosition.x) < 1 && Math.abs(position.y - targetPosition.y) < 1)
         {
-            position = targetPosition;
+            position = new Vector2(targetPosition.x, targetPosition.y);
             currentDirection = Direction.None;
         }
 
@@ -137,9 +143,9 @@ public class Enemy {
     public void Draw(SpriteBatch spriteBatch)
     {
         Vector2 drawPosition = new Vector2(position.x + origin.x, position.y + origin.y);
-        spriteBatch.draw(sprites.get(0), position.x, position.y);
-        spriteBatch.draw(sprites.get(1), healthBarRedRectangle.getX(), healthBarRedRectangle.getY(), healthBarRedRectangle.getWidth(), healthBarRedRectangle.getHeight());
-        spriteBatch.draw(sprites.get(2), healthBarYellowRectangle.getX(), healthBarYellowRectangle.getY(), healthBarYellowRectangle.getWidth(), healthBarYellowRectangle.getHeight());
+        spriteBatch.draw(sprites.get(0), position.x, GameConstants.morphY(position.y));
+        spriteBatch.draw(sprites.get(1), healthBarRedRectangle.getX(), GameConstants.morphY(healthBarRedRectangle.getY()), healthBarRedRectangle.getWidth(), healthBarRedRectangle.getHeight());
+        spriteBatch.draw(sprites.get(2), healthBarYellowRectangle.getX(), GameConstants.morphY(healthBarYellowRectangle.getY()), healthBarYellowRectangle.getWidth(), healthBarYellowRectangle.getHeight());
         
         /*
         spriteBatch.Draw(enemyTexture, drawPosition, null, color, rotation, origin, 1.0f, SpriteEffects.None, 1.0f);

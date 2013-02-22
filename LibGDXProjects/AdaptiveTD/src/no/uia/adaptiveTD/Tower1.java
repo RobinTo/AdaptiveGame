@@ -22,12 +22,10 @@ public class Tower1 {
 	HashMap<Integer, Sprite> textures = new HashMap<Integer, Sprite>();
 
 	public Tower1(TowerStats towerStats, Vector2 tilePosition,
-			Sprite towerTexture1, Sprite towerTexture2, Sprite towerTexture3, Sprite missileTexture) {
+			Sprite towerTexture, Sprite missileTexture) {
 		this.towerStats = towerStats;
-		textures.put(0, towerTexture1);
-		textures.put(1, towerTexture2);
-		textures.put(2, towerTexture3);
-		textures.put(3, missileTexture);
+		textures.put(0, towerTexture);
+		textures.put(1, missileTexture);
 		this.currentReloadTime = towerStats.getReloadTime();
 		this.position = new Vector2(tilePosition.x * 64, tilePosition.y * 64);
 		this.origin = new Vector2(GameConstants.tileSize / 2,

@@ -15,6 +15,7 @@ import java.util.List;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Application.ApplicationType;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -25,6 +26,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.tools.imagepacker.TexturePacker2;
 
@@ -62,6 +64,7 @@ public class AdaptiveTD implements ApplicationListener {
     Tower1 selectedTower;
     
     boolean gameOver = false;
+    boolean won = false;
     boolean paused = false;
     int startGold = 50;
     int currentGold = startGold;
@@ -69,7 +72,8 @@ public class AdaptiveTD implements ApplicationListener {
     int startingLives = 5;
     int currentLives = startingLives;
     
-    
+    Sprite currentlyBuildingTower;
+    Sprite rangeHighlight;
     
 	boolean unlockFrames = false;
 	boolean onlyUpdates = false;
@@ -112,9 +116,9 @@ public class AdaptiveTD implements ApplicationListener {
 		font = new BitmapFont();
 
 		mapTilesAtlas = new TextureAtlas(Gdx.files.internal("images/mapTiles.atlas"));
-		enemiesAtlas = new TextureAtlas(Gdx.files.internal("images/mapTiles.atlas"));
-		miscAtlas = new TextureAtlas(Gdx.files.internal("images/mapTiles.atlas"));
-		towersAtlas = new TextureAtlas(Gdx.files.internal("images/mapTiles.atlas"));
+		enemiesAtlas = new TextureAtlas(Gdx.files.internal("images/enemies.atlas"));
+		miscAtlas = new TextureAtlas(Gdx.files.internal("images/misc.atlas"));
+		towersAtlas = new TextureAtlas(Gdx.files.internal("images/towers.atlas"));
 		
 		map = new Map(mapTilesAtlas);
 		
@@ -131,6 +135,7 @@ public class AdaptiveTD implements ApplicationListener {
 			// Don't care for now
 		}
 		
+		generateEnemyInfo();
 		createWave();
 		
 		// towerInfo = readTowerInfo();
@@ -170,14 +175,13 @@ public class AdaptiveTD implements ApplicationListener {
 
 		float gameTime = Gdx.graphics.getDeltaTime();
 		frameTimer += gameTime;
-		timer -= frameTimer;
-		update((float) (gameTime - frameTimer));
+		
+		update((float) (gameTime));
 		updateC++;
 		if (!onlyUpdates)
 			draw();
 		frameC++;
-		frameTimer = 0;
-
+		timer-= gameTime;
 		if (timer <= 0.0) {
 			updateT = updateC;
 			frameT = frameC;
@@ -210,7 +214,7 @@ public class AdaptiveTD implements ApplicationListener {
         	
         	if(!enemyWave.isEmpty() && !waveTime.isEmpty())
         	{
-        		if(totalGameTime > waveTime.get(0))
+        		if(totalGameTime >= waveTime.get(0))
         		{
         			enemies.add(enemyWave.get(waveTime.get(0)));
         			enemyWave.remove(waveTime.get(0));
@@ -219,9 +223,71 @@ public class AdaptiveTD implements ApplicationListener {
         	}
         	if(saveReplay)
         	{
-        		
+        		//replayHandler.update(totalGameTime, gameTime, eventHandler.getEvents());
         	}
         	
+        	handleEvents();
+        	
+        	for(int i = 0; i < enemies.size(); i++)
+        	{
+        		enemies.get(i).Update(gameTime);
+        		if(enemies.get(i).getCurrentHealth() <= 0)
+        		{
+        			currentGold += enemies.get(i).getEnemyInfo().getGoldYield();
+        			enemies.remove(i);
+        			i--;
+        		}
+        		else if(enemies.get(i).getPosition().x >= GameConstants.screenWidth)
+        		{
+        			currentLives--;
+        			enemies.remove(i);
+        			i--;
+        		}
+        	}
+        	for(int i = 0; i < towers.size(); i++)
+        	{
+        		if(enemies.size() > 0)
+        		{
+        			towers.get(i).Update(gameTime, enemies, targetEnemy, missiles);
+        			/* if(gui.building)
+        			 * {
+        			 * 	t.color = Color.WHITE;
+        			 * }
+        			 */
+        		}
+        	}
+        	
+        	for(int i = 0; i < missiles.size(); i++)
+        	{
+        		missiles.get(i).Update(gameTime, enemies);
+        		if(missiles.get(i).remove)
+        		{
+        			missiles.remove(i);
+        			i--;
+        		}
+        	}
+        	
+        	// gui.Update(gameTime, input, currentLives, currentGold, selectedTower, eventHandler);
+        	
+        	if(enemies.size() <= 0 && enemyWave.isEmpty())
+        	{
+        		gameOver = true;
+        		won = true;
+        	}
+
+            if (gameOver)
+            {
+                if (saveReplay && !saved && !useReplay)
+                {
+                    //replayHandler.SaveReplay();
+                    saved = true;
+                }
+                // input.Update(); // Take some input
+                if (Gdx.input.isKeyPressed(Keys.ENTER))
+                    restartGame();
+                
+                // Save parameters do fancy thinktank calculations.
+            }
         }
 	}
 
@@ -231,7 +297,47 @@ public class AdaptiveTD implements ApplicationListener {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		map.draw(batch); // Needs to fix loadMap before this can be run.
+		
+		map.draw(batch);
+		
+		for(int i = 0; i < enemies.size(); i++)
+		{
+			enemies.get(i).Draw(batch);
+		}
+		for(int i = 0; i < missiles.size(); i++)
+		{
+			missiles.get(i).Draw(batch);
+		}
+		for(int i = 0; i < towers.size(); i++)
+		{
+			towers.get(i).Draw(batch);
+		}
+		
+		if(targetEnemy != null)
+			batch.draw(targetingCircle, targetEnemy.getPosition().x, targetEnemy.getPosition().y);
+	
+		if(/*gui.Building*/false)
+		{
+			Vector2 position = new Vector2((float)Math.floor(touchPos.y / GameConstants.tileSize), (float)Math.floor(touchPos.y / GameConstants.tileSize));
+			batch.draw(currentlyBuildingTower, position.x, position.y);
+			batch.draw(rangeHighlight, position.x*GameConstants.tileSize + GameConstants.tileSize/2-500/*RANGE*/, position.y * GameConstants.tileSize + GameConstants.tileSize/2 - 500/*RANGE*/, 0, 0, 500.0f*2.0f/*RANGE*2*/, 500.0f*2.0f/*RANGE*2*/, 1.0f, 1.0f, 0.0f);
+		}
+		
+		if(selectedTower != null)
+			batch.draw(rangeHighlight, selectedTower.getRangeHighlightRectangle().x, selectedTower.getRangeHighlightRectangle().y, selectedTower.getRangeHighlightRectangle().width, selectedTower.getRangeHighlightRectangle().height);
+		
+		// gui.draw(batch);
+		
+		if(currentLives <= 0)
+		{
+			// WinPopup.draw(false, batch);
+			gameOver = true;
+		}
+		else if(gameOver)
+		{
+			// WinPopup.draw(true, batch);
+		}
+		
 		font.draw(batch, FPS, 10, h - 10);
 		font.draw(batch, UPS, 10, h - 20);
 		batch.end();
@@ -250,11 +356,26 @@ public class AdaptiveTD implements ApplicationListener {
 
 	}
 	
+	private void generateEnemyInfo()
+	{
+		// Eventually do in thinkTank with parameters
+		enemyInfo.put("basic", new EnemyStats("basic", 20, 64, 5, "testEnemy", "healthBarRed", "healthBarYellow"));
+		// String type, int health, int speed, int goldYield, String enemyTexture, String redHealthBar, String yellowHealthBar
+	}
+	
 	private void createWave()
 	{
 		// waveHandler.loadWave(waveFile);
 		// Add waves to enemyWave and float times also to waveTimer
+		spawnEnemy(0.0f, "basic");
 		Collections.sort(waveTime); // Thus waveTime.get(0) will be lowest, waveTime.get(1) next and so on.
+	}
+	
+	private void spawnEnemy(float time, String enemyType)
+	{
+		System.out.println(enemyInfo.get(enemyType).goldYield);
+		enemyWave.put(time, new Enemy(map.startPoint, enemyInfo.get(enemyType), map.getDirections(), enemiesAtlas.createSprite(enemyInfo.get(enemyType).getEnemyTexture()), miscAtlas.createSprite("healthBarRed"), miscAtlas.createSprite("healthBarYellow")));
+		waveTime.add(time);
 	}
 	
 	private void handleInput()
@@ -295,5 +416,97 @@ public class AdaptiveTD implements ApplicationListener {
 									.parseInt(readStats[13])));
 		}
 		return tempMap;
+	}
+	
+	private void handleEvents()
+	{
+		List<Event> events = eventHandler.getEvents();
+		for(int i = 0; i < events.size(); i++)
+		{
+			Event e = events.get(i);
+			if(e.type == EventType.Build)
+			{
+				buildTower(towerInfo.get(e.getTowerType()), e.getTilePosition());
+			}
+			else if(e.type == EventType.Sell)
+			{
+				for(int t = 0; t<towers.size(); t++)
+                {
+                    if (towers.get(t).getTilePosition() == e.getTilePosition())
+                    {
+                        selectedTower = null;
+                        currentGold += towerInfo.get(towers.get(t).getTowerStats().getType()).getBuildCost() / 2;
+                        towers.remove(t);
+                    }
+                }
+			}
+			else if(e.type == EventType.Upgrade)
+			{
+				for (int t = 0; t < towers.size(); t++)
+                {
+                    if (towers.get(t).getTilePosition() == e.getTilePosition())
+                    {
+                        upgradeTower(e.getTilePosition());
+                    }
+                }
+			}
+			else if(e.type == EventType.FocusFire)
+			{
+				
+			}
+		}
+	}
+	
+	private void buildTower(TowerStats type, Vector2 position)
+	{
+		boolean canBuild = true;
+		for(int i = 0; i<towers.size(); i++)
+        {
+            if (towers.get(i).getTilePosition() == position)
+                canBuild = false;
+        }
+        if (currentGold < type.getBuildCost())
+            canBuild = false;
+        if (!map.canBuild((int)position.x, (int)position.y))
+            canBuild = false;
+        if (canBuild)
+        {
+            selectedTower = new Tower1(type, position, towersAtlas.createSprite(type.getTowerTexture(1)), towersAtlas.createSprite(type.getMissileTexture()));
+            selectedTower.setColor(Color.RED);
+            towers.add(selectedTower);
+            currentGold -= type.getBuildCost();
+        }
+	}
+	private void upgradeTower(Vector2 tilePosition)
+	{
+		
+	}
+	
+	private void restartGame()
+	{
+		towers.clear();
+		enemies.clear();
+		missiles.clear();
+		eventHandler.Clear();
+		currentGold = startGold;
+		currentLives = startingLives;
+		
+		createWave();
+		
+		gameOver = false;
+        // gui.building = false;
+		currentlyBuildingTower = null;
+        totalGameTime = 0;
+        // winPopup.Randomize();
+        selectedTower = null;
+        currentLives = startingLives;
+        saved = false;
+        savedParameters = false;
+        // replayHandler.Clear();
+        targetEnemy = null;
+        if (useReplay)
+        {
+            //replayHandler.LoadReplay(replayString);
+        }
 	}
 }
