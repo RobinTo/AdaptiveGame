@@ -42,7 +42,7 @@ public class AdaptiveTD implements ApplicationListener {
     List<Float> waveTime = new ArrayList<Float>();
     
     Sprite targetingCircle;
-    EventHandler eventHandler = new EventHandler();
+    EventHandler1 eventHandler = new EventHandler1();
     
     List<Enemy> enemies = new ArrayList<Enemy>();
     Enemy targetEnemy;
@@ -52,9 +52,9 @@ public class AdaptiveTD implements ApplicationListener {
 	
     HashMap<Float, String> enemyBaseWave = new HashMap<Float, String>(); // Used when waveHandler loads, to identify enemy types as saved in enemyStats by Strings
     
-    List<Tower> towers = new ArrayList<Tower>();
+    List<Tower1> towers = new ArrayList<Tower1>();
     List<Missile> missiles = new ArrayList<Missile>();
-    Tower selectedTower;
+    Tower1 selectedTower;
     
     boolean gameOver = false;
     boolean paused = false;
