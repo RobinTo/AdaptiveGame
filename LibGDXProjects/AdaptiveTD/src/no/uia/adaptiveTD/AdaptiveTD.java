@@ -135,7 +135,25 @@ public class AdaptiveTD implements ApplicationListener {
 			// Don't care for now
 		}
 		
-		generateEnemyInfo();
+		// Load TowerInfo
+		try {
+			this.loadTowerStats(Gdx.files.getLocalStoragePath()
+					+ ".//bin//Stats/towerStats.txt");
+			System.out.println("Create Stats done.");
+		} catch (IOException ioe) {
+			System.out.println(ioe.getMessage());
+			// Don't care for now
+		}
+
+		// Load EnemyInfo
+		try {
+			this.generateEnemyInfo(Gdx.files.getLocalStoragePath()
+					+ ".//bin//Stats/enemyStats.txt");
+			System.out.println("Create Stats done.");
+		} catch (IOException ioe) {
+			System.out.println(ioe.getMessage());
+			// Don't care for now
+		}
 		createWave();
 		
 		// towerInfo = readTowerInfo();
@@ -148,16 +166,7 @@ public class AdaptiveTD implements ApplicationListener {
 		else // In case file does not exist.
 			useReplay = false;
 		
-		try
-		{
-			this.loadTowerStats(Gdx.files.getLocalStoragePath() + ".//bin//Stats/towerStats.txt");
-			System.out.println("Create Stats done.");
-		}
-		catch(IOException ioe)
-		{
-			System.out.println(ioe.getMessage());
-			// Don't care for now
-		}
+		
 	}
 
 	@Override
@@ -356,18 +365,69 @@ public class AdaptiveTD implements ApplicationListener {
 
 	}
 	
-	private void generateEnemyInfo()
-	{
+	private void generateEnemyInfo(String path)
+			throws IOException {
 		// Eventually do in thinkTank with parameters
-		enemyInfo.put("basic", new EnemyStats("basic", 20, 64, 5, "testEnemy", "healthBarRed", "healthBarYellow"));
+		enemyInfo.put("basic", new EnemyStats("basic", "testEnemy", 20, 64, 5));
 		// String type, int health, int speed, int goldYield, String enemyTexture, String redHealthBar, String yellowHealthBar
+
+		Path readPath = Paths.get(path);
+		Charset ENCODING = StandardCharsets.UTF_8;
+		List<String> fileContent = Files.readAllLines(readPath, ENCODING);
+		int yCounter = 0;
+		System.out.println("Loaded file");
+		for (int x = 0; x * 5 < fileContent.size(); x++) {
+			String[] readStats = new String[5];
+			for (int i = 0; i < 5; i++) {
+				String s = fileContent.get(i + (5 * x));
+				String[] split = s.split(":");
+				readStats[i] = split[1];
+			}
+			enemyInfo.put(
+					readStats[0],
+					new EnemyStats(readStats[0], readStats[1], Integer
+							.parseInt(readStats[2]), Float
+							.parseFloat(readStats[3]), Integer
+							.parseInt(readStats[4])));
+		}
 	}
 	
+	private void loadTowerStats(String path)
+			throws IOException {
+		Path readPath = Paths.get(path);
+		Charset ENCODING = StandardCharsets.UTF_8;
+		List<String> fileContent = Files.readAllLines(readPath, ENCODING);
+		int yCounter = 0;
+		System.out.println("Loaded file");
+		for (int x = 0; x * 14 < fileContent.size(); x++) {
+			String[] readStats = new String[14];
+			for (int i = 0; i < 14; i++) {
+				String s = fileContent.get(i + (14 * x));
+				String[] split = s.split(":");
+				readStats[i] = split[1];
+			}
+			towerInfo.put(
+					readStats[0],
+					new TowerStats(readStats[0], readStats[1], readStats[2], readStats[3], readStats[4],
+							Float.parseFloat(readStats[5]), Integer
+									.parseInt(readStats[6]), Integer
+									.parseInt(readStats[7]), Integer
+									.parseInt(readStats[8]), Integer
+									.parseInt(readStats[9]), Integer
+									.parseInt(readStats[10]), Integer
+									.parseInt(readStats[11]), Integer
+									.parseInt(readStats[12]), Integer
+									.parseInt(readStats[13])));
+		}
+	}
+
 	private void createWave()
 	{
 		// waveHandler.loadWave(waveFile);
 		// Add waves to enemyWave and float times also to waveTimer
 		spawnEnemy(0.0f, "basic");
+		spawnEnemy(0.5f, "tough");
+		spawnEnemy(1.0f, "fast");
 		Collections.sort(waveTime); // Thus waveTime.get(0) will be lowest, waveTime.get(1) next and so on.
 	}
 	
@@ -387,37 +447,6 @@ public class AdaptiveTD implements ApplicationListener {
 		}
 	}
 
-	private HashMap<String, TowerStats> loadTowerStats(String path)
-			throws IOException {
-		HashMap<String, TowerStats> tempMap = new HashMap<String, TowerStats>();
-		Path readPath = Paths.get(path);
-		Charset ENCODING = StandardCharsets.UTF_8;
-		List<String> fileContent = Files.readAllLines(readPath, ENCODING);
-		int yCounter = 0;
-		System.out.println("Loaded file");
-		for (int x = 0; x * 14 < fileContent.size(); x++) {
-			String[] readStats = new String[14];
-			for (int i = 0; i < 14; i++) {
-				String s = fileContent.get(i + (14 * x));
-				String[] split = s.split(":");
-				readStats[i] = split[1];
-			}
-			tempMap.put(
-					readStats[0],
-					new TowerStats(readStats[0], readStats[1], readStats[2], readStats[3], readStats[4],
-							Float.parseFloat(readStats[5]), Integer
-									.parseInt(readStats[6]), Integer
-									.parseInt(readStats[7]), Integer
-									.parseInt(readStats[8]), Integer
-									.parseInt(readStats[9]), Integer
-									.parseInt(readStats[10]), Integer
-									.parseInt(readStats[11]), Integer
-									.parseInt(readStats[12]), Integer
-									.parseInt(readStats[13])));
-		}
-		return tempMap;
-	}
-	
 	private void handleEvents()
 	{
 		List<Event> events = eventHandler.getEvents();

@@ -1,0 +1,15 @@
+type:basic
+enemyTexture:testEnemy
+health:20
+speed:1.0f
+goldYield:2
+type:tough
+enemyTexture:toughEnemy
+health:40
+speed:0.5f
+goldYield:5
+type:fast
+enemyTexture:fastEnemy
+health:30
+speed:2.0f
+goldYield:3

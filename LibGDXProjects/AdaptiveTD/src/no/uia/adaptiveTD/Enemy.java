@@ -12,7 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 
 
 public class Enemy {
-    EnemyStats enemyInfo;
+    EnemyStats enemyStats;
 	int currentHealth, currentSpeed, directionCounter; 
     Vector2 position, targetPosition, origin;
     float rotation, distanceTravelled;
@@ -21,15 +21,15 @@ public class Enemy {
     Direction currentDirection = Direction.None;
 	HashMap<Integer, Sprite> sprites;
     
-    public Enemy(Vector2 startPosition, EnemyStats enemyInfo, List<Direction> directions, Sprite enemySprite, Sprite redHealthBarSprite, Sprite yellowHealthBarSprite)
+    public Enemy(Vector2 startPosition, EnemyStats enemyStats, List<Direction> directions, Sprite enemySprite, Sprite redHealthBarSprite, Sprite yellowHealthBarSprite)
     {
-    	this.enemyInfo = enemyInfo;
+    	this.enemyStats = enemyStats;
     	this.directions = directions;
         origin = new Vector2(GameConstants.tileSize / 2, GameConstants.tileSize / 2);
         this.position = new Vector2(startPosition.x * GameConstants.tileSize, startPosition.y * GameConstants.tileSize);
         targetPosition = new Vector2(position.x, position.y);
-        this.currentHealth = enemyInfo.getHealth();
-        this.currentSpeed =  enemyInfo.getSpeed();
+        this.currentHealth = enemyStats.getHealth();
+        this.currentSpeed =  enemyStats.getSpeed();
         this.sprites = new HashMap<Integer, Sprite>();
         sprites.put(0, enemySprite);
         sprites.put(1, redHealthBarSprite);
@@ -137,7 +137,7 @@ public class Enemy {
             color = Color.White;
         */
         healthBarRedRectangle = new Rectangle((int)position.x, (int)position.y - 10, 64, 5);
-        healthBarYellowRectangle = new Rectangle((int)position.x, (int)position.y - 10, (int)((float)64 * (float)currentHealth / (float)enemyInfo.getHealth()), 5);
+        healthBarYellowRectangle = new Rectangle((int)position.x, (int)position.y - 10, (int)((float)64 * (float)currentHealth / (float)enemyStats.getHealth()), 5);
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -154,10 +154,10 @@ public class Enemy {
         */
     }
 	public EnemyStats getEnemyInfo() {
-		return enemyInfo;
+		return enemyStats;
 	}
 	public void setEnemyInfo(EnemyStats enemyInfo) {
-		this.enemyInfo = enemyInfo;
+		this.enemyStats = enemyInfo;
 	}
 	public int getCurrentHealth() {
 		return currentHealth;
