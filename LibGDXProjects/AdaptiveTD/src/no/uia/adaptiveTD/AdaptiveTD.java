@@ -286,7 +286,7 @@ public class AdaptiveTD implements ApplicationListener {
         		gameOver = true;
         		won = true;
         	}
-
+        }
             if (gameOver)
             {
                 if (saveReplay && !saved && !useReplay)
@@ -300,7 +300,7 @@ public class AdaptiveTD implements ApplicationListener {
                 
                 // Save parameters do fancy thinktank calculations.
             }
-        }
+        
 	}
 
 	private void draw() {
@@ -371,7 +371,6 @@ public class AdaptiveTD implements ApplicationListener {
 	private void generateEnemyInfo(String path)
 			throws IOException {
 		// Eventually do in thinkTank with parameters
-		enemyInfo.put("basic", new EnemyStats("basic", "testEnemy", 20, 64, 5));
 		// String type, int health, int speed, int goldYield, String enemyTexture, String redHealthBar, String yellowHealthBar
 
 		Path readPath = Paths.get(path);
@@ -392,6 +391,76 @@ public class AdaptiveTD implements ApplicationListener {
 							.parseInt(readStats[2]), Float
 							.parseFloat(readStats[3]), Integer
 							.parseInt(readStats[4])));
+	}
+	
+	private void createWave()
+	{
+		// waveHandler.loadWave(waveFile);
+		// Add waves to enemyWave and float times also to waveTimer
+		spawnEnemy(1.1f, "basic");
+		spawnEnemy(1.2f, "basic");
+		spawnEnemy(1.4f, "basic");
+		spawnEnemy(1.5f, "basic");
+		spawnEnemy(1.6f, "basic");
+		spawnEnemy(1.7f, "basic");
+		spawnEnemy(1.8f, "basic");
+		spawnEnemy(1.9f, "basic");
+		spawnEnemy(2.0f, "basic");
+		spawnEnemy(2.1f, "basic");
+		spawnEnemy(2.2f, "basic");
+		spawnEnemy(2.3f, "basic");
+		spawnEnemy(2.4f, "basic");
+		spawnEnemy(2.5f, "basic");
+		spawnEnemy(2.6f, "basic");
+		spawnEnemy(2.7f, "basic");
+		spawnEnemy(2.8f, "basic");
+		spawnEnemy(2.9f, "basic");
+		spawnEnemy(3.0f, "basic");
+		spawnEnemy(3.1f, "basic");
+		spawnEnemy(3.2f, "basic");
+		spawnEnemy(3.3f, "basic");
+		spawnEnemy(3.4f, "basic");
+		spawnEnemy(3.5f, "basic");
+		spawnEnemy(3.6f, "basic");
+		spawnEnemy(3.7f, "basic");
+		spawnEnemy(3.8f, "basic");
+		spawnEnemy(3.9f, "basic");
+		spawnEnemy(4.0f, "basic");
+		spawnEnemy(4.1f, "basic");
+		spawnEnemy(4.2f, "basic");
+		spawnEnemy(4.3f, "basic");
+		spawnEnemy(4.4f, "basic");
+		spawnEnemy(4.5f, "basic");
+		spawnEnemy(4.6f, "basic");
+		spawnEnemy(4.7f, "basic");
+		spawnEnemy(4.8f, "basic");
+		spawnEnemy(4.9f, "basic");
+		spawnEnemy(5.0f, "basic");
+		spawnEnemy(5.1f, "basic");
+		spawnEnemy(5.2f, "basic");
+		spawnEnemy(5.3f, "basic");
+		spawnEnemy(5.4f, "basic");
+		spawnEnemy(5.5f, "basic");
+		spawnEnemy(5.6f, "basic");
+		spawnEnemy(5.7f, "basic");
+		spawnEnemy(5.8f, "basic");
+		spawnEnemy(5.9f, "basic");
+		Collections.sort(waveTime); // Thus waveTime.get(0) will be lowest, waveTime.get(1) next and so on.
+	}
+	
+	private void spawnEnemy(float time, String enemyType)
+	{
+		System.out.println(enemyInfo.get(enemyType).goldYield);
+		enemyWave.put(time, new Enemy(map.startPoint, enemyInfo.get(enemyType), map.getDirections(), enemiesAtlas.createSprite(enemyInfo.get(enemyType).getEnemyTexture()), miscAtlas.createSprite("healthBarRed"), miscAtlas.createSprite("healthBarYellow")));
+		waveTime.add(time);
+	}
+	
+	private void handleInput()
+	{
+		if(Gdx.input.isTouched())
+		{
+			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+			camera.unproject(touchPos);
 		}
 	}
 	
