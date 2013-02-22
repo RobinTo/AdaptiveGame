@@ -53,6 +53,18 @@ public class AdaptiveTD implements ApplicationListener {
     HashMap<Float, String> enemyBaseWave = new HashMap<Float, String>(); // Used when waveHandler loads, to identify enemy types as saved in enemyStats by Strings
     
     List<Tower> towers = new ArrayList<Tower>();
+    List<Missile> missiles = new ArrayList<Missile>();
+    Tower selectedTower;
+    
+    boolean gameOver = false;
+    boolean paused = false;
+    int startGold = 50;
+    int currentGold = startGold;
+    
+    int startingLives = 5;
+    int currentLives = startingLives;
+    
+    
     
 	boolean unlockFrames = false;
 	boolean onlyUpdates = false;
@@ -60,7 +72,7 @@ public class AdaptiveTD implements ApplicationListener {
 	CharSequence UPS = "0";
 	CharSequence FPS = "0";
 	
-	Vector3 touchPos;
+	Vector3 touchPos = new Vector3();
 	
 	Map map;
 	
@@ -69,6 +81,8 @@ public class AdaptiveTD implements ApplicationListener {
 	TextureAtlas miscAtlas;		// Various small stuff like bullets, health bar, sell and upgrade buttons
 	TextureAtlas towersAtlas;	// Towers
 
+	float totalGameTime = 0;
+	
 	// Fps and Ups counters
 	int updateC = 0;
 	int updateT = 0;
@@ -98,6 +112,8 @@ public class AdaptiveTD implements ApplicationListener {
 		towersAtlas = new TextureAtlas(Gdx.files.internal("images/mapTiles.atlas"));
 		
 		map = new Map(mapTilesAtlas);
+		
+		Vector3 touchPos;
 		// Loading of map, currently an index out of bounds exception.
 		try
 		{
@@ -109,6 +125,18 @@ public class AdaptiveTD implements ApplicationListener {
 			System.out.println(ioe.getMessage());
 			// Don't care for now
 		}
+		
+		createWave();
+		
+		// towerInfo = readTowerInfo();
+		// enemyIno = readEnemyInfo();
+		
+		if(useReplay/* && file.exists(replayFilePath)*/)
+		{
+			// replayHandler.LoadReplay(replayFilePath);
+		}
+		else // In case file does not exist.
+			useReplay = false;
 	}
 
 	@Override
@@ -146,12 +174,39 @@ public class AdaptiveTD implements ApplicationListener {
 	}
 
 	private void update(float gameTime) {
-		if(Gdx.input.isTouched())
-		{
-			Vector3 touchPos = new Vector3();
-			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-			camera.unproject(touchPos);
-		}
+		
+        if (targetEnemy != null && targetEnemy.getCurrentHealth() <= 0)
+            targetEnemy = null;
+		
+        if(!gameOver && !paused)
+        {
+        	if(useReplay)
+        	{
+        		// Set events from replay using replayHandler.
+        	}
+        	else
+        	{
+        		eventHandler.newRound();
+        		handleInput();
+        	}
+        	
+        	totalGameTime += gameTime;
+        	
+        	if(!enemyWave.isEmpty() && !waveTime.isEmpty())
+        	{
+        		if(totalGameTime > waveTime.get(0))
+        		{
+        			enemies.add(enemyWave.get(waveTime.get(0)));
+        			enemyWave.remove(waveTime.get(0));
+        			waveTime.remove(0);
+        		}
+        	}
+        	if(saveReplay)
+        	{
+        		
+        	}
+        	
+        }
 	}
 
 	private void draw() {
@@ -181,7 +236,17 @@ public class AdaptiveTD implements ApplicationListener {
 	
 	private void createWave()
 	{
+		// waveHandler.loadWave(waveFile);
 		// Add waves to enemyWave and float times also to waveTimer
 		Collections.sort(waveTime); // Thus waveTime.get(0) will be lowest, waveTime.get(1) next and so on.
+	}
+	
+	private void handleInput()
+	{
+		if(Gdx.input.isTouched())
+		{
+			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+			camera.unproject(touchPos);
+		}
 	}
 }
