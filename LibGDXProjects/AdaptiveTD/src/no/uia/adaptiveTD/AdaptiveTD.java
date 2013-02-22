@@ -1,7 +1,11 @@
 package no.uia.adaptiveTD;
 
+import java.io.Console;
+import java.io.IOException;
+
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -10,14 +14,15 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.tools.imagepacker.TexturePacker2;
 
 public class AdaptiveTD implements ApplicationListener {
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
-	private Texture texture;
-	private Sprite sprite;
+	
 	private BitmapFont font;
 
 	boolean unlockFrames = false;
@@ -25,6 +30,15 @@ public class AdaptiveTD implements ApplicationListener {
 	float w, h;
 	CharSequence UPS = "0";
 	CharSequence FPS = "0";
+	
+	Vector3 touchPos;
+	
+	Map map;
+	
+	TextureAtlas mapTilesAtlas;	// Map tiles
+	TextureAtlas enemiesAtlas;	// Enemies
+	TextureAtlas miscAtlas;		// Various small stuff like bullets, health bar, sell and upgrade buttons
+	TextureAtlas towersAtlas;	// Towers
 
 	@Override
 	public void create() {
@@ -40,21 +54,30 @@ public class AdaptiveTD implements ApplicationListener {
 
 		font = new BitmapFont();
 
-		texture = new Texture(Gdx.files.internal("data/libgdx.png"));
-		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-
-		TextureRegion region = new TextureRegion(texture, 0, 0, 512, 275);
-
-		sprite = new Sprite(region);
-		sprite.setSize(0.9f, 0.9f * sprite.getHeight() / sprite.getWidth());
-		sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
-		sprite.setPosition(-sprite.getWidth() / 2, -sprite.getHeight() / 2);
+		mapTilesAtlas = new TextureAtlas(Gdx.files.internal("images/mapTiles.atlas"));
+		enemiesAtlas = new TextureAtlas(Gdx.files.internal("images/mapTiles.atlas"));
+		miscAtlas = new TextureAtlas(Gdx.files.internal("images/mapTiles.atlas"));
+		towersAtlas = new TextureAtlas(Gdx.files.internal("images/mapTiles.atlas"));
+		
+		map = new Map(mapTilesAtlas);
+		// Loading of map, currently an index out of bounds exception.
+		/*try
+		{
+			map.loadMap(Gdx.files.internal("maps/map.txt").path());
+		}
+		catch(IOException ioe)
+		{
+			// Don't care for now
+		}*/
 	}
 
 	@Override
 	public void dispose() {
 		batch.dispose();
-		texture.dispose();
+		mapTilesAtlas.dispose();
+		enemiesAtlas.dispose();
+		miscAtlas.dispose();
+		towersAtlas.dispose();
 	}
 
 	int updateC = 0;
@@ -89,6 +112,12 @@ public class AdaptiveTD implements ApplicationListener {
 	}
 
 	private void update(float gameTime) {
+		if(Gdx.input.isTouched())
+		{
+			Vector3 touchPos = new Vector3();
+			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+			camera.unproject(touchPos);
+		}
 	}
 
 	private void draw() {
@@ -97,7 +126,7 @@ public class AdaptiveTD implements ApplicationListener {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		sprite.draw(batch);
+		// map.draw(batch); // Needs to fix loadMap before this can be run.
 		font.draw(batch, FPS, 10, h - 10);
 		font.draw(batch, UPS, 10, h - 20);
 		batch.end();

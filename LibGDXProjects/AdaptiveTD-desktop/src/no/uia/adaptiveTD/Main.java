@@ -15,7 +15,13 @@ public class Main {
 		Settings settings = new Settings();
 		settings.maxWidth = 512;
 		settings.maxHeight = 512;
-        TexturePacker2.process(settings, "assets\\images", "assets\\Images", "game");
+		
+		// For now just make a different path here for each computer, and comment out wrong ones when compiling.
+		String path = "D:\\github\\AdaptiveGame\\LibGDXProjects\\AdaptiveTD-android\\assets\\Images";
+        TexturePacker2.process(settings, path + "\\Enemies", path, "enemies");
+        TexturePacker2.process(settings, path + "\\MiscSmall", path, "misc");
+        TexturePacker2.process(settings, path + "\\Towers", path, "towers");
+        TexturePacker2.process(settings, path + "\\MapTiles", path, "mapTiles");
 		
 		new LwjglApplication(new AdaptiveTD(), cfg);
 	}
