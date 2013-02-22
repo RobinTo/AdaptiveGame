@@ -144,8 +144,8 @@ public class Enemy {
     {
         Vector2 drawPosition = new Vector2(position.x + origin.x, position.y + origin.y);
         spriteBatch.draw(sprites.get(0), position.x, GameConstants.morphY(position.y));
-        spriteBatch.draw(sprites.get(1), healthBarRedRectangle.getX(), GameConstants.morphY(healthBarRedRectangle.getY()), healthBarRedRectangle.getWidth(), healthBarRedRectangle.getHeight());
-        spriteBatch.draw(sprites.get(2), healthBarYellowRectangle.getX(), GameConstants.morphY(healthBarYellowRectangle.getY()), healthBarYellowRectangle.getWidth(), healthBarYellowRectangle.getHeight());
+        spriteBatch.draw(sprites.get(1), healthBarRedRectangle.getX(), GameConstants.morphY(healthBarRedRectangle.getY() - GameConstants.tileSize), healthBarRedRectangle.getWidth(), healthBarRedRectangle.getHeight());
+        spriteBatch.draw(sprites.get(2), healthBarYellowRectangle.getX(), GameConstants.morphY(healthBarYellowRectangle.getY() - GameConstants.tileSize), healthBarYellowRectangle.getWidth(), healthBarYellowRectangle.getHeight());
         
         /*
         spriteBatch.Draw(enemyTexture, drawPosition, null, color, rotation, origin, 1.0f, SpriteEffects.None, 1.0f);
