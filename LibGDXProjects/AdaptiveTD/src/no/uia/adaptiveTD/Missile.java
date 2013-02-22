@@ -24,6 +24,7 @@ public class Missile {
         this.damage = damage;
         this.sprites = new HashMap<Integer, Sprite>();
         this.sprites.put(0, missileSprite);
+        velocity = new Vector2();
         velocity.x = (float)(totalVelocity * Math.cos(angle));
         velocity.y = (float)(totalVelocity * Math.sin(angle));
     }

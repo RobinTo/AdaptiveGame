@@ -1,5 +1,12 @@
 Tasklist:
-- Porte spill
+- Porte replayfunksjon
+- Porte GUI
+- Porte Upgrades
+- Porte sell
+- Porte tower effects
+- Porte input
+- Porte Focus fire
+- Bug: Tower aiming
 
 - Upgrade cost i gui
 - Keybindings ligger i GUIButton, bruke den fremfor hardkodet input i gameScreen.

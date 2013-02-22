@@ -155,6 +155,9 @@ public class AdaptiveTD implements ApplicationListener {
 			// Don't care for now
 		}
 		createWave();
+		rangeHighlight = miscAtlas.createSprite("rangeHighlight");
+		eventHandler.queueEvent(new Event(EventType.Build, new Vector2(3,3), "arrow"));
+		//towers.add(new Tower1(towerInfo.get("arrow"), new Vector2(1,1), towersAtlas.createSprite(towerInfo.get("arrow").getTowerTexture(1)), towersAtlas.createSprite("blackBullet"));
 		
 		// towerInfo = readTowerInfo();
 		// enemyIno = readEnemyInfo();
@@ -498,9 +501,10 @@ public class AdaptiveTD implements ApplicationListener {
             canBuild = false;
         if (!map.canBuild((int)position.x, (int)position.y))
             canBuild = false;
+        canBuild = true;
         if (canBuild)
         {
-            selectedTower = new Tower1(type, position, towersAtlas.createSprite(type.getTowerTexture(1)), towersAtlas.createSprite(type.getMissileTexture()));
+            selectedTower = new Tower1(type, position, towersAtlas.createSprite(type.getTowerTexture(1)), miscAtlas.createSprite(type.getMissileTexture()));
             selectedTower.setColor(Color.RED);
             towers.add(selectedTower);
             currentGold -= type.getBuildCost();
