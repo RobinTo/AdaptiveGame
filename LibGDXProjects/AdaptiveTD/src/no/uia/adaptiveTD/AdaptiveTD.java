@@ -2,6 +2,10 @@ package no.uia.adaptiveTD;
 
 import java.io.Console;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -25,6 +29,31 @@ public class AdaptiveTD implements ApplicationListener {
 	
 	private BitmapFont font;
 
+	boolean saveReplay = false; 	// Not added functionality yet
+	boolean saved = false;
+	//ReplayHandler replayHandler;
+	boolean useReplay = false;
+	boolean savedParameters = false;
+	
+	HashMap<String, TowerStats> towerInfo = new HashMap<String, TowerStats>();
+    HashMap<String, EnemyStats> enemyInfo = new HashMap<String, EnemyStats>();
+    
+    HashMap<Float, Enemy> enemyWave = new HashMap<Float, Enemy>();
+    List<Float> waveTime = new ArrayList<Float>();
+    
+    Sprite targetingCircle;
+    EventHandler eventHandler = new EventHandler();
+    
+    List<Enemy> enemies = new ArrayList<Enemy>();
+    Enemy targetEnemy;
+    Enemy selectedEnemy;
+    
+    // WaveHandler waveHandler = new WaveHandler(); // Not implemented yet, loads and saves waves.
+	
+    HashMap<Float, String> enemyBaseWave = new HashMap<Float, String>(); // Used when waveHandler loads, to identify enemy types as saved in enemyStats by Strings
+    
+    List<Tower> towers = new ArrayList<Tower>();
+    
 	boolean unlockFrames = false;
 	boolean onlyUpdates = false;
 	float w, h;
@@ -40,6 +69,14 @@ public class AdaptiveTD implements ApplicationListener {
 	TextureAtlas miscAtlas;		// Various small stuff like bullets, health bar, sell and upgrade buttons
 	TextureAtlas towersAtlas;	// Towers
 
+	// Fps and Ups counters
+	int updateC = 0;
+	int updateT = 0;
+	double timer = 1.0;
+	int frameC = 0;
+	int frameT = 0;
+	double frameTimer = 0;
+	
 	@Override
 	public void create() {
 		System.out.println("Creating.");
@@ -83,12 +120,6 @@ public class AdaptiveTD implements ApplicationListener {
 		towersAtlas.dispose();
 	}
 
-	int updateC = 0;
-	int updateT = 0;
-	double timer = 1.0;
-	int frameC = 0;
-	int frameT = 0;
-	double frameTimer = 0;
 
 	@Override
 	public void render() {
@@ -145,5 +176,12 @@ public class AdaptiveTD implements ApplicationListener {
 
 	@Override
 	public void resume() {
+
+	}
+	
+	private void createWave()
+	{
+		// Add waves to enemyWave and float times also to waveTimer
+		Collections.sort(waveTime); // Thus waveTime.get(0) will be lowest, waveTime.get(1) next and so on.
 	}
 }
