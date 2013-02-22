@@ -2,6 +2,11 @@ package no.uia.adaptiveTD;
 
 import java.io.Console;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -137,6 +142,17 @@ public class AdaptiveTD implements ApplicationListener {
 		}
 		else // In case file does not exist.
 			useReplay = false;
+		
+		try
+		{
+			this.loadTowerStats(Gdx.files.getLocalStoragePath() + ".//bin//Stats/towerStats.txt");
+			System.out.println("Create Stats done.");
+		}
+		catch(IOException ioe)
+		{
+			System.out.println(ioe.getMessage());
+			// Don't care for now
+		}
 	}
 
 	@Override
@@ -248,5 +264,36 @@ public class AdaptiveTD implements ApplicationListener {
 			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 			camera.unproject(touchPos);
 		}
+	}
+
+	private HashMap<String, TowerStats> loadTowerStats(String path)
+			throws IOException {
+		HashMap<String, TowerStats> tempMap = new HashMap<String, TowerStats>();
+		Path readPath = Paths.get(path);
+		Charset ENCODING = StandardCharsets.UTF_8;
+		List<String> fileContent = Files.readAllLines(readPath, ENCODING);
+		int yCounter = 0;
+		System.out.println("Loaded file");
+		for (int x = 0; x * 14 < fileContent.size(); x++) {
+			String[] readStats = new String[14];
+			for (int i = 0; i < 14; i++) {
+				String s = fileContent.get(i + (14 * x));
+				String[] split = s.split(":");
+				readStats[i] = split[1];
+			}
+			tempMap.put(
+					readStats[0],
+					new TowerStats(readStats[0], readStats[1], readStats[2], readStats[3], readStats[4],
+							Float.parseFloat(readStats[5]), Integer
+									.parseInt(readStats[6]), Integer
+									.parseInt(readStats[7]), Integer
+									.parseInt(readStats[8]), Integer
+									.parseInt(readStats[9]), Integer
+									.parseInt(readStats[10]), Integer
+									.parseInt(readStats[11]), Integer
+									.parseInt(readStats[12]), Integer
+									.parseInt(readStats[13])));
+		}
+		return tempMap;
 	}
 }

@@ -45,7 +45,7 @@ ignore/*
 RemoteSystemsTempFiles/
 
 # android specific
-# */gen/*   ### we want these!
+*# */gen/*   ### we want these!
 */bin
 
 # files for the dex VM

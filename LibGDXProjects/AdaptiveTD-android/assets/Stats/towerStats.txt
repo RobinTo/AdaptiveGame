@@ -1,0 +1,11 @@
+type:basic
+towersprite:basicTower
+missilesprite:basicBullet
+reloadtime:0.5
+damage1:1
+damage2:2
+damage3:3
+cost:5
+upgrade1:4
+upgrade2:4
+maxlevel:3
