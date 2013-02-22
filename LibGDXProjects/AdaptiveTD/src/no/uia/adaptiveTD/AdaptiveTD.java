@@ -42,6 +42,7 @@ public class AdaptiveTD implements ApplicationListener {
 
 	@Override
 	public void create() {
+		System.out.println("Creating.");
 		w = Gdx.graphics.getWidth();
 		h = Gdx.graphics.getHeight();
 
@@ -61,14 +62,16 @@ public class AdaptiveTD implements ApplicationListener {
 		
 		map = new Map(mapTilesAtlas);
 		// Loading of map, currently an index out of bounds exception.
-		/*try
+		try
 		{
-			map.loadMap(Gdx.files.internal("maps/map.txt").path());
+			map.loadMap(Gdx.files.getLocalStoragePath() + ".//bin//Maps/map.txt");
+			System.out.println("Create done.");
 		}
 		catch(IOException ioe)
 		{
+			System.out.println(ioe.getMessage());
 			// Don't care for now
-		}*/
+		}
 	}
 
 	@Override
@@ -126,7 +129,7 @@ public class AdaptiveTD implements ApplicationListener {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		// map.draw(batch); // Needs to fix loadMap before this can be run.
+		map.draw(batch); // Needs to fix loadMap before this can be run.
 		font.draw(batch, FPS, 10, h - 10);
 		font.draw(batch, UPS, 10, h - 20);
 		batch.end();

@@ -72,8 +72,6 @@ public class Map {
 	{
 		Vector2 newTile = new Vector2(currentTile.x, currentTile.y);
 		boolean incremented = false;
-		if(newTile.x < mapWidth && newTile.y+1 < mapHeight)
-		{
 		if (!incremented && currentTile.x > 0 && pathTiles.contains(map[(int)currentTile.x - 1][(int)currentTile.y]))
         {
             if (lastDirection != Direction.Right)
@@ -83,7 +81,7 @@ public class Map {
                 incremented = true;
             }
         }
-        if (!incremented && currentTile.x < mapWidth && pathTiles.contains(map[(int)currentTile.x + 1][(int)currentTile.y]))
+        if (!incremented && currentTile.x < mapWidth-1 && pathTiles.contains(map[(int)currentTile.x + 1][(int)currentTile.y]))
         {
             if (lastDirection != Direction.Left)
             {
@@ -101,7 +99,7 @@ public class Map {
                 incremented = true;
             }
         }
-        if (!incremented && currentTile.y < mapHeight && pathTiles.contains(map[(int)currentTile.x][(int)currentTile.y + 1]))
+        if (!incremented && currentTile.y < (mapHeight-1) && pathTiles.contains(map[(int)currentTile.x][(int)currentTile.y + 1]))
         {
             if (lastDirection != Direction.Up)
             {
@@ -110,8 +108,8 @@ public class Map {
                 incremented = true;
             }
         }
-		}
-        if (!incremented && currentTile.x + 1 > mapWidth) // given our decided layout that maps end to the right
+		
+        if (!incremented && currentTile.x + 1 >= mapWidth) // given our decided layout that maps end to the right
         {
             directions.add(Direction.Right);
             mapDone = true;
@@ -128,6 +126,7 @@ public class Map {
 	
 	public void loadMap(String path) throws IOException
     {
+		System.out.println("Starting loadmap.");
         for (int x = 0; x < mapWidth; x++)
         {
             for (int y = 0; y < mapHeight; y++)
@@ -135,35 +134,38 @@ public class Map {
                 map[x][y] = 0;
             }
         }
+        System.out.println("Done filling with zero.");
         
         Path readPath = Paths.get(path);
         Charset ENCODING = StandardCharsets.UTF_8;
         List<String> fileContent = Files.readAllLines(readPath, ENCODING);
         int yCounter = 0;
+        System.out.println("Loaded file");
         for(int x = 0; x<fileContent.size(); x++)
         {
         	String s = fileContent.get(x);
             String[] split = s.split(":");
-            if(split[0] == "t")
+            if(split[0].equals("t"))
             {
                 textures.put(Integer.parseInt(split[1]), mapTilesAtlas.createSprite(split[2]));
             }
-            else if(split[0] == "p")
+            else if(split[0].equals("p"))
             {
                 pathTiles.add(Integer.parseInt(split[1]));
             	
             }
-            else if(split[0] == "m")
+            else if(split[0].equals("m"))
             {
-                for(int xCounter = 0; xCounter <= mapWidth; xCounter++)
+                for(int xCounter = 0; xCounter < mapWidth; xCounter++)
                 {
                     map[xCounter][yCounter] = Integer.parseInt(split[xCounter+1]);
                 }
                 yCounter++;
             }
         }
-
+        System.out.println("Done parsing file, generating directions");
         generateDirections();
+        System.out.println("Loaded map and generated directions");
     }
 	
 	
@@ -173,7 +175,7 @@ public class Map {
          {
              for (int y = 0; y < mapHeight; y++)
              {
-                 spriteBatch.draw(textures.get(map[x][y]), x * GameConstants.tileSize, y * GameConstants.tileSize);
+                 spriteBatch.draw(textures.get(map[x][y]), (x * GameConstants.tileSize),  GameConstants.screenHeight - 64 - (y * GameConstants.tileSize));
              }
          }
 	}
