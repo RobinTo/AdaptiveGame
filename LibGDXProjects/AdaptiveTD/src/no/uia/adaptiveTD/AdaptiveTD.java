@@ -52,9 +52,9 @@ public class AdaptiveTD implements ApplicationListener {
 	
     HashMap<Float, String> enemyBaseWave = new HashMap<Float, String>(); // Used when waveHandler loads, to identify enemy types as saved in enemyStats by Strings
     
-    List<Tower1> towers = new ArrayList<Tower1>();
+    List<TowerClass> towers = new ArrayList<TowerClass>();
     List<Missile> missiles = new ArrayList<Missile>();
-    Tower1 selectedTower;
+    TowerClass selectedTower;
     
     boolean gameOver = false;
     boolean paused = false;
