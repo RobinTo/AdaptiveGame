@@ -391,6 +391,7 @@ public class AdaptiveTD implements ApplicationListener {
 							.parseInt(readStats[2]), Float
 							.parseFloat(readStats[3]), Integer
 							.parseInt(readStats[4])));
+		}
 	}
 	
 	private void createWave()
@@ -490,32 +491,6 @@ public class AdaptiveTD implements ApplicationListener {
 									.parseInt(readStats[11]), Integer
 									.parseInt(readStats[12]), Integer
 									.parseInt(readStats[13])));
-		}
-	}
-
-	private void createWave()
-	{
-		// waveHandler.loadWave(waveFile);
-		// Add waves to enemyWave and float times also to waveTimer
-		spawnEnemy(0.0f, "basic");
-		spawnEnemy(0.5f, "tough");
-		spawnEnemy(1.0f, "fast");
-		Collections.sort(waveTime); // Thus waveTime.get(0) will be lowest, waveTime.get(1) next and so on.
-	}
-	
-	private void spawnEnemy(float time, String enemyType)
-	{
-		System.out.println(enemyInfo.get(enemyType).goldYield);
-		enemyWave.put(time, new Enemy(map.startPoint, enemyInfo.get(enemyType), map.getDirections(), enemiesAtlas.createSprite(enemyInfo.get(enemyType).getEnemyTexture()), miscAtlas.createSprite("healthBarRed"), miscAtlas.createSprite("healthBarYellow")));
-		waveTime.add(time);
-	}
-	
-	private void handleInput()
-	{
-		if(Gdx.input.isTouched())
-		{
-			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-			camera.unproject(touchPos);
 		}
 	}
 
