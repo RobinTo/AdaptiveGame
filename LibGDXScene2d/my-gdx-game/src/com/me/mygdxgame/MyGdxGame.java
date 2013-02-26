@@ -46,6 +46,7 @@ public class MyGdxGame implements ApplicationListener {
 	
 	Enemy focusFireEnemy;
 	
+	Tower selectedTower;
 
 	HashMap<String, TowerStats> towerInfo = new HashMap<String, TowerStats>();
     HashMap<String, EnemyStats> enemyInfo = new HashMap<String, EnemyStats>();
@@ -79,11 +80,23 @@ public class MyGdxGame implements ApplicationListener {
 	boolean wasTouched = true;
 	Vector2 touchedTile = new Vector2(0,0);
 	
+	String towerName = "Tower";
+	String towerDamage = "10";
+	String towerCost = "30";
+	
+
+	Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.BLACK);
+	Label uiLabel;
+	Label uiLabel2;
+	Label uiLabel3;
+
+	
 	@Override
 	public void create() {
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
 		//Gdx.graphics.setDisplayMode((int)w, (int)h, true);
+		Gdx.graphics.setTitle("Adaptive Tower Defense v0.001");
 		spriteBatch = new SpriteBatch();
 		
 		font = new BitmapFont();
@@ -139,11 +152,6 @@ public class MyGdxGame implements ApplicationListener {
 		createWave();
 		
 		// UI Creation
-		Table uiTable = new Table();
-		uiTable.setSize(GameConstants.screenWidth, 128);
-		uiTable.setPosition(0, GameConstants.screenHeight-128);
-		uiTable.setColor(Color.BLACK);
-		
 		towerKeys.addAll(towerInfo.keySet());
 		for (int i = 0; i < towerKeys.size(); i++)
 		{
@@ -162,12 +170,26 @@ public class MyGdxGame implements ApplicationListener {
 					building = true;
 					buildingTower = towerInfo.get(currentKey).type;
 					buildingTowerSprite = towersAtlas.createSprite(towerInfo.get(currentKey).towerTexture1);
+					towerName = currentKey;
+					uiLabel.setText(towerName);
+					uiLabel2.setText("Damage: " + Integer.toString(towerInfo.get(currentKey).damage1));
+					uiLabel3.setText("Cost: " + Integer.toString(towerInfo.get(currentKey).getBuildCost()));
 					return true;
 				}
 			});
-			uiTable.add(arrowTowerButton);
+			arrowTowerButton.setPosition(10 + 10*i + 64*i, GameConstants.screenHeight - 100);
+			stage.addActor(arrowTowerButton);
 		}
-		stage.addActor(uiTable);
+		Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.BLACK);
+		uiLabel = new Label(towerName, labelStyle);
+		uiLabel.setPosition(800, GameConstants.screenHeight-40);
+		stage.addActor(uiLabel);
+		uiLabel2 = new Label(towerName, labelStyle);
+		uiLabel2.setPosition(800, GameConstants.screenHeight-60);
+		stage.addActor(uiLabel2);
+		uiLabel3 = new Label(towerName, labelStyle);
+		uiLabel3.setPosition(800, GameConstants.screenHeight-80);
+		stage.addActor(uiLabel3);
 		// -----------
 		
 	}
@@ -246,7 +268,6 @@ public class MyGdxGame implements ApplicationListener {
 		{
 			if (waveTime.get(0) <= totalTime) {
 				stage.addActor(enemyWave.get(waveTime.get(0)));
-				System.out.println("Spawned enemy: " + waveTime.get(0) + " at " + totalTime + " Size: " + stage.getActors().size);
 				enemies.add(enemyWave.get(waveTime.get(0)));
 				enemyWave.remove(waveTime.get(0));
 				waveTime.remove(0);
@@ -281,6 +302,7 @@ public class MyGdxGame implements ApplicationListener {
 			Tower t = createTower(type, tilePosition);
 			stage.addActor(t);
 			towers.add(t);
+			selectedTower = t;
 		}
 	}
 	
@@ -308,6 +330,23 @@ public class MyGdxGame implements ApplicationListener {
 		if(Gdx.input.isTouched())
 		{
 			wasTouched = true;
+			Actor hit = stage.hit(Gdx.input.getX(), GameConstants.screenHeight-Gdx.input.getY(), false);
+			if(hit != null && hit.getClass() == Tower.class)
+			{
+				Tower t = (Tower)hit;
+				selectedTower = t;
+				uiLabel.setText(t.towerStats.type);
+				uiLabel2.setText("Damage: " + Integer.toString(t.towerStats.damage1));
+				uiLabel3.setText("Upgrade Cost: " + Integer.toString(t.towerStats.upgradeCost1));
+			}
+			else if(hit != null && hit.getClass() == Enemy.class)
+			{
+				Enemy e = (Enemy)hit;
+				
+				uiLabel.setText(e.enemyStats.type);
+				uiLabel2.setText("Health: " + e.currentHealth);
+				uiLabel3.setText("Yields: " + e.enemyStats.goldYield);
+			}
 		}
 	}
 	

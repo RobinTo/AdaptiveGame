@@ -121,7 +121,10 @@ public class Map {
 	
 	public boolean canBuild(int x, int y)
 	{
-		return !pathTiles.contains(map[x][y]);
+		if(x > 19 || x < 0 || y > 9 || y < 0)
+			return false;
+		else
+			return !pathTiles.contains(map[x][y]);
 	}
 	
 	public void loadMap(String path) throws IOException
