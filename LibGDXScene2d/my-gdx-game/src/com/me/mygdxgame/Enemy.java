@@ -13,10 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 public class Enemy extends ExtendedActor{
 	
 	HashMap<Integer, Sprite> sprites;
-	float distanceTravelled, currentMoveSpeedMultiplier, currentSlowDuration;
+	float distanceTravelled, currentMoveSpeedMultiplier, currentSlowDuration, currentDotDamage, currentDotTicks, dotDurationSinceLastTick, totalDotDuration, currentDurationBetweenTicks;
 	EnemyStats enemyStats;
 	int currentHealth;
 	Rectangle healthBarYellowRectangle, healthBarRedRectangle;
+	boolean slowed, dotted;
 	
     public Enemy(EnemyStats enemyStats, Vector2 startPosition, List<Direction> directions, Sprite enemySprite, Sprite redHealthBarSprite, Sprite yellowHealthBarSprite)
     {
@@ -24,6 +25,11 @@ public class Enemy extends ExtendedActor{
     	this.enemyStats = enemyStats;
     	currentHealth = enemyStats.health;
     	currentMoveSpeedMultiplier = 1.0f;
+    	currentDotDamage = 0;
+    	currentDotTicks = 0;
+    	dotDurationSinceLastTick = 0;
+    	totalDotDuration = 0;
+    	currentDurationBetweenTicks = 0;
     	setSize(enemySprite.getWidth(), enemySprite.getHeight());
     	
         Vector2 targetPosition = new Vector2(startPosition.x * GameConstants.tileSize, startPosition.y * GameConstants.tileSize);
@@ -64,10 +70,26 @@ public class Enemy extends ExtendedActor{
     public void act(float gameTime)
     {
     	super.act(gameTime * currentMoveSpeedMultiplier);
-    	if (currentSlowDuration > 0)
-    		currentSlowDuration -= gameTime;
-    	if (currentSlowDuration <= 0)
-    		currentMoveSpeedMultiplier = 1.0f;
+    	
+		if (slowed) {
+			currentSlowDuration -= gameTime;
+			if (currentSlowDuration <= 0)
+			{
+				currentMoveSpeedMultiplier = 1.0f;
+				slowed = false;
+			}
+		}
+		if (dotted) {
+			totalDotDuration -= gameTime;
+			dotDurationSinceLastTick -= gameTime;
+			if (dotDurationSinceLastTick <= 0) {
+				currentHealth -= currentDotDamage;
+				dotDurationSinceLastTick = currentDurationBetweenTicks;
+			}
+			if (totalDotDuration <= 0) {
+				dotted = false;
+			}
+		}
     	healthBarRedRectangle = new Rectangle((int)getX(), GameConstants.screenHeight - GameConstants.tileSize - (int)getY() - 10, 64, 5);
         healthBarYellowRectangle = new Rectangle((int)getX(), GameConstants.screenHeight - GameConstants.tileSize - (int)getY() - 10, (int)((float)64 * (float)currentHealth / (float)enemyStats.getHealth()), 5);
    

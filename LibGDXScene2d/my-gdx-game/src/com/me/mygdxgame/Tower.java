@@ -109,11 +109,31 @@ public class Tower extends ExtendedActor {
 			DamagePacket damagePacket = activeShots.get(counter);
 			damagePacket.timeToHit -= gameTime;
 			if (damagePacket.timeToHit <= 0.0f)
-			{
-				damagePacket.targetEnemy.currentHealth -= towerStats.getDamage(currentLevel);
-				damagePacket.targetEnemy.currentMoveSpeedMultiplier = 1.0f - ((float)towerStats.getSlowPercentage(currentLevel)/100.0f);
-				damagePacket.targetEnemy.currentSlowDuration = towerStats.getSlowDuration(currentLevel);
-				
+ {
+				damagePacket.targetEnemy.currentHealth -= towerStats
+						.getDamage(currentLevel);
+				if (towerStats.getSlowPercentage(currentLevel) != 0) {
+					damagePacket.targetEnemy.currentMoveSpeedMultiplier = 1.0f - ((float) towerStats
+							.getSlowPercentage(currentLevel) / 100.0f);
+					damagePacket.targetEnemy.currentSlowDuration = towerStats
+							.getSlowDuration(currentLevel);
+					damagePacket.targetEnemy.slowed = true;
+				}
+				if (towerStats.getDotDamage(currentLevel) != 0) {
+					damagePacket.targetEnemy.dotted = true;
+					damagePacket.targetEnemy.currentDotDamage = towerStats
+							.getDotDamage(currentLevel);
+					damagePacket.targetEnemy.currentDotTicks = towerStats
+							.getDotTicks(currentLevel);
+					damagePacket.targetEnemy.currentDurationBetweenTicks = towerStats
+							.getDotDuration(currentLevel)
+							/ (float) towerStats.getDotTicks(currentLevel);
+					damagePacket.targetEnemy.dotDurationSinceLastTick = towerStats
+							.getDotDuration(currentLevel)
+							/ (float) towerStats.getDotTicks(currentLevel);
+					damagePacket.targetEnemy.totalDotDuration = towerStats
+							.getDotDuration(currentLevel);
+				}
 				activeShots.remove(counter);
 				counter --;
 			}
