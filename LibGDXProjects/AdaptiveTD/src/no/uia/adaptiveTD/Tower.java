@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class Tower1 {
+public class Tower {
 
 	TowerStats towerStats;
 	Vector2 position, tilePosition, origin;
@@ -21,7 +21,7 @@ public class Tower1 {
 	Color color;
 	HashMap<Integer, Sprite> textures = new HashMap<Integer, Sprite>();
 
-	public Tower1(TowerStats towerStats, Vector2 tilePosition,
+	public Tower(TowerStats towerStats, Vector2 tilePosition,
 			Sprite towerTexture, Sprite missileTexture) {
 		this.towerStats = towerStats;
 		textures.put(0, towerTexture);

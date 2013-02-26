@@ -20,7 +20,8 @@ import static com.badlogic.gdx.math.Interpolation.*;
 
 public class Enemy extends ExtendedActor{
 	
-	HashMap<Integer, Sprite> sprites;	
+	HashMap<Integer, Sprite> sprites;
+	float distanceTravelled;
 
     public Enemy(Vector2 startPosition, List<Direction> directions, Sprite enemySprite)
     {

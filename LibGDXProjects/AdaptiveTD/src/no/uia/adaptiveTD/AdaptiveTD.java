@@ -59,9 +59,9 @@ public class AdaptiveTD implements ApplicationListener {
 	
     HashMap<Float, String> enemyBaseWave = new HashMap<Float, String>(); // Used when waveHandler loads, to identify enemy types as saved in enemyStats by Strings
     
-    List<Tower1> towers = new ArrayList<Tower1>();
+    List<Tower> towers = new ArrayList<Tower>();
     List<Missile> missiles = new ArrayList<Missile>();
-    Tower1 selectedTower;
+    Tower selectedTower;
     
     boolean gameOver = false;
     boolean won = false;
@@ -548,7 +548,7 @@ public class AdaptiveTD implements ApplicationListener {
         canBuild = true;
         if (canBuild)
         {
-            selectedTower = new Tower1(type, position, towersAtlas.createSprite(type.getTowerTexture(1)), miscAtlas.createSprite(type.getMissileTexture()));
+            selectedTower = new Tower(type, position, towersAtlas.createSprite(type.getTowerTexture(1)), miscAtlas.createSprite(type.getMissileTexture()));
             selectedTower.setColor(Color.RED);
             towers.add(selectedTower);
             currentGold -= type.getBuildCost();

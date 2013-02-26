@@ -102,7 +102,7 @@ public class MyGdxGame implements ApplicationListener {
     		stage.addActor(m);
         }
         
-        t.calculateTarget(e);
+        t.calculateTarget(gameTime, enemies, focusFireEnemy);
         stage.act(Gdx.graphics.getDeltaTime());
         
         spriteBatch.begin();
