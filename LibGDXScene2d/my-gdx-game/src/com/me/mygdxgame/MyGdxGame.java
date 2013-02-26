@@ -152,7 +152,7 @@ public class MyGdxGame implements ApplicationListener {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
 				building = true;
-				buildingTower = "arrowTower";
+				buildingTower = "arrow";
 				buildingTowerSprite = towersAtlas.createSprite("arrowTower");
 				return true;
 			}
