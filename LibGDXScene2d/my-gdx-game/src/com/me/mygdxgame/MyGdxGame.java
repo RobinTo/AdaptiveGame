@@ -49,6 +49,8 @@ public class MyGdxGame implements ApplicationListener {
 
 	HashMap<String, TowerStats> towerInfo = new HashMap<String, TowerStats>();
     HashMap<String, EnemyStats> enemyInfo = new HashMap<String, EnemyStats>();
+
+	List<String> towerKeys = new ArrayList<String>();
 	
 	Stage stage;
 	ExtendedActor actor;
@@ -141,23 +143,30 @@ public class MyGdxGame implements ApplicationListener {
 		uiTable.setSize(GameConstants.screenWidth, 128);
 		uiTable.setPosition(0, GameConstants.screenHeight-128);
 		uiTable.setColor(Color.BLACK);
-		TextButton.TextButtonStyle arrowTowerButtonStyle = new TextButton.TextButtonStyle();
-		TextureRegion upStyle = new TextureRegion(towersAtlas.createSprite("arrowTower"));
-		TextureRegion downStyle = new TextureRegion(towersAtlas.createSprite("arrowTower"));
-		arrowTowerButtonStyle.font = font;
-		arrowTowerButtonStyle.up = new TextureRegionDrawable(upStyle);
-		arrowTowerButtonStyle.down = new TextureRegionDrawable(downStyle);
-		TextButton arrowTowerButton = new TextButton("test", arrowTowerButtonStyle);
-		arrowTowerButton.addListener(new InputListener() {
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
-				building = true;
-				buildingTower = "arrow";
-				buildingTowerSprite = towersAtlas.createSprite("arrowTower");
-				return true;
-			}
-		});
-		uiTable.add(arrowTowerButton);
+		
+		towerKeys.addAll(towerInfo.keySet());
+		for (int i = 0; i < towerKeys.size(); i++)
+		{
+			TextButton.TextButtonStyle arrowTowerButtonStyle = new TextButton.TextButtonStyle();
+			System.out.println("Trying: " + towerInfo.get(towerKeys.get(i)).towerTexture1);
+			TextureRegion upStyle = new TextureRegion(towersAtlas.createSprite(towerInfo.get(towerKeys.get(i)).towerTexture1));
+			TextureRegion downStyle = new TextureRegion(towersAtlas.createSprite(towerInfo.get(towerKeys.get(i)).towerTexture1));
+			arrowTowerButtonStyle.font = font;
+			arrowTowerButtonStyle.up = new TextureRegionDrawable(upStyle);
+			arrowTowerButtonStyle.down = new TextureRegionDrawable(downStyle);
+			TextButton arrowTowerButton = new TextButton("", arrowTowerButtonStyle);
+			final String currentKey = towerKeys.get(i);
+			arrowTowerButton.addListener(new InputListener() {
+				public boolean touchDown(InputEvent event, float x, float y,
+						int pointer, int button) {
+					building = true;
+					buildingTower = towerInfo.get(currentKey).type;
+					buildingTowerSprite = towersAtlas.createSprite(towerInfo.get(currentKey).towerTexture1);
+					return true;
+				}
+			});
+			uiTable.add(arrowTowerButton);
+		}
 		stage.addActor(uiTable);
 		// -----------
 		
@@ -267,9 +276,12 @@ public class MyGdxGame implements ApplicationListener {
 	
 	public void buildTower(String type, Vector2 tilePosition)
 	{
-		Tower t = createTower(type, tilePosition);
-		stage.addActor(t);
-		towers.add(t);
+		if(map.canBuild((int)tilePosition.x, (int)tilePosition.y))
+		{
+			Tower t = createTower(type, tilePosition);
+			stage.addActor(t);
+			towers.add(t);
+		}
 	}
 	
 	// Eventually take a towerInfo id, and create appropriate.

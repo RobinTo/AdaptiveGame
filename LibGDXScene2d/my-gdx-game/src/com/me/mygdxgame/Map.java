@@ -121,7 +121,7 @@ public class Map {
 	
 	public boolean canBuild(int x, int y)
 	{
-		return pathTiles.contains(map[x][y]);
+		return !pathTiles.contains(map[x][y]);
 	}
 	
 	public void loadMap(String path) throws IOException
