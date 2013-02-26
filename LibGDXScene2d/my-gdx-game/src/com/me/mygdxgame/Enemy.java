@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 public class Enemy extends ExtendedActor{
 	
 	HashMap<Integer, Sprite> sprites;
-	float distanceTravelled;
+	float distanceTravelled, currentMoveSpeedMultiplier, currentSlowDuration;
 	EnemyStats enemyStats;
 	int currentHealth;
 	Rectangle healthBarYellowRectangle, healthBarRedRectangle;
@@ -23,6 +23,7 @@ public class Enemy extends ExtendedActor{
     	super(enemySprite);
     	this.enemyStats = enemyStats;
     	currentHealth = enemyStats.health;
+    	currentMoveSpeedMultiplier = 1.0f;
     	setSize(enemySprite.getWidth(), enemySprite.getHeight());
     	
         Vector2 targetPosition = new Vector2(startPosition.x * GameConstants.tileSize, startPosition.y * GameConstants.tileSize);
@@ -62,7 +63,11 @@ public class Enemy extends ExtendedActor{
     @Override
     public void act(float gameTime)
     {
-    	super.act(gameTime);
+    	super.act(gameTime * currentMoveSpeedMultiplier);
+    	if (currentSlowDuration > 0)
+    		currentSlowDuration -= gameTime;
+    	if (currentSlowDuration <= 0)
+    		currentMoveSpeedMultiplier = 1.0f;
     	healthBarRedRectangle = new Rectangle((int)getX(), GameConstants.screenHeight - GameConstants.tileSize - (int)getY() - 10, 64, 5);
         healthBarYellowRectangle = new Rectangle((int)getX(), GameConstants.screenHeight - GameConstants.tileSize - (int)getY() - 10, (int)((float)64 * (float)currentHealth / (float)enemyStats.getHealth()), 5);
    

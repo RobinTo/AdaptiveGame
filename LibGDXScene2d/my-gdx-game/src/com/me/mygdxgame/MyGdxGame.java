@@ -383,10 +383,10 @@ public class MyGdxGame implements ApplicationListener {
 		List<String> fileContent = Files.readAllLines(readPath, ENCODING);
 		int yCounter = 0;
 		System.out.println("Loaded file");
-		for (int x = 0; x * 14 < fileContent.size(); x++) {
-			String[] readStats = new String[14];
-			for (int i = 0; i < 14; i++) {
-				String s = fileContent.get(i + (14 * x));
+		for (int x = 0; x * 20 < fileContent.size(); x++) {
+			String[] readStats = new String[20];
+			for (int i = 0; i < 20; i++) {
+				String s = fileContent.get(i + (20 * x));
 				String[] split = s.split(":");
 				readStats[i] = split[1];
 			}
@@ -401,7 +401,13 @@ public class MyGdxGame implements ApplicationListener {
 									.parseInt(readStats[10]), Integer
 									.parseInt(readStats[11]), Integer
 									.parseInt(readStats[12]), Integer
-									.parseInt(readStats[13])));
+									.parseInt(readStats[13]), Integer
+									.parseInt(readStats[14]), Integer
+									.parseInt(readStats[15]), Integer
+									.parseInt(readStats[16]), Integer
+									.parseInt(readStats[17]), Integer
+									.parseInt(readStats[18]), Integer
+									.parseInt(readStats[19])));
 		}
 	}
 }

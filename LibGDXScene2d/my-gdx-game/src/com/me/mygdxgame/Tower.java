@@ -111,6 +111,10 @@ public class Tower extends ExtendedActor {
 		{
 			missileInTheAir = false;
 			targetedEnemies.get(0).currentHealth -= towerStats.getDamage(currentLevel);
+			targetedEnemies.get(0).currentMoveSpeedMultiplier = 1.0f - ((float)towerStats.getSlowPercentage(currentLevel)/100.0f);
+			targetedEnemies.get(0).currentSlowDuration = towerStats.getSlowDuration(currentLevel);
+			//add dot
+			//add aoe
 			if (targetedEnemies.get(0).currentHealth <= 0) {
 				targetedEnemies.remove(0);
 				targetEnemy = null;

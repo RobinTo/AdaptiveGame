@@ -3,11 +3,16 @@ package com.me.mygdxgame;
 public class TowerStats {
 	String type, towerTexture1, towerTexture2, towerTexture3, missileTexture;
 	float reloadTime;
-	int damage1, damage2, damage3, buildCost, upgradeCost1, upgradeCost2, maxLevel, range;
+	int damage1, damage2, damage3, buildCost, upgradeCost1, upgradeCost2,
+			maxLevel, range, slowPercentage1, slowPercentage2, slowPercentage3,
+			slowDuration1, slowDuration2, slowDuration3;
 
-	public TowerStats(String type, String towerTexture1,String towerTexture2,String towerTexture3, String missileTexture,
-			float ReloadTime, int damage1, int damage2, int damage3, int buildCost, int upgradeCost1, int upgradeCost2,
-			int maxLevel, int range) {
+	public TowerStats(String type, String towerTexture1, String towerTexture2,
+			String towerTexture3, String missileTexture, float ReloadTime,
+			int damage1, int damage2, int damage3, int buildCost,
+			int upgradeCost1, int upgradeCost2, int maxLevel, int range,
+			int slowPercentage1, int slowPercentage2, int slowPercentage3,
+			int slowDuration1, int slowDuration2, int slowDuration3) {
 		this.type = type;
 		this.towerTexture1 = towerTexture1;
 		this.towerTexture2 = towerTexture2;
@@ -22,6 +27,12 @@ public class TowerStats {
 		this.upgradeCost2 = upgradeCost2;
 		this.maxLevel = maxLevel;
 		this.range = range * GameConstants.tileSize;
+		this.slowPercentage1 = slowPercentage1;
+		this.slowPercentage2 = slowPercentage2;
+		this.slowPercentage3 = slowPercentage3;
+		this.slowDuration1 = slowDuration1;
+		this.slowDuration2 = slowDuration2;
+		this.slowDuration3 = slowDuration3;
 	}
 
 	public String getType() {
@@ -33,8 +44,7 @@ public class TowerStats {
 	}
 
 	public String getTowerTexture(int currentLevel) {
-		switch (currentLevel)
-		{
+		switch (currentLevel) {
 		case 2:
 			return towerTexture1;
 		case 3:
@@ -73,8 +83,7 @@ public class TowerStats {
 	}
 
 	public int getDamage(int currentLevel) {
-		switch (currentLevel)
-		{
+		switch (currentLevel) {
 		case 2:
 			return damage2;
 		case 3:
@@ -89,16 +98,36 @@ public class TowerStats {
 		this.damage1 = damage1;
 	}
 
-
 	public void setDamage2(int damage2) {
 		this.damage2 = damage2;
 	}
-
 
 	public void setDamage3(int damage3) {
 		this.damage3 = damage3;
 	}
 
+	public int getSlowPercentage(int currentLevel){
+		switch (currentLevel) {
+		case 2:
+			return slowPercentage2;
+		case 3:
+			return slowPercentage3;
+		default:
+			return slowPercentage1;
+		}
+	}
+	
+	public int getSlowDuration(int currentLevel){
+		switch (currentLevel) {
+		case 2:
+			return slowDuration2;
+		case 3:
+			return slowDuration3;
+		default:
+			return slowDuration1;
+		}
+	}
+	
 	public int getBuildCost() {
 		return buildCost;
 	}
@@ -139,133 +168,5 @@ public class TowerStats {
 		this.range = range;
 	}
 
-	
 }
 
-
-
-
-/*
-
-
-    DamageOverTime damageOverTime;
-    public DamageOverTime DamageOverTime
-    {
-        get { return damageOverTime; }
-        set { damageOverTime = value; }
-    }
-    Slow slow;
-    public Slow Slow
-    {
-        get { return slow; }
-        set { slow = value; }
-    }
-    AreaOfEffect areaOfEffect;
-
-    public AreaOfEffect AreaOfEffect
-    {
-        get { return areaOfEffect; }
-        set { areaOfEffect = value; }
-    }
-public struct AreaOfEffect
-{
-    float radius;
-    public float Radius
-    {
-        get { return radius; }
-        set { radius = value; }
-    }
-    public AreaOfEffect(float radius)
-    {
-        this.radius = radius;
-    }
-}
-
-public struct DamageOverTime
-{
-    int damagePerTick;
-
-    public int DamagePerTick
-    {
-        get { return damagePerTick; }
-        set { damagePerTick = value; }
-    }
-    int ticks;
-
-    public int Ticks
-    {
-        get { return ticks; }
-        set { ticks = value; }
-    }
-    float duration;
-
-    public float Duration
-    {
-        get { return duration; }
-        set { duration = value; }
-    }
-    float durationSinceLastTick;
-
-    float remainingDuration;
-    public float RemainingDuration
-    {
-        get { return remainingDuration; }
-        set { remainingDuration = value; }
-    }
-
-    public float DurationSinceLastTick
-    {
-        get { return durationSinceLastTick; }
-        set { durationSinceLastTick = value; }
-    }
-
-    public DamageOverTime(bool parameter)
-    {
-        this.damagePerTick = 0;
-        this.ticks = 2;
-        this.duration = 0;
-        this.remainingDuration = 0;
-        this.durationSinceLastTick = duration / ticks;
-    }
-    public DamageOverTime(int damagePerTick, int ticks, float duration)
-    {
-        this.damagePerTick = damagePerTick;
-        this.ticks = ticks;
-        this.duration = duration;
-        this.remainingDuration = duration;
-        this.durationSinceLastTick = duration / ticks;
-    }
-}
-
-public struct Slow
-{
-    int percentage;
-
-    public int Percentage
-    {
-        get { return percentage; }
-        set { percentage = value; }
-    }
-    float duration;
-
-    public float Duration
-    {
-        get { return duration; }
-        set { duration = value; }
-    }
-
-    public Slow(bool parameter)
-    {
-        this.percentage = 0;
-        this.duration = 0;
-    }
-    public Slow(int percentage, float duration)
-    {
-        this.percentage = percentage;
-        this.duration = duration;
-    }
-}
-
-}
-
-*/
