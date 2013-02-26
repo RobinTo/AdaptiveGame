@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class Tower extends ExtendedActor {
 
-	TowerStats towerStats;
+	//TowerStats towerStats;
 	//Vector2 position, tilePosition, origin;
 	float currentReloadTime, eX, eY;
 	int currentLevel;
@@ -43,11 +43,11 @@ public class Tower extends ExtendedActor {
 		
 		if (focusFireEnemy != null)
 		{
-			deltaXTarget = (focusFireEnemy.getX() + focusFireEnemy.getOriginX()) - (this.getX() + this.getOriginX());
-            deltaYTarget = (focusFireEnemy.getY() + focusFireEnemy.getOriginY()) - (this.getY() + this.getOriginY());
+			deltaXTarget = (focusFireEnemy.getX() + focusFireEnemy.getWidth()/2) - (this.getX() + this.getWidth()/2);
+            deltaYTarget = (focusFireEnemy.getY() + focusFireEnemy.getHeight()/2) - (this.getY() + this.getHeight()/2);
             distanceToTargetEnemy = (float)Math.sqrt(Math.pow(deltaXTarget, 2) + Math.pow(deltaYTarget, 2));
 
-            if (distanceToTargetEnemy <= this.towerStats.getRange())
+            if (distanceToTargetEnemy <= 1000)
             {
             	focusedAndInRange = true;
             	targetEnemy = focusFireEnemy;
@@ -61,11 +61,11 @@ public class Tower extends ExtendedActor {
 		{
 			for (Enemy candidateEnemy : enemies)
             {
-                double deltaXCandidate = (candidateEnemy.getX() + candidateEnemy.getOriginX()) - (this.getX() + this.getOriginX());
-                double deltaYCandidate = (candidateEnemy.getY() + candidateEnemy.getOriginY()) - (this.getY() + this.getOriginY());
+                double deltaXCandidate = (candidateEnemy.getX() + candidateEnemy.getWidth()/2) - (this.getX() + this.getWidth()/2);
+                double deltaYCandidate = (candidateEnemy.getY() + candidateEnemy.getHeight()/2) - (this.getY() + this.getHeight()/2);
                 double distanceToCandidate = Math.sqrt(Math.pow(deltaXCandidate, 2) + Math.pow(deltaYCandidate, 2));
 
-                if (distanceToCandidate <= towerStats.range && (targetEnemy == null || candidateEnemy.distanceTravelled > targetEnemy.distanceTravelled))
+                if (distanceToCandidate <= 1000 && (targetEnemy == null || candidateEnemy.distanceTravelled > targetEnemy.distanceTravelled))
                 {
                 	deltaXTarget = deltaXCandidate;
                 	deltaYTarget = deltaYCandidate;
@@ -78,8 +78,8 @@ public class Tower extends ExtendedActor {
         {
         	rotation = (float)Math.toDegrees(Math.atan2(deltaYTarget, deltaXTarget));
         	addAndClearActions(Actions.rotateTo(rotation));
-        	eX = targetEnemy.getX() + targetEnemy.getOriginX();
-        	eY = targetEnemy.getY() + targetEnemy.getOriginY();
+        	eX = targetEnemy.getX() + targetEnemy.getWidth()/2;
+        	eY = targetEnemy.getY() + targetEnemy.getHeight()/2;
         }
         
 		

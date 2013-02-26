@@ -19,12 +19,17 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class MyGdxGame implements ApplicationListener {
 	
@@ -47,17 +52,25 @@ public class MyGdxGame implements ApplicationListener {
 	
 	BitmapFont font;
 	
+	String buildingTower = "";
+	Sprite buildingTowerSprite = null;
+	
+	boolean building = false;
+	
 	float totalTime = 0;
 	
 	double timer = 0;
 	int uC=0;
 	int uT=0;
 	
+	boolean wasTouched = true;
+	Vector2 touchedTile = new Vector2(0,0);
+	
 	@Override
 	public void create() {
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
-		
+		//Gdx.graphics.setDisplayMode((int)w, (int)h, true);
 		spriteBatch = new SpriteBatch();
 		
 		font = new BitmapFont();
@@ -92,17 +105,30 @@ public class MyGdxGame implements ApplicationListener {
 		createWave();
 		
 		// UI Creation
-		Table t = new Table();
-		t.setSize(GameConstants.screenWidth, 128);
-		t.setPosition(0, GameConstants.screenHeight-128);
-		t.setColor(Color.BLACK);
-		TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-		style.font = font;
-		TextButton tb = new TextButton("test", style);
-		t.add(tb);
-		stage.addActor(t);
-		
+		Table uiTable = new Table();
+		uiTable.setSize(GameConstants.screenWidth, 128);
+		uiTable.setPosition(0, GameConstants.screenHeight-128);
+		uiTable.setColor(Color.BLACK);
+		TextButton.TextButtonStyle arrowTowerButtonStyle = new TextButton.TextButtonStyle();
+		TextureRegion upStyle = new TextureRegion(towersAtlas.createSprite("arrowTower"));
+		TextureRegion downStyle = new TextureRegion(towersAtlas.createSprite("arrowTower"));
+		arrowTowerButtonStyle.font = font;
+		arrowTowerButtonStyle.up = new TextureRegionDrawable(upStyle);
+		arrowTowerButtonStyle.down = new TextureRegionDrawable(downStyle);
+		TextButton arrowTowerButton = new TextButton("test", arrowTowerButtonStyle);
+		arrowTowerButton.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				building = true;
+				buildingTower = "arrowTower";
+				buildingTowerSprite = towersAtlas.createSprite("arrowTower");
+				return true;
+			}
+		});
+		uiTable.add(arrowTowerButton);
+		stage.addActor(uiTable);
 		// -----------
+		
 	}
 
 	@Override
@@ -126,13 +152,13 @@ public class MyGdxGame implements ApplicationListener {
         	uC = 0;
         	timer = 0;
         }*/
-        
+        handleInput();
         checkWave(totalTime);
         if(enemies.size() > 0)
         {
         	for(int i = 0; i < towers.size(); i++)
         	{
-        		towers.get(i).calculateTarget(Gdx.graphics.getDeltaTime(), enemies, focusFireEnemy);
+        		towers.get(i).calculateTarget(Gdx.graphics.getDeltaTime(), enemies, null);
         	}
         }
 		
@@ -140,6 +166,10 @@ public class MyGdxGame implements ApplicationListener {
         
         spriteBatch.begin();
         map.draw(spriteBatch);
+        if(building)
+        {
+        	spriteBatch.draw(buildingTowerSprite, touchedTile.x*64, touchedTile.y*64);
+        }
         spriteBatch.end();
         stage.draw();
         
@@ -207,4 +237,21 @@ public class MyGdxGame implements ApplicationListener {
 		return t;
 	}
 	
+	private void handleInput()
+	{
+		touchedTile = new Vector2((float)Math.floor((Gdx.input.getX()/GameConstants.tileSize)), (float)Math.floor(((stage.getHeight()-Gdx.input.getY())/GameConstants.tileSize)));
+		if(wasTouched && !Gdx.input.isTouched())
+		{
+			if(building)
+			{
+				if(touchedTile.x<=20 && touchedTile.y<=10)
+					buildTower(buildingTower, touchedTile);
+				building = false;
+			}
+		}
+		if(Gdx.input.isTouched())
+		{
+			wasTouched = true;
+		}
+	}
 }
