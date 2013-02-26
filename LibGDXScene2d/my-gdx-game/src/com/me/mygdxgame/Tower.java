@@ -17,10 +17,10 @@ public class Tower extends ExtendedActor {
 	HashMap<Integer, Sprite> textures = new HashMap<Integer, Sprite>();
 	
 	float currentReloadTimer;	
-	float currentTimeToHitTarget;
 	boolean missileInTheAir;
 	
-	List<Enemy> targetedEnemies;
+	List<DamagePacket> activeShots;
+	
 	Enemy targetEnemy;
 	
 	public Tower (TowerStats towerStats, Sprite towerSprite1, Sprite towerSprite2, Sprite towerSprite3, Sprite missileSprite) {
@@ -33,9 +33,8 @@ public class Tower extends ExtendedActor {
 		textures.put(2, towerSprite3);
 		textures.put(3, missileSprite);
 		currentLevel = 1;
-		currentTimeToHitTarget = 0;
 		missileInTheAir = false;
-		targetedEnemies = new ArrayList<Enemy>();
+		activeShots = new ArrayList<DamagePacket>();
 		setOrigin(getWidth()/2, getHeight()/2);
 	}
 	
@@ -102,22 +101,21 @@ public class Tower extends ExtendedActor {
 			currentReloadTimer = towerStats.reloadTime;
 			this.getParent().addActor(new Missile(textures.get(3), new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(enemyX, enemyY), 0.2f));
 			missileInTheAir = true;
-			targetedEnemies.add(targetEnemy);
-			currentTimeToHitTarget = 0.2f;
+			activeShots.add(new DamagePacket(0.2f, targetEnemy));
 		}
 		
-		currentTimeToHitTarget -= gameTime;
-		if (missileInTheAir && currentTimeToHitTarget <= 0)
+		for (int counter = 0; counter < activeShots.size(); counter ++)
 		{
-			missileInTheAir = false;
-			targetedEnemies.get(0).currentHealth -= towerStats.getDamage(currentLevel);
-			targetedEnemies.get(0).currentMoveSpeedMultiplier = 1.0f - ((float)towerStats.getSlowPercentage(currentLevel)/100.0f);
-			targetedEnemies.get(0).currentSlowDuration = towerStats.getSlowDuration(currentLevel);
-			//add dot
-			//add aoe
-			if (targetedEnemies.get(0).currentHealth <= 0) {
-				targetedEnemies.remove(0);
-				targetEnemy = null;
+			DamagePacket damagePacket = activeShots.get(counter);
+			damagePacket.timeToHit -= gameTime;
+			if (damagePacket.timeToHit <= 0.0f)
+			{
+				damagePacket.targetEnemy.currentHealth -= towerStats.getDamage(currentLevel);
+				damagePacket.targetEnemy.currentMoveSpeedMultiplier = 1.0f - ((float)towerStats.getSlowPercentage(currentLevel)/100.0f);
+				damagePacket.targetEnemy.currentSlowDuration = towerStats.getSlowDuration(currentLevel);
+				
+				activeShots.remove(counter);
+				counter --;
 			}
 		}
 	}

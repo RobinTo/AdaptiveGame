@@ -383,10 +383,10 @@ public class MyGdxGame implements ApplicationListener {
 		List<String> fileContent = Files.readAllLines(readPath, ENCODING);
 		int yCounter = 0;
 		System.out.println("Loaded file");
-		for (int x = 0; x * 20 < fileContent.size(); x++) {
-			String[] readStats = new String[20];
-			for (int i = 0; i < 20; i++) {
-				String s = fileContent.get(i + (20 * x));
+		for (int x = 0; x * 29 < fileContent.size(); x++) {
+			String[] readStats = new String[29];
+			for (int i = 0; i < 29; i++) {
+				String s = fileContent.get(i + (29 * x));
 				String[] split = s.split(":");
 				readStats[i] = split[1];
 			}
@@ -404,10 +404,19 @@ public class MyGdxGame implements ApplicationListener {
 									.parseInt(readStats[13]), Integer
 									.parseInt(readStats[14]), Integer
 									.parseInt(readStats[15]), Integer
-									.parseInt(readStats[16]), Integer
-									.parseInt(readStats[17]), Integer
-									.parseInt(readStats[18]), Integer
-									.parseInt(readStats[19])));
+									.parseInt(readStats[16]), Float
+									.parseFloat(readStats[17]), Float
+									.parseFloat(readStats[18]), Float
+									.parseFloat(readStats[19]), Integer
+									.parseInt(readStats[20]), Integer
+									.parseInt(readStats[21]),  Float
+									.parseFloat(readStats[22]), Integer
+									.parseInt(readStats[23]), Integer
+									.parseInt(readStats[24]),  Float
+									.parseFloat(readStats[25]), Integer
+									.parseInt(readStats[26]), Integer
+									.parseInt(readStats[27]), Float
+									.parseFloat(readStats[28])));
 		}
 	}
 }

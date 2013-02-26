@@ -2,17 +2,22 @@ package com.me.mygdxgame;
 
 public class TowerStats {
 	String type, towerTexture1, towerTexture2, towerTexture3, missileTexture;
-	float reloadTime;
+	float reloadTime, slowDuration1, slowDuration2, slowDuration3,
+			dotDuration1, dotDuration2, dotDuration3;
 	int damage1, damage2, damage3, buildCost, upgradeCost1, upgradeCost2,
 			maxLevel, range, slowPercentage1, slowPercentage2, slowPercentage3,
-			slowDuration1, slowDuration2, slowDuration3;
+			dotDamage1, dotDamage2, dotDamage3, dotTicks1, dotTicks2,
+			dotTicks3;
 
 	public TowerStats(String type, String towerTexture1, String towerTexture2,
 			String towerTexture3, String missileTexture, float ReloadTime,
 			int damage1, int damage2, int damage3, int buildCost,
 			int upgradeCost1, int upgradeCost2, int maxLevel, int range,
 			int slowPercentage1, int slowPercentage2, int slowPercentage3,
-			int slowDuration1, int slowDuration2, int slowDuration3) {
+			float slowDuration1, float slowDuration2, float slowDuration3,
+			int dotDamage1, int dotTicks1, float dotDuration1, int dotDamage2,
+			int dotTicks2, float dotDuration2, int dotDamage3, int dotTicks3,
+			float dotDuration3) {
 		this.type = type;
 		this.towerTexture1 = towerTexture1;
 		this.towerTexture2 = towerTexture2;
@@ -33,6 +38,15 @@ public class TowerStats {
 		this.slowDuration1 = slowDuration1;
 		this.slowDuration2 = slowDuration2;
 		this.slowDuration3 = slowDuration3;
+		this.dotDamage1 = dotDamage1;
+		this.dotDamage2 = dotDamage2;
+		this.dotDamage3 = dotDamage3;
+		this.dotTicks1 = dotTicks1;
+		this.dotTicks2 = dotTicks2;
+		this.dotTicks3 = dotTicks3;
+		this.dotDuration1 = dotDuration1;
+		this.dotDuration2 = dotDuration2;
+		this.dotDuration3 = dotDuration3;
 	}
 
 	public String getType() {
@@ -117,7 +131,7 @@ public class TowerStats {
 		}
 	}
 	
-	public int getSlowDuration(int currentLevel){
+	public float getSlowDuration(int currentLevel){
 		switch (currentLevel) {
 		case 2:
 			return slowDuration2;
@@ -125,6 +139,41 @@ public class TowerStats {
 			return slowDuration3;
 		default:
 			return slowDuration1;
+		}
+	}
+
+	public int getDotDamage(int currentLevel) {
+		switch (currentLevel) {
+		case 2:
+			return dotDamage2;
+		case 3:
+			return dotDamage3;
+		default:
+			return dotDamage1;
+
+		}
+	}
+	
+	public int getDotTicks(int currentLevel) {
+		switch (currentLevel) {
+		case 2:
+			return dotTicks2;
+		case 3:
+			return dotTicks3;
+		default:
+			return dotTicks1;
+
+		}
+	}
+	
+	public float getDotDuration(int currentLevel){
+		switch (currentLevel) {
+		case 2:
+			return dotDuration2;
+		case 3:
+			return dotDuration3;
+		default:
+			return dotDuration1;
 		}
 	}
 	
