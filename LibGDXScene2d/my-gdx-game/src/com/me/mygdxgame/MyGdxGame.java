@@ -196,6 +196,17 @@ public class MyGdxGame implements ApplicationListener {
 		
         stage.act(Gdx.graphics.getDeltaTime());
         
+        for (int counter = 0; counter < enemies.size(); counter++)
+        {
+        	Enemy enemy = enemies.get(counter);
+        	if (enemy.currentHealth <= 0)
+        	{
+        		enemies.remove(enemy);
+        		enemy.remove();
+        		counter --;
+        	}
+        }
+        
         spriteBatch.begin();
         map.draw(spriteBatch);
         if(building)
