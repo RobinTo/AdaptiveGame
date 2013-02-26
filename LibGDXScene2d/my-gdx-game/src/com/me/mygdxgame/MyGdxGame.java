@@ -292,7 +292,7 @@ public class MyGdxGame implements ApplicationListener {
 	// Eventually take an enemyInfo id, and create appropriate.
 	private Enemy createEnemy(String type)
 	{
-		return new Enemy(enemyInfo.get(type), map.startPoint, map.directions, enemiesAtlas.createSprite(enemyInfo.get(type).enemyTexture));
+		return new Enemy(enemyInfo.get(type), map.startPoint, map.directions, enemiesAtlas.createSprite(enemyInfo.get(type).enemyTexture), miscAtlas.createSprite("healthBarRed"), miscAtlas.createSprite("healthBarYellow"));
 	}
 	
 	public void buildTower(String type, Vector2 tilePosition)

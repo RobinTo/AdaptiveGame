@@ -4,27 +4,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class Tower extends ExtendedActor {
 
 	TowerStats towerStats;
 
-	float currentReloadTime, eX, eY;
+	float enemyX, enemyY;
 	int currentLevel;
 	HashMap<Integer, Sprite> textures = new HashMap<Integer, Sprite>();
 	
-	float shootTime = 0.5f;
-	float shootTimer = 0.5f;
-	
+	float currentReloadTimer;	
 	float currentTimeToHitTarget;
 	boolean missileInTheAir;
 	
@@ -34,6 +26,7 @@ public class Tower extends ExtendedActor {
 	public Tower (TowerStats towerStats, Sprite towerSprite1, Sprite towerSprite2, Sprite towerSprite3, Sprite missileSprite) {
 		super(towerSprite1);
 		this.towerStats = towerStats;
+		this.currentReloadTimer = towerStats.reloadTime;
 		this.targetEnemy = null;
 		textures.put(0, towerSprite1);
 		textures.put(1, towerSprite2);
@@ -91,23 +84,11 @@ public class Tower extends ExtendedActor {
         	rotation = (float)Math.toDegrees(Math.atan2(deltaYTarget, deltaXTarget));
         	addAndClearActions(Actions.rotateTo(rotation));
 
-        	eX = targetEnemy.getX() + targetEnemy.getWidth()/2;
-        	eY = targetEnemy.getY() + targetEnemy.getHeight()/2;
+        	enemyX = targetEnemy.getX() + targetEnemy.getWidth()/2;
+        	enemyY = targetEnemy.getY() + targetEnemy.getHeight()/2;
 
         }
         
-		
-		/*
-        currentReloadTime = (currentReloadTime < 0) ? 0 : currentReloadTime;
-
-        if (targetEnemy != null && currentReloadTime <= 0)
-        {
-        	missiles.add(new Missile(textures.get(1), new Vector2(this.position.x + this.origin.x, this.position.y + this.origin.y),
-    				distanceToTargetEnemy, rotation, 1024.0f, targetEnemy,
-    				towerStats.getDamage(currentLevel)));
-            currentReloadTime = towerStats.reloadTime;
-        }
-        */
 	}
 	
 	@Override
@@ -115,11 +96,11 @@ public class Tower extends ExtendedActor {
 	{
 		super.act(gameTime);
 		
-		shootTimer -= gameTime;
-		if(shootTimer <= 0 && targetEnemy != null)
+		currentReloadTimer -= gameTime;
+		if(currentReloadTimer <= 0 && targetEnemy != null)
 		{
-			shootTimer = shootTime;
-			this.getParent().addActor(new Missile(textures.get(3), new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(eX, eY), 0.2f));
+			currentReloadTimer = towerStats.reloadTime;
+			this.getParent().addActor(new Missile(textures.get(3), new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(enemyX, enemyY), 0.2f));
 			missileInTheAir = true;
 			targetedEnemies.add(targetEnemy);
 			currentTimeToHitTarget = 0.2f;
@@ -130,8 +111,10 @@ public class Tower extends ExtendedActor {
 		{
 			missileInTheAir = false;
 			targetedEnemies.get(0).currentHealth -= towerStats.getDamage(currentLevel);
-			if (targetedEnemies.get(0).currentHealth <= 0)
+			if (targetedEnemies.get(0).currentHealth <= 0) {
 				targetedEnemies.remove(0);
+				targetEnemy = null;
+			}
 		}
 	}
 	
