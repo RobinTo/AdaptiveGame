@@ -54,9 +54,6 @@ RemoteSystemsTempFiles/
 # Java class files
 *.class
 
-# generated GUI files
-*R.java
-
 ### eclipse files we DO want
 # local.properties
 # */.loadpath
