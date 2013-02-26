@@ -21,6 +21,7 @@ public class ExtendedActor extends Actor {
 	public ExtendedActor (Sprite sprite) {
         region = new TextureRegion(sprite);
 		setSize(sprite.getWidth(),sprite.getHeight());
+        setVisible(true);
         
         getNextAction();
 	}

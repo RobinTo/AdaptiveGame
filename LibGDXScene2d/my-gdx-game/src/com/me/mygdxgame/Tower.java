@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -15,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class Tower extends ExtendedActor {
+
 	TowerStats towerStats;
 	//Vector2 position, tilePosition, origin;
 	float currentReloadTime, eX, eY;
@@ -23,11 +23,15 @@ public class Tower extends ExtendedActor {
 	//Rectangle rangeHighlightRectangle;
 	//Color color;
 	HashMap<Integer, Sprite> textures = new HashMap<Integer, Sprite>();
+
+	Sprite missile;
+	float shootTime = 0.5f;
+	float shootTimer = 0.5f;
 	
-	public Tower (Sprite sprite) {
+	public Tower (Sprite sprite, Sprite missile) {
 		super(sprite);
+		this.missile = missile;
 		setOrigin(getWidth()/2, getHeight()/2);
-		setVisible(true);
 	}
 	
 	public void calculateTarget(float gameTime, List<Enemy> enemies, Enemy focusFireEnemy)
@@ -90,7 +94,6 @@ public class Tower extends ExtendedActor {
             currentReloadTime = towerStats.reloadTime;
         }
         */
-        
 	}
 	
 	@Override
@@ -98,5 +101,11 @@ public class Tower extends ExtendedActor {
 	{
 		super.act(gameTime);
 		
+		shootTimer -= gameTime;
+		if(shootTimer <= 0)
+		{
+			shootTimer = shootTime;
+			this.getParent().addActor(new Missile(missile, new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(eX, eY)));
+		}
 	}
 }

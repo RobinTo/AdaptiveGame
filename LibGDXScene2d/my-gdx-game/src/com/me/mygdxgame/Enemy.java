@@ -34,9 +34,9 @@ public class Enemy extends ExtendedActor{
         this.setPosition(targetPosition.x, targetPosition.y);
 
         SequenceAction seqAct = new SequenceAction();
-        while(directions.size() > 0)
+        for(int i = 0; i<directions.size(); i++)
         {
-        	switch (directions.get(0))
+        	switch (directions.get(i))
             {
                 case Up:
                     targetPosition.y -= GameConstants.tileSize;
@@ -55,7 +55,6 @@ public class Enemy extends ExtendedActor{
             }
         	seqAct.addAction(Actions.moveTo(targetPosition.x, targetPosition.y, 0.7f));
         	//this.queueAction(Actions.moveTo(targetPosition.x, targetPosition.y, 0.4f));
-        	directions.remove(0);
         }
         addAction(seqAct);
     }
