@@ -5,8 +5,7 @@ Tasklist:
 - Porte sell
 - Porte tower effects
 - Porte input
-- Porte Focus fire
-- Bug: Tower aiming
+- Bug: Tower placement accuracy
 
 - Upgrade cost i gui
 - Keybindings ligger i GUIButton, bruke den fremfor hardkodet input i gameScreen.

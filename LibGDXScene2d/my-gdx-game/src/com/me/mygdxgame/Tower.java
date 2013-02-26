@@ -1,5 +1,6 @@
 package com.me.mygdxgame;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,28 +16,39 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class Tower extends ExtendedActor {
 
-	//TowerStats towerStats;
-	//Vector2 position, tilePosition, origin;
+	TowerStats towerStats;
+
 	float currentReloadTime, eX, eY;
 	int currentLevel;
-	
-	//Rectangle rangeHighlightRectangle;
-	//Color color;
 	HashMap<Integer, Sprite> textures = new HashMap<Integer, Sprite>();
-
-	Sprite missile;
+	
 	float shootTime = 0.5f;
 	float shootTimer = 0.5f;
 	
-	public Tower (Sprite sprite, Sprite missile) {
-		super(sprite);
-		this.missile = missile;
+	float currentTimeToHitTarget;
+	boolean missileInTheAir;
+	
+	List<Enemy> targetedEnemies;
+	Enemy targetEnemy;
+	
+	public Tower (TowerStats towerStats, Sprite towerSprite1, Sprite towerSprite2, Sprite towerSprite3, Sprite missileSprite) {
+		super(towerSprite1);
+		this.towerStats = towerStats;
+		this.targetEnemy = null;
+		textures.put(0, towerSprite1);
+		textures.put(1, towerSprite2);
+		textures.put(2, towerSprite3);
+		textures.put(3, missileSprite);
+		currentLevel = 1;
+		currentTimeToHitTarget = 0;
+		missileInTheAir = false;
+		targetedEnemies = new ArrayList<Enemy>();
 		setOrigin(getWidth()/2, getHeight()/2);
 	}
 	
 	public void calculateTarget(float gameTime, List<Enemy> enemies, Enemy focusFireEnemy)
 	{
-		Enemy targetEnemy = null;
+		targetEnemy = null;
 		float distanceToTargetEnemy, rotation;
 		boolean focusedAndInRange = false;
 		double deltaXTarget = 0, deltaYTarget = 0;
@@ -78,8 +90,10 @@ public class Tower extends ExtendedActor {
         {
         	rotation = (float)Math.toDegrees(Math.atan2(deltaYTarget, deltaXTarget));
         	addAndClearActions(Actions.rotateTo(rotation));
+
         	eX = targetEnemy.getX() + targetEnemy.getWidth()/2;
         	eY = targetEnemy.getY() + targetEnemy.getHeight()/2;
+
         }
         
 		
@@ -102,10 +116,32 @@ public class Tower extends ExtendedActor {
 		super.act(gameTime);
 		
 		shootTimer -= gameTime;
-		if(shootTimer <= 0)
+		if(shootTimer <= 0 && targetEnemy != null)
 		{
 			shootTimer = shootTime;
-			this.getParent().addActor(new Missile(missile, new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(eX, eY)));
+			this.getParent().addActor(new Missile(textures.get(3), new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(eX, eY), 0.2f));
+			missileInTheAir = true;
+			targetedEnemies.add(targetEnemy);
+			currentTimeToHitTarget = 0.2f;
 		}
+		
+		currentTimeToHitTarget -= gameTime;
+		if (missileInTheAir && currentTimeToHitTarget <= 0)
+		{
+			missileInTheAir = false;
+			targetedEnemies.get(0).currentHealth -= towerStats.getDamage(currentLevel);
+			if (targetedEnemies.get(0).currentHealth <= 0)
+				targetedEnemies.remove(0);
+		}
+	}
+	
+	public boolean upgrade()
+	{
+		if (currentLevel == towerStats.maxLevel)
+			return false;
+		
+		currentLevel++;
+		super.setSprite(textures.get(currentLevel - 1));
+		return true;
 	}
 }

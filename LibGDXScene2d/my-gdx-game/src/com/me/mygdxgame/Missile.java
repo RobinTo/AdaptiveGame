@@ -9,11 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class Missile extends ExtendedActor{
 
-	public Missile(Sprite sprite, Vector2 startPosition, Vector2 targetPosition) {
+	public Missile(Sprite sprite, Vector2 startPosition, Vector2 targetPosition, float timeToHitTarget) {
 		super(sprite);
 		
 		setPosition(startPosition.x, startPosition.y);
-		addAction(sequence(Actions.moveTo(targetPosition.x, targetPosition.y,0.2f), run(new Runnable() {
+		addAction(sequence(Actions.moveTo(targetPosition.x, targetPosition.y, timeToHitTarget), run(new Runnable() {
 			public void run() {
 				remove();
 			}

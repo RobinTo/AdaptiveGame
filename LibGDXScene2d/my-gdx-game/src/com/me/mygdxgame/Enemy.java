@@ -22,10 +22,14 @@ public class Enemy extends ExtendedActor{
 	
 	HashMap<Integer, Sprite> sprites;
 	float distanceTravelled;
-
-    public Enemy(Vector2 startPosition, List<Direction> directions, Sprite enemySprite)
+	EnemyStats enemyStats;
+	int currentHealth;
+	
+    public Enemy(EnemyStats enemyStats, Vector2 startPosition, List<Direction> directions, Sprite enemySprite)
     {
     	super(enemySprite);
+    	this.enemyStats = enemyStats;
+    	currentHealth = enemyStats.health;
     	setSize(enemySprite.getWidth(), enemySprite.getHeight());
     	
         Vector2 targetPosition = new Vector2(startPosition.x * GameConstants.tileSize, startPosition.y * GameConstants.tileSize);

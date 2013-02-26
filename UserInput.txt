@@ -1,0 +1,7 @@
+Select enemy - Click enemy
+Select tower - Click tower
+Sell tower - Click tower, then click sell button
+Upgrade tower - Click tower, then click upgrade button
+Build tower - Click on a tower button, then click spot to place 
+Quit game - 
+Pause game - 

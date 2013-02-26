@@ -64,6 +64,12 @@ public class ExtendedActor extends Actor {
 			queuedActions.add(action);
 	}
 	
+	public void setSprite(Sprite newSprite)
+	{
+		region = new TextureRegion(newSprite);
+		setSize(newSprite.getWidth(),newSprite.getHeight());
+	}
+	
 	@Override
 	public void draw (SpriteBatch batch, float parentAlpha) {
 	        Color color = getColor();

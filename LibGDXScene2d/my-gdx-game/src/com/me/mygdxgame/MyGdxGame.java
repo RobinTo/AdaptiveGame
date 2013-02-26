@@ -1,6 +1,11 @@
 package com.me.mygdxgame;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -38,6 +43,12 @@ public class MyGdxGame implements ApplicationListener {
 	
 	List<Enemy> enemies = new ArrayList<Enemy>();
 	List<Tower> towers = new ArrayList<Tower>();
+	
+	Enemy focusFireEnemy;
+	
+
+	HashMap<String, TowerStats> towerInfo = new HashMap<String, TowerStats>();
+    HashMap<String, EnemyStats> enemyInfo = new HashMap<String, EnemyStats>();
 	
 	Stage stage;
 	ExtendedActor actor;
@@ -101,7 +112,28 @@ public class MyGdxGame implements ApplicationListener {
 			// Don't care for now
 		}
 
-		buildTower("arrowTower", new Vector2(1,1));
+		// Load TowerInfo
+		try {
+			this.loadTowerStats(Gdx.files.getLocalStoragePath()
+					+ ".//bin//Stats/towerStats.txt");
+			System.out.println("Create Stats done.");
+		} catch (IOException ioe) {
+			System.out.println(ioe.getMessage()+ "errorTowerInfo");
+			// Don't care for now
+		}
+
+		// Load EnemyInfo
+		try {
+			this.generateEnemyInfo(Gdx.files.getLocalStoragePath()
+					+ ".//bin//Stats/enemyStats.txt");
+			System.out.println("Create Stats done.");
+		} catch (IOException ioe) {
+			System.out.println(ioe.getMessage() + "errorEnemyInfo");
+			// Don't care for now
+		}
+
+		
+		buildTower("arrow", new Vector2(1,1));
 		createWave();
 		
 		// UI Creation
@@ -204,9 +236,9 @@ public class MyGdxGame implements ApplicationListener {
 	
 	private void createWave()
 	{
-		addEnemyToWave(0.5f, createEnemy("testEnemy"));
-		addEnemyToWave(10.5f, createEnemy("fastEnemy"));
-		addEnemyToWave(5.5f, createEnemy("toughEnemy"));
+		addEnemyToWave(0.5f, createEnemy("basic"));
+		addEnemyToWave(10.5f, createEnemy("fast"));
+		addEnemyToWave(5.5f, createEnemy("tough"));
 		Collections.sort(waveTime);
 	}
 	
@@ -217,23 +249,24 @@ public class MyGdxGame implements ApplicationListener {
 	}
 	
 	// Eventually take an enemyInfo id, and create appropriate.
-	private Enemy createEnemy(String spriteString)
+	private Enemy createEnemy(String type)
 	{
-		return new Enemy(map.startPoint, map.directions, enemiesAtlas.createSprite(spriteString));
+		return new Enemy(enemyInfo.get(type), map.startPoint, map.directions, enemiesAtlas.createSprite(enemyInfo.get(type).enemyTexture));
 	}
 	
-	public void buildTower(String towerID, Vector2 tilePosition)
+	public void buildTower(String type, Vector2 tilePosition)
 	{
-		Tower t = createTower(towerID, tilePosition);
+		Tower t = createTower(type, tilePosition);
 		stage.addActor(t);
 		towers.add(t);
 	}
 	
 	// Eventually take a towerInfo id, and create appropriate.
-	private Tower createTower(String towerID, Vector2 tilePosition)
+	private Tower createTower(String type, Vector2 tilePosition)
 	{
-		Tower t = new Tower(towersAtlas.createSprite(towerID), miscAtlas.createSprite("blackBullet"));
-		t.setPosition(tilePosition.x*GameConstants.tileSize, tilePosition.y * GameConstants.tileSize);
+		Tower t = new Tower(towerInfo.get(type), towersAtlas.createSprite(towerInfo.get(type).towerTexture1), towersAtlas.createSprite(towerInfo.get(type).towerTexture2), towersAtlas.createSprite(towerInfo.get(type).towerTexture3), miscAtlas.createSprite(towerInfo.get(type).missileTexture));
+		t.setPosition(tilePosition.x * GameConstants.tileSize, tilePosition.y
+				* GameConstants.tileSize);
 		return t;
 	}
 	
@@ -252,6 +285,61 @@ public class MyGdxGame implements ApplicationListener {
 		if(Gdx.input.isTouched())
 		{
 			wasTouched = true;
+		}
+	}
+	
+	private void generateEnemyInfo(String path)
+			throws IOException {
+		// Eventually do in thinkTank with parameters
+		// String type, int health, int speed, int goldYield, String enemyTexture, String redHealthBar, String yellowHealthBar
+
+		Path readPath = Paths.get(path);
+		Charset ENCODING = StandardCharsets.UTF_8;
+		List<String> fileContent = Files.readAllLines(readPath, ENCODING);
+		int yCounter = 0;
+		System.out.println("Loaded file");
+		for (int x = 0; x * 5 < fileContent.size(); x++) {
+			String[] readStats = new String[5];
+			for (int i = 0; i < 5; i++) {
+				String s = fileContent.get(i + (5 * x));
+				String[] split = s.split(":");
+				readStats[i] = split[1];
+			}
+			enemyInfo.put(
+					readStats[0],
+					new EnemyStats(readStats[0], readStats[1], Integer
+							.parseInt(readStats[2]), Float
+							.parseFloat(readStats[3]), Integer
+							.parseInt(readStats[4])));
+		}
+	}
+	
+	private void loadTowerStats(String path)
+			throws IOException {
+		Path readPath = Paths.get(path);
+		Charset ENCODING = StandardCharsets.UTF_8;
+		List<String> fileContent = Files.readAllLines(readPath, ENCODING);
+		int yCounter = 0;
+		System.out.println("Loaded file");
+		for (int x = 0; x * 14 < fileContent.size(); x++) {
+			String[] readStats = new String[14];
+			for (int i = 0; i < 14; i++) {
+				String s = fileContent.get(i + (14 * x));
+				String[] split = s.split(":");
+				readStats[i] = split[1];
+			}
+			towerInfo.put(
+					readStats[0],
+					new TowerStats(readStats[0], readStats[1], readStats[2], readStats[3], readStats[4],
+							Float.parseFloat(readStats[5]), Integer
+									.parseInt(readStats[6]), Integer
+									.parseInt(readStats[7]), Integer
+									.parseInt(readStats[8]), Integer
+									.parseInt(readStats[9]), Integer
+									.parseInt(readStats[10]), Integer
+									.parseInt(readStats[11]), Integer
+									.parseInt(readStats[12]), Integer
+									.parseInt(readStats[13])));
 		}
 	}
 }
