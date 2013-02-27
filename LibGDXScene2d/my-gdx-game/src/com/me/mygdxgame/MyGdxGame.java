@@ -1,11 +1,9 @@
 package com.me.mygdxgame;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,6 +11,8 @@ import java.util.List;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -25,6 +25,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -77,7 +78,7 @@ public class MyGdxGame implements ApplicationListener {
 	int uC=0;
 	int uT=0;
 	
-	boolean wasTouched = true;
+	boolean wasTouched = false;
 	Vector2 touchedTile = new Vector2(0,0);
 	
 	String towerName = "Tower";
@@ -89,7 +90,12 @@ public class MyGdxGame implements ApplicationListener {
 	Label uiLabel;
 	Label uiLabel2;
 	Label uiLabel3;
+	
+	Camera gameCamera;
 
+	MapTile temporaryTowerActor = null;
+	
+	boolean printDebug = true;
 	
 	@Override
 	public void create() {
@@ -102,50 +108,32 @@ public class MyGdxGame implements ApplicationListener {
 		font = new BitmapFont();
 		
 		stage = new Stage();
-		Gdx.input.setInputProcessor(stage);
 		
-		Texture text = new Texture(Gdx.files.internal("data/libgdx.png"));
-		text.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		Sprite sprite = new Sprite(text);
-		sprite.setPosition(5, 5);
+		Gdx.input.setInputProcessor(stage);
 
-
-		mapTilesAtlas = new TextureAtlas(Gdx.files.internal("images/mapTiles.atlas"));
-		enemiesAtlas = new TextureAtlas(Gdx.files.internal("images/enemies.atlas"));
-		miscAtlas = new TextureAtlas(Gdx.files.internal("images/misc.atlas"));
-		towersAtlas = new TextureAtlas(Gdx.files.internal("images/towers.atlas"));
+		mapTilesAtlas = new TextureAtlas(Gdx.files.internal("Images/mapTiles.atlas"));
+		enemiesAtlas = new TextureAtlas(Gdx.files.internal("Images/enemies.atlas"));
+		miscAtlas = new TextureAtlas(Gdx.files.internal("Images/misc.atlas"));
+		towersAtlas = new TextureAtlas(Gdx.files.internal("Images/towers.atlas"));
 		
 		map = new Map(mapTilesAtlas);
-		try
-		{
-			map.loadMap(Gdx.files.getLocalStoragePath() + ".//bin//Maps/map.txt");
-			System.out.println("Create done.");
-		}
-		catch(IOException ioe)
-		{
-			System.out.println(ioe.getMessage());
-			// Don't care for now
-		}
+		FileHandle handle = Gdx.files.internal("Maps/map.txt");
+		Group g = map.loadMap(handle);
+		stage.addActor(g);
 
-		// Load TowerInfo
-		try {
-			this.loadTowerStats(Gdx.files.getLocalStoragePath()
-					+ ".//bin//Stats/towerStats.txt");
-			System.out.println("Create Stats done.");
-		} catch (IOException ioe) {
-			System.out.println(ioe.getMessage()+ "errorTowerInfo");
-			// Don't care for now
-		}
 
-		// Load EnemyInfo
+		FileHandle towerHandle = Gdx.files.internal("Stats/towerStats.txt");
 		try {
-			this.generateEnemyInfo(Gdx.files.getLocalStoragePath()
-					+ ".//bin//Stats/enemyStats.txt");
-			System.out.println("Create Stats done.");
-		} catch (IOException ioe) {
-			System.out.println(ioe.getMessage() + "errorEnemyInfo");
-			// Don't care for now
+			loadTowerStats(towerHandle);
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		FileHandle enemyHandle = Gdx.files.internal("Stats/enemyStats.txt");
+		generateEnemyInfo(enemyHandle);
 
 		
 		buildTower("arrow", new Vector2(1,1));
@@ -171,6 +159,8 @@ public class MyGdxGame implements ApplicationListener {
 					buildingTower = towerInfo.get(currentKey).type;
 					buildingTowerSprite = towersAtlas.createSprite(towerInfo.get(currentKey).towerTexture1);
 					towerName = currentKey;
+					temporaryTowerActor = new MapTile(towersAtlas.createSprite(towerInfo.get(towerName).towerTexture1), 64, 64);
+					stage.addActor(temporaryTowerActor);
 					uiLabel.setText(towerName);
 					uiLabel2.setText("Damage: " + Integer.toString(towerInfo.get(currentKey).damage1));
 					uiLabel3.setText("Cost: " + Integer.toString(towerInfo.get(currentKey).getBuildCost()));
@@ -206,15 +196,6 @@ public class MyGdxGame implements ApplicationListener {
         
         totalTime += Gdx.graphics.getDeltaTime();
         
-        /* Remove commenting here for FPS
-        timer += Gdx.graphics.getDeltaTime();
-        uC++;
-        if(timer >= 1)
-        {
-        	System.out.println(uC);
-        	uC = 0;
-        	timer = 0;
-        }*/
         handleInput();
         checkWave(totalTime);
         if(enemies.size() > 0)
@@ -237,21 +218,39 @@ public class MyGdxGame implements ApplicationListener {
         		counter --;
         	}
         }
-        
-        spriteBatch.begin();
-        map.draw(spriteBatch);
-        if(building)
-        {
-        	spriteBatch.draw(buildingTowerSprite, touchedTile.x*64, touchedTile.y*64);
-        }
-        spriteBatch.end();
+
         stage.draw();
-        
+        spriteBatch.begin();
+        /*if(building && touchedTile.x >= 0 && touchedTile.x < 20 && touchedTile.y >= 0 && touchedTile.y < 10)
+        {
+        	Vector2 newStage = stage.stageToScreenCoordinates(new Vector2(touchedTile.x*64, touchedTile.y*64));
+        	spriteBatch.draw(buildingTowerSprite, newStage.x, newStage.y, 64, 64);
+        }*/
+        spriteBatch.end();
+     
+        timer += Gdx.graphics.getDeltaTime();
+        uC++;
+        if(timer >= 1)
+        {
+        	if(printDebug)
+            {
+            	System.out.println(getCameraX());
+            	System.out.println(getCameraY());
+            }
+        	System.out.println(uC);
+        	uC = 0;
+        	timer = 0;
+        }
+       
 	}
 
 	@Override
 	public void resize(int width, int height) {
         stage.setViewport(width, height, true);
+		gameCamera = new OrthographicCamera(stage.getWidth(), stage.getHeight());
+        stage.setCamera(gameCamera);
+        gameCamera.translate(gameCamera.viewportWidth/2, gameCamera.viewportHeight/2, 0);
+        gameCamera.update();
 	}
 
 	@Override
@@ -273,6 +272,15 @@ public class MyGdxGame implements ApplicationListener {
 				waveTime.remove(0);
 			}
 		}
+	}
+	
+	private int getCameraX()
+	{
+		return (int)(gameCamera.position.x - gameCamera.viewportWidth/2);
+	}
+	private int getCameraY()
+	{
+		return (int)(gameCamera.position.y - gameCamera.viewportHeight/2);
 	}
 	
 	private void createWave()
@@ -315,20 +323,58 @@ public class MyGdxGame implements ApplicationListener {
 		return t;
 	}
 	
+	Vector2 justTouchedPos = new Vector2(0,0);
+	Vector2 touchedMapPos = new Vector2(0,0);
+	
 	private void handleInput()
 	{
-		touchedTile = new Vector2((float)Math.floor((Gdx.input.getX()/GameConstants.tileSize)), (float)Math.floor(((stage.getHeight()-Gdx.input.getY())/GameConstants.tileSize)));
+		Vector2 input = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+		input = stage.screenToStageCoordinates(input);
+		Actor a = stage.hit(input.x, input.y, false);
+		if(a != null && a.getClass() == MapTile.class)
+		{
+			touchedTile = new Vector2((float)Math.floor(a.getX()/64), (float)Math.floor(a.getY()/64)); 
+		}
 		if(wasTouched && !Gdx.input.isTouched())
 		{
 			if(building)
 			{
+				
 				if(touchedTile.x<=20 && touchedTile.y<=10)
 					buildTower(buildingTower, touchedTile);
 				building = false;
+				temporaryTowerActor.remove();
+				temporaryTowerActor = null;
 			}
+			else
+			{
+				// Suggestion for drag functionality if we are to use viewport for android.
+				int deltaX = (int)(justTouchedPos.x-Gdx.input.getX());
+				int deltaY = (int)-(justTouchedPos.y-Gdx.input.getY());
+				if(gameCamera.position.x-gameCamera.viewportWidth/2 + deltaX < 0)
+					deltaX = -(int)(gameCamera.position.x - (gameCamera.viewportWidth/2));
+				/* Klokken er 4 og denne delen blir bare rot, tar det senere :]
+				else if(getCameraX()+gameCamera.viewportWidth + deltaX > GameConstants.screenWidth)
+					deltaX = (int)(gameCamera.position.x - (GameConstants.screenWidth - (gameCamera.viewportWidth/2)));*/
+				if(gameCamera.position.y-gameCamera.viewportHeight/2 + deltaY < 0)
+					deltaY = -(int)(gameCamera.position.y - (gameCamera.viewportHeight/2));
+				/* 
+				else if(getCameraY()+gameCamera.viewportHeight + deltaY > GameConstants.screenHeight)
+					deltaY = (int)(gameCamera.position.y - (GameConstants.screenHeight - (gameCamera.viewportHeight/2)));*/
+				
+				
+				
+				gameCamera.translate(deltaX, deltaY, 0);
+				gameCamera.update();
+			}
+			wasTouched = false;
 		}
 		if(Gdx.input.isTouched())
 		{
+			if(Gdx.input.justTouched())
+				justTouchedPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+			if(temporaryTowerActor != null && a != null)
+				temporaryTowerActor.setPosition(a.getX(), a.getY());
 			wasTouched = true;
 			Actor hit = stage.hit(Gdx.input.getX(), GameConstants.screenHeight-Gdx.input.getY(), false);
 			if(hit != null && hit.getClass() == Tower.class)
@@ -348,16 +394,18 @@ public class MyGdxGame implements ApplicationListener {
 				uiLabel3.setText("Yields: " + e.enemyStats.goldYield);
 			}
 		}
+		else if(temporaryTowerActor != null)
+		{
+			temporaryTowerActor.remove();
+			temporaryTowerActor = null;
+		}
 	}
 	
-	private void generateEnemyInfo(String path)
-			throws IOException {
+	private void generateEnemyInfo(FileHandle handle) {
 		// Eventually do in thinkTank with parameters
 		// String type, int health, int speed, int goldYield, String enemyTexture, String redHealthBar, String yellowHealthBar
 
-		Path readPath = Paths.get(path);
-		Charset ENCODING = StandardCharsets.UTF_8;
-		List<String> fileContent = Files.readAllLines(readPath, ENCODING);
+		List<String> fileContent = GameConstants.readRawTextFile(handle);
 		int yCounter = 0;
 		System.out.println("Loaded file");
 		for (int x = 0; x * 5 < fileContent.size(); x++) {
@@ -376,13 +424,17 @@ public class MyGdxGame implements ApplicationListener {
 		}
 	}
 	
-	private void loadTowerStats(String path)
-			throws IOException {
-		Path readPath = Paths.get(path);
-		Charset ENCODING = StandardCharsets.UTF_8;
-		List<String> fileContent = Files.readAllLines(readPath, ENCODING);
+	private void loadTowerStats(FileHandle handle) throws NumberFormatException, ParseException {
+		List<String> fileContent = GameConstants.readRawTextFile(handle);
 		int yCounter = 0;
 		System.out.println("Loaded file");
+		
+		// Localize for machines using . and machines using , as separators.
+		DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+		symbols.setDecimalSeparator('.');
+		DecimalFormat format = new DecimalFormat("0.#");
+		
+		format.setDecimalFormatSymbols(symbols);
 		for (int x = 0; x * 29 < fileContent.size(); x++) {
 			String[] readStats = new String[29];
 			for (int i = 0; i < 29; i++) {
@@ -393,7 +445,7 @@ public class MyGdxGame implements ApplicationListener {
 			towerInfo.put(
 					readStats[0],
 					new TowerStats(readStats[0], readStats[1], readStats[2], readStats[3], readStats[4],
-							Float.parseFloat(readStats[5]), Integer
+							format.parse(readStats[5]).floatValue(), Integer
 									.parseInt(readStats[6]), Integer
 									.parseInt(readStats[7]), Integer
 									.parseInt(readStats[8]), Integer

@@ -3,17 +3,19 @@ package com.me.mygdxgame;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Group;
 
 public class Map {
 
@@ -25,6 +27,15 @@ public class Map {
 		return map;
 	}
 	int[][] map = new int[mapWidth][mapHeight];
+	MapTile[][] mapActors = new MapTile[mapWidth][mapHeight];
+	
+	public MapTile getMapTileActor(int x, int y)
+	{
+		if(x < 20 && x >= 0 && y < 10 && y >= 0)
+			return mapActors[x][y];
+		else 
+			return null;
+	}
 	
 	public ArrayList<Direction> getDirections() {
 		return directions;
@@ -121,27 +132,27 @@ public class Map {
 	
 	public boolean canBuild(int x, int y)
 	{
-		if(x > 19 || x < 0 || y > 9 || y < 0)
-			return false;
-		else
+		if(x<20 && x > 0 && y < 10 && y > 0)
 			return !pathTiles.contains(map[x][y]);
+		else
+			return false;
 	}
 	
-	public void loadMap(String path) throws IOException
+	public Group loadMap(FileHandle handle)
     {
+		Group actorGroup = new Group();
 		System.out.println("Starting loadmap.");
         for (int x = 0; x < mapWidth; x++)
         {
             for (int y = 0; y < mapHeight; y++)
             {
                 map[x][y] = 0;
+                mapActors[x][y] = null;
             }
         }
         System.out.println("Done filling with zero.");
         
-        Path readPath = Paths.get(path);
-        Charset ENCODING = StandardCharsets.UTF_8;
-        List<String> fileContent = Files.readAllLines(readPath, ENCODING);
+        List<String> fileContent = GameConstants.readRawTextFile(handle);
         int yCounter = 0;
         System.out.println("Loaded file");
         for(int x = 0; x<fileContent.size(); x++)
@@ -162,6 +173,9 @@ public class Map {
                 for(int xCounter = 0; xCounter < mapWidth; xCounter++)
                 {
                     map[xCounter][yCounter] = Integer.parseInt(split[xCounter+1]);
+                    MapTile mapTile = new MapTile(textures.get(map[xCounter][yCounter]), GameConstants.tileSize*xCounter, GameConstants.tileSize*yCounter);
+                    actorGroup.addActor(mapTile);
+                    mapActors[xCounter][yCounter] = mapTile;
                 }
                 yCounter++;
             }
@@ -169,18 +183,7 @@ public class Map {
         System.out.println("Done parsing file, generating directions");
         generateDirections();
         System.out.println("Loaded map and generated directions");
+        return actorGroup;
     }
-	
-	
-	public void draw(SpriteBatch spriteBatch)
-	{
-		 for (int x = 0; x < mapWidth; x++)
-         {
-             for (int y = 0; y < mapHeight; y++)
-             {
-                 spriteBatch.draw(textures.get(map[x][y]), (x * GameConstants.tileSize), (y * GameConstants.tileSize));
-             }
-         }
-	}
 
 }
