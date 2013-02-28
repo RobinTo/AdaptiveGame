@@ -23,6 +23,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -38,6 +39,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class MyGdxGame implements ApplicationListener {
+	
+	private static final int VIRTUAL_WIDTH = 1280;
+    private static final int VIRTUAL_HEIGHT = 768;
+    private static final float ASPECT_RATIO =
+        (float)VIRTUAL_WIDTH/(float)VIRTUAL_HEIGHT;
+    private Rectangle viewport;
 	
 	HashMap<Float, Enemy> enemyWave = new HashMap<Float, Enemy>();
     List<Float> waveTime = new ArrayList<Float>();
@@ -101,6 +108,7 @@ public class MyGdxGame implements ApplicationListener {
 	public void create() {
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
+		gameCamera = new OrthographicCamera(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
 		//Gdx.graphics.setDisplayMode((int)w, (int)h, true);
 		Gdx.graphics.setTitle("Adaptive Tower Defense v0.001");
 		spriteBatch = new SpriteBatch();
@@ -108,7 +116,7 @@ public class MyGdxGame implements ApplicationListener {
 		font = new BitmapFont();
 		
 		stage = new Stage();
-		
+		stage.setCamera(gameCamera);
 		Gdx.input.setInputProcessor(stage);
 
 		mapTilesAtlas = new TextureAtlas(Gdx.files.internal("Images/mapTiles.atlas"));
@@ -191,8 +199,15 @@ public class MyGdxGame implements ApplicationListener {
 
 	@Override
 	public void render() {	
-        Gdx.gl.glClearColor(0, 0,255, 1);	
-        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		gameCamera.update();
+		gameCamera.apply(Gdx.gl10);
+    
+    // set viewport
+		Gdx.gl.glViewport((int) viewport.x, (int) viewport.y,
+                      (int) viewport.width, (int) viewport.height);
+
+    // clear previous frame
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
         
         totalTime += Gdx.graphics.getDeltaTime();
         
@@ -246,11 +261,31 @@ public class MyGdxGame implements ApplicationListener {
 
 	@Override
 	public void resize(int width, int height) {
-        stage.setViewport(width, height, true);
-		gameCamera = new OrthographicCamera(stage.getWidth(), stage.getHeight());
-        stage.setCamera(gameCamera);
-        gameCamera.translate(gameCamera.viewportWidth/2, gameCamera.viewportHeight/2, 0);
-        gameCamera.update();
+		// calculate new viewport
+        float aspectRatio = (float)width/(float)height;
+        float scale = 1f;
+        Vector2 crop = new Vector2(0f, 0f);
+        
+        if(aspectRatio > ASPECT_RATIO)
+        {
+            scale = (float)height/(float)VIRTUAL_HEIGHT;
+            crop.x = (width - VIRTUAL_WIDTH*scale)/2f;
+        }
+        else if(aspectRatio < ASPECT_RATIO)
+        {
+            scale = (float)width/(float)VIRTUAL_WIDTH;
+            crop.y = (height - VIRTUAL_HEIGHT*scale)/2f;
+        }
+        else
+        {
+            scale = (float)width/(float)VIRTUAL_WIDTH;
+        }
+ 
+        float w = (float)VIRTUAL_WIDTH*scale;
+        float h = (float)VIRTUAL_HEIGHT*scale;
+        viewport = new Rectangle(crop.x, crop.y, w, h);
+
+		gameCamera.position.set(gameCamera.viewportWidth/2,gameCamera.viewportHeight/2,0);
 	}
 
 	@Override
@@ -346,6 +381,7 @@ public class MyGdxGame implements ApplicationListener {
 				temporaryTowerActor.remove();
 				temporaryTowerActor = null;
 			}
+			/* Unødvendig, fant ut hvordan man resizer hele. Lar dette være i tilfelle vi ønsker drag funksjonalitet om man skal kunne se deler av mappen og scrolle rundt.
 			else
 			{
 				// Suggestion for drag functionality if we are to use viewport for android.
@@ -353,20 +389,20 @@ public class MyGdxGame implements ApplicationListener {
 				int deltaY = (int)-(justTouchedPos.y-Gdx.input.getY());
 				if(gameCamera.position.x-gameCamera.viewportWidth/2 + deltaX < 0)
 					deltaX = -(int)(gameCamera.position.x - (gameCamera.viewportWidth/2));
-				/* Klokken er 4 og denne delen blir bare rot, tar det senere :]
+					
 				else if(getCameraX()+gameCamera.viewportWidth + deltaX > GameConstants.screenWidth)
-					deltaX = (int)(gameCamera.position.x - (GameConstants.screenWidth - (gameCamera.viewportWidth/2)));*/
+					deltaX = (int)(gameCamera.position.x - (GameConstants.screenWidth - (gameCamera.viewportWidth/2)));
 				if(gameCamera.position.y-gameCamera.viewportHeight/2 + deltaY < 0)
 					deltaY = -(int)(gameCamera.position.y - (gameCamera.viewportHeight/2));
-				/* 
+				 
 				else if(getCameraY()+gameCamera.viewportHeight + deltaY > GameConstants.screenHeight)
-					deltaY = (int)(gameCamera.position.y - (GameConstants.screenHeight - (gameCamera.viewportHeight/2)));*/
+					deltaY = (int)(gameCamera.position.y - (GameConstants.screenHeight - (gameCamera.viewportHeight/2)));
 				
 				
 				
 				gameCamera.translate(deltaX, deltaY, 0);
 				gameCamera.update();
-			}
+			}*/
 			wasTouched = false;
 		}
 		if(Gdx.input.isTouched())
