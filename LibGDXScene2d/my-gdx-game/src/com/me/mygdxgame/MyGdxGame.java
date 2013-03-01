@@ -40,6 +40,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class MyGdxGame implements ApplicationListener {
 	
+	boolean paused = false;;
+	
 	private static final int VIRTUAL_WIDTH = 1280;
     private static final int VIRTUAL_HEIGHT = 768;
     private static final float ASPECT_RATIO =
@@ -100,7 +102,7 @@ public class MyGdxGame implements ApplicationListener {
 	
 	Camera gameCamera;
 
-	MapTile temporaryTowerActor = null;
+	ExtendedActor temporaryTowerActor = null;
 	
 	boolean printDebug = true;
 	
@@ -148,11 +150,11 @@ public class MyGdxGame implements ApplicationListener {
 		createWave();
 		
 		// UI Creation
+		System.out.println("Generating UI");
 		towerKeys.addAll(towerInfo.keySet());
 		for (int i = 0; i < towerKeys.size(); i++)
 		{
 			TextButton.TextButtonStyle arrowTowerButtonStyle = new TextButton.TextButtonStyle();
-			System.out.println("Trying: " + towerInfo.get(towerKeys.get(i)).towerTexture1);
 			TextureRegion upStyle = new TextureRegion(towersAtlas.createSprite(towerInfo.get(towerKeys.get(i)).towerTexture1));
 			TextureRegion downStyle = new TextureRegion(towersAtlas.createSprite(towerInfo.get(towerKeys.get(i)).towerTexture1));
 			arrowTowerButtonStyle.font = font;
@@ -167,7 +169,7 @@ public class MyGdxGame implements ApplicationListener {
 					buildingTower = towerInfo.get(currentKey).type;
 					buildingTowerSprite = towersAtlas.createSprite(towerInfo.get(currentKey).towerTexture1);
 					towerName = currentKey;
-					temporaryTowerActor = new MapTile(towersAtlas.createSprite(towerInfo.get(towerName).towerTexture1), 64, 64);
+					temporaryTowerActor = new MapTile(towersAtlas.createSprite(towerInfo.get(towerName).towerTexture1), -64,0);
 					stage.addActor(temporaryTowerActor);
 					uiLabel.setText(towerName);
 					uiLabel2.setText("Damage: " + Integer.toString(towerInfo.get(currentKey).damage1));
@@ -188,6 +190,23 @@ public class MyGdxGame implements ApplicationListener {
 		uiLabel3 = new Label(towerName, labelStyle);
 		uiLabel3.setPosition(800, GameConstants.screenHeight-80);
 		stage.addActor(uiLabel3);
+		
+		TextButton.TextButtonStyle settingsButtonStyle = new TextButton.TextButtonStyle();
+		TextureRegion upStyle = new TextureRegion(miscAtlas.createSprite("settingsButton"));
+		TextureRegion downStyle = new TextureRegion(miscAtlas.createSprite("settingsButton"));
+		settingsButtonStyle.font = font;
+		settingsButtonStyle.up = new TextureRegionDrawable(upStyle);
+		settingsButtonStyle.down = new TextureRegionDrawable(downStyle);
+		TextButton settingsButton = new TextButton("", settingsButtonStyle);
+		settingsButton.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				paused = !paused;
+				return true;
+			}
+		});
+		settingsButton.setPosition(GameConstants.screenWidth - 2*GameConstants.tileSize, GameConstants.screenHeight-100);
+		stage.addActor(settingsButton);
 		// -----------
 		
 	}
@@ -199,60 +218,24 @@ public class MyGdxGame implements ApplicationListener {
 
 	@Override
 	public void render() {	
-		gameCamera.update();
-		gameCamera.apply(Gdx.gl10);
-    
-    // set viewport
-		Gdx.gl.glViewport((int) viewport.x, (int) viewport.y,
-                      (int) viewport.width, (int) viewport.height);
 
     // clear previous frame
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
         
-        totalTime += Gdx.graphics.getDeltaTime();
-        
-        handleInput();
-        checkWave(totalTime);
-        if(enemies.size() > 0)
-        {
-        	for(int i = 0; i < towers.size(); i++)
-        	{
-        		towers.get(i).calculateTarget(Gdx.graphics.getDeltaTime(), enemies, null);
-        	}
-        }
-		
-        stage.act(Gdx.graphics.getDeltaTime());
-        
-        for (int counter = 0; counter < enemies.size(); counter++)
-        {
-        	Enemy enemy = enemies.get(counter);
-        	if (enemy.currentHealth <= 0)
-        	{
-        		enemies.remove(enemy);
-        		enemy.remove();
-        		counter --;
-        	}
-        }
+		if(!paused)
+		{
+			updateGame();
+		}
 
+		// Draws game
         stage.draw();
-        spriteBatch.begin();
-        /*if(building && touchedTile.x >= 0 && touchedTile.x < 20 && touchedTile.y >= 0 && touchedTile.y < 10)
-        {
-        	Vector2 newStage = stage.stageToScreenCoordinates(new Vector2(touchedTile.x*64, touchedTile.y*64));
-        	spriteBatch.draw(buildingTowerSprite, newStage.x, newStage.y, 64, 64);
-        }*/
-        spriteBatch.end();
      
+        // Fps counter
         timer += Gdx.graphics.getDeltaTime();
         uC++;
         if(timer >= 1)
         {
-        	if(printDebug)
-            {
-            	System.out.println(getCameraX());
-            	System.out.println(getCameraY());
-            }
-        	System.out.println(uC);
+        	System.out.println("FPS: " + uC);
         	uC = 0;
         	timer = 0;
         }
@@ -283,11 +266,49 @@ public class MyGdxGame implements ApplicationListener {
  
         float w = (float)VIRTUAL_WIDTH*scale;
         float h = (float)VIRTUAL_HEIGHT*scale;
+
+		Gdx.graphics.setDisplayMode((int)w, (int)h, false);
+		
         viewport = new Rectangle(crop.x, crop.y, w, h);
 
+        Gdx.gl.glViewport((int) viewport.x, (int) viewport.y,
+                          (int) viewport.width, (int) viewport.height);
+    		
 		gameCamera.position.set(gameCamera.viewportWidth/2,gameCamera.viewportHeight/2,0);
+		
+		gameCamera.update();
+		gameCamera.apply(Gdx.gl10);
+    
 	}
 
+	private void updateGame()
+	{
+		totalTime += Gdx.graphics.getDeltaTime();
+        
+        handleInput();
+        checkWave(totalTime);
+        if(enemies.size() > 0)
+        {
+        	for(int i = 0; i < towers.size(); i++)
+        	{
+        		towers.get(i).calculateTarget(Gdx.graphics.getDeltaTime(), enemies, null);
+        	}
+        }
+		
+        stage.act(Gdx.graphics.getDeltaTime());
+        
+        for (int counter = 0; counter < enemies.size(); counter++)
+        {
+        	Enemy enemy = enemies.get(counter);
+        	if (enemy.currentHealth <= 0)
+        	{
+        		enemies.remove(enemy);
+        		enemy.remove();
+        		counter --;
+        	}
+        }
+	}
+	
 	@Override
 	public void pause() {
 	}
@@ -362,7 +383,7 @@ public class MyGdxGame implements ApplicationListener {
 	Vector2 touchedMapPos = new Vector2(0,0);
 	
 	private void handleInput()
-	{
+	{	
 		Vector2 input = new Vector2(Gdx.input.getX(), Gdx.input.getY());
 		input = stage.screenToStageCoordinates(input);
 		Actor a = stage.hit(input.x, input.y, false);
@@ -374,35 +395,12 @@ public class MyGdxGame implements ApplicationListener {
 		{
 			if(building)
 			{
-				
-				if(touchedTile.x<=20 && touchedTile.y<=10)
+				if(touchedTile.x<=20 && touchedTile.y<=10 && a.getClass() == MapTile.class)
 					buildTower(buildingTower, touchedTile);
 				building = false;
 				temporaryTowerActor.remove();
 				temporaryTowerActor = null;
 			}
-			/* Unødvendig, fant ut hvordan man resizer hele. Lar dette være i tilfelle vi ønsker drag funksjonalitet om man skal kunne se deler av mappen og scrolle rundt.
-			else
-			{
-				// Suggestion for drag functionality if we are to use viewport for android.
-				int deltaX = (int)(justTouchedPos.x-Gdx.input.getX());
-				int deltaY = (int)-(justTouchedPos.y-Gdx.input.getY());
-				if(gameCamera.position.x-gameCamera.viewportWidth/2 + deltaX < 0)
-					deltaX = -(int)(gameCamera.position.x - (gameCamera.viewportWidth/2));
-					
-				else if(getCameraX()+gameCamera.viewportWidth + deltaX > GameConstants.screenWidth)
-					deltaX = (int)(gameCamera.position.x - (GameConstants.screenWidth - (gameCamera.viewportWidth/2)));
-				if(gameCamera.position.y-gameCamera.viewportHeight/2 + deltaY < 0)
-					deltaY = -(int)(gameCamera.position.y - (gameCamera.viewportHeight/2));
-				 
-				else if(getCameraY()+gameCamera.viewportHeight + deltaY > GameConstants.screenHeight)
-					deltaY = (int)(gameCamera.position.y - (GameConstants.screenHeight - (gameCamera.viewportHeight/2)));
-				
-				
-				
-				gameCamera.translate(deltaX, deltaY, 0);
-				gameCamera.update();
-			}*/
 			wasTouched = false;
 		}
 		if(Gdx.input.isTouched())
@@ -410,7 +408,9 @@ public class MyGdxGame implements ApplicationListener {
 			if(Gdx.input.justTouched())
 				justTouchedPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
 			if(temporaryTowerActor != null && a != null)
+			{
 				temporaryTowerActor.setPosition(a.getX(), a.getY());
+			}
 			wasTouched = true;
 			Actor hit = stage.hit(Gdx.input.getX(), GameConstants.screenHeight-Gdx.input.getY(), false);
 			if(hit != null && hit.getClass() == Tower.class)
