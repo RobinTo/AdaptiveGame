@@ -96,7 +96,7 @@ public class Tower extends ExtendedActor {
 		super.act(gameTime);
 		
 		currentReloadTimer -= gameTime;
-		if(currentReloadTimer <= 0 && targetEnemy != null)
+		if(currentReloadTimer <= 0 && targetEnemy != null && targetEnemy.currentHealth > 0)
 		{
 			currentReloadTimer = towerStats.reloadTime;
 			this.getParent().addActor(new Missile(textures.get(3), new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(enemyX, enemyY), 0.2f));
@@ -109,7 +109,7 @@ public class Tower extends ExtendedActor {
 			DamagePacket damagePacket = activeShots.get(counter);
 			damagePacket.timeToHit -= gameTime;
 			if (damagePacket.timeToHit <= 0.0f)
- {
+			{
 				damagePacket.targetEnemy.currentHealth -= towerStats
 						.getDamage(currentLevel);
 				if (towerStats.getSlowPercentage(currentLevel) != 0) {

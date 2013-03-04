@@ -132,7 +132,7 @@ public class Map {
 	
 	public boolean canBuild(int x, int y)
 	{
-		if(x<20 && x > 0 && y < 10 && y > 0)
+		if(x<20 && x >= 0 && y < 10 && y >= 0)
 			return !pathTiles.contains(map[x][y]);
 		else
 			return false;

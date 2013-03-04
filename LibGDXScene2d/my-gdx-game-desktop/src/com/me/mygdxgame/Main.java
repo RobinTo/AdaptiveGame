@@ -19,23 +19,29 @@ public class Main {
 		settings.maxWidth = 512;
 		settings.maxHeight = 512;
 		
-		// For now just make a different path here for each computer, and comment out wrong ones when compiling.
+		// This part regenerates texture atlases each time the desktop project is ran.
+		
+		// Enter path to android asset folder on your computer, or remove this to compile if you want
+		// to compile and no new images have been added.
 		String path = "D:\\github\\AdaptiveGame\\LibGDXScene2d\\my-gdx-game-android\\assets\\Images";
 		//String path = "C:\\Users\\Robin\\github\\AdaptiveGame\\LibGDXProjects\\AdaptiveTD-android\\assets\\Images";
 		//String path = "D:\\Github\\AdaptiveGame\\LibGDXProjects\\AdaptiveTD-android\\assets\\Images";	
 		
+		
 		// Make copies in android project
-        TexturePacker2.process(settings, path + "\\Enemies", "../my-gdx-game-android/assets", "enemies");
-        TexturePacker2.process(settings, path + "\\MiscSmall", "../my-gdx-game-android/assets", "misc");
-        TexturePacker2.process(settings, path + "\\Towers", "../my-gdx-game-android/assets", "towers");
-        TexturePacker2.process(settings, path + "\\MapTiles", "../my-gdx-game-android/assets", "mapTiles");
+        TexturePacker2.process(settings, path + "\\Enemies", "../my-gdx-game-android/assets/Images", "enemies"); // settings, source path, destination path, texture atlas file name
+        TexturePacker2.process(settings, path + "\\MiscSmall", "../my-gdx-game-android/assets/Images", "misc");
+        TexturePacker2.process(settings, path + "\\Towers", "../my-gdx-game-android/assets/Images", "towers");
+        TexturePacker2.process(settings, path + "\\MapTiles", "../my-gdx-game-android/assets/Images", "mapTiles");
         
         // Make copies in desktop project
         TexturePacker2.process(settings, path + "\\Enemies", "../my-gdx-game-desktop/bin/Images", "enemies");
         TexturePacker2.process(settings, path + "\\MiscSmall", "../my-gdx-game-desktop/bin/Images", "misc");
         TexturePacker2.process(settings, path + "\\Towers", "../my-gdx-game-desktop/bin/Images", "towers");
         TexturePacker2.process(settings, path + "\\MapTiles", "../my-gdx-game-desktop/bin/Images", "mapTiles");
-		
+		// ----------------------------------------------
+        
+        
 		new LwjglApplication(new MyGdxGame(), cfg);
 	}
 }

@@ -1,7 +1,7 @@
 type:arrow
 towersprite1:arrowTower
-towersprite2:arrowTower
-towersprite3:arrowTower
+towersprite2:arrowTower2
+towersprite3:arrowTower3
 missilesprite:blackBullet
 reloadtime:0.5f
 damage1:1
@@ -29,8 +29,8 @@ dotticks3:0
 dotduration3:0.0f
 type:blue
 towersprite1:blueTower
-towersprite2:blueTower
-towersprite3:blueTower
+towersprite2:blueTower2
+towersprite3:blueTower3
 missilesprite:blueBullet
 reloadtime:1.0f
 damage1:0
@@ -58,8 +58,8 @@ dotticks3:0
 dotduration3:0.0f
 type:red
 towersprite1:redTower
-towersprite2:redTower
-towersprite3:redTower
+towersprite2:redTower2
+towersprite3:redTower3
 missilesprite:redBullet
 reloadtime:1.0f
 damage1:3
@@ -87,8 +87,8 @@ dotticks3:0
 dotduration3:0.0f
 type:laser
 towersprite1:testTower
-towersprite2:test2Tower
-towersprite3:test2Tower
+towersprite2:testTower2
+towersprite3:testTower3
 missilesprite:flameBullet
 reloadtime:2.0f
 damage1:3

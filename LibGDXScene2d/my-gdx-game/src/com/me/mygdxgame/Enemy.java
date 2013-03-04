@@ -15,7 +15,7 @@ public class Enemy extends ExtendedActor{
 	HashMap<Integer, Sprite> sprites;
 	float distanceTravelled, currentMoveSpeedMultiplier, currentSlowDuration, currentDotDamage, currentDotTicks, dotDurationSinceLastTick, totalDotDuration, currentDurationBetweenTicks;
 	EnemyStats enemyStats;
-	int currentHealth;
+	public int currentHealth;
 	Rectangle healthBarYellowRectangle, healthBarRedRectangle;
 	boolean slowed, dotted;
 	

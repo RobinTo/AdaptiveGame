@@ -5,50 +5,99 @@ filter: Nearest,Nearest
 repeat: none
 arrowTower
   rotate: false
-  xy: 1, 1
+  xy: 1, 133
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+arrowTower2
+  rotate: false
+  xy: 1, 67
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+arrowTower3
+  rotate: false
+  xy: 67, 133
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 blueTower
   rotate: false
-  xy: 67, 1
+  xy: 1, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+blueTower3
+  rotate: false
+  xy: 67, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 blueTowerOld
   rotate: false
-  xy: 133, 1
+  xy: 133, 133
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 fastEnemy
   rotate: false
-  xy: 199, 1
+  xy: 67, 1
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 redTower
   rotate: false
-  xy: 265, 1
+  xy: 133, 67
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+redTower2
+  rotate: false
+  xy: 199, 133
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+redTower3
+  rotate: false
+  xy: 133, 1
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 testTower
   rotate: false
-  xy: 331, 1
+  xy: 199, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 testTower2
   rotate: false
-  xy: 397, 1
+  xy: 265, 133
   size: 64, 64
   orig: 64, 64
+  offset: 0, 0
+  index: -1
+testTower3
+  rotate: false
+  xy: 199, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+blueTower2
+  rotate: false
+  xy: 265, 68
+  size: 64, 63
+  orig: 64, 63
   offset: 0, 0
   index: -1
