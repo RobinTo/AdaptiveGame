@@ -185,16 +185,19 @@ public class TowerStats {
 		this.buildCost = buildCost;
 	}
 
-	public int getUpgradeCost1() {
-		return upgradeCost1;
+	public int getUpgradeCost(int currentLevel) {
+		switch (currentLevel) {
+		case 2:
+			return upgradeCost2;
+		case 3:
+			return -1;
+		default:
+			return upgradeCost1;
+		}
 	}
 
 	public void setUpgradeCost1(int upgradeCost1) {
 		this.upgradeCost1 = upgradeCost1;
-	}
-
-	public int getUpgradeCost2() {
-		return upgradeCost2;
 	}
 
 	public void setUpgradeCost2(int upgradeCost2) {

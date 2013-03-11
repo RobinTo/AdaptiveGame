@@ -60,7 +60,7 @@ public class MyGdxGame implements ApplicationListener {
 	
 	Enemy focusFireEnemy;
 	
-	Tower selectedTower;
+	static Tower selectedTower;
 
 	HashMap<String, TowerStats> towerInfo = new HashMap<String, TowerStats>();
     HashMap<String, EnemyStats> enemyInfo = new HashMap<String, EnemyStats>();
@@ -100,9 +100,9 @@ public class MyGdxGame implements ApplicationListener {
 	
 
 	Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.BLACK);
-	Label uiLabel;
-	Label uiLabel2;
-	Label uiLabel3;
+	static Label uiLabel;
+	static Label uiLabel2;
+	static Label uiLabel3;
 	
 	Camera gameCamera;
 
@@ -342,12 +342,15 @@ public class MyGdxGame implements ApplicationListener {
 		return t;
 	}
 	
-	private void selectTower(Tower t)
+	private static void selectTower(Tower t)
 	{
 		selectedTower = t;
 		uiLabel.setText(t.towerStats.type);
-		uiLabel2.setText("Damage: " + Integer.toString(t.towerStats.damage1));
-		uiLabel3.setText("Upgrade Cost: " + Integer.toString(t.towerStats.upgradeCost1));
+		uiLabel2.setText("Damage: " + Integer.toString(t.towerStats.getDamage(t.currentLevel)));
+		if (t.currentLevel != 3)
+			uiLabel3.setText("Upgrade Cost: " + Integer.toString(t.towerStats.getUpgradeCost(t.currentLevel)));
+		else 
+			uiLabel3.setText("Upgrade Cost: Fully upgraded");
 	}
 	
 	private void selectEnemy(Enemy e)
@@ -567,7 +570,10 @@ public class MyGdxGame implements ApplicationListener {
 					int pointer, int button) {
 
 				if(selectedTower != null)
+				{
 					selectedTower.upgrade();
+					MyGdxGame.selectTower(selectedTower);
+				}
 				return true;
 			}
 		});
