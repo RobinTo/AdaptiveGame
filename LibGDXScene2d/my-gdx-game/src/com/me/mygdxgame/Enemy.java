@@ -13,9 +13,9 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 public class Enemy extends ExtendedActor{
 	
 	HashMap<Integer, Sprite> sprites;
-	float distanceTravelled, currentMoveSpeedMultiplier, currentSlowDuration, currentDotDamage, currentDotTicks, dotDurationSinceLastTick, totalDotDuration, currentDurationBetweenTicks;
+	float distanceTravelled, currentMoveSpeedMultiplier, currentSlowDuration, currentDotDamage, dotDurationBetweenTicks, currentDotDurationBetweenTicks;
 	EnemyStats enemyStats;
-	public int currentHealth;
+	public int currentHealth, dotTicksLeft;
 	Rectangle healthBarYellowRectangle, healthBarRedRectangle;
 	boolean slowed, dotted;
 	
@@ -26,10 +26,9 @@ public class Enemy extends ExtendedActor{
     	currentHealth = enemyStats.health;
     	currentMoveSpeedMultiplier = 1.0f;
     	currentDotDamage = 0;
-    	currentDotTicks = 0;
-    	dotDurationSinceLastTick = 0;
-    	totalDotDuration = 0;
-    	currentDurationBetweenTicks = 0;
+    	dotTicksLeft = 0;
+    	dotDurationBetweenTicks = 0;
+    	currentDotDurationBetweenTicks = 0;
     	setSize(enemySprite.getWidth(), enemySprite.getHeight());
     	
         Vector2 targetPosition = new Vector2(startPosition.x * GameConstants.tileSize, startPosition.y * GameConstants.tileSize);
@@ -80,13 +79,13 @@ public class Enemy extends ExtendedActor{
 			}
 		}
 		if (dotted) {
-			totalDotDuration -= gameTime;
-			dotDurationSinceLastTick -= gameTime;
-			if (dotDurationSinceLastTick <= 0) {
+			currentDotDurationBetweenTicks -= gameTime;
+			if (currentDotDurationBetweenTicks <= 0) {
 				currentHealth -= currentDotDamage;
-				dotDurationSinceLastTick = currentDurationBetweenTicks;
+				currentDotDurationBetweenTicks = dotDurationBetweenTicks;
+				dotTicksLeft --;
 			}
-			if (totalDotDuration <= 0) {
+			if (dotTicksLeft <= 0) {
 				dotted = false;
 			}
 		}

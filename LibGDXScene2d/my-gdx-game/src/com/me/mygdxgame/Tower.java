@@ -123,16 +123,14 @@ public class Tower extends ExtendedActor {
 					damagePacket.targetEnemy.dotted = true;
 					damagePacket.targetEnemy.currentDotDamage = towerStats
 							.getDotDamage(currentLevel);
-					damagePacket.targetEnemy.currentDotTicks = towerStats
+					damagePacket.targetEnemy.dotTicksLeft = towerStats
 							.getDotTicks(currentLevel);
-					damagePacket.targetEnemy.currentDurationBetweenTicks = towerStats
+					damagePacket.targetEnemy.currentDotDurationBetweenTicks = towerStats
 							.getDotDuration(currentLevel)
 							/ (float) towerStats.getDotTicks(currentLevel);
-					damagePacket.targetEnemy.dotDurationSinceLastTick = towerStats
+					damagePacket.targetEnemy.dotDurationBetweenTicks = towerStats
 							.getDotDuration(currentLevel)
 							/ (float) towerStats.getDotTicks(currentLevel);
-					damagePacket.targetEnemy.totalDotDuration = towerStats
-							.getDotDuration(currentLevel);
 				}
 				activeShots.remove(counter);
 				counter --;
