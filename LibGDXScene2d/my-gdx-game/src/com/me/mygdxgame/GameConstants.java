@@ -10,7 +10,7 @@ public class GameConstants {
 	public static final int tileSize = 64;
 	public static final int screenHeight = 768;
 	public static final int screenWidth = 1280;
-	
+	public static final int startGold = 100;
 	
 	public static float morphY(float y)
 	{

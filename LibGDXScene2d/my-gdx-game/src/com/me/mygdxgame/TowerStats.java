@@ -4,7 +4,7 @@ public class TowerStats {
 	String type, towerTexture1, towerTexture2, towerTexture3, missileTexture;
 	float reloadTime, slowDuration1, slowDuration2, slowDuration3,
 			dotDuration1, dotDuration2, dotDuration3;
-	int damage1, damage2, damage3, buildCost, upgradeCost1, upgradeCost2,
+	int damage1, damage2, damage3, buildCost, upgradeCost1, upgradeCost2, sellPrice1, sellPrice2, sellPrice3,
 			maxLevel, range, slowPercentage1, slowPercentage2, slowPercentage3,
 			dotDamage1, dotDamage2, dotDamage3, dotTicks1, dotTicks2,
 			dotTicks3;
@@ -12,7 +12,7 @@ public class TowerStats {
 	public TowerStats(String type, String towerTexture1, String towerTexture2,
 			String towerTexture3, String missileTexture, float ReloadTime,
 			int damage1, int damage2, int damage3, int buildCost,
-			int upgradeCost1, int upgradeCost2, int maxLevel, int range,
+			int upgradeCost1, int upgradeCost2, int sellPrice1, int sellPrice2, int sellPrice3, int maxLevel, int range,
 			int slowPercentage1, int slowPercentage2, int slowPercentage3,
 			float slowDuration1, float slowDuration2, float slowDuration3,
 			int dotDamage1, int dotTicks1, float dotDuration1, int dotDamage2,
@@ -30,6 +30,9 @@ public class TowerStats {
 		this.buildCost = buildCost;
 		this.upgradeCost1 = upgradeCost1;
 		this.upgradeCost2 = upgradeCost2;
+		this.sellPrice1 = sellPrice1;
+		this.sellPrice2 = sellPrice2;
+		this.sellPrice3 = sellPrice3;
 		this.maxLevel = maxLevel;
 		this.range = range * GameConstants.tileSize;
 		this.slowPercentage1 = slowPercentage1;
@@ -195,7 +198,7 @@ public class TowerStats {
 			return upgradeCost1;
 		}
 	}
-
+	
 	public void setUpgradeCost1(int upgradeCost1) {
 		this.upgradeCost1 = upgradeCost1;
 	}
@@ -204,6 +207,19 @@ public class TowerStats {
 		this.upgradeCost2 = upgradeCost2;
 	}
 
+	public int getSellPrice(int currentLevel)
+	{
+		switch (currentLevel) {
+		case 2:
+			return sellPrice2;
+		case 3:
+			return sellPrice3;
+		default:
+			return sellPrice1;
+		}
+	
+	}
+	
 	public int getMaxLevel() {
 		return maxLevel;
 	}

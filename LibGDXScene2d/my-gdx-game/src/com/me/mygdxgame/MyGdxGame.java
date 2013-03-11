@@ -56,7 +56,7 @@ public class MyGdxGame implements ApplicationListener {
     List<Float> waveTime = new ArrayList<Float>();
 	
 	List<Enemy> enemies = new ArrayList<Enemy>();
-	List<Tower> towers = new ArrayList<Tower>();
+	static List<Tower> towers = new ArrayList<Tower>();
 	
 	Enemy focusFireEnemy;
 	
@@ -103,11 +103,13 @@ public class MyGdxGame implements ApplicationListener {
 	static Label uiLabel;
 	static Label uiLabel2;
 	static Label uiLabel3;
+	static Label uiLabelGold;
 	
 	Camera gameCamera;
 
 	ExtendedActor temporaryTowerActor = null;
 	
+	static int currentGold;
 	
 	@Override
 	public void create() {
@@ -132,8 +134,7 @@ public class MyGdxGame implements ApplicationListener {
 		FileHandle handle = Gdx.files.internal("Maps/map.txt");
 		Group g = map.loadMap(handle);
 		stage.addActor(g);
-
-
+		
 		FileHandle towerHandle = Gdx.files.internal("Stats/towerStats.txt");
 		try {
 			loadTowerStats(towerHandle);
@@ -148,6 +149,8 @@ public class MyGdxGame implements ApplicationListener {
 		generateEnemyInfo(enemyHandle);
 
 		createWave();
+		
+		currentGold = GameConstants.startGold;
 		
 		// UI Creation
 		createUI();
@@ -278,6 +281,8 @@ public class MyGdxGame implements ApplicationListener {
 		stage.addActor(g);
 		createWave();
 		createUI();
+		
+		currentGold = GameConstants.startGold;
 	}
 	
 	private void checkWave(float totalTime)
@@ -324,12 +329,17 @@ public class MyGdxGame implements ApplicationListener {
 	
 	public void buildTower(String type, Vector2 tilePosition)
 	{
-		if(map.canBuild((int)tilePosition.x, (int)tilePosition.y))
+		int buildCost = towerInfo.get(type).buildCost;
+		boolean canAfford = currentGold >= buildCost ? true : false;
+		
+		if(map.canBuild((int)tilePosition.x, (int)tilePosition.y)  && canAfford)
 		{
 			Tower t = createTower(type, tilePosition);
 			stage.addActor(t);
 			towers.add(t);
 			selectTower(t);
+			currentGold -= buildCost;
+			uiLabelGold.setText("Gold: " + currentGold);
 		}
 	}
 	
@@ -344,13 +354,26 @@ public class MyGdxGame implements ApplicationListener {
 	
 	private static void selectTower(Tower t)
 	{
-		selectedTower = t;
-		uiLabel.setText(t.towerStats.type);
-		uiLabel2.setText("Damage: " + Integer.toString(t.towerStats.getDamage(t.currentLevel)));
-		if (t.currentLevel != 3)
-			uiLabel3.setText("Upgrade Cost: " + Integer.toString(t.towerStats.getUpgradeCost(t.currentLevel)));
-		else 
-			uiLabel3.setText("Upgrade Cost: Fully upgraded");
+		if (t != null)
+		{
+			selectedTower = t;
+			uiLabel.setText(t.towerStats.type);
+			uiLabel2.setText("Damage: "
+					+ Integer.toString(t.towerStats.getDamage(t.currentLevel)));
+			if (t.currentLevel != 3)
+				uiLabel3.setText("Upgrade Cost: "
+						+ Integer.toString(t.towerStats
+								.getUpgradeCost(t.currentLevel)));
+			else
+				uiLabel3.setText("Upgrade Cost: Fully upgraded");
+		}
+		else
+		{
+			selectedTower = null;
+			uiLabel.setText("");
+			uiLabel2.setText("");
+			uiLabel3.setText("");
+		}
 	}
 	
 	private void selectEnemy(Enemy e)
@@ -441,10 +464,10 @@ public class MyGdxGame implements ApplicationListener {
 		DecimalFormat format = new DecimalFormat("0.#");
 		
 		format.setDecimalFormatSymbols(symbols);
-		for (int x = 0; x * 29 < fileContent.size(); x++) {
-			String[] readStats = new String[29];
-			for (int i = 0; i < 29; i++) {
-				String s = fileContent.get(i + (29 * x));
+		for (int x = 0; x * 32 < fileContent.size(); x++) {
+			String[] readStats = new String[32];
+			for (int i = 0; i < 32; i++) {
+				String s = fileContent.get(i + (32 * x));
 				String[] split = s.split(":");
 				readStats[i] = split[1];
 			}
@@ -462,19 +485,22 @@ public class MyGdxGame implements ApplicationListener {
 									.parseInt(readStats[13]), Integer
 									.parseInt(readStats[14]), Integer
 									.parseInt(readStats[15]), Integer
-									.parseInt(readStats[16]), Float
-									.parseFloat(readStats[17]), Float
-									.parseFloat(readStats[18]), Float
-									.parseFloat(readStats[19]), Integer
-									.parseInt(readStats[20]), Integer
-									.parseInt(readStats[21]),  Float
+									.parseInt(readStats[16]), Integer
+									.parseInt(readStats[17]), Integer
+									.parseInt(readStats[18]), Integer
+									.parseInt(readStats[19]), Float
+									.parseFloat(readStats[20]), Float
+									.parseFloat(readStats[21]), Float
 									.parseFloat(readStats[22]), Integer
 									.parseInt(readStats[23]), Integer
 									.parseInt(readStats[24]),  Float
 									.parseFloat(readStats[25]), Integer
 									.parseInt(readStats[26]), Integer
-									.parseInt(readStats[27]), Float
-									.parseFloat(readStats[28])));
+									.parseInt(readStats[27]),  Float
+									.parseFloat(readStats[28]), Integer
+									.parseInt(readStats[29]), Integer
+									.parseInt(readStats[30]), Float
+									.parseFloat(readStats[31])));
 		}
 	}
 	
@@ -520,6 +546,9 @@ public class MyGdxGame implements ApplicationListener {
 		uiLabel3 = new Label("", labelStyle);
 		uiLabel3.setPosition(800, GameConstants.screenHeight-80);
 		stage.addActor(uiLabel3);
+		uiLabelGold = new Label("Gold: " + currentGold, labelStyle);
+		uiLabelGold.setPosition(600, GameConstants.screenHeight-50);
+		stage.addActor(uiLabelGold);
 		
 		TextButton.TextButtonStyle settingsButtonStyle = new TextButton.TextButtonStyle();
 		TextureRegion upStyle = new TextureRegion(miscAtlas.createSprite("settingsButton"));
@@ -550,8 +579,15 @@ public class MyGdxGame implements ApplicationListener {
 		sellButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-
-					// Sell the tower
+				
+				if (selectedTower != null)
+				{
+					currentGold += selectedTower.towerStats.getSellPrice(selectedTower.currentLevel);
+					uiLabelGold.setText("Gold: " + currentGold);
+					selectedTower.remove();
+					MyGdxGame.towers.remove(selectedTower);
+					MyGdxGame.selectTower(null);
+				}
 				return true;
 			}
 		});
@@ -568,9 +604,16 @@ public class MyGdxGame implements ApplicationListener {
 		upgradeButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-
-				if(selectedTower != null)
-				{
+				if (selectedTower == null) 
+					return true;
+				if (selectedTower.currentLevel == 3) 
+					return true;
+				int upgradeCost = selectedTower.towerStats
+						.getUpgradeCost(selectedTower.currentLevel);
+				boolean canAfford = currentGold >= upgradeCost ? true : false;
+				if (canAfford) {
+					MyGdxGame.currentGold -= upgradeCost;
+					uiLabelGold.setText("Gold: " + currentGold);
 					selectedTower.upgrade();
 					MyGdxGame.selectTower(selectedTower);
 				}
