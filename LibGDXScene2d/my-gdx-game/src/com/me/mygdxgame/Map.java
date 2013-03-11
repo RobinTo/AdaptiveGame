@@ -141,7 +141,6 @@ public class Map {
 	public Group loadMap(FileHandle handle)
     {
 		Group actorGroup = new Group();
-		System.out.println("Starting loadmap.");
         for (int x = 0; x < mapWidth; x++)
         {
             for (int y = 0; y < mapHeight; y++)
@@ -150,7 +149,6 @@ public class Map {
                 mapActors[x][y] = null;
             }
         }
-        System.out.println("Done filling with zero.");
         
         List<String> fileContent = GameConstants.readRawTextFile(handle);
         int yCounter = 0;
@@ -180,7 +178,6 @@ public class Map {
                 yCounter++;
             }
         }
-        System.out.println("Done parsing file, generating directions");
         generateDirections();
         System.out.println("Loaded map and generated directions");
         return actorGroup;

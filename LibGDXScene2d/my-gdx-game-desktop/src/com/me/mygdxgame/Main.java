@@ -23,8 +23,8 @@ public class Main {
 		
 		// Enter path to android asset folder on your computer, or remove this to compile if you want
 		// to compile and no new images have been added.
-		String path = "D:\\github\\AdaptiveGame\\LibGDXScene2d\\my-gdx-game-android\\assets\\Images";
-		//String path = "C:\\Users\\Robin\\github\\AdaptiveGame\\LibGDXProjects\\AdaptiveTD-android\\assets\\Images";
+		//String path = "D:\\github\\AdaptiveGame\\LibGDXScene2d\\my-gdx-game-android\\assets\\Images";
+		String path = "C:\\Users\\Robin\\github\\AdaptiveGame\\LibGDXScene2d\\my-gdx-game-android\\assets\\Images";
 		//String path = "D:\\Github\\AdaptiveGame\\LibGDXProjects\\AdaptiveTD-android\\assets\\Images";	
 		
 		

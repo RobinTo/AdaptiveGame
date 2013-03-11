@@ -2,18 +2,31 @@ Public resources found in...
 Translatable source found in...
 Found 0 cached/archived units.  Used 0 / 2728 units from cache.
 Compiling...
+<<<<<<< HEAD
    10% complete (ETR: 39 seconds)
    10% complete (ETR: 40 seconds)
    20% complete (ETR: 29 seconds)
    30% complete (ETR: 22 seconds)
    40% complete (ETR: 18 seconds)
    50% complete (ETR: 13 seconds)
+=======
+   0% complete (ETR: 83 seconds)
+   10% complete (ETR: 60 seconds)
+   20% complete (ETR: 36 seconds)
+   30% complete (ETR: 26 seconds)
+   40% complete (ETR: 19 seconds)
+   50% complete (ETR: 14 seconds)
+>>>>>>> Added replay system, fixed stacking towers.
    60% complete (ETR: 10 seconds)
    70% complete (ETR: 7 seconds)
    80% complete (ETR: 4 seconds)
    90% complete (ETR: 2 seconds)
    100% complete (ETR: 0 seconds)
+<<<<<<< HEAD
    Compilation completed in 75,12 seconds
+=======
+   Compilation completed in 27,93 seconds
+>>>>>>> Added replay system, fixed stacking towers.
 Removing invalidated units
 Finding entry point classes
 Public resources found in...

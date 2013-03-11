@@ -42,7 +42,12 @@ public class MyGdxGame implements ApplicationListener {
 	
 	boolean fullScreen = false; // Full screen yes or no.
 	boolean printDebug = true; // Print debug, add or remove writes in end of render.
-	
+
+	ReplayHandler replayHandler = new ReplayHandler();
+	boolean saveReplay = true;
+	boolean useReplay = false;
+	String replayPath = "/AdaptiveTDReplays/testReplay.txt";			// Must be external, relative to user directory.
+	String replaySavePath = "/AdaptiveTDReplays/testReplay.txt";
 	
 	boolean paused = false;;
 	
@@ -113,6 +118,7 @@ public class MyGdxGame implements ApplicationListener {
 	
 	static int livesLeft;
 	static int currentGold;
+	EventHandler eventHandler = new EventHandler();
 	
 	@Override
 	public void create() {
@@ -160,6 +166,12 @@ public class MyGdxGame implements ApplicationListener {
 		// UI Creation
 		createUI();
 		// -----------
+		
+		if(useReplay)
+		{
+			FileHandle replayHandle = Gdx.files.external(replayPath);
+			replayHandler.loadReplay(replayHandle);
+		}
 
         Gdx.gl.glClearColor(Color.GRAY.r, Color.GRAY.g, Color.GRAY.b, Color.GRAY.a);
 	}
@@ -187,7 +199,7 @@ public class MyGdxGame implements ApplicationListener {
         uC++;
         if(timer >= 1)
         {
-        	System.out.println("FPS: " + uC);
+        	//System.out.println("FPS: " + uC);
         	uC = 0;
         	timer = 0;
         }
@@ -237,7 +249,19 @@ public class MyGdxGame implements ApplicationListener {
 	{
 		totalTime += Gdx.graphics.getDeltaTime();
         
-        handleInput();
+		if(!useReplay)
+		{
+			handleInput();
+			eventHandler.update();
+		}
+		else{
+			eventHandler.events = replayHandler.playReplay(totalTime);
+		}
+		if(saveReplay)
+		{
+			replayHandler.addEvents(totalTime, eventHandler);
+		}
+		handleEvents();
         checkWave(totalTime);
         if(enemies.size() > 0)
         {
@@ -290,6 +314,15 @@ public class MyGdxGame implements ApplicationListener {
 	
 	private void resetGame()
 	{
+		if(saveReplay && !useReplay)
+		{
+			FileHandle saveHandle = Gdx.files.external(replaySavePath);
+			replayHandler.saveReplay(saveHandle);
+		}
+		replayHandler.events.clear();
+		replayHandler.savingEvents.clear();
+		useReplay = false;
+		
 		stage.getActors().clear();
 		
 		towers.clear();
@@ -362,18 +395,7 @@ public class MyGdxGame implements ApplicationListener {
 	
 	public void buildTower(String type, Vector2 tilePosition)
 	{
-		int buildCost = towerInfo.get(type).buildCost;
-		boolean canAfford = currentGold >= buildCost ? true : false;
-		
-		if(map.canBuild((int)tilePosition.x, (int)tilePosition.y)  && canAfford)
-		{
-			Tower t = createTower(type, tilePosition);
-			stage.addActor(t);
-			towers.add(t);
-			selectTower(t);
-			currentGold -= buildCost;
-			uiLabelGold.setText("Gold: " + currentGold);
-		}
+		eventHandler.queueEvent(new Event("build", (int)tilePosition.x, (int)tilePosition.y, type));
 	}
 	
 	// Eventually take a towerInfo id, and create appropriate.
@@ -417,6 +439,61 @@ public class MyGdxGame implements ApplicationListener {
 		uiLabel2.setText("Health: " + e.currentHealth);
 		uiLabel3.setText("Yields: " + e.enemyStats.goldYield);
 		uiLabelSellPrice.setText("");
+	}
+	
+	private void handleEvents()
+	{
+		for(int i = 0; i<eventHandler.events.size(); i++)
+		{
+			Event e = eventHandler.events.get(i);
+			if(e.eventType.equals("build"))
+			{
+				if(map.canBuild((int)e.x, (int)e.y))
+				{
+					
+					Tower t = createTower(e.tower, new Vector2(e.x, e.y));
+					int buildCost = towerInfo.get(e.tower).buildCost;
+					boolean canAfford = currentGold >= buildCost ? true : false;
+
+					boolean canBuild = canAfford;
+					if(canAfford)
+					{
+						for(int c = 0; c < towers.size(); c++)
+						{
+							if(towers.get(c).getX() == t.getX() && towers.get(c).getY() == t.getY())
+								canBuild = false;
+						}
+					}
+					if(canBuild)
+					{
+						
+						currentGold -= buildCost;
+						uiLabelGold.setText("Gold: " + currentGold);
+						stage.addActor(t);
+						towers.add(t);
+						selectTower(t);
+					}
+					else
+					{
+						t = null;
+					}
+				}
+			}
+			else if(e.eventType.equals("sell"))
+			{
+				
+			}
+			else if(e.eventType.equals("upgrade"))
+			{
+				for(int u = 0; u < towers.size(); u++)
+				{
+					if(e.x == (int)(towers.get(u).getX()/GameConstants.tileSize) && e.y == (int)(towers.get(u).getY()/GameConstants.tileSize))
+					{
+						towers.get(u).upgrade();
+					}
+				}
+			}
+		}
 	}
 	
 	private void handleInput()
@@ -657,7 +734,7 @@ public class MyGdxGame implements ApplicationListener {
 				if (canAfford) {
 					MyGdxGame.currentGold -= upgradeCost;
 					uiLabelGold.setText("Gold: " + currentGold);
-					selectedTower.upgrade();
+					eventHandler.queueEvent(new Event("upgrade", (int)(selectedTower.getX()/GameConstants.tileSize), (int)(selectedTower.getY()/GameConstants.tileSize), ""));
 					MyGdxGame.selectTower(selectedTower);
 				}
 				return true;
@@ -665,7 +742,7 @@ public class MyGdxGame implements ApplicationListener {
 		});
 		upgradeButton.setPosition(GameConstants.screenWidth - 4*GameConstants.tileSize, GameConstants.screenHeight-100);
 		stage.addActor(upgradeButton);
-		
+	
 		
 	}
 	
