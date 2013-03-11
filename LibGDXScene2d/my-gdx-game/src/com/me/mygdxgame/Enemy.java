@@ -58,7 +58,7 @@ public class Enemy extends ExtendedActor{
                 default:
                 	break;
             }
-        	seqAct.addAction(Actions.moveTo(targetPosition.x, targetPosition.y, 1/enemyStats.speed));
+        	seqAct.addAction(Actions.moveTo(targetPosition.x, targetPosition.y, 1.0f/enemyStats.speed));
         	//this.queueAction(Actions.moveTo(targetPosition.x, targetPosition.y, 0.4f));
         }
         addAction(seqAct);

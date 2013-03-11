@@ -103,6 +103,7 @@ public class MyGdxGame implements ApplicationListener {
 	String towerDamage = "10";
 	String towerCost = "30";
 	
+	boolean won, lost = false;
 
 	Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.BLACK);
 	static Label uiLabel;
@@ -203,7 +204,22 @@ public class MyGdxGame implements ApplicationListener {
         	uC = 0;
         	timer = 0;
         }
-       
+        
+        if (won)
+        {
+        	spriteBatch.begin();
+        	
+        	font.scale(2);
+        	font.draw(spriteBatch, "Game won", 0, GameConstants.screenHeight);
+        	spriteBatch.end();
+        }
+        else if (lost)
+        {
+        	spriteBatch.begin();
+        	font.scale(2);
+        	font.draw(spriteBatch, "Game lost", 0, GameConstants.screenHeight);
+        	spriteBatch.end();
+        }
 	}
 
 	@Override
@@ -297,10 +313,16 @@ public class MyGdxGame implements ApplicationListener {
         	}
         }
         
-        if (gameOver())
+        if (livesLeft <= 0)
         {
-        	//Show endingscreen
-        	resetGame();
+        	//Loser
+        	lost = true;
+        }
+        else if (enemies.size() <= 0 && enemyWave.size() <= 0)
+        {
+        	//Winner
+        	won = true;
+        	//resetGame();
         }
 	}
 	
@@ -343,6 +365,9 @@ public class MyGdxGame implements ApplicationListener {
 		uiLabelGold.setText("Gold: " + currentGold);
 		livesLeft = GameConstants.startLives;
 		uiLabelLives.setText("Lives: " + livesLeft);
+		
+		won = false;
+		lost = false;
 	}
 	
 	private void checkWave(float totalTime)
@@ -369,6 +394,7 @@ public class MyGdxGame implements ApplicationListener {
 	
 	private void createWave()
 	{
+		/*
 		addEnemyToWave(0.5f, createEnemy("basic"));
 		addEnemyToWave(10.5f, createEnemy("fast"));
 		addEnemyToWave(5.5f, createEnemy("tough"));
@@ -379,8 +405,11 @@ public class MyGdxGame implements ApplicationListener {
 		addEnemyToWave(6.5f, createEnemy("fast"));
 		addEnemyToWave(7.5f, createEnemy("tough"));
 		addEnemyToWave(8.5f, createEnemy("basic"));
-		addEnemyToWave(9.5f, createEnemy("fast"));
+		
 		addEnemyToWave(11.5f, createEnemy("tough"));
+		
+		*/
+		addEnemyToWave(0.1f, createEnemy("fast"));
 		Collections.sort(waveTime);
 	}
 	
@@ -493,6 +522,7 @@ public class MyGdxGame implements ApplicationListener {
 					if(e.x == (int)(towers.get(u).getX()/GameConstants.tileSize) && e.y == (int)(towers.get(u).getY()/GameConstants.tileSize))
 					{
 						towers.get(u).upgrade();
+						MyGdxGame.selectTower(towers.get(u));
 					}
 				}
 			}
@@ -738,7 +768,6 @@ public class MyGdxGame implements ApplicationListener {
 					MyGdxGame.currentGold -= upgradeCost;
 					uiLabelGold.setText("Gold: " + currentGold);
 					eventHandler.queueEvent(new Event("upgrade", (int)(selectedTower.getX()/GameConstants.tileSize), (int)(selectedTower.getY()/GameConstants.tileSize), ""));
-					MyGdxGame.selectTower(selectedTower);
 				}
 				return true;
 			}
@@ -749,10 +778,4 @@ public class MyGdxGame implements ApplicationListener {
 		
 	}
 	
-	private boolean gameOver()
-	{
-		
-		return livesLeft <= 0;
-		
-	}
 }
