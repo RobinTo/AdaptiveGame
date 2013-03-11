@@ -2,13 +2,14 @@ package com.me.mygdxgame;
 
 public class EnemyStats {
 	String type, enemyTexture;
-	int health, speed, goldYield;
+	int health, goldYield;
+	float speed;
 
 	public EnemyStats(String type, String enemyTexture, int health, float speed, int goldYield) {
 		this.type = type;
 		this.enemyTexture = enemyTexture;
 		this.health = health;
-		this.speed = (int)(speed * GameConstants.tileSize);
+		this.speed = speed;
 		this.goldYield = goldYield;
 	}
 
@@ -20,11 +21,11 @@ public class EnemyStats {
 		this.health = health;
 	}
 
-	public int getSpeed() {
+	public float getSpeed() {
 		return speed;
 	}
 
-	public void setSpeed(int speed) {
+	public void setSpeed(float speed) {
 		this.speed = speed;
 	}
 

@@ -300,7 +300,7 @@ public class MyGdxGame implements ApplicationListener {
         if (gameOver())
         {
         	//Show endingscreen
-        	//resetGame();
+        	resetGame();
         }
 	}
 	
@@ -340,6 +340,9 @@ public class MyGdxGame implements ApplicationListener {
 		createUI();
 		
 		currentGold = GameConstants.startGold;
+		uiLabelGold.setText("Gold: " + currentGold);
+		livesLeft = GameConstants.startLives;
+		uiLabelLives.setText("Lives: " + livesLeft);
 	}
 	
 	private void checkWave(float totalTime)
