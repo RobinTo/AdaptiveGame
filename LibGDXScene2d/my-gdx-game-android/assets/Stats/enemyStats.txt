@@ -11,6 +11,6 @@ goldYield:5
 type:fast
 enemyTexture:fastEnemy
 health:30
-speed:2.0f
+speed:20.0f
 goldYield:3
 endFile

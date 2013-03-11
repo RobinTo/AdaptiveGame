@@ -105,11 +105,13 @@ public class MyGdxGame implements ApplicationListener {
 	static Label uiLabel3;
 	static Label uiLabelSellPrice;
 	static Label uiLabelGold;
+	static Label uiLabelLives;
 	
 	Camera gameCamera;
 
 	ExtendedActor temporaryTowerActor = null;
 	
+	static int livesLeft;
 	static int currentGold;
 	
 	@Override
@@ -151,7 +153,9 @@ public class MyGdxGame implements ApplicationListener {
 
 		createWave();
 		
+		livesLeft = GameConstants.startLives;
 		currentGold = GameConstants.startGold;
+
 		
 		// UI Creation
 		createUI();
@@ -255,6 +259,25 @@ public class MyGdxGame implements ApplicationListener {
         		counter --;
         	}
         }
+        
+        for (int counter = 0; counter < enemies.size(); counter ++)
+        {
+        	Enemy enemy = enemies.get(counter);
+        	if (enemy.getActions().size == 0)
+        	{
+        		enemies.remove(enemy);
+        		enemy.remove();
+        		livesLeft --;
+        		uiLabelLives.setText("Lives: " + livesLeft);
+        		counter --;
+        	}
+        }
+        
+        if (gameOver())
+        {
+        	//Show endingscreen
+        	//resetGame();
+        }
 	}
 	
 	@Override
@@ -313,6 +336,15 @@ public class MyGdxGame implements ApplicationListener {
 		addEnemyToWave(0.5f, createEnemy("basic"));
 		addEnemyToWave(10.5f, createEnemy("fast"));
 		addEnemyToWave(5.5f, createEnemy("tough"));
+		addEnemyToWave(1.5f, createEnemy("basic"));
+		addEnemyToWave(2.5f, createEnemy("fast"));
+		addEnemyToWave(3.5f, createEnemy("tough"));
+		addEnemyToWave(4.5f, createEnemy("basic"));
+		addEnemyToWave(6.5f, createEnemy("fast"));
+		addEnemyToWave(7.5f, createEnemy("tough"));
+		addEnemyToWave(8.5f, createEnemy("basic"));
+		addEnemyToWave(9.5f, createEnemy("fast"));
+		addEnemyToWave(11.5f, createEnemy("tough"));
 		Collections.sort(waveTime);
 	}
 	
@@ -555,8 +587,11 @@ public class MyGdxGame implements ApplicationListener {
 		uiLabelSellPrice.setPosition(800, GameConstants.screenHeight-100);
 		stage.addActor(uiLabelSellPrice);
 		uiLabelGold = new Label("Gold: " + currentGold, labelStyle);
-		uiLabelGold.setPosition(600, GameConstants.screenHeight-50);
+		uiLabelGold.setPosition(600, GameConstants.screenHeight-70);
 		stage.addActor(uiLabelGold);
+		uiLabelLives = new Label("Lives: " + livesLeft, labelStyle);
+		uiLabelLives.setPosition(600, GameConstants.screenHeight-50);
+		stage.addActor(uiLabelLives);
 		
 		TextButton.TextButtonStyle settingsButtonStyle = new TextButton.TextButtonStyle();
 		TextureRegion upStyle = new TextureRegion(miscAtlas.createSprite("settingsButton"));
@@ -631,6 +666,13 @@ public class MyGdxGame implements ApplicationListener {
 		upgradeButton.setPosition(GameConstants.screenWidth - 4*GameConstants.tileSize, GameConstants.screenHeight-100);
 		stage.addActor(upgradeButton);
 		
+		
+	}
+	
+	private boolean gameOver()
+	{
+		
+		return livesLeft <= 0;
 		
 	}
 }

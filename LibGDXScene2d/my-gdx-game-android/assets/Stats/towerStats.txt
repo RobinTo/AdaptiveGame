@@ -10,6 +10,9 @@ damage3:3
 buildcost:5
 upgradeCost1:4
 upgradeCost2:4
+sellPrice1:4
+sellPrice1:7
+sellPrice1:11
 maxlevel:3
 range:3
 slow1:0
@@ -39,6 +42,9 @@ damage3:0
 buildcost:10
 upgradeCost1:5
 upgradeCost2:5
+sellPrice1:7
+sellPrice1:2
+sellPrice1:13
 maxlevel:3
 range:3
 slow1:40
@@ -68,6 +74,9 @@ damage3:9
 buildcost:15
 upgradeCost1:10
 upgradeCost2:10
+sellPrice1:10
+sellPrice1:15
+sellPrice1:25
 maxlevel:3
 range:2
 slow1:0
@@ -97,6 +106,9 @@ damage3:5
 buildcost:20
 upgradeCost1:15
 upgradeCost2:15
+sellPrice1:15
+sellPrice1:25
+sellPrice1:35
 maxlevel:3
 range:2
 slow1:0
