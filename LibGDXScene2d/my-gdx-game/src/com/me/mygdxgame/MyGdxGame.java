@@ -103,6 +103,7 @@ public class MyGdxGame implements ApplicationListener {
 	static Label uiLabel;
 	static Label uiLabel2;
 	static Label uiLabel3;
+	static Label uiLabelSellPrice;
 	static Label uiLabelGold;
 	
 	Camera gameCamera;
@@ -366,6 +367,7 @@ public class MyGdxGame implements ApplicationListener {
 								.getUpgradeCost(t.currentLevel)));
 			else
 				uiLabel3.setText("Upgrade Cost: Fully upgraded");
+			uiLabelSellPrice.setText("Sell Price: " + t.towerStats.getSellPrice(t.currentLevel));
 		}
 		else
 		{
@@ -373,6 +375,7 @@ public class MyGdxGame implements ApplicationListener {
 			uiLabel.setText("");
 			uiLabel2.setText("");
 			uiLabel3.setText("");
+			uiLabelSellPrice.setText("");
 		}
 	}
 	
@@ -381,6 +384,7 @@ public class MyGdxGame implements ApplicationListener {
 		uiLabel.setText(e.enemyStats.type);
 		uiLabel2.setText("Health: " + e.currentHealth);
 		uiLabel3.setText("Yields: " + e.enemyStats.goldYield);
+		uiLabelSellPrice.setText("");
 	}
 	
 	private void handleInput()
@@ -530,6 +534,7 @@ public class MyGdxGame implements ApplicationListener {
 					uiLabel.setText(towerName);
 					uiLabel2.setText("Damage: " + Integer.toString(towerInfo.get(currentKey).damage1));
 					uiLabel3.setText("Cost: " + Integer.toString(towerInfo.get(currentKey).getBuildCost()));
+					uiLabelSellPrice.setText("");
 					return true;
 				}
 			});
@@ -546,6 +551,9 @@ public class MyGdxGame implements ApplicationListener {
 		uiLabel3 = new Label("", labelStyle);
 		uiLabel3.setPosition(800, GameConstants.screenHeight-80);
 		stage.addActor(uiLabel3);
+		uiLabelSellPrice = new Label("", labelStyle);
+		uiLabelSellPrice.setPosition(800, GameConstants.screenHeight-100);
+		stage.addActor(uiLabelSellPrice);
 		uiLabelGold = new Label("Gold: " + currentGold, labelStyle);
 		uiLabelGold.setPosition(600, GameConstants.screenHeight-50);
 		stage.addActor(uiLabelGold);
