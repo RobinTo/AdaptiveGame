@@ -22,6 +22,7 @@ public class Tower extends ExtendedActor {
 	List<DamagePacket> activeShots;
 	
 	Enemy targetEnemy;
+	boolean canShoot = false;
 	
 	public Tower (TowerStats towerStats, Sprite towerSprite1, Sprite towerSprite2, Sprite towerSprite3, Sprite missileSprite) {
 		super(towerSprite1);
@@ -94,48 +95,26 @@ public class Tower extends ExtendedActor {
 	public void act(float gameTime)
 	{
 		super.act(gameTime);
-		
-		currentReloadTimer -= gameTime;
-		if(currentReloadTimer <= 0 && targetEnemy != null && targetEnemy.currentHealth > 0)
+		if(currentReloadTimer <= 0)
 		{
-			currentReloadTimer = towerStats.reloadTime;
-			this.getParent().addActor(new Missile(textures.get(3), new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(enemyX, enemyY), 0.2f));
-			missileInTheAir = true;
-			activeShots.add(new DamagePacket(0.2f, targetEnemy));
+			canShoot = true;
 		}
-		
-		for (int counter = 0; counter < activeShots.size(); counter ++)
+		else
 		{
-			DamagePacket damagePacket = activeShots.get(counter);
-			damagePacket.timeToHit -= gameTime;
-			if (damagePacket.timeToHit <= 0.0f)
-			{
-				damagePacket.targetEnemy.currentHealth -= towerStats
-						.getDamage(currentLevel);
-				if (towerStats.getSlowPercentage(currentLevel) != 0) {
-					damagePacket.targetEnemy.currentMoveSpeedMultiplier = 1.0f - ((float) towerStats
-							.getSlowPercentage(currentLevel) / 100.0f);
-					damagePacket.targetEnemy.currentSlowDuration = towerStats
-							.getSlowDuration(currentLevel);
-					damagePacket.targetEnemy.slowed = true;
-				}
-				if (towerStats.getDotDamage(currentLevel) != 0) {
-					damagePacket.targetEnemy.dotted = true;
-					damagePacket.targetEnemy.currentDotDamage = towerStats
-							.getDotDamage(currentLevel);
-					damagePacket.targetEnemy.dotTicksLeft = towerStats
-							.getDotTicks(currentLevel);
-					damagePacket.targetEnemy.currentDotDurationBetweenTicks = towerStats
-							.getDotDuration(currentLevel)
-							/ (float) towerStats.getDotTicks(currentLevel);
-					damagePacket.targetEnemy.dotDurationBetweenTicks = towerStats
-							.getDotDuration(currentLevel)
-							/ (float) towerStats.getDotTicks(currentLevel);
-				}
-				activeShots.remove(counter);
-				counter --;
-			}
+			currentReloadTimer -= gameTime;
 		}
+	}
+	
+	public Missile shoot()
+	{
+		if(targetEnemy != null)
+		{
+			Missile m = new Missile(textures.get(3), new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(enemyX, enemyY), 0.2f);
+		
+			return m;
+		}
+		else
+			return null;
 	}
 	
 	public boolean upgrade()

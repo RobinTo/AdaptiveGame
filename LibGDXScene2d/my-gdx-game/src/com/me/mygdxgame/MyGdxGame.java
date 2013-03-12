@@ -56,6 +56,8 @@ public class MyGdxGame implements ApplicationListener {
 	List<Enemy> enemies = new ArrayList<Enemy>();
 	static List<Tower> towers = new ArrayList<Tower>();
 	
+	List<Missile> missiles = new ArrayList<Missile>();
+	
 	Enemy focusFireEnemy;
 	
 	static Tower selectedTower;
@@ -275,7 +277,21 @@ public class MyGdxGame implements ApplicationListener {
         	for(int i = 0; i < towers.size(); i++)
         	{
         		towers.get(i).calculateTarget(Gdx.graphics.getDeltaTime(), enemies, null);
+        		if(towers.get(i).canShoot)
+        		{
+        			Missile m = towers.get(i).shoot();
+        			if(m != null)
+        			{
+        				missiles.add(m);
+        			}
+        		}
         	}
+        }
+        for(int i = 0; i < missiles.size(); i++)
+        {
+        	
+        	// Complete Missile effects and damages.
+        	
         }
 		
         stage.act(Gdx.graphics.getDeltaTime());
@@ -289,12 +305,7 @@ public class MyGdxGame implements ApplicationListener {
         		enemy.remove();
         		counter --;
         	}
-        }
-        
-        for (int counter = 0; counter < enemies.size(); counter ++)
-        {
-        	Enemy enemy = enemies.get(counter);
-        	if (enemy.getActions().size == 0)
+        	else if (enemy.getActions().size == 0)
         	{
         		enemies.remove(enemy);
         		enemy.remove();
@@ -373,7 +384,7 @@ public class MyGdxGame implements ApplicationListener {
 			}
 		}
 	}
-
+	
 	private void createWave()
 	{
 		/*
