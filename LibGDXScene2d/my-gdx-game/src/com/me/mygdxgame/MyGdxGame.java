@@ -1,6 +1,5 @@
 package com.me.mygdxgame;
 
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
@@ -16,8 +15,6 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -30,12 +27,8 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class MyGdxGame implements ApplicationListener {
@@ -123,8 +116,6 @@ public class MyGdxGame implements ApplicationListener {
 	
 	@Override
 	public void create() {
-		float w = Gdx.graphics.getWidth();
-		float h = Gdx.graphics.getHeight();
 		gameCamera = new OrthographicCamera(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
 		Gdx.graphics.setTitle("Adaptive Tower Defense v0.001");
 		spriteBatch = new SpriteBatch();
@@ -382,16 +373,7 @@ public class MyGdxGame implements ApplicationListener {
 			}
 		}
 	}
-	
-	private int getCameraX()
-	{
-		return (int)(gameCamera.position.x - gameCamera.viewportWidth/2);
-	}
-	private int getCameraY()
-	{
-		return (int)(gameCamera.position.y - gameCamera.viewportHeight/2);
-	}
-	
+
 	private void createWave()
 	{
 		/*
@@ -581,7 +563,6 @@ public class MyGdxGame implements ApplicationListener {
 		// String type, int health, int speed, int goldYield, String enemyTexture, String redHealthBar, String yellowHealthBar
 
 		List<String> fileContent = GameConstants.readRawTextFile(handle);
-		int yCounter = 0;
 		System.out.println("Loaded file");
 		for (int x = 0; x * 5 < fileContent.size(); x++) {
 			String[] readStats = new String[5];
@@ -601,7 +582,6 @@ public class MyGdxGame implements ApplicationListener {
 	
 	private void loadTowerStats(FileHandle handle) throws NumberFormatException, ParseException {
 		List<String> fileContent = GameConstants.readRawTextFile(handle);
-		int yCounter = 0;
 		System.out.println("Loaded file");
 		
 		// Localize for machines using . and machines using , as separators.
@@ -777,5 +757,5 @@ public class MyGdxGame implements ApplicationListener {
 	
 		
 	}
-	
+
 }

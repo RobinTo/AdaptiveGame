@@ -7,10 +7,6 @@
 	<classpathentry kind="lib" path="libs/gdx-backend-lwjgl.jar" sourcepath="libs/gdx-backend-lwjgl-sources.jar"/>
 	<classpathentry kind="lib" path="libs/gdx-backend-lwjgl-natives.jar"/>
 	<classpathentry kind="lib" path="libs/gdx-natives.jar"/>
-<<<<<<< HEAD
 	<classpathentry kind="lib" path="D:/Programmer/libgdx-nightly-latest/extensions/gdx-tools/gdx-tools.jar"/>
-=======
-	<classpathentry kind="lib" path="C:/Users/Robin/Desktop/LibGDX/extensions/gdx-tools/gdx-tools.jar"/>
->>>>>>> Added replay system, fixed stacking towers.
 	<classpathentry kind="output" path="bin"/>
 </classpath>
