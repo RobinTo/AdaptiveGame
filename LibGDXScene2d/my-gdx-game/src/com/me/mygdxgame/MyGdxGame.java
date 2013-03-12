@@ -1,7 +1,5 @@
 package com.me.mygdxgame;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -80,40 +78,27 @@ public class MyGdxGame implements ApplicationListener {
 	
 	BitmapFont font;
 	
-	String buildingTower = "";
 	Sprite buildingTowerSprite = null;
 	
-	boolean building = false;
+	boolean building = false, wasTouched = false, won = false, lost = false;
 	
 	float totalTime = 0;
 	
 	double timer = 0;
-	int uC=0;
-	int uT=0;
+	int uC=0, uT=0;
 	
-	boolean wasTouched = false;
 	Vector2 touchedTile = new Vector2(0,0);
 	
-	String towerName = "Tower";
-	String towerDamage = "10";
-	String towerCost = "30";
+	String buildingTower = "", towerName = "Tower", towerDamage = "10", towerCost = "30";
 	
-	boolean won, lost = false;
-
 	Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.BLACK);
-	static Label uiLabel;
-	static Label uiLabel2;
-	static Label uiLabel3;
-	static Label uiLabelSellPrice;
-	static Label uiLabelGold;
-	static Label uiLabelLives;
+	static Label uiLabel, uiLabel2, uiLabel3, uiLabelSellPrice, uiLabelGold, uiLabelLives;
 	
 	Camera gameCamera;
 
 	ExtendedActor temporaryTowerActor = null;
 	
-	static int livesLeft;
-	static int currentGold;
+	static int livesLeft, currentGold;
 	EventHandler eventHandler = new EventHandler();
 	
 	@Override
@@ -140,7 +125,7 @@ public class MyGdxGame implements ApplicationListener {
 		
 		FileHandle towerHandle = Gdx.files.internal("Stats/towerStats.txt");
 		try {
-			loadTowerStats(towerHandle);
+			towerInfo = StatsFetcher.loadTowerStats(towerHandle);
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -149,7 +134,7 @@ public class MyGdxGame implements ApplicationListener {
 			e.printStackTrace();
 		}
 		FileHandle enemyHandle = Gdx.files.internal("Stats/enemyStats.txt");
-		generateEnemyInfo(enemyHandle);
+		enemyInfo = StatsFetcher.generateEnemyInfo(enemyHandle);
 
 		createWave();
 		
@@ -201,16 +186,17 @@ public class MyGdxGame implements ApplicationListener {
         if (won)
         {
         	spriteBatch.begin();
-        	
-        	font.scale(2);
-        	font.draw(spriteBatch, "Game won", 0, GameConstants.screenHeight);
+        	font.setScale(10);
+        	font.draw(spriteBatch, "Game won", GameConstants.screenWidth/2 - 300, GameConstants.screenHeight/2);
+        	font.setScale(1);
         	spriteBatch.end();
         }
         else if (lost)
         {
         	spriteBatch.begin();
-        	font.scale(2);
-        	font.draw(spriteBatch, "Game lost", 0, GameConstants.screenHeight);
+        	font.setScale(10);
+        	font.draw(spriteBatch, "Game lost", GameConstants.screenWidth/2 - 300, GameConstants.screenHeight/2);
+        	font.setScale(1);
         	spriteBatch.end();
         }
 	}
@@ -370,6 +356,7 @@ public class MyGdxGame implements ApplicationListener {
 		
 		won = false;
 		lost = false;
+		
 	}
 	
 	private void checkWave(float totalTime)
@@ -412,7 +399,6 @@ public class MyGdxGame implements ApplicationListener {
 		waveTime.add(time);
 	}
 	
-	// Eventually take an enemyInfo id, and create appropriate.
 	private Enemy createEnemy(String type)
 	{
 		return new Enemy(enemyInfo.get(type), map.startPoint, map.directions, enemiesAtlas.createSprite(enemyInfo.get(type).enemyTexture), miscAtlas.createSprite("healthBarRed"), miscAtlas.createSprite("healthBarYellow"));
@@ -568,79 +554,7 @@ public class MyGdxGame implements ApplicationListener {
 			temporaryTowerActor = null;
 		}
 	}
-	
-	private void generateEnemyInfo(FileHandle handle) {
-		// Eventually do in thinkTank with parameters
-		// String type, int health, int speed, int goldYield, String enemyTexture, String redHealthBar, String yellowHealthBar
 
-		List<String> fileContent = GameConstants.readRawTextFile(handle);
-		System.out.println("Loaded file");
-		for (int x = 0; x * 5 < fileContent.size(); x++) {
-			String[] readStats = new String[5];
-			for (int i = 0; i < 5; i++) {
-				String s = fileContent.get(i + (5 * x));
-				String[] split = s.split(":");
-				readStats[i] = split[1];
-			}
-			enemyInfo.put(
-					readStats[0],
-					new EnemyStats(readStats[0], readStats[1], Integer
-							.parseInt(readStats[2]), Float
-							.parseFloat(readStats[3]), Integer
-							.parseInt(readStats[4])));
-		}
-	}
-	
-	private void loadTowerStats(FileHandle handle) throws NumberFormatException, ParseException {
-		List<String> fileContent = GameConstants.readRawTextFile(handle);
-		System.out.println("Loaded file");
-		
-		// Localize for machines using . and machines using , as separators.
-		DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-		symbols.setDecimalSeparator('.');
-		DecimalFormat format = new DecimalFormat("0.#");
-		
-		format.setDecimalFormatSymbols(symbols);
-		for (int x = 0; x * 32 < fileContent.size(); x++) {
-			String[] readStats = new String[32];
-			for (int i = 0; i < 32; i++) {
-				String s = fileContent.get(i + (32 * x));
-				String[] split = s.split(":");
-				readStats[i] = split[1];
-			}
-			towerInfo.put(
-					readStats[0],
-					new TowerStats(readStats[0], readStats[1], readStats[2], readStats[3], readStats[4],
-							format.parse(readStats[5]).floatValue(), Integer
-									.parseInt(readStats[6]), Integer
-									.parseInt(readStats[7]), Integer
-									.parseInt(readStats[8]), Integer
-									.parseInt(readStats[9]), Integer
-									.parseInt(readStats[10]), Integer
-									.parseInt(readStats[11]), Integer
-									.parseInt(readStats[12]), Integer
-									.parseInt(readStats[13]), Integer
-									.parseInt(readStats[14]), Integer
-									.parseInt(readStats[15]), Integer
-									.parseInt(readStats[16]), Integer
-									.parseInt(readStats[17]), Integer
-									.parseInt(readStats[18]), Integer
-									.parseInt(readStats[19]), Float
-									.parseFloat(readStats[20]), Float
-									.parseFloat(readStats[21]), Float
-									.parseFloat(readStats[22]), Integer
-									.parseInt(readStats[23]), Integer
-									.parseInt(readStats[24]),  Float
-									.parseFloat(readStats[25]), Integer
-									.parseInt(readStats[26]), Integer
-									.parseInt(readStats[27]),  Float
-									.parseFloat(readStats[28]), Integer
-									.parseInt(readStats[29]), Integer
-									.parseInt(readStats[30]), Float
-									.parseFloat(readStats[31])));
-		}
-	}
-	
 	private void createUI()
 	{
 		System.out.println("Generating UI");
