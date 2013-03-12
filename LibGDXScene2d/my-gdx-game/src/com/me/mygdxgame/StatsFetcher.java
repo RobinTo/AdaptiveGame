@@ -37,50 +37,51 @@ public class StatsFetcher {
 			while(!towerDone)
 			{
 				String[] split = fileContent.get(i).split(":");
-				if(split[0].toLowerCase().equals("endtower"))
+				String testString0 = split[0].toLowerCase();
+				if(testString0.equals("endtower"))
 				{
 					towerDone = true;
 				}
 				else
 				{
-					if(split[0].toLowerCase().equals("towertexture"))
+					if(testString0.equals("towertexture"))
 					{
 						towerTexture = split[1];
 					}
-					else if(split[0].toLowerCase().equals("missiletexture"))
+					else if(testString0.equals("missiletexture"))
 					{
 						missileTexture = split[1];
 					}
-					else if(split[0].toLowerCase().equals("upgradesto"))
+					else if(testString0.equals("upgradesto"))
 					{
 						upgradesTo = split[1];
 					}
-					else if(split[0].toLowerCase().equals("type"))
+					else if(testString0.equals("type"))
 					{
 						type = split[1];
 					}
-					else if(split[0].toLowerCase().equals("sellprice"))
+					else if(testString0.equals("sellprice"))
 					{
 						sellPrice = Integer.parseInt(split[1]);
 					}
-					else if(split[0].toLowerCase().equals("buildcost"))
+					else if(testString0.equals("buildcost"))
 					{
 						buildCost = Integer.parseInt(split[1]);
 					}
-					else if(split[0].toLowerCase().equals("upgradecost"))
+					else if(testString0.equals("upgradecost"))
 					{
 						upgradeCost = Integer.parseInt(split[1]);
 					}
-					else if(split[0].toLowerCase().equals("effect"))
+					else if(testString0.equals("effect"))
 					{
 						FloatingBoolean fb = new FloatingBoolean(split[1].equals("set") ? true: false, Float.parseFloat(split[3]));
 						effectsForMissile.put(split[2], fb);
 					}
-					else if(split[0].toLowerCase().equals("effect"))
+					else if(testString0.equals("effect"))
 					{
 						missileTexture = split[1];
 					}
-					else if(split[0].toLowerCase().equals("targeting"))
+					else if(testString0.equals("targeting"))
 					{
 						if(split[1].toLowerCase().equals("circle"))
 						{
@@ -91,11 +92,11 @@ public class StatsFetcher {
 							targetStrategy = TargetingStrategy.Line;
 						}
 					}
-					else if(split[0].toLowerCase().equals("reloadtime"))
+					else if(testString0.equals("reloadtime"))
 					{
 						reloadTime = Float.parseFloat(split[1]);
 					}
-					else if(split[0].toLowerCase().equals("range"))
+					else if(testString0.equals("range"))
 					{
 						range = Integer.parseInt(split[1]);
 					}
