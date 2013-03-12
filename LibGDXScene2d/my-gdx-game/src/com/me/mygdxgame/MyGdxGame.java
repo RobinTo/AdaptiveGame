@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -178,7 +179,7 @@ public class MyGdxGame implements ApplicationListener {
         uC++;
         if(timer >= 1)
         {
-        	//System.out.println("FPS: " + uC);
+        	System.out.println("FPS: " + uC);
         	uC = 0;
         	timer = 0;
         }
@@ -268,18 +269,29 @@ public class MyGdxGame implements ApplicationListener {
         			Missile m = towers.get(i).shoot();
         			if(m != null)
         			{
+        				stage.addActor(m);
         				missiles.add(m);
         			}
         		}
         	}
         }
         for(int i = 0; i < missiles.size(); i++)
-        {
-
+        {	
+        	if(missiles.get(i).effect.missileTarget.targetingStrategy == TargetingStrategy.Single)
+    		{
+        		Enemy targEnemy = ((TargetSingle)(missiles.get(i).effect.missileTarget)).targetEnemy;
+        		Iterator<String> it = missiles.get(i).effect.effects.keySet().iterator();
+        		while(it.hasNext())
+        		{
+        			String s = it.next();
+        			targEnemy.editStat(s, missiles.get(i).effect.effects.get(s).f);
+        		}
+    		}
         	
         	// Complete Missile effects and damages.
         	
         }
+        missiles.clear();
 		
         stage.act(Gdx.graphics.getDeltaTime());
         
@@ -375,7 +387,7 @@ public class MyGdxGame implements ApplicationListener {
 	
 	private void createWave()
 	{
-		/*
+		
 		addEnemyToWave(0.5f, createEnemy("basic"));
 		addEnemyToWave(10.5f, createEnemy("fast"));
 		addEnemyToWave(5.5f, createEnemy("tough"));
@@ -388,8 +400,6 @@ public class MyGdxGame implements ApplicationListener {
 		addEnemyToWave(8.5f, createEnemy("basic"));
 		
 		addEnemyToWave(11.5f, createEnemy("tough"));
-		
-		*/
 		addEnemyToWave(0.1f, createEnemy("fast"));
 		Collections.sort(waveTime);
 	}
@@ -413,7 +423,7 @@ public class MyGdxGame implements ApplicationListener {
 	// Eventually take a towerInfo id, and create appropriate.
 	private Tower createTower(String type, Vector2 tilePosition)
 	{
-		Tower t = new Tower(towerInfo.get(type), towersAtlas.createSprite(towerInfo.get(type).towerTexture1), towersAtlas.createSprite(towerInfo.get(type).towerTexture2), towersAtlas.createSprite(towerInfo.get(type).towerTexture3), miscAtlas.createSprite(towerInfo.get(type).missileTexture));
+		Tower t = new Tower(towerInfo.get(type), towersAtlas.createSprite(towerInfo.get(type).towerTexture), miscAtlas.createSprite(towerInfo.get(type).missileTexture));
 		t.setPosition(tilePosition.x * GameConstants.tileSize, tilePosition.y
 				* GameConstants.tileSize);
 		return t;
@@ -425,6 +435,7 @@ public class MyGdxGame implements ApplicationListener {
 		{
 			selectedTower = t;
 			uiLabel.setText(t.towerStats.type);
+			/*
 			uiLabel2.setText("Damage: "
 					+ Integer.toString(t.towerStats.getDamage(t.currentLevel)));
 			if (t.currentLevel != 3)
@@ -433,7 +444,7 @@ public class MyGdxGame implements ApplicationListener {
 								.getUpgradeCost(t.currentLevel)));
 			else
 				uiLabel3.setText("Upgrade Cost: Fully upgraded");
-			uiLabelSellPrice.setText("Sell Price: " + t.towerStats.getSellPrice(t.currentLevel));
+			uiLabelSellPrice.setText("Sell Price: " + t.towerStats.getSellPrice(t.currentLevel));*/
 		}
 		else
 		{
@@ -563,8 +574,9 @@ public class MyGdxGame implements ApplicationListener {
 		for (int i = 0; i < towerKeys.size(); i++)
 		{
 			TextButton.TextButtonStyle arrowTowerButtonStyle = new TextButton.TextButtonStyle();
-			TextureRegion upStyle = new TextureRegion(towersAtlas.createSprite(towerInfo.get(towerKeys.get(i)).towerTexture1));
-			TextureRegion downStyle = new TextureRegion(towersAtlas.createSprite(towerInfo.get(towerKeys.get(i)).towerTexture1));
+			System.out.println("Trying to load: " + towerInfo.get(towerKeys.get(i)).towerTexture);
+			TextureRegion upStyle = new TextureRegion(towersAtlas.createSprite(towerInfo.get(towerKeys.get(i)).towerTexture));
+			TextureRegion downStyle = new TextureRegion(towersAtlas.createSprite(towerInfo.get(towerKeys.get(i)).towerTexture));
 			arrowTowerButtonStyle.font = font;
 			arrowTowerButtonStyle.up = new TextureRegionDrawable(upStyle);
 			arrowTowerButtonStyle.down = new TextureRegionDrawable(downStyle);
@@ -575,13 +587,11 @@ public class MyGdxGame implements ApplicationListener {
 						int pointer, int button) {
 					building = true;
 					buildingTower = towerInfo.get(currentKey).type;
-					buildingTowerSprite = towersAtlas.createSprite(towerInfo.get(currentKey).towerTexture1);
+					buildingTowerSprite = towersAtlas.createSprite(towerInfo.get(currentKey).towerTexture);
 					towerName = currentKey;
-					temporaryTowerActor = new MapTile(towersAtlas.createSprite(towerInfo.get(towerName).towerTexture1), -64,0);
+					temporaryTowerActor = new MapTile(towersAtlas.createSprite(towerInfo.get(towerName).towerTexture), -64,0);
 					stage.addActor(temporaryTowerActor);
 					uiLabel.setText(towerName);
-					uiLabel2.setText("Damage: " + Integer.toString(towerInfo.get(currentKey).damage1));
-					uiLabel3.setText("Cost: " + Integer.toString(towerInfo.get(currentKey).getBuildCost()));
 					uiLabelSellPrice.setText("");
 					return true;
 				}
@@ -641,7 +651,7 @@ public class MyGdxGame implements ApplicationListener {
 				
 				if (selectedTower != null)
 				{
-					currentGold += selectedTower.towerStats.getSellPrice(selectedTower.currentLevel);
+					//currentGold += selectedTower.towerStats.getSellPrice(selectedTower.currentLevel);
 					uiLabelGold.setText("Gold: " + currentGold);
 					selectedTower.remove();
 					MyGdxGame.towers.remove(selectedTower);
@@ -667,14 +677,14 @@ public class MyGdxGame implements ApplicationListener {
 					return true;
 				if (selectedTower.currentLevel == 3) 
 					return true;
-				int upgradeCost = selectedTower.towerStats
-						.getUpgradeCost(selectedTower.currentLevel);
+				/*int upgradeCost = selectedTower.towerStats
+				  		.getUpgradeCost(selectedTower.currentLevel);
 				boolean canAfford = currentGold >= upgradeCost ? true : false;
 				if (canAfford) {
 					MyGdxGame.currentGold -= upgradeCost;
 					uiLabelGold.setText("Gold: " + currentGold);
 					eventHandler.queueEvent(new Event("upgrade", (int)(selectedTower.getX()/GameConstants.tileSize), (int)(selectedTower.getY()/GameConstants.tileSize), ""));
-				}
+				}*/
 				return true;
 			}
 		});

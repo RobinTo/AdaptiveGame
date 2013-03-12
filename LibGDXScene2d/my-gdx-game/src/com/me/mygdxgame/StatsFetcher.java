@@ -23,44 +23,89 @@ public class StatsFetcher {
 		DecimalFormat format = new DecimalFormat("0.#");
 
 		format.setDecimalFormatSymbols(symbols);
-		for (int x = 0; x * 32 < fileContent.size(); x++) {
-			String[] readStats = new String[32];
-			for (int i = 0; i < 32; i++) {
-				String s = fileContent.get(i + (32 * x));
-				String[] split = s.split(":");
-				readStats[i] = split[1];
+		for(int i = 0; i < fileContent.size(); i++)
+		{
+			boolean towerDone = false;
+			
+			String type="", towerTexture="", upgradesTo = "", missileTexture = "";
+			
+			MissileEffect missileEffects = null;
+			float reloadTime = 1f;
+			int sellPrice=0, upgradeCost = 0, buildCost = 0, range = 0;
+			HashMap<String, FloatingBoolean> effectsForMissile = new HashMap<String, FloatingBoolean>();
+			TargetingStrategy targetStrategy = TargetingStrategy.Single;
+			while(!towerDone)
+			{
+				String[] split = fileContent.get(i).split(":");
+				if(split[0].toLowerCase().equals("endtower"))
+				{
+					towerDone = true;
+				}
+				else
+				{
+					if(split[0].toLowerCase().equals("towertexture"))
+					{
+						towerTexture = split[1];
+					}
+					else if(split[0].toLowerCase().equals("missiletexture"))
+					{
+						missileTexture = split[1];
+					}
+					else if(split[0].toLowerCase().equals("upgradesto"))
+					{
+						upgradesTo = split[1];
+					}
+					else if(split[0].toLowerCase().equals("type"))
+					{
+						type = split[1];
+					}
+					else if(split[0].toLowerCase().equals("sellprice"))
+					{
+						sellPrice = Integer.parseInt(split[1]);
+					}
+					else if(split[0].toLowerCase().equals("buildcost"))
+					{
+						buildCost = Integer.parseInt(split[1]);
+					}
+					else if(split[0].toLowerCase().equals("upgradecost"))
+					{
+						upgradeCost = Integer.parseInt(split[1]);
+					}
+					else if(split[0].toLowerCase().equals("effect"))
+					{
+						FloatingBoolean fb = new FloatingBoolean(split[1].equals("set") ? true: false, Float.parseFloat(split[3]));
+						effectsForMissile.put(split[2], fb);
+					}
+					else if(split[0].toLowerCase().equals("effect"))
+					{
+						missileTexture = split[1];
+					}
+					else if(split[0].toLowerCase().equals("targeting"))
+					{
+						if(split[1].toLowerCase().equals("circle"))
+						{
+							targetStrategy = TargetingStrategy.Circle;
+						}
+						else if(split[1].toLowerCase().equals("line"))
+						{
+							targetStrategy = TargetingStrategy.Line;
+						}
+					}
+					else if(split[0].toLowerCase().equals("reloadtime"))
+					{
+						reloadTime = Float.parseFloat(split[1]);
+					}
+					else if(split[0].toLowerCase().equals("range"))
+					{
+						range = Integer.parseInt(split[1]);
+					}
+					i++;
+				}
+				
 			}
-			towerInfo.put(
-					readStats[0],
-					new TowerStats(readStats[0], readStats[1], readStats[2],
-							readStats[3], readStats[4], format.parse(
-									readStats[5]).floatValue(), Integer
-									.parseInt(readStats[6]), Integer
-									.parseInt(readStats[7]), Integer
-									.parseInt(readStats[8]), Integer
-									.parseInt(readStats[9]), Integer
-									.parseInt(readStats[10]), Integer
-									.parseInt(readStats[11]), Integer
-									.parseInt(readStats[12]), Integer
-									.parseInt(readStats[13]), Integer
-									.parseInt(readStats[14]), Integer
-									.parseInt(readStats[15]), Integer
-									.parseInt(readStats[16]), Integer
-									.parseInt(readStats[17]), Integer
-									.parseInt(readStats[18]), Integer
-									.parseInt(readStats[19]), Float
-									.parseFloat(readStats[20]), Float
-									.parseFloat(readStats[21]), Float
-									.parseFloat(readStats[22]), Integer
-									.parseInt(readStats[23]), Integer
-									.parseInt(readStats[24]), Float
-									.parseFloat(readStats[25]), Integer
-									.parseInt(readStats[26]), Integer
-									.parseInt(readStats[27]), Float
-									.parseFloat(readStats[28]), Integer
-									.parseInt(readStats[29]), Integer
-									.parseInt(readStats[30]), Float
-									.parseFloat(readStats[31])));
+			missileEffects = new MissileEffect(new MissileTarget(targetStrategy), effectsForMissile);
+			System.out.println("Created tower: " + type + ":" + towerTexture + ":" + missileTexture + ":" + sellPrice + ":" + upgradeCost + ":" + buildCost + ":" + missileEffects.effects.size() + ":" + reloadTime + ":" + range);
+			towerInfo.put(type, new TowerStats(type, upgradesTo, towerTexture, missileTexture, sellPrice, upgradeCost, buildCost, missileEffects, reloadTime, range));
 		}
 		return towerInfo;
 	}

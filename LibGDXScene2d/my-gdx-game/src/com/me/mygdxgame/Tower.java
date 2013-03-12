@@ -24,18 +24,15 @@ public class Tower extends ExtendedActor {
 	Enemy targetEnemy;
 	boolean canShoot = false;
 	
-	public Tower (TowerStats towerStats, Sprite towerSprite1, Sprite towerSprite2, Sprite towerSprite3, Sprite missileSprite) {
-		super(towerSprite1);
+	public Tower (TowerStats towerStats, Sprite towerSprite, Sprite missileSprite) {
+		super(towerSprite);
 		this.towerStats = towerStats;
 		this.currentReloadTimer = towerStats.reloadTime;
 		this.targetEnemy = null;
-		textures.put(0, towerSprite1);
-		textures.put(1, towerSprite2);
-		textures.put(2, towerSprite3);
+		textures.put(0, towerSprite);
 		textures.put(3, missileSprite);
 		currentLevel = 1;
-		missileInTheAir = false;
-		activeShots = new ArrayList<DamagePacket>();
+		
 		setOrigin(getWidth()/2, getHeight()/2);
 	}
 	
@@ -109,8 +106,13 @@ public class Tower extends ExtendedActor {
 	{
 		if(targetEnemy != null)
 		{
-			Missile m = new Missile(textures.get(3), new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(enemyX, enemyY), 0.2f);
-		
+
+			HashMap<String, FloatingBoolean> modifications = new HashMap<String, FloatingBoolean>();
+			modifications.put("currentHealth", new FloatingBoolean(false, -10f));
+			MissileEffect effect = new MissileEffect(new TargetSingle(targetEnemy), modifications);
+			Missile m = new Missile(textures.get(3), new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(enemyX, enemyY), 0.2f, effect);
+			currentReloadTimer = towerStats.reloadTime;
+			canShoot = false;
 			return m;
 		}
 		else
@@ -119,11 +121,11 @@ public class Tower extends ExtendedActor {
 	
 	public boolean upgrade()
 	{
-		if (currentLevel == towerStats.maxLevel)
+		if (towerStats.upgradesTo.equals("null"))
 			return false;
 		
 		currentLevel++;
-		super.setSprite(textures.get(currentLevel - 1));
+		//super.setSprite(textures.get(currentLevel - 1)); // Change stuff, towerstats.
 		return true;
 	}
 }
