@@ -70,7 +70,7 @@ public class Tower extends ExtendedActor {
                 double deltaYCandidate = (candidateEnemy.getY() + candidateEnemy.getHeight()/2) - (this.getY() + this.getHeight()/2);
                 double distanceToCandidate = Math.sqrt(Math.pow(deltaXCandidate, 2) + Math.pow(deltaYCandidate, 2));
 
-                if (distanceToCandidate <= towerStats.range && (targetEnemy == null || candidateEnemy.distanceTravelled > targetEnemy.distanceTravelled))
+                if (distanceToCandidate <= towerStats.range && (targetEnemy == null || candidateEnemy.getStat("distanceTravelled") > targetEnemy.getStat("distanceTravelled")))
                 {
                 	deltaXTarget = deltaXCandidate;
                 	deltaYTarget = deltaYCandidate;

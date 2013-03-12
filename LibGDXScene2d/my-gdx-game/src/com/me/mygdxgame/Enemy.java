@@ -13,22 +13,25 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 public class Enemy extends ExtendedActor{
 	
 	HashMap<Integer, Sprite> sprites;
-	float distanceTravelled, currentMoveSpeedMultiplier, currentSlowDuration, currentDotDamage, dotDurationBetweenTicks, currentDotDurationBetweenTicks;
 	EnemyStats enemyStats;
-	public int currentHealth, dotTicksLeft;
 	Rectangle healthBarYellowRectangle, healthBarRedRectangle;
 	boolean slowed, dotted;
+	HashMap<String, Float> floatingStats = new HashMap<String, Float>();
 	
     public Enemy(EnemyStats enemyStats, Vector2 startPosition, List<Direction> directions, Sprite enemySprite, Sprite redHealthBarSprite, Sprite yellowHealthBarSprite)
     {
+    	
     	super(enemySprite);
     	this.enemyStats = enemyStats;
-    	currentHealth = enemyStats.health;
-    	currentMoveSpeedMultiplier = 1.0f;
-    	currentDotDamage = 0;
-    	dotTicksLeft = 0;
-    	dotDurationBetweenTicks = 0;
-    	currentDotDurationBetweenTicks = 0;
+    	floatingStats.put("currentHealth", (float)enemyStats.health);
+    	floatingStats.put("dotTicksLeft", 0f);
+    	floatingStats.put("distanceTravelled", 0f);
+    	floatingStats.put("currentMoveSpeedMultiplier", 1.0f);
+    	floatingStats.put("currentSlowDuration", 0f);
+    	floatingStats.put("currentDotDamage", 0f);
+    	floatingStats.put("dotDurationBetweenTicks", 0f);
+    	floatingStats.put("currentDotDurationBetweenTicks", 0f);
+    	
     	setSize(enemySprite.getWidth(), enemySprite.getHeight());
     	
         Vector2 targetPosition = new Vector2(startPosition.x * GameConstants.tileSize, startPosition.y * GameConstants.tileSize);
@@ -68,29 +71,29 @@ public class Enemy extends ExtendedActor{
     @Override
     public void act(float gameTime)
     {
-    	super.act(gameTime * currentMoveSpeedMultiplier);
+    	super.act(gameTime * floatingStats.get("currentMoveSpeedMultiplier"));
     	
 		if (slowed) {
-			currentSlowDuration -= gameTime;
-			if (currentSlowDuration <= 0)
+			editStat("currentSlowDuration", -gameTime);
+			if (getStat("currentSlowDuration") <= 0)
 			{
-				currentMoveSpeedMultiplier = 1.0f;
+				setStat("currentMoveSpeedMultiplier", 1.0f);
 				slowed = false;
 			}
 		}
 		if (dotted) {
-			currentDotDurationBetweenTicks -= gameTime;
-			if (currentDotDurationBetweenTicks <= 0) {
-				currentHealth -= currentDotDamage;
-				currentDotDurationBetweenTicks = dotDurationBetweenTicks;
-				dotTicksLeft --;
+			editStat("currentDotDurationBetweenTicks", -gameTime);
+			if (getStat("currentDotDurationBetweenTicks") <= 0) {
+				editStat("currentHealth", -getStat("currentDotDamage"));
+				setStat("currentDotDurationBetweenTicks", getStat("dotDurationBetweenTicks"));
+				editStat("dotTicksLeft", -1f);
 			}
-			if (dotTicksLeft <= 0) {
+			if (getStat("dotTicksLeft") <= 0) {
 				dotted = false;
 			}
 		}
     	healthBarRedRectangle = new Rectangle((int)getX(), GameConstants.screenHeight - GameConstants.tileSize - (int)getY() - 10, 64, 5);
-        healthBarYellowRectangle = new Rectangle((int)getX(), GameConstants.screenHeight - GameConstants.tileSize - (int)getY() - 10, (int)((float)64 * (float)currentHealth / (float)enemyStats.getHealth()), 5);
+        healthBarYellowRectangle = new Rectangle((int)getX(), GameConstants.screenHeight - GameConstants.tileSize - (int)getY() - 10, (int)((float)64 * (float)getStat("currentHealth") / (float)enemyStats.getHealth()), 5);
    
     }
     
@@ -107,5 +110,20 @@ public class Enemy extends ExtendedActor{
 	}
 	public void setSprites(HashMap<Integer, Sprite> sprites) {
 		this.sprites = sprites;
+	}
+	
+	public void editStat(String key, float value)
+	{
+		floatingStats.put(key, (float)(floatingStats.get(key) + value));
+	}
+	
+	public void setStat(String key, float value)
+	{
+		floatingStats.put(key, value);
+	}
+	
+	public float getStat(String key)
+	{
+		return floatingStats.get(key);
 	}
 }

@@ -275,6 +275,7 @@ public class MyGdxGame implements ApplicationListener {
         }
         for(int i = 0; i < missiles.size(); i++)
         {
+
         	
         	// Complete Missile effects and damages.
         	
@@ -285,7 +286,7 @@ public class MyGdxGame implements ApplicationListener {
         for (int counter = 0; counter < enemies.size(); counter++)
         {
         	Enemy enemy = enemies.get(counter);
-        	if (enemy.currentHealth <= 0)
+        	if (enemy.getStat("currentHealth") <= 0)
         	{
         		enemies.remove(enemy);
         		enemy.remove();
@@ -447,7 +448,7 @@ public class MyGdxGame implements ApplicationListener {
 	private void selectEnemy(Enemy e)
 	{	
 		uiLabel.setText(e.enemyStats.type);
-		uiLabel2.setText("Health: " + e.currentHealth);
+		uiLabel2.setText("Health: " + e.getStat("currentHealth"));
 		uiLabel3.setText("Yields: " + e.enemyStats.goldYield);
 		uiLabelSellPrice.setText("");
 	}

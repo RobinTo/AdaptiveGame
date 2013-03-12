@@ -11,5 +11,6 @@ public class MissileEffect {
 	{
 		this.missileTarget = missileTarget;
 		this.effects = effects;
+		
 	}
 }
