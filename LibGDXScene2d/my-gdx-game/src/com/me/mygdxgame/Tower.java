@@ -12,7 +12,7 @@ public class Tower extends ExtendedActor {
 	TowerStats towerStats;
 
 	float enemyX, enemyY;
-	int currentLevel;
+	int currentLevel, currentSellPrice;
 	HashMap<Integer, Sprite> textures = new HashMap<Integer, Sprite>();
 	
 	float currentReloadTimer;	
@@ -28,6 +28,7 @@ public class Tower extends ExtendedActor {
 	public Tower (TowerStats towerStats, Sprite towerSprite, Sprite missileSprite) {
 		super(towerSprite);
 		this.towerStats = towerStats;
+		this.currentSellPrice = towerStats.sellPrice;
 		this.currentReloadTimer = towerStats.reloadTime;
 		this.targetEnemy = null;
 		textures.put(0, towerSprite);
@@ -143,13 +144,11 @@ public class Tower extends ExtendedActor {
 	}
 	
 	public boolean upgrade(TowerStats newTowerStats)
-	{
-		if (towerStats.upgradesTo.equals("null"))
-			return false;
-		
+	{	
 		currentLevel++;
 		towerStats = newTowerStats;
-		//super.setSprite(textures.get(currentLevel - 1)); // Change stuff, towerstats.
+		currentSellPrice += newTowerStats.sellPrice; 
+		//super.setSprite(textures.get(newTowerStats.towerTexture));
 		return true;
 	}
 }

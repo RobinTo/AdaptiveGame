@@ -703,7 +703,7 @@ public class MyGdxGame implements ApplicationListener {
 				
 				if (selectedTower != null)
 				{
-					//currentGold += selectedTower.towerStats.getSellPrice(selectedTower.currentLevel);
+					currentGold += selectedTower.towerStats.sellPrice;
 					uiLabelGold.setText("Gold: " + currentGold);
 					selectedTower.remove();
 					MyGdxGame.towers.remove(selectedTower);
@@ -729,7 +729,7 @@ public class MyGdxGame implements ApplicationListener {
 					return true;
 				if (selectedTower.towerStats.upgradesTo.equals("null"))
 					return true;
-				int upgradeCost = selectedTower.towerStats.upgradeCost;
+				int upgradeCost = towerInfo.get(selectedTower.towerStats.upgradesTo).buildCost - selectedTower.towerStats.buildCost;
 				boolean canAfford = currentGold >= upgradeCost ? true : false;
 				if (canAfford) {
 					MyGdxGame.currentGold -= upgradeCost;
