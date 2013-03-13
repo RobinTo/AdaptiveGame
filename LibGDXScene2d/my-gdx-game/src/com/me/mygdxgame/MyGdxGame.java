@@ -679,14 +679,14 @@ public class MyGdxGame implements ApplicationListener {
 					return true;
 				if (selectedTower.currentLevel == 3) 
 					return true;
-				/*int upgradeCost = selectedTower.towerStats
-				  		.getUpgradeCost(selectedTower.currentLevel);
+/*				int upgradeCost = selectedTower.towerStats.upgradeCost;
 				boolean canAfford = currentGold >= upgradeCost ? true : false;
 				if (canAfford) {
 					MyGdxGame.currentGold -= upgradeCost;
 					uiLabelGold.setText("Gold: " + currentGold);
 					eventHandler.queueEvent(new Event("upgrade", (int)(selectedTower.getX()/GameConstants.tileSize), (int)(selectedTower.getY()/GameConstants.tileSize), ""));
-				}*/
+				}
+				*/
 				return true;
 			}
 		});

@@ -6,6 +6,7 @@ import java.util.List;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 public class HitDetector {
 
@@ -22,13 +23,12 @@ public class HitDetector {
 		return intersectingEnemies;
 	}
 	
-	public static List<Enemy> getEnemiesOnLine(List<Enemy> enemies, Rectangle targetArea)
+	public static List<Enemy> getEnemiesOnLine(List<Enemy> enemies, Vector2 startPoint, Vector2 endPoint)
 	{
 		List<Enemy> intersectingEnemies = new ArrayList<Enemy>();
 		for (Enemy enemy : enemies)
 		{
-			Rectangle enemyRectangle = new Rectangle(enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight());
-			if (Intersector.intersectRectangles(targetArea, enemyRectangle))
+			if (Intersector.distanceLinePoint(startPoint, endPoint, new Vector2(enemy.getX(), enemy.getY())) <= enemy.getWidth()/2)
 				intersectingEnemies.add(enemy);
 		}
 		return intersectingEnemies;
