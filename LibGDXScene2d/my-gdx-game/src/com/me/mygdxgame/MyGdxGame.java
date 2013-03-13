@@ -289,8 +289,16 @@ public class MyGdxGame implements ApplicationListener {
 							.keySet().iterator();
 					while (it.hasNext()) {
 						String s = it.next();
-						targEnemy.editStat(s,
-								missiles.get(i).effect.effects.get(s).f);
+						if(missiles.get(i).effect.effects.get(s).b)
+						{
+							targEnemy.setStat(s,
+									missiles.get(i).effect.effects.get(s).f);
+						}
+						else
+						{
+							targEnemy.editStat(s,
+									missiles.get(i).effect.effects.get(s).f);
+						}
 					}
 				}
 				// ----------------------
@@ -304,8 +312,16 @@ public class MyGdxGame implements ApplicationListener {
 						String s = it.next();
 						for(int eT = 0; eT < enemiesInCircle.size(); eT++)
 						{
-							enemiesInCircle.get(eT).editStat(s,
-								missiles.get(i).effect.effects.get(s).f);
+							if(missiles.get(i).effect.effects.get(s).b)
+							{
+								enemiesInCircle.get(eT).setStat(s,
+										missiles.get(i).effect.effects.get(s).f);
+							}
+							else
+							{
+								enemiesInCircle.get(eT).editStat(s,
+										missiles.get(i).effect.effects.get(s).f);
+							}
 						}
 					}
 					final ExtendedActor visualEffectActor = new ExtendedActor(missiles.get(i).sprite);
@@ -331,8 +347,16 @@ public class MyGdxGame implements ApplicationListener {
 						String s = it.next();
 						for(int eT = 0; eT < enemiesInCircle.size(); eT++)
 						{
-							enemiesInCircle.get(eT).editStat(s,
-								missiles.get(i).effect.effects.get(s).f);
+							if(missiles.get(i).effect.effects.get(s).b)
+							{
+								enemiesInCircle.get(eT).setStat(s,
+										missiles.get(i).effect.effects.get(s).f);
+							}
+							else
+							{
+								enemiesInCircle.get(eT).editStat(s,
+										missiles.get(i).effect.effects.get(s).f);
+							}
 						}
 					}
 				}
@@ -347,8 +371,16 @@ public class MyGdxGame implements ApplicationListener {
 						String s = it.next();
 						for(int eT = 0; eT < enemiesInLine.size(); eT++)
 						{
-							enemiesInLine.get(eT).editStat(s,
-								missiles.get(i).effect.effects.get(s).f);
+							if(missiles.get(i).effect.effects.get(s).b)
+							{
+								enemiesInLine.get(eT).setStat(s,
+										missiles.get(i).effect.effects.get(s).f);
+							}
+							else
+							{
+								enemiesInLine.get(eT).editStat(s,
+										missiles.get(i).effect.effects.get(s).f);
+							}
 						}
 					}
 				}

@@ -17,7 +17,7 @@ upgradesTo:null
 sellPrice:10
 buildCost:25
 upgradeCost:10
-targeting:circle
+targeting:circle:50
 reloadtime:0.5f
 range:400
 effect:edit:currentHealth:-10
@@ -30,8 +30,8 @@ sellPrice:10
 buildCost:25
 upgradeCost:10
 targeting:circleonself
-reloadtime:0.5f
-range:400
+reloadtime:1.5f
+range:100
 effect:edit:currentHealth:-10
 endTower
 type:LineLaser
@@ -42,7 +42,7 @@ sellPrice:10
 buildCost:25
 upgradeCost:10
 targeting:line
-reloadtime:0.5f
+reloadtime:2.0f
 range:400
 effect:edit:currentHealth:-10
 endTower

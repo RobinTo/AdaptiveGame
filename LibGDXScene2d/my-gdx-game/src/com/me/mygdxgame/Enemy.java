@@ -119,6 +119,8 @@ public class Enemy extends ExtendedActor{
 	
 	public void setStat(String key, float value)
 	{
+		if(floatingStats.containsKey(key))
+			floatingStats.remove(key);
 		floatingStats.put(key, value);
 	}
 	
