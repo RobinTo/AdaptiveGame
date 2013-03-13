@@ -1,5 +1,8 @@
 package com.me.mygdxgame;
 
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,6 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -304,12 +308,23 @@ public class MyGdxGame implements ApplicationListener {
 								missiles.get(i).effect.effects.get(s).f);
 						}
 					}
+					final ExtendedActor visualEffectActor = new ExtendedActor(missiles.get(i).sprite);
+					TargetCircle tC = (TargetCircle)(missiles.get(i).effect.missileTarget);
+					visualEffectActor.setPosition(tC.x1-tC.radius/2, tC.y1 - tC.radius/2);
+					visualEffectActor.setWidth(tC.radius*2);
+					visualEffectActor.setHeight(tC.radius*2);
+					visualEffectActor.addAction(sequence(Actions.fadeOut(0.5f), run(new Runnable() {
+				        public void run () {
+				        	visualEffectActor.remove();
+				        }
+					})));
+					stage.addActor(visualEffectActor);
 				}
 				// ----------------------
 				// If TargetStrategy.CircleOnSelf
 				else if (missiles.get(i).effect.missileTarget.targetingStrategy == TargetingStrategy.CircleOnSelf) {
 					TargetCircleOnSelf targetCircle = (TargetCircleOnSelf)missiles.get(i).effect.missileTarget;
-					List<Enemy> enemiesInCircle = HitDetector.getEnemiesInCircle(enemies, (int)missiles.get(i).getX(), (int)missiles.get(i).getY(), targetCircle.radius);
+					List<Enemy> enemiesInCircle = HitDetector.getEnemiesInCircle(enemies, (int)(missiles.get(i).getX()+missiles.get(i).getWidth()/2), (int)(missiles.get(i).getY()+missiles.get(i).getHeight()/2), targetCircle.radius);
 					Iterator<String> it = missiles.get(i).effect.effects
 							.keySet().iterator();
 					while (it.hasNext()) {
@@ -338,6 +353,7 @@ public class MyGdxGame implements ApplicationListener {
 					}
 				}
 				// ----------------------
+				missiles.get(i).remove();
 				missiles.remove(i);
 				i--;
 			}

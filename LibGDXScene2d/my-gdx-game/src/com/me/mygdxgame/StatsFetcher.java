@@ -34,6 +34,7 @@ public class StatsFetcher {
 			int sellPrice=0, upgradeCost = 0, buildCost = 0, range = 0;
 			HashMap<String, FloatingBoolean> effectsForMissile = new HashMap<String, FloatingBoolean>();
 			TargetingStrategy targetStrategy = TargetingStrategy.Single;
+			int radius = 0;
 			while(!towerDone)
 			{
 				String[] split = fileContent.get(i).split(":");
@@ -77,15 +78,12 @@ public class StatsFetcher {
 						FloatingBoolean fb = new FloatingBoolean(split[1].equals("set") ? true: false, Float.parseFloat(split[3]));
 						effectsForMissile.put(split[2], fb);
 					}
-					else if(testString0.equals("effect"))
-					{
-						missileTexture = split[1];
-					}
 					else if(testString0.equals("targeting"))
 					{
 						if(split[1].toLowerCase().equals("circle"))
 						{
 							targetStrategy = TargetingStrategy.Circle;
+							radius = Integer.parseInt(split[2]);
 						}
 						else if(split[1].toLowerCase().equals("line"))
 						{
@@ -110,7 +108,7 @@ public class StatsFetcher {
 			}
 			if(targetStrategy == TargetingStrategy.Circle)
 			{
-				missileEffects = new MissileEffect(new TargetCircle(0, 0, range), effectsForMissile);
+				missileEffects = new MissileEffect(new TargetCircle(0, 0, radius), effectsForMissile);
 			}
 			else if (targetStrategy == TargetingStrategy.Line)
 			{
@@ -125,7 +123,7 @@ public class StatsFetcher {
 				missileEffects = new MissileEffect(new TargetSingle(null), effectsForMissile);
 			}
 			System.out.println("Created tower: " + type + ":" + towerTexture + ":" + missileTexture + ":" + sellPrice + ":" + upgradeCost + ":" + buildCost + ":" + missileEffects.effects.size() + ":" + reloadTime + ":" + range);
-			towerInfo.put(type, new TowerStats(type, upgradesTo, towerTexture, missileTexture, sellPrice, upgradeCost, buildCost, missileEffects, reloadTime, range));
+			towerInfo.put(type, new TowerStats(type, upgradesTo, towerTexture, missileTexture, sellPrice, upgradeCost, buildCost, missileEffects, reloadTime, range, radius));
 		}
 		return towerInfo;
 	}

@@ -122,13 +122,25 @@ public class Tower extends ExtendedActor {
 			{
 				((TargetLine)effects.missileTarget).x1 = (int) this.getX();
 				((TargetLine)effects.missileTarget).y1 = (int) this.getY();
-				((TargetLine)effects.missileTarget).x2 = (int) targetEnemy.getX();
-				((TargetLine)effects.missileTarget).y2 = (int) targetEnemy.getY();
-				m = new Missile(textures.get(3), new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(getX()+getOriginX(), getY()+getOriginY()), 0.0f, effects);
+				int endX = (int)(this.getX() + towerStats.range * Math.cos(Math.toRadians(this.getRotation())));
+				int endY = (int)(this.getY() + towerStats.range * Math.sin(Math.toRadians(this.getRotation())));
+				((TargetLine)effects.missileTarget).x2 = endX;
+				((TargetLine)effects.missileTarget).y2 = endY;
+				
+				m = new Missile(textures.get(3), new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(getX()+getOriginX(), getY()+getOriginY()), 0.1f, effects);
+				int dX =((TargetLine)effects.missileTarget).x2 -  ((TargetLine)effects.missileTarget).x1;
+				int dY = ((TargetLine)effects.missileTarget).y2 - 	((TargetLine)effects.missileTarget).y1;
+				int width = (int)Math.sqrt(Math.pow(dX, 2) + Math.pow(dY, 2)); 
+				m.setWidth(width);
+				m.setHeight(m.getHeight()*2);
+				m.setRotation(this.getRotation());
 			}
 			else if(effects.missileTarget.targetingStrategy == TargetingStrategy.CircleOnSelf)
 			{
-				m = new Missile(textures.get(3), new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(getX()+getOriginX(), getY()+getOriginY()), 0.0f, effects);
+				m = new Missile(textures.get(3), new Vector2(getX()+getOriginX()-towerStats.range, getY()+getOriginY()-towerStats.range), new Vector2(getX()+getOriginX()-towerStats.range, getY()+getOriginY()-towerStats.range), 0.2f, effects);
+		
+				m.setWidth(towerStats.range*2);
+				m.setHeight(towerStats.range*2);
 			}
 			else
 			{

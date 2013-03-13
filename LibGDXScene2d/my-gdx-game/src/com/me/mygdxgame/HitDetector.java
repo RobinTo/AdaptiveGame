@@ -28,7 +28,7 @@ public class HitDetector {
 		List<Enemy> intersectingEnemies = new ArrayList<Enemy>();
 		for (Enemy enemy : enemies)
 		{
-			if (Intersector.distanceLinePoint(startPoint, endPoint, new Vector2(enemy.getX(), enemy.getY())) <= enemy.getWidth()/2)
+			if (Intersector.distanceLinePoint(startPoint, endPoint, new Vector2(enemy.getX(), enemy.getY())) <= enemy.getWidth())
 				intersectingEnemies.add(enemy);
 		}
 		return intersectingEnemies;

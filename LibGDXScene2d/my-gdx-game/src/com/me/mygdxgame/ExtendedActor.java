@@ -13,11 +13,13 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 public class ExtendedActor extends Actor {
 	TextureRegion region;
+	Sprite sprite;
 	
 	List<Action> queuedActions = new ArrayList<Action>();
 	
 	public ExtendedActor (Sprite sprite) {
         region = new TextureRegion(sprite);
+        this.sprite = sprite;
 		setSize(sprite.getWidth(),sprite.getHeight());
         setVisible(true);
         

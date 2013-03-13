@@ -6,10 +6,10 @@ public class TowerStats {
 	
 	MissileEffect missileEffects;
 
-	int sellPrice, upgradeCost, buildCost, range;
+	int sellPrice, upgradeCost, buildCost, range, radius;
 	float reloadTime;
 	
-	public TowerStats(String type, String upgradesTo, String towerTexture, String missileTexture, int sellPrice, int upgradeCost, int buildCost, MissileEffect missileEffects, float reloadTime, int range) {
+	public TowerStats(String type, String upgradesTo, String towerTexture, String missileTexture, int sellPrice, int upgradeCost, int buildCost, MissileEffect missileEffects, float reloadTime, int range, int radius) {
 		this.type = type;
 		this.towerTexture = towerTexture;
 		this.missileEffects = missileEffects;
@@ -20,6 +20,7 @@ public class TowerStats {
 		this.missileTexture = missileTexture;
 		this.reloadTime = reloadTime;
 		this.range = range;
+		this.radius = radius;
 	}
 }
 
