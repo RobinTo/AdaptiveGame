@@ -75,7 +75,7 @@ public class StatsFetcher {
 					}
 					else if(testString0.equals("effect"))
 					{
-						FloatingBoolean fb = new FloatingBoolean(split[1].equals("set") ? true: false, Float.parseFloat(split[3]));
+						FloatingBoolean fb = new FloatingBoolean(split[1].toLowerCase().equals("set") ? true: false, Float.parseFloat(split[3]));
 						effectsForMissile.put(split[2], fb);
 					}
 					else if(testString0.equals("targeting"))

@@ -1,7 +1,4 @@
-- EnemyStats som final variabler.
-- Bruke effects, tårn. Og bruke targetingstrategy. -RT
-- Delay på damage single target -JV
-- Fikse upgrade og sell, basert på nye stats.
+- Slowduration
 - Fancywin og fancytap
 - Flere tårn
 
