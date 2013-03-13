@@ -109,11 +109,13 @@ public class Tower extends ExtendedActor {
 		if(targetEnemy != null)
 		{
 
-
+			Missile m;
+			
 			if(effects.missileTarget.targetingStrategy == TargetingStrategy.Circle)
 			{
 				((TargetCircle)effects.missileTarget).x1 = (int)targetEnemy.getX();
 				((TargetCircle)effects.missileTarget).y1 = (int) targetEnemy.getY();
+				m = new Missile(textures.get(3), new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(enemyX, enemyY), 0.2f, effects);
 			}
 			else if (effects.missileTarget.targetingStrategy == TargetingStrategy.Line)
 			{
@@ -121,16 +123,17 @@ public class Tower extends ExtendedActor {
 				((TargetLine)effects.missileTarget).y1 = (int) this.getY();
 				((TargetLine)effects.missileTarget).x2 = (int) targetEnemy.getX();
 				((TargetLine)effects.missileTarget).y2 = (int) targetEnemy.getY();
+				m = new Missile(textures.get(3), new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(getX()+getOriginX(), getY()+getOriginY()), 0.0f, effects);
 			}
 			else if(effects.missileTarget.targetingStrategy == TargetingStrategy.CircleOnSelf)
 			{
-				
+				m = new Missile(textures.get(3), new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(getX()+getOriginX(), getY()+getOriginY()), 0.0f, effects);
 			}
 			else
 			{
 				((TargetSingle)effects.missileTarget).targetEnemy = targetEnemy;
+				m = new Missile(textures.get(3), new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(enemyX, enemyY), 0.2f, effects);
 			}
-			Missile m = new Missile(textures.get(3), new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(enemyX, enemyY), 0.2f, effects);
 			currentReloadTimer = towerStats.reloadTime;
 			canShoot = false;
 			return m;

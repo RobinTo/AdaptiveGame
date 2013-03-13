@@ -278,6 +278,7 @@ public class MyGdxGame implements ApplicationListener {
 		for (int i = 0; i < missiles.size(); i++) {
 			missiles.get(i).timeToHitTarget -= Gdx.graphics.getDeltaTime();
 			if (missiles.get(i).timeToHitTarget <= 0) {
+				// If TargetStrategy.Single
 				if (missiles.get(i).effect.missileTarget.targetingStrategy == TargetingStrategy.Single) {
 					Enemy targEnemy = ((TargetSingle) (missiles.get(i).effect.missileTarget)).targetEnemy;
 					Iterator<String> it = missiles.get(i).effect.effects
@@ -288,6 +289,55 @@ public class MyGdxGame implements ApplicationListener {
 								missiles.get(i).effect.effects.get(s).f);
 					}
 				}
+				// ----------------------
+				// If TargetStrategy.Circle
+				else if (missiles.get(i).effect.missileTarget.targetingStrategy == TargetingStrategy.Circle) {
+					TargetCircle targetCircle = (TargetCircle)missiles.get(i).effect.missileTarget;
+					List<Enemy> enemiesInCircle = HitDetector.getEnemiesInCircle(enemies, targetCircle.x1, targetCircle.y1, targetCircle.radius);
+					Iterator<String> it = missiles.get(i).effect.effects
+							.keySet().iterator();
+					while (it.hasNext()) {
+						String s = it.next();
+						for(int eT = 0; eT < enemiesInCircle.size(); eT++)
+						{
+							enemiesInCircle.get(eT).editStat(s,
+								missiles.get(i).effect.effects.get(s).f);
+						}
+					}
+				}
+				// ----------------------
+				// If TargetStrategy.CircleOnSelf
+				else if (missiles.get(i).effect.missileTarget.targetingStrategy == TargetingStrategy.CircleOnSelf) {
+					TargetCircleOnSelf targetCircle = (TargetCircleOnSelf)missiles.get(i).effect.missileTarget;
+					List<Enemy> enemiesInCircle = HitDetector.getEnemiesInCircle(enemies, (int)missiles.get(i).getX(), (int)missiles.get(i).getY(), targetCircle.radius);
+					Iterator<String> it = missiles.get(i).effect.effects
+							.keySet().iterator();
+					while (it.hasNext()) {
+						String s = it.next();
+						for(int eT = 0; eT < enemiesInCircle.size(); eT++)
+						{
+							enemiesInCircle.get(eT).editStat(s,
+								missiles.get(i).effect.effects.get(s).f);
+						}
+					}
+				}
+				// ----------------------
+				// If TargetStrategy.Line
+				else if (missiles.get(i).effect.missileTarget.targetingStrategy == TargetingStrategy.Line) {
+					TargetLine targetLine = (TargetLine)missiles.get(i).effect.missileTarget;
+					List<Enemy> enemiesInLine = HitDetector.getEnemiesOnLine(enemies, new Rectangle(targetLine.x1, targetLine.x2, targetLine.x1-targetLine.x2, targetLine.y1 - targetLine.y2));
+					Iterator<String> it = missiles.get(i).effect.effects
+							.keySet().iterator();
+					while (it.hasNext()) {
+						String s = it.next();
+						for(int eT = 0; eT < enemiesInLine.size(); eT++)
+						{
+							enemiesInLine.get(eT).editStat(s,
+								missiles.get(i).effect.effects.get(s).f);
+						}
+					}
+				}
+				// ----------------------
 				missiles.remove(i);
 				i--;
 			}
