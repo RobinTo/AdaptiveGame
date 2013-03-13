@@ -13,9 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 public class Missile extends ExtendedActor{
 
 	MissileEffect effect;
+	float timeToHitTarget;
 	public Missile(Sprite sprite, Vector2 startPosition, Vector2 targetPosition, float timeToHitTarget, MissileEffect effects) {
 		super(sprite);
 		
+		this.timeToHitTarget = timeToHitTarget;
 		this.effect = effects;
 		this.setTouchable(Touchable.disabled);
 		setPosition(startPosition.x, startPosition.y);

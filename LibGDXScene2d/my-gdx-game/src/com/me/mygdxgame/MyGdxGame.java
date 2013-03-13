@@ -274,24 +274,26 @@ public class MyGdxGame implements ApplicationListener {
         			}
         		}
         	}
-        }
-        for(int i = 0; i < missiles.size(); i++)
-        {	
-        	if(missiles.get(i).effect.missileTarget.targetingStrategy == TargetingStrategy.Single)
-    		{
-        		Enemy targEnemy = ((TargetSingle)(missiles.get(i).effect.missileTarget)).targetEnemy;
-        		Iterator<String> it = missiles.get(i).effect.effects.keySet().iterator();
-        		while(it.hasNext())
-        		{
-        			String s = it.next();
-        			targEnemy.editStat(s, missiles.get(i).effect.effects.get(s).f);
-        		}
-    		}
-        	
-        	// Complete Missile effects and damages.
-        	
-        }
-        missiles.clear();
+		}
+		for (int i = 0; i < missiles.size(); i++) {
+			missiles.get(i).timeToHitTarget -= Gdx.graphics.getDeltaTime();
+			if (missiles.get(i).timeToHitTarget <= 0) {
+				if (missiles.get(i).effect.missileTarget.targetingStrategy == TargetingStrategy.Single) {
+					Enemy targEnemy = ((TargetSingle) (missiles.get(i).effect.missileTarget)).targetEnemy;
+					Iterator<String> it = missiles.get(i).effect.effects
+							.keySet().iterator();
+					while (it.hasNext()) {
+						String s = it.next();
+						targEnemy.editStat(s,
+								missiles.get(i).effect.effects.get(s).f);
+					}
+				}
+				missiles.remove(i);
+				i--;
+			}
+			// Complete Missile effects and damages.
+
+		}
 		
         stage.act(Gdx.graphics.getDeltaTime());
         
