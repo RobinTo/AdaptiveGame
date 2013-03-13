@@ -325,7 +325,7 @@ public class MyGdxGame implements ApplicationListener {
 				// If TargetStrategy.Line
 				else if (missiles.get(i).effect.missileTarget.targetingStrategy == TargetingStrategy.Line) {
 					TargetLine targetLine = (TargetLine)missiles.get(i).effect.missileTarget;
-					List<Enemy> enemiesInLine = HitDetector.getEnemiesOnLine(enemies, new Rectangle(targetLine.x1, targetLine.x2, targetLine.x1-targetLine.x2, targetLine.y1 - targetLine.y2));
+					List<Enemy> enemiesInLine = HitDetector.getEnemiesOnLine(enemies, new Vector2(targetLine.x1, targetLine.y1), new Vector2(targetLine.x2, targetLine.y2));
 					Iterator<String> it = missiles.get(i).effect.effects
 							.keySet().iterator();
 					while (it.hasNext()) {
