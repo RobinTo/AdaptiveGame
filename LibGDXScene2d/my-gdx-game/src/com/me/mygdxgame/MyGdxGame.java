@@ -564,7 +564,7 @@ public class MyGdxGame implements ApplicationListener {
 				{
 					if(e.x == (int)(towers.get(u).getX()/GameConstants.tileSize) && e.y == (int)(towers.get(u).getY()/GameConstants.tileSize))
 					{
-						towers.get(u).upgrade();
+						towers.get(u).upgrade(towerInfo.get(towers.get(u).towerStats.upgradesTo));
 						MyGdxGame.selectTower(towers.get(u));
 					}
 				}
@@ -727,16 +727,16 @@ public class MyGdxGame implements ApplicationListener {
 					int pointer, int button) {
 				if (selectedTower == null) 
 					return true;
-				if (selectedTower.currentLevel == 3) 
+				if (selectedTower.towerStats.upgradesTo.equals("null"))
 					return true;
-/*				int upgradeCost = selectedTower.towerStats.upgradeCost;
+				int upgradeCost = selectedTower.towerStats.upgradeCost;
 				boolean canAfford = currentGold >= upgradeCost ? true : false;
 				if (canAfford) {
 					MyGdxGame.currentGold -= upgradeCost;
 					uiLabelGold.setText("Gold: " + currentGold);
 					eventHandler.queueEvent(new Event("upgrade", (int)(selectedTower.getX()/GameConstants.tileSize), (int)(selectedTower.getY()/GameConstants.tileSize), ""));
 				}
-				*/
+				
 				return true;
 			}
 		});

@@ -142,12 +142,13 @@ public class Tower extends ExtendedActor {
 			return null;
 	}
 	
-	public boolean upgrade()
+	public boolean upgrade(TowerStats newTowerStats)
 	{
 		if (towerStats.upgradesTo.equals("null"))
 			return false;
 		
 		currentLevel++;
+		towerStats = newTowerStats;
 		//super.setSprite(textures.get(currentLevel - 1)); // Change stuff, towerstats.
 		return true;
 	}
