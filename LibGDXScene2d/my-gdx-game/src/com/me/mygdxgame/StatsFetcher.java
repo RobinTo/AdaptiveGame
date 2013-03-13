@@ -91,6 +91,10 @@ public class StatsFetcher {
 						{
 							targetStrategy = TargetingStrategy.Line;
 						}
+						else if(split[1].toLowerCase().equals("circleonself"))
+						{
+							targetStrategy = TargetingStrategy.CircleOnSelf;
+						}
 					}
 					else if(testString0.equals("reloadtime"))
 					{
@@ -104,7 +108,22 @@ public class StatsFetcher {
 				}
 				
 			}
-			missileEffects = new MissileEffect(new MissileTarget(targetStrategy), effectsForMissile);
+			if(targetStrategy == TargetingStrategy.Circle)
+			{
+				missileEffects = new MissileEffect(new TargetCircle(0, 0, range), effectsForMissile);
+			}
+			else if (targetStrategy == TargetingStrategy.Line)
+			{
+				missileEffects = new MissileEffect(new TargetLine(0, 0, 0, 0), effectsForMissile);
+			}
+			else if(targetStrategy == TargetingStrategy.CircleOnSelf)
+			{
+				missileEffects = new MissileEffect(new TargetCircleOnSelf(range), effectsForMissile);
+			}
+			else
+			{
+				missileEffects = new MissileEffect(new TargetSingle(null), effectsForMissile);
+			}
 			System.out.println("Created tower: " + type + ":" + towerTexture + ":" + missileTexture + ":" + sellPrice + ":" + upgradeCost + ":" + buildCost + ":" + missileEffects.effects.size() + ":" + reloadTime + ":" + range);
 			towerInfo.put(type, new TowerStats(type, upgradesTo, towerTexture, missileTexture, sellPrice, upgradeCost, buildCost, missileEffects, reloadTime, range));
 		}

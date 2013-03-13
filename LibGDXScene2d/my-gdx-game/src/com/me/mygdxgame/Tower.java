@@ -24,6 +24,8 @@ public class Tower extends ExtendedActor {
 	Enemy targetEnemy;
 	boolean canShoot = false;
 	
+	MissileEffect effects;
+	
 	public Tower (TowerStats towerStats, Sprite towerSprite, Sprite missileSprite) {
 		super(towerSprite);
 		this.towerStats = towerStats;
@@ -32,6 +34,7 @@ public class Tower extends ExtendedActor {
 		textures.put(0, towerSprite);
 		textures.put(3, missileSprite);
 		currentLevel = 1;
+		effects = towerStats.missileEffects;
 		
 		setOrigin(getWidth()/2, getHeight()/2);
 	}
@@ -107,10 +110,28 @@ public class Tower extends ExtendedActor {
 		if(targetEnemy != null)
 		{
 
-			HashMap<String, FloatingBoolean> modifications = new HashMap<String, FloatingBoolean>();
-			modifications.put("currentHealth", new FloatingBoolean(false, -10f));
-			MissileEffect effect = new MissileEffect(new TargetSingle(targetEnemy), modifications);
-			Missile m = new Missile(textures.get(3), new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(enemyX, enemyY), 0.2f, effect);
+
+			if(effects.missileTarget.targetingStrategy == TargetingStrategy.Circle)
+			{
+				((TargetCircle)effects.missileTarget).x1 = (int)targetEnemy.getX();
+				((TargetCircle)effects.missileTarget).y1 = (int) targetEnemy.getY();
+			}
+			else if (effects.missileTarget.targetingStrategy == TargetingStrategy.Line)
+			{
+				((TargetLine)effects.missileTarget).x1 = (int) this.getX();
+				((TargetLine)effects.missileTarget).y1 = (int) this.getY();
+				((TargetLine)effects.missileTarget).x2 = (int) targetEnemy.getX();
+				((TargetLine)effects.missileTarget).y2 = (int) targetEnemy.getY();
+			}
+			else if(effects.missileTarget.targetingStrategy == TargetingStrategy.CircleOnSelf)
+			{
+				
+			}
+			else
+			{
+				((TargetSingle)effects.missileTarget).targetEnemy = targetEnemy;
+			}
+			Missile m = new Missile(textures.get(3), new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(enemyX, enemyY), 0.2f, effects);
 			currentReloadTimer = towerStats.reloadTime;
 			canShoot = false;
 			return m;
