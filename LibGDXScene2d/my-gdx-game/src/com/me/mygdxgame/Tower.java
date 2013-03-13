@@ -114,8 +114,8 @@ public class Tower extends ExtendedActor {
 			
 			if(effects.missileTarget.targetingStrategy == TargetingStrategy.Circle)
 			{
-				((TargetCircle)effects.missileTarget).x1 = (int)targetEnemy.getX();
-				((TargetCircle)effects.missileTarget).y1 = (int) targetEnemy.getY();
+				((TargetCircle)effects.missileTarget).x1 = (int) enemyX;
+				((TargetCircle)effects.missileTarget).y1 = (int) enemyY;
 				m = new Missile(textures.get(3), new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(enemyX, enemyY), 0.2f, effects);
 			}
 			else if (effects.missileTarget.targetingStrategy == TargetingStrategy.Line)
@@ -132,7 +132,6 @@ public class Tower extends ExtendedActor {
 				int dY = ((TargetLine)effects.missileTarget).y2 - 	((TargetLine)effects.missileTarget).y1;
 				int width = (int)Math.sqrt(Math.pow(dX, 2) + Math.pow(dY, 2)); 
 				m.setWidth(width);
-				m.setHeight(m.getHeight()*2);
 				m.setRotation(this.getRotation());
 			}
 			else if(effects.missileTarget.targetingStrategy == TargetingStrategy.CircleOnSelf)
@@ -155,12 +154,22 @@ public class Tower extends ExtendedActor {
 			return null;
 	}
 	
-	public boolean upgrade(TowerStats newTowerStats)
+	public boolean upgrade(TowerStats newTowerStats, Sprite newTowerSprite, Sprite missileSprite)
 	{	
 		currentLevel++;
 		towerStats = newTowerStats;
 		currentSellPrice += newTowerStats.sellPrice; 
-		//super.setSprite(textures.get(newTowerStats.towerTexture));
+		
+		this.currentSellPrice = towerStats.sellPrice;
+		this.currentReloadTimer = towerStats.reloadTime;
+		this.targetEnemy = null;
+		currentLevel = 1;
+		effects = towerStats.missileEffects;
+		
+		setOrigin(getWidth()/2, getHeight()/2);
+
+		textures.put(3, missileSprite);
+		super.setSprite(newTowerSprite);
 		return true;
 	}
 }

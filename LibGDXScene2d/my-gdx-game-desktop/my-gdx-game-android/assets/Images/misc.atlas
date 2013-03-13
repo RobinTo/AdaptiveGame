@@ -5,84 +5,77 @@ filter: Nearest,Nearest
 repeat: none
 rangeHighlight
   rotate: false
-  xy: 1, 27
+  xy: 1, 20
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 sellTowerButton
   rotate: false
-  xy: 67, 27
+  xy: 67, 20
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 settingsButton
   rotate: false
-  xy: 133, 27
+  xy: 133, 20
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 tinkerButton
   rotate: false
-  xy: 199, 27
+  xy: 199, 20
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 upgradeTowerButton
   rotate: false
-  xy: 265, 27
+  xy: 265, 20
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 flameBullet
   rotate: false
-  xy: 1, 15
+  xy: 1, 8
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 blackBullet
   rotate: false
-  xy: 331, 86
+  xy: 331, 79
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 blueBullet
   rotate: false
-  xy: 1, 8
+  xy: 1, 1
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 redBullet
   rotate: false
-  xy: 13, 20
+  xy: 13, 13
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
-laserBullet
-  rotate: false
-  xy: 331, 79
-  size: 3, 5
-  orig: 3, 5
-  offset: 0, 0
-  index: -1
 healthBarRed
   rotate: false
-  xy: 338, 86
+  xy: 331, 72
   size: 1, 5
   orig: 1, 5
   offset: 0, 0
   index: -1
 healthBarYellow
   rotate: false
-  xy: 1, 1
+  xy: 338, 79
   size: 1, 5
   orig: 1, 5
   offset: 0, 0

@@ -275,6 +275,7 @@ public class MyGdxGame implements ApplicationListener {
         			{
         				stage.addActor(m);
         				missiles.add(m);
+        				m.setZIndex(towers.get(i).getZIndex()-1);
         			}
         		}
         	}
@@ -326,7 +327,7 @@ public class MyGdxGame implements ApplicationListener {
 					}
 					final ExtendedActor visualEffectActor = new ExtendedActor(missiles.get(i).sprite);
 					TargetCircle tC = (TargetCircle)(missiles.get(i).effect.missileTarget);
-					visualEffectActor.setPosition(tC.x1-tC.radius/2, tC.y1 - tC.radius/2);
+					visualEffectActor.setPosition(tC.x1-tC.radius, tC.y1 - tC.radius);
 					visualEffectActor.setWidth(tC.radius*2);
 					visualEffectActor.setHeight(tC.radius*2);
 					visualEffectActor.addAction(sequence(Actions.fadeOut(0.5f), run(new Runnable() {
@@ -612,8 +613,12 @@ public class MyGdxGame implements ApplicationListener {
 				{
 					if(e.x == (int)(towers.get(u).getX()/GameConstants.tileSize) && e.y == (int)(towers.get(u).getY()/GameConstants.tileSize))
 					{
-						towers.get(u).upgrade(towerInfo.get(towers.get(u).towerStats.upgradesTo));
-						MyGdxGame.selectTower(towers.get(u));
+						if(!towers.get(u).towerStats.upgradesTo.equals("null"))
+						{
+							TowerStats newTowerStats = towerInfo.get(towers.get(u).towerStats.upgradesTo);
+							towers.get(u).upgrade(newTowerStats, towersAtlas.createSprite(newTowerStats.towerTexture), miscAtlas.createSprite(newTowerStats.missileTexture));
+							MyGdxGame.selectTower(towers.get(u));
+						}
 					}
 				}
 			}
