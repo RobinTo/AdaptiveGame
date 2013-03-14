@@ -21,8 +21,8 @@ public class Main {
 		
 		// This part regenerates texture atlases each time the desktop project is ran.
 		
-		packForPublish(settings);
-		//packForCompiling(settings);
+		//packForPublish(settings);
+		packForCompiling(settings);
         
 		new LwjglApplication(new MyGdxGame(), cfg);
 	}

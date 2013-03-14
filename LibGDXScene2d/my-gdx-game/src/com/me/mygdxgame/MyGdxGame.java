@@ -277,10 +277,9 @@ public class MyGdxGame implements ApplicationListener {
         		if(towers.get(i).canShoot)
         		{
         			Missile m = towers.get(i).shoot();
-        			
-        			sounds.get(towers.get(i).towerStats.shootSound).play();
         			if(m != null)
         			{
+        				sounds.get(towers.get(i).towerStats.shootSound).play();
         				stage.addActor(m);
         				missiles.add(m);
         				m.setZIndex(towers.get(i).getZIndex()-1);
@@ -312,6 +311,7 @@ public class MyGdxGame implements ApplicationListener {
 									missiles.get(i).effect.effects.get(s).f);
 						}
 					}
+					sounds.get(missiles.get(i).impactSound).play();
 				}
 				// ----------------------
 				// If TargetStrategy.Circle
@@ -361,6 +361,7 @@ public class MyGdxGame implements ApplicationListener {
 								}
 							})));
 					stage.addActor(visualEffectActor);
+					sounds.get(missiles.get(i).impactSound).play();
 					
 				}
 				// ----------------------
@@ -413,7 +414,7 @@ public class MyGdxGame implements ApplicationListener {
 				}
 				// ----------------------
 				
-				sounds.get(missiles.get(i).impactSound).play();
+				
 				missiles.get(i).remove();
 				missiles.remove(i);
 				i--;
@@ -864,8 +865,10 @@ public class MyGdxGame implements ApplicationListener {
 		while(it.hasNext())
 		{
 			String s = it.next();
-			sounds.put(towerInfo.get(s).impactSound, Gdx.audio.newSound(Gdx.files.internal("sounds/" + towerInfo.get(s).impactSound)));
-			sounds.put(towerInfo.get(s).shootSound, Gdx.audio.newSound(Gdx.files.internal("sounds/" + towerInfo.get(s).shootSound)));
+			if (!towerInfo.get(s).impactSound.equals(""))
+				sounds.put(towerInfo.get(s).impactSound, Gdx.audio.newSound(Gdx.files.internal("sounds/" + towerInfo.get(s).impactSound)));
+			if (!towerInfo.get(s).shootSound.equals(""))
+				sounds.put(towerInfo.get(s).shootSound, Gdx.audio.newSound(Gdx.files.internal("sounds/" + towerInfo.get(s).shootSound)));
 		}
 
 		System.out.println("Finished loading sounds");

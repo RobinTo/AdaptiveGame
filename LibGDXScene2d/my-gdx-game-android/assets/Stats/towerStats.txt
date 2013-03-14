@@ -62,7 +62,6 @@ type:FlameCircle
 towerTexture:redTower
 missileTexture:blackBullet
 shootSound:flameShoot.mp3
-impactSound:flameImpact.mp3
 upgradesTo:null
 sellPrice:10
 buildCost:25
@@ -76,7 +75,6 @@ type:LineLaser
 towerTexture:testTower
 missileTexture:blackBullet
 shootSound:laserShoot.mp3
-impactSound:arrowImpact.mp3
 upgradesTo:null
 sellPrice:10
 buildCost:25
