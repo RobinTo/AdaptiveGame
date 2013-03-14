@@ -106,6 +106,9 @@ public class MyGdxGame implements ApplicationListener {
 	static int livesLeft, currentGold;
 	EventHandler eventHandler = new EventHandler();
 	
+	boolean showingInput = false;
+	FeedbackTextInput listener = new FeedbackTextInput();
+	
 	@Override
 	public void create() {
 		gameCamera = new OrthographicCamera(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
@@ -402,6 +405,8 @@ public class MyGdxGame implements ApplicationListener {
         	if (enemy.getStat("currentHealth") <= 0)
         	{
         		enemies.remove(enemy);
+        		currentGold += enemy.getStat("currentGoldYield");
+        		uiLabelGold.setText("Gold: " + currentGold);
         		enemy.remove();
         		counter --;
         	}
@@ -419,11 +424,22 @@ public class MyGdxGame implements ApplicationListener {
         {
         	//Loser
         	lost = true;
+        	if(!showingInput)
+        	{
+        		Gdx.input.getTextInput(listener, "Feedback", "Rate this map with a number from 0 to 9");
+        		showingInput = true;
+        	}
         }
         else if (enemies.size() <= 0 && enemyWave.size() <= 0)
         {
         	//Winner
         	won = true;
+
+        	if(!showingInput)
+        	{
+        		Gdx.input.getTextInput(listener, "Feedback", "Rate this map with a number from 0 to 9");
+        		showingInput = true;
+        	}
         	//resetGame();
         }
 	}
@@ -446,6 +462,8 @@ public class MyGdxGame implements ApplicationListener {
 		replayHandler.events.clear();
 		replayHandler.savingEvents.clear();
 		useReplay = false;
+		
+		showingInput = false;
 		
 		stage.getActors().clear();
 		
@@ -561,7 +579,7 @@ public class MyGdxGame implements ApplicationListener {
 	{	
 		uiLabel.setText(e.enemyStats.type);
 		uiLabel2.setText("Health: " + e.getStat("currentHealth"));
-		uiLabel3.setText("Yields: " + e.enemyStats.goldYield);
+		uiLabel3.setText("Yields: " + e.getStat("currentGoldYield"));
 		uiLabelSellPrice.setText("");
 	}
 	

@@ -31,6 +31,7 @@ public class Enemy extends ExtendedActor{
     	floatingStats.put("currentDotDamage", 0f);
     	floatingStats.put("dotDurationBetweenTicks", 0f);
     	floatingStats.put("currentDotDurationBetweenTicks", 0f);
+    	floatingStats.put("currentGoldYield", (float)enemyStats.goldYield);
     	
     	setSize(enemySprite.getWidth(), enemySprite.getHeight());
     	

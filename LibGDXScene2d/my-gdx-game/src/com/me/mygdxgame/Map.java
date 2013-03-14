@@ -39,6 +39,7 @@ public class Map {
 	
 	HashMap<Integer, Sprite> textures = new HashMap<Integer, Sprite>();
 	ArrayList<Integer> pathTiles = new ArrayList<Integer>();
+	ArrayList<Integer> unbuildableTiles = new ArrayList<Integer>();
 	
 	TextureAtlas mapTilesAtlas;
 	
@@ -126,7 +127,7 @@ public class Map {
 	public boolean canBuild(int x, int y)
 	{
 		if(x<20 && x >= 0 && y < 10 && y >= 0)
-			return !pathTiles.contains(map[x][y]);
+			return (!pathTiles.contains(map[x][y]) && !unbuildableTiles.contains(map[x][y]));
 		else
 			return false;
 	}
@@ -157,6 +158,11 @@ public class Map {
             else if(split[0].equals("p"))
             {
                 pathTiles.add(Integer.parseInt(split[1]));
+            	
+            }
+            else if(split[0].equals("u"))
+            {
+                unbuildableTiles.add(Integer.parseInt(split[1]));
             	
             }
             else if(split[0].equals("m"))

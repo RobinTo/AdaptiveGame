@@ -38,8 +38,20 @@ public class Main {
         TexturePacker2.process(settings, path + "\\MiscSmall", "../my-gdx-game-desktop/bin/Images", "misc");
         TexturePacker2.process(settings, path + "\\Towers", "../my-gdx-game-desktop/bin/Images", "towers");
         TexturePacker2.process(settings, path + "\\MapTiles", "../my-gdx-game-desktop/bin/Images", "mapTiles");
+		
+        // ----------------------------------------------
+        /*
+         * Use this to deploy, if we want people to be able to change the images.
+         * 
+        String path = "Images";
+        // Make copies in desktop project
+        TexturePacker2.process(settings, path + "\\Enemies", "Images", "enemies");
+        TexturePacker2.process(settings, path + "\\MiscSmall", "Images", "misc");
+        TexturePacker2.process(settings, path + "\\Towers", "Images", "towers");
+        TexturePacker2.process(settings, path + "\\MapTiles", "Images", "mapTiles");
 		// ----------------------------------------------
-        
+		 * 
+         */
         
 		new LwjglApplication(new MyGdxGame(), cfg);
 	}
