@@ -40,7 +40,6 @@ public class Main {
         TexturePacker2.process(settings, path + "\\MapTiles", "../my-gdx-game-desktop/bin/Images", "mapTiles");
 		*/
         // ----------------------------------------------
-        
         // Use this to deploy, if we want people to be able to change the images. 
         String path = "Images";
         // Make copies in desktop project
