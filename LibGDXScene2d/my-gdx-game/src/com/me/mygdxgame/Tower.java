@@ -116,7 +116,7 @@ public class Tower extends ExtendedActor {
 			{
 				((TargetCircle)effects.missileTarget).x1 = (int) enemyX;
 				((TargetCircle)effects.missileTarget).y1 = (int) enemyY;
-				m = new Missile(textures.get(3), new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(enemyX, enemyY), 0.2f, effects);
+				m = new Missile(textures.get(3), towerStats.impactSound, new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(enemyX, enemyY), 0.2f, effects);
 			}
 			else if (effects.missileTarget.targetingStrategy == TargetingStrategy.Line)
 			{
@@ -127,7 +127,7 @@ public class Tower extends ExtendedActor {
 				((TargetLine)effects.missileTarget).x2 = endX;
 				((TargetLine)effects.missileTarget).y2 = endY;
 				
-				m = new Missile(textures.get(3), new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(getX()+getOriginX(), getY()+getOriginY()), 0.1f, effects);
+				m = new Missile(textures.get(3), towerStats.impactSound, new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(getX()+getOriginX(), getY()+getOriginY()), 0.1f, effects);
 				int dX =((TargetLine)effects.missileTarget).x2 -  ((TargetLine)effects.missileTarget).x1;
 				int dY = ((TargetLine)effects.missileTarget).y2 - 	((TargetLine)effects.missileTarget).y1;
 				int width = (int)Math.sqrt(Math.pow(dX, 2) + Math.pow(dY, 2)); 
@@ -136,7 +136,7 @@ public class Tower extends ExtendedActor {
 			}
 			else if(effects.missileTarget.targetingStrategy == TargetingStrategy.CircleOnSelf)
 			{
-				m = new Missile(textures.get(3), new Vector2(getX()+getOriginX()-towerStats.range, getY()+getOriginY()-towerStats.range), new Vector2(getX()+getOriginX()-towerStats.range, getY()+getOriginY()-towerStats.range), 0.2f, effects);
+				m = new Missile(textures.get(3), towerStats.impactSound, new Vector2(getX()+getOriginX()-towerStats.range, getY()+getOriginY()-towerStats.range), new Vector2(getX()+getOriginX()-towerStats.range, getY()+getOriginY()-towerStats.range), 0.2f, effects);
 		
 				m.setWidth(towerStats.range*2);
 				m.setHeight(towerStats.range*2);
@@ -144,7 +144,7 @@ public class Tower extends ExtendedActor {
 			else
 			{
 				((TargetSingle)effects.missileTarget).targetEnemy = targetEnemy;
-				m = new Missile(textures.get(3), new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(enemyX, enemyY), 0.2f, effects);
+				m = new Missile(textures.get(3), towerStats.impactSound, new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(enemyX, enemyY), 0.2f, effects);
 			}
 			currentReloadTimer = towerStats.reloadTime;
 			canShoot = false;

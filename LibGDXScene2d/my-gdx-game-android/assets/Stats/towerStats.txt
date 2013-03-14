@@ -75,7 +75,7 @@ endTower
 type:LineLaser
 towerTexture:testTower
 missileTexture:blackBullet
-shootSound:arrow1.mp3
+shootSound:laserShoot.mp3
 impactSound:arrow1.mp3
 upgradesTo:null
 sellPrice:10

@@ -412,6 +412,8 @@ public class MyGdxGame implements ApplicationListener {
 					}
 				}
 				// ----------------------
+				
+				sounds.get(missiles.get(i).impactSound).play();
 				missiles.get(i).remove();
 				missiles.remove(i);
 				i--;
