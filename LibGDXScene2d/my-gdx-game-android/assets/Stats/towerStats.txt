@@ -8,7 +8,7 @@ upgradeCost:5
 targeting:Single
 reloadtime:0.5f
 range:500
-effect:edit:currentHealth:-10
+effect:edit:currentHealth:-3
 endTower
 type:FrostArrow
 towerTexture:blueTower
@@ -18,11 +18,13 @@ sellPrice:10
 buildCost:25
 upgradeCost:10
 targeting:circle:50
-reloadtime:0.5f
+reloadtime:1.3f
 range:400
-effect:edit:currentHealth:-10
-effect:set:currentMovespeedMultiplier:0.5f
-effect:set:slowDuration:2.0f
+effect:set:currentMoveSpeedMultiplier:0.5f
+effect:set:currentSlowDuration:2.0f
+effect:set:currentDotDamage:2
+effect:set:dotTicksLeft:5
+effect:set:dotDurationBetweenTicks:1.0f
 endTower
 type:FlameCircle
 towerTexture:redTower

@@ -29,7 +29,7 @@ public class Tower extends ExtendedActor {
 		super(towerSprite);
 		this.towerStats = towerStats;
 		this.currentSellPrice = towerStats.sellPrice;
-		this.currentReloadTimer = towerStats.reloadTime;
+		this.currentReloadTimer = 0.0f;
 		this.targetEnemy = null;
 		textures.put(0, towerSprite);
 		textures.put(3, missileSprite);

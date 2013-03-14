@@ -10,14 +10,15 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class Enemy extends ExtendedActor{
-	
+public class Enemy extends ExtendedActor
+{
+
 	HashMap<Integer, Sprite> sprites;
 	EnemyStats enemyStats;
 	Rectangle healthBarYellowRectangle, healthBarRedRectangle;
 	boolean slowed, dotted;
 	HashMap<String, Float> floatingStats = new HashMap<String, Float>();
-	
+
     public Enemy(EnemyStats enemyStats, Vector2 startPosition, List<Direction> directions, Sprite enemySprite, Sprite redHealthBarSprite, Sprite yellowHealthBarSprite)
     {
     	
@@ -71,6 +72,7 @@ public class Enemy extends ExtendedActor{
     // Basically update(gameTime)
     @Override
 	public void act(float gameTime) {
+
 		super.act(gameTime * floatingStats.get("currentMoveSpeedMultiplier"));
 
 		if (floatingStats.get("currentMoveSpeedMultiplier") != 1.0f)
@@ -91,10 +93,6 @@ public class Enemy extends ExtendedActor{
 						getStat("dotDurationBetweenTicks"));
 				editStat("dotTicksLeft", -1f);
 			}
-			if (getStat("dotTicksLeft") <= 0)
-			{
-				dotted = false;
-			}
 		}
 		healthBarRedRectangle = new Rectangle((int) getX(),
 				GameConstants.screenHeight - GameConstants.tileSize
@@ -107,34 +105,50 @@ public class Enemy extends ExtendedActor{
 						.getHealth()), 5);
 
 	}
-    
-    @Override
-	public void draw (SpriteBatch batch, float parentAlpha) {
-    	super.draw(batch, parentAlpha);
-    	batch.draw(sprites.get(1), healthBarRedRectangle.getX(), GameConstants.morphY(healthBarRedRectangle.getY() - GameConstants.tileSize), healthBarRedRectangle.getWidth(), healthBarRedRectangle.getHeight());
-        batch.draw(sprites.get(2), healthBarYellowRectangle.getX(), GameConstants.morphY(healthBarYellowRectangle.getY() - GameConstants.tileSize), healthBarYellowRectangle.getWidth(), healthBarYellowRectangle.getHeight());
-        
+
+	@Override
+	public void draw(SpriteBatch batch, float parentAlpha)
+	{
+		super.draw(batch, parentAlpha);
+		batch.draw(
+				sprites.get(1),
+				healthBarRedRectangle.getX(),
+				GameConstants.morphY(healthBarRedRectangle.getY()
+						- GameConstants.tileSize),
+				healthBarRedRectangle.getWidth(),
+				healthBarRedRectangle.getHeight());
+		batch.draw(
+				sprites.get(2),
+				healthBarYellowRectangle.getX(),
+				GameConstants.morphY(healthBarYellowRectangle.getY()
+						- GameConstants.tileSize),
+				healthBarYellowRectangle.getWidth(),
+				healthBarYellowRectangle.getHeight());
+
 	}
-    
-	public HashMap<Integer, Sprite> getSprites() {
+
+	public HashMap<Integer, Sprite> getSprites()
+	{
 		return sprites;
 	}
-	public void setSprites(HashMap<Integer, Sprite> sprites) {
+
+	public void setSprites(HashMap<Integer, Sprite> sprites)
+	{
 		this.sprites = sprites;
 	}
-	
+
 	public void editStat(String key, float value)
 	{
-		floatingStats.put(key, (float)(floatingStats.get(key) + value));
+		floatingStats.put(key, (float) (floatingStats.get(key) + value));
 	}
-	
+
 	public void setStat(String key, float value)
 	{
-		if(floatingStats.containsKey(key))
+		if (floatingStats.containsKey(key))
 			floatingStats.remove(key);
 		floatingStats.put(key, value);
 	}
-	
+
 	public float getStat(String key)
 	{
 		return floatingStats.get(key);
