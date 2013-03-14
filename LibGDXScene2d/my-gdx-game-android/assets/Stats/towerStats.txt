@@ -1,8 +1,8 @@
 type:Arrow1
 towerTexture:arrowTower
 missileTexture:blackBullet
-shootSound:arrow1.mp3
-impactSound:arrow2.mp3
+shootSound:arrowShoot.mp3
+impactSound:arrowImpact.mp3
 upgradesTo:Arrow2
 sellPrice:7
 buildCost:10
@@ -15,8 +15,8 @@ endTower
 type:Arrow2
 towerTexture:arrowTower2
 missileTexture:blackBullet
-shootSound:arrow1.mp3
-impactSound:arrow2.mp3
+shootSound:arrowShoot.mp3
+impactSound:arrowImpact.mp3
 upgradesTo:Arrow3
 sellPrice:10
 buildCost:15
@@ -29,8 +29,8 @@ endTower
 type:Arrow3
 towerTexture:arrowTower3
 missileTexture:blackBullet
-shootSound:arrow1.mp3
-impactSound:arrow1.mp3
+shootSound:arrowShoot.mp3
+impactSound:arrowImpact.mp3
 upgradesTo:FrostArrow
 sellPrice:15
 buildCost:20
@@ -43,8 +43,8 @@ endTower
 type:FrostArrow
 towerTexture:blueTower
 missileTexture:blackBullet
-shootSound:arrow1.mp3
-impactSound:arrow1.mp3
+shootSound:arrowShoot.mp3
+impactSound:arrowImpact.mp3
 upgradesTo:null
 sellPrice:10
 buildCost:25
@@ -61,8 +61,8 @@ endTower
 type:FlameCircle
 towerTexture:redTower
 missileTexture:blackBullet
-shootSound:arrow1.mp3
-impactSound:arrow1.mp3
+shootSound:flameShoot.mp3
+impactSound:flameImpact.mp3
 upgradesTo:null
 sellPrice:10
 buildCost:25
@@ -76,7 +76,7 @@ type:LineLaser
 towerTexture:testTower
 missileTexture:blackBullet
 shootSound:laserShoot.mp3
-impactSound:arrow1.mp3
+impactSound:arrowImpact.mp3
 upgradesTo:null
 sellPrice:10
 buildCost:25
