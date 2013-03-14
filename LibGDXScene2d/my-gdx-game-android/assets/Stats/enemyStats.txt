@@ -1,11 +1,11 @@
 type:basic
 enemyTexture:testEnemy
-health:60
+health:70
 speed:1.5f
 goldYield:2
 type:tough
 enemyTexture:toughEnemy
-health:100
+health:120
 speed:0.8f
 goldYield:5
 type:fast
