@@ -73,15 +73,14 @@ public class Enemy extends ExtendedActor{
     {
     	super.act(gameTime * floatingStats.get("currentMoveSpeedMultiplier"));
     	
-		if (slowed) {
+		if (floatingStats.get("currentMoveSpeedMultiplier") != 1.0f) {
 			editStat("currentSlowDuration", -gameTime);
 			if (getStat("currentSlowDuration") <= 0)
 			{
 				setStat("currentMoveSpeedMultiplier", 1.0f);
-				slowed = false;
 			}
 		}
-		if (dotted) {
+		if (getStat("dotTicksLeft") > 0) {
 			editStat("currentDotDurationBetweenTicks", -gameTime);
 			if (getStat("currentDotDurationBetweenTicks") <= 0) {
 				editStat("currentHealth", -getStat("currentDotDamage"));
