@@ -8,8 +8,8 @@ sellPrice:7
 buildCost:10
 targeting:Single
 reloadtime:0.5f
-range:500
-effect:edit:currentHealth:-3
+range:300
+effect:edit:currentHealth:-1
 buildable:true
 endTower
 type:Arrow2
@@ -22,8 +22,8 @@ sellPrice:10
 buildCost:15
 targeting:Single
 reloadtime:0.5f
-range:500
-effect:edit:currentHealth:-5
+range:400
+effect:edit:currentHealth:-2
 buildable:false
 endTower
 type:Arrow3
@@ -37,7 +37,7 @@ buildCost:20
 targeting:Single
 reloadtime:0.5f
 range:500
-effect:edit:currentHealth:-7
+effect:edit:currentHealth:-3
 buildable:false
 endTower
 type:FrostArrow
@@ -50,7 +50,7 @@ sellPrice:10
 buildCost:25
 targeting:circle:50
 reloadtime:1.3f
-range:400
+range:300
 effect:set:currentMoveSpeedMultiplier:0.5f
 effect:set:currentSlowDuration:2.0f
 effect:set:currentDotDamage:2
@@ -83,6 +83,6 @@ buildCost:25
 targeting:line
 reloadtime:2.0f
 range:400
-effect:edit:currentHealth:-10
+effect:edit:currentHealth:-5
 buildable:true
 endTower

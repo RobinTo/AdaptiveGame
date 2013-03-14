@@ -20,7 +20,7 @@ public class Main {
 		settings.maxHeight = 512;
 		
 		// This part regenerates texture atlases each time the desktop project is ran.
-		
+		/*
 		// Enter path to android asset folder on your computer, or remove this to compile if you want
 		// to compile and no new images have been added.
 		String path = "D:\\github\\AdaptiveGame\\LibGDXScene2d\\my-gdx-game-android\\assets\\Images";
@@ -38,11 +38,10 @@ public class Main {
         TexturePacker2.process(settings, path + "\\MiscSmall", "../my-gdx-game-desktop/bin/Images", "misc");
         TexturePacker2.process(settings, path + "\\Towers", "../my-gdx-game-desktop/bin/Images", "towers");
         TexturePacker2.process(settings, path + "\\MapTiles", "../my-gdx-game-desktop/bin/Images", "mapTiles");
-		
+		*/
         // ----------------------------------------------
-        /*
-         * Use this to deploy, if we want people to be able to change the images.
-         * 
+        
+        // Use this to deploy, if we want people to be able to change the images. 
         String path = "Images";
         // Make copies in desktop project
         TexturePacker2.process(settings, path + "\\Enemies", "Images", "enemies");
@@ -50,8 +49,6 @@ public class Main {
         TexturePacker2.process(settings, path + "\\Towers", "Images", "towers");
         TexturePacker2.process(settings, path + "\\MapTiles", "Images", "mapTiles");
 		// ----------------------------------------------
-		 * 
-         */
         
 		new LwjglApplication(new MyGdxGame(), cfg);
 	}
