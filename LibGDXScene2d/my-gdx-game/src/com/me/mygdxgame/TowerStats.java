@@ -1,15 +1,22 @@
 package com.me.mygdxgame;
 
-public class TowerStats {
-	
-	String type, towerTexture, upgradesTo, missileTexture;
-	
+public class TowerStats
+{
+
 	MissileEffect missileEffects;
 
+	String type, towerTexture, upgradesTo, missileTexture, shootSound,
+			impactSound;
 	int sellPrice, upgradeCost, buildCost, range, radius;
 	float reloadTime;
-	
-	public TowerStats(String type, String upgradesTo, String towerTexture, String missileTexture, int sellPrice, int upgradeCost, int buildCost, MissileEffect missileEffects, float reloadTime, int range, int radius) {
+	boolean buildable;
+
+	public TowerStats(String type, String upgradesTo, String towerTexture,
+			String missileTexture, int sellPrice, int upgradeCost,
+			int buildCost, MissileEffect missileEffects, float reloadTime,
+			int range, int radius, boolean buildable, String shootSound,
+			String impactSound)
+	{
 		this.type = type;
 		this.towerTexture = towerTexture;
 		this.missileEffects = missileEffects;
@@ -21,6 +28,8 @@ public class TowerStats {
 		this.reloadTime = reloadTime;
 		this.range = range;
 		this.radius = radius;
+		this.buildable = buildable;
+		this.shootSound = shootSound;
+		this.impactSound = impactSound;
 	}
 }
-

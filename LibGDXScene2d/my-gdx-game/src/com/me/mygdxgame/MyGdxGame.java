@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
@@ -60,13 +61,13 @@ public class MyGdxGame implements ApplicationListener {
 	static List<Tower> towers = new ArrayList<Tower>();
 	
 	List<Missile> missiles = new ArrayList<Missile>();
-	
 	Enemy focusFireEnemy;
 	
 	static Tower selectedTower;
 
-	HashMap<String, TowerStats> towerInfo = new HashMap<String, TowerStats>();
-    HashMap<String, EnemyStats> enemyInfo = new HashMap<String, EnemyStats>();
+	static HashMap<String, TowerStats> towerInfo = new HashMap<String, TowerStats>();
+    static HashMap<String, EnemyStats> enemyInfo = new HashMap<String, EnemyStats>();
+    static HashMap<String, Sound> sounds = new HashMap<String, Sound>();
 
 	List<String> towerKeys = new ArrayList<String>();
 	
@@ -161,6 +162,8 @@ public class MyGdxGame implements ApplicationListener {
 		}
 
         Gdx.gl.glClearColor(Color.GRAY.r, Color.GRAY.g, Color.GRAY.b, Color.GRAY.a);
+        
+        loadSounds();
 	}
 
 	@Override
@@ -274,6 +277,8 @@ public class MyGdxGame implements ApplicationListener {
         		if(towers.get(i).canShoot)
         		{
         			Missile m = towers.get(i).shoot();
+        			
+        			sounds.get(towers.get(i).towerStats.shootSound).play();
         			if(m != null)
         			{
         				stage.addActor(m);
@@ -283,22 +288,25 @@ public class MyGdxGame implements ApplicationListener {
         		}
         	}
 		}
-		for (int i = 0; i < missiles.size(); i++) {
+		for (int i = 0; i < missiles.size(); i++)
+		{
 			missiles.get(i).timeToHitTarget -= Gdx.graphics.getDeltaTime();
-			if (missiles.get(i).timeToHitTarget <= 0) {
+			if (missiles.get(i).timeToHitTarget <= 0)
+			{
 				// If TargetStrategy.Single
-				if (missiles.get(i).effect.missileTarget.targetingStrategy == TargetingStrategy.Single) {
+				if (missiles.get(i).effect.missileTarget.targetingStrategy == TargetingStrategy.Single)
+				{
 					Enemy targEnemy = ((TargetSingle) (missiles.get(i).effect.missileTarget)).targetEnemy;
 					Iterator<String> it = missiles.get(i).effect.effects
 							.keySet().iterator();
-					while (it.hasNext()) {
+					while (it.hasNext())
+					{
 						String s = it.next();
-						if(missiles.get(i).effect.effects.get(s).b)
+						if (missiles.get(i).effect.effects.get(s).b)
 						{
 							targEnemy.setStat(s,
 									missiles.get(i).effect.effects.get(s).f);
-						}
-						else
+						} else
 						{
 							targEnemy.editStat(s,
 									missiles.get(i).effect.effects.get(s).f);
@@ -307,38 +315,53 @@ public class MyGdxGame implements ApplicationListener {
 				}
 				// ----------------------
 				// If TargetStrategy.Circle
-				else if (missiles.get(i).effect.missileTarget.targetingStrategy == TargetingStrategy.Circle) {
-					TargetCircle targetCircle = (TargetCircle)missiles.get(i).effect.missileTarget;
-					List<Enemy> enemiesInCircle = HitDetector.getEnemiesInCircle(enemies, targetCircle.x1, targetCircle.y1, targetCircle.radius);
+				else if (missiles.get(i).effect.missileTarget.targetingStrategy == TargetingStrategy.Circle)
+				{
+					TargetCircle targetCircle = (TargetCircle) missiles.get(i).effect.missileTarget;
+					List<Enemy> enemiesInCircle = HitDetector
+							.getEnemiesInCircle(enemies, targetCircle.x1,
+									targetCircle.y1, targetCircle.radius);
 					Iterator<String> it = missiles.get(i).effect.effects
 							.keySet().iterator();
-					while (it.hasNext()) {
+					while (it.hasNext())
+					{
 						String s = it.next();
-						for(int eT = 0; eT < enemiesInCircle.size(); eT++)
+						for (int eT = 0; eT < enemiesInCircle.size(); eT++)
 						{
-							if(missiles.get(i).effect.effects.get(s).b)
+							if (missiles.get(i).effect.effects.get(s).b)
 							{
-								enemiesInCircle.get(eT).setStat(s,
-										missiles.get(i).effect.effects.get(s).f);
-							}
-							else
+								enemiesInCircle.get(eT)
+										.setStat(
+												s,
+												missiles.get(i).effect.effects
+														.get(s).f);
+							} else
 							{
-								enemiesInCircle.get(eT).editStat(s,
-										missiles.get(i).effect.effects.get(s).f);
+								enemiesInCircle.get(eT)
+										.editStat(
+												s,
+												missiles.get(i).effect.effects
+														.get(s).f);
 							}
 						}
 					}
-					final ExtendedActor visualEffectActor = new ExtendedActor(missiles.get(i).sprite);
-					TargetCircle tC = (TargetCircle)(missiles.get(i).effect.missileTarget);
-					visualEffectActor.setPosition(tC.x1-tC.radius, tC.y1 - tC.radius);
-					visualEffectActor.setWidth(tC.radius*2);
-					visualEffectActor.setHeight(tC.radius*2);
-					visualEffectActor.addAction(sequence(Actions.fadeOut(0.5f), run(new Runnable() {
-				        public void run () {
-				        	visualEffectActor.remove();
-				        }
-					})));
+					final ExtendedActor visualEffectActor = new ExtendedActor(
+							missiles.get(i).sprite);
+					TargetCircle tC = (TargetCircle) (missiles.get(i).effect.missileTarget);
+					visualEffectActor.setPosition(tC.x1 - tC.radius, tC.y1
+							- tC.radius);
+					visualEffectActor.setWidth(tC.radius * 2);
+					visualEffectActor.setHeight(tC.radius * 2);
+					visualEffectActor.addAction(sequence(Actions.fadeOut(0.5f),
+							run(new Runnable()
+							{
+								public void run()
+								{
+									visualEffectActor.remove();
+								}
+							})));
 					stage.addActor(visualEffectActor);
+					
 				}
 				// ----------------------
 				// If TargetStrategy.CircleOnSelf
@@ -554,16 +577,16 @@ public class MyGdxGame implements ApplicationListener {
 		{
 			selectedTower = t;
 			uiLabel.setText(t.towerStats.type);
-			/*
-			uiLabel2.setText("Damage: "
-					+ Integer.toString(t.towerStats.getDamage(t.currentLevel)));
-			if (t.currentLevel != 3)
-				uiLabel3.setText("Upgrade Cost: "
-						+ Integer.toString(t.towerStats
-								.getUpgradeCost(t.currentLevel)));
+			uiLabel2.setText("Build: " + selectedTower.towerStats.buildCost);
+			if (selectedTower.towerStats.upgradesTo.equals("null"))
+				uiLabel3.setText("Upgrade: Fully Upgraded");
 			else
-				uiLabel3.setText("Upgrade Cost: Fully upgraded");
-			uiLabelSellPrice.setText("Sell Price: " + t.towerStats.getSellPrice(t.currentLevel));*/
+			{
+				int upgradeCost = towerInfo.get(selectedTower.towerStats.upgradesTo).buildCost
+						- selectedTower.towerStats.buildCost;
+				uiLabel3.setText("Upgrade: " + upgradeCost);
+			}
+			uiLabelSellPrice.setText("Sell: " + selectedTower.towerStats.sellPrice);
 		}
 		else
 		{
@@ -696,14 +719,20 @@ public class MyGdxGame implements ApplicationListener {
 		towerKeys.addAll(towerInfo.keySet());
 		for (int i = 0; i < towerKeys.size(); i++)
 		{
-			TextButton.TextButtonStyle arrowTowerButtonStyle = new TextButton.TextButtonStyle();
+			if (!towerInfo.get(towerKeys.get(i)).buildable)
+			{
+				towerKeys.remove(i);
+				i--;
+				continue;
+			}
+			TextButton.TextButtonStyle towerButtonStyle = new TextButton.TextButtonStyle();
 			System.out.println("Trying to load: " + towerInfo.get(towerKeys.get(i)).towerTexture);
 			TextureRegion upStyle = new TextureRegion(towersAtlas.createSprite(towerInfo.get(towerKeys.get(i)).towerTexture));
 			TextureRegion downStyle = new TextureRegion(towersAtlas.createSprite(towerInfo.get(towerKeys.get(i)).towerTexture));
-			arrowTowerButtonStyle.font = font;
-			arrowTowerButtonStyle.up = new TextureRegionDrawable(upStyle);
-			arrowTowerButtonStyle.down = new TextureRegionDrawable(downStyle);
-			TextButton arrowTowerButton = new TextButton("", arrowTowerButtonStyle);
+			towerButtonStyle.font = font;
+			towerButtonStyle.up = new TextureRegionDrawable(upStyle);
+			towerButtonStyle.down = new TextureRegionDrawable(downStyle);
+			TextButton arrowTowerButton = new TextButton("", towerButtonStyle);
 			final String currentKey = towerKeys.get(i);
 			arrowTowerButton.addListener(new InputListener() {
 				public boolean touchDown(InputEvent event, float x, float y,
@@ -715,7 +744,17 @@ public class MyGdxGame implements ApplicationListener {
 					temporaryTowerActor = new MapTile(towersAtlas.createSprite(towerInfo.get(towerName).towerTexture), -64,0);
 					stage.addActor(temporaryTowerActor);
 					uiLabel.setText(towerName);
-					uiLabelSellPrice.setText("");
+					uiLabel2.setText("Build: " + towerInfo.get(currentKey).buildCost);
+					if (towerInfo.get(currentKey).upgradesTo.equals("null"))
+						uiLabel3.setText("Upgrade: Fully Upgraded");
+					else
+					{
+						int upgradeCost = towerInfo.get(towerInfo
+								.get(currentKey).upgradesTo).buildCost
+								- towerInfo.get(currentKey).buildCost;
+						uiLabel3.setText("Upgrade: " + upgradeCost);
+					}
+					uiLabelSellPrice.setText("Sell: " + towerInfo.get(currentKey).sellPrice);
 					return true;
 				}
 			});
@@ -816,5 +855,17 @@ public class MyGdxGame implements ApplicationListener {
 	
 		
 	}
+	private void loadSounds()
+	{
+		System.out.println("Trying to load sounds");
+		Iterator<String> it = towerInfo.keySet().iterator();
+		while(it.hasNext())
+		{
+			String s = it.next();
+			sounds.put(towerInfo.get(s).impactSound, Gdx.audio.newSound(Gdx.files.internal("sounds/" + towerInfo.get(s).impactSound)));
+			sounds.put(towerInfo.get(s).shootSound, Gdx.audio.newSound(Gdx.files.internal("sounds/" + towerInfo.get(s).shootSound)));
+		}
 
+		System.out.println("Finished loading sounds");
+	}
 }

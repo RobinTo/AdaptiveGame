@@ -23,12 +23,12 @@ public class StatsFetcher {
 		DecimalFormat format = new DecimalFormat("0.#");
 
 		format.setDecimalFormatSymbols(symbols);
-		for(int i = 0; i < fileContent.size(); i++)
+		for (int i = 0; i < fileContent.size(); i++)
 		{
-			boolean towerDone = false;
-			
-			String type="", towerTexture="", upgradesTo = "", missileTexture = "";
-			
+			boolean towerDone = false, buildable = false;
+
+			String type = "", towerTexture = "", upgradesTo = "", missileTexture = "", shootSound = "", impactSound = "";
+
 			MissileEffect missileEffects = null;
 			float reloadTime = 1f;
 			int sellPrice=0, upgradeCost = 0, buildCost = 0, range = 0;
@@ -52,6 +52,14 @@ public class StatsFetcher {
 					else if(testString0.equals("missiletexture"))
 					{
 						missileTexture = split[1];
+					}
+					else if(testString0.equals("shootsound"))
+					{
+						shootSound = split[1];
+					}
+					else if(testString0.equals("impactsound"))
+					{
+						impactSound = split[1];
 					}
 					else if(testString0.equals("upgradesto"))
 					{
@@ -102,6 +110,10 @@ public class StatsFetcher {
 					{
 						range = Integer.parseInt(split[1]);
 					}
+					else if(testString0.equals("buildable"))
+					{
+						buildable = Boolean.valueOf(split[1]);
+					}
 					i++;
 				}
 				
@@ -123,7 +135,7 @@ public class StatsFetcher {
 				missileEffects = new MissileEffect(new TargetSingle(null), effectsForMissile);
 			}
 			System.out.println("Created tower: " + type + ":" + towerTexture + ":" + missileTexture + ":" + sellPrice + ":" + upgradeCost + ":" + buildCost + ":" + missileEffects.effects.size() + ":" + reloadTime + ":" + range);
-			towerInfo.put(type, new TowerStats(type, upgradesTo, towerTexture, missileTexture, sellPrice, upgradeCost, buildCost, missileEffects, reloadTime, range, radius));
+			towerInfo.put(type, new TowerStats(type, upgradesTo, towerTexture, missileTexture, sellPrice, upgradeCost, buildCost, missileEffects, reloadTime, range, radius, buildable, shootSound, impactSound));
 		}
 		return towerInfo;
 	}

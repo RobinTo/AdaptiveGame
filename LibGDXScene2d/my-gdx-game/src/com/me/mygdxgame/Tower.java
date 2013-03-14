@@ -15,7 +15,7 @@ public class Tower extends ExtendedActor {
 	int currentLevel, currentSellPrice;
 	HashMap<Integer, Sprite> textures = new HashMap<Integer, Sprite>();
 	
-	float currentReloadTimer;	
+	float currentReloadTimer;
 	boolean missileInTheAir;
 	
 	List<DamagePacket> activeShots;
