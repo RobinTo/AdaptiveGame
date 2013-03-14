@@ -69,36 +69,43 @@ public class Enemy extends ExtendedActor{
     
     // Basically update(gameTime)
     @Override
-    public void act(float gameTime)
-    {
-    	super.act(gameTime * floatingStats.get("currentMoveSpeedMultiplier"));
-    	
-<<<<<<< HEAD
-		if (floatingStats.get("currentMoveSpeedMultiplier") != 1.0f) {
-=======
-		if (getStat("currentMoveSpeedMultiplier") != 1.0f) {
->>>>>>> stats
+	public void act(float gameTime) {
+		super.act(gameTime * floatingStats.get("currentMoveSpeedMultiplier"));
+
+		if (floatingStats.get("currentMoveSpeedMultiplier") != 1.0f)
+		{
 			editStat("currentSlowDuration", -gameTime);
 			if (getStat("currentSlowDuration") <= 0)
 			{
 				setStat("currentMoveSpeedMultiplier", 1.0f);
 			}
 		}
-		if (getStat("dotTicksLeft") > 0) {
+		if (getStat("dotTicksLeft") > 0)
+		{
 			editStat("currentDotDurationBetweenTicks", -gameTime);
-			if (getStat("currentDotDurationBetweenTicks") <= 0) {
+			if (getStat("currentDotDurationBetweenTicks") <= 0)
+			{
 				editStat("currentHealth", -getStat("currentDotDamage"));
-				setStat("currentDotDurationBetweenTicks", getStat("dotDurationBetweenTicks"));
+				setStat("currentDotDurationBetweenTicks",
+						getStat("dotDurationBetweenTicks"));
 				editStat("dotTicksLeft", -1f);
 			}
-			if (getStat("dotTicksLeft") <= 0) {
+			if (getStat("dotTicksLeft") <= 0)
+			{
 				dotted = false;
 			}
 		}
-    	healthBarRedRectangle = new Rectangle((int)getX(), GameConstants.screenHeight - GameConstants.tileSize - (int)getY() - 10, 64, 5);
-        healthBarYellowRectangle = new Rectangle((int)getX(), GameConstants.screenHeight - GameConstants.tileSize - (int)getY() - 10, (int)((float)64 * (float)getStat("currentHealth") / (float)enemyStats.getHealth()), 5);
-   
-    }
+		healthBarRedRectangle = new Rectangle((int) getX(),
+				GameConstants.screenHeight - GameConstants.tileSize
+						- (int) getY() - 10, 64, 5);
+		healthBarYellowRectangle = new Rectangle(
+				(int) getX(),
+				GameConstants.screenHeight - GameConstants.tileSize
+						- (int) getY() - 10,
+				(int) ((float) 64 * (float) getStat("currentHealth") / (float) enemyStats
+						.getHealth()), 5);
+
+	}
     
     @Override
 	public void draw (SpriteBatch batch, float parentAlpha) {
