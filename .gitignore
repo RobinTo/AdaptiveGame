@@ -53,6 +53,7 @@ RemoteSystemsTempFiles/
 
 # Java class files
 *.class
+.classpath
 
 ### eclipse files we DO want
 # local.properties

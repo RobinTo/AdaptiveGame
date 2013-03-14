@@ -21,6 +21,8 @@ targeting:circle:50
 reloadtime:0.5f
 range:400
 effect:edit:currentHealth:-10
+effect:set:currentMovespeedMultiplier:0.5f
+effect:set:slowDuration:2.0f
 endTower
 type:FlameCircle
 towerTexture:redTower
