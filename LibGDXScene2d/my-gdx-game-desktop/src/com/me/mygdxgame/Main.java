@@ -20,7 +20,7 @@ public class Main {
 		settings.maxHeight = 512;
 		
 		// This part regenerates texture atlases each time the desktop project is ran.
-		
+		// Remove both for no recompiling of images.
 		//packForPublish(settings);
 		packForCompiling(settings);
         

@@ -46,7 +46,10 @@ public class MyGdxGame implements ApplicationListener {
 	String replayPath = "/AdaptiveTDReplays/testReplay.txt";			// Must be external, relative to user directory.
 	String replaySavePath = "/AdaptiveTDReplays/testReplay.txt";
 	
-	boolean paused = false;;
+	boolean paused = true;
+	boolean resuming = true;
+	
+	private float pauseTime = GameConstants.startTime;
 	
 	private static final int VIRTUAL_WIDTH = 1280;
     private static final int VIRTUAL_HEIGHT = 768;
@@ -121,7 +124,7 @@ public class MyGdxGame implements ApplicationListener {
 		stage = new Stage();
 		stage.setCamera(gameCamera);
 		Gdx.input.setInputProcessor(stage);
-
+		
 		mapTilesAtlas = new TextureAtlas(Gdx.files.internal("Images/mapTiles.atlas"));
 		enemiesAtlas = new TextureAtlas(Gdx.files.internal("Images/enemies.atlas"));
 		miscAtlas = new TextureAtlas(Gdx.files.internal("Images/misc.atlas"));
@@ -179,10 +182,25 @@ public class MyGdxGame implements ApplicationListener {
 		if(!paused)
 		{
 			updateGame();
+			// Draws game
+	        stage.draw();
+		}
+		else if(resuming && !won && !lost)
+		{
+			// Draws game
+	        stage.draw();
+	        
+			pauseTime -= Gdx.graphics.getDeltaTime();
+			spriteBatch.begin();
+        	font.setScale(10);
+        	if(!Integer.toString((int)Math.ceil(pauseTime)).equals("0"))
+        		font.draw(spriteBatch, Integer.toString((int)Math.ceil(pauseTime)), GameConstants.screenWidth/2 - 32, GameConstants.screenHeight/2);
+        	font.setScale(1);
+        	spriteBatch.end();
+			if(pauseTime <= 0)
+				paused = false;
 		}
 
-		// Draws game
-        stage.draw();
      
         // Fps counter
         timer += Gdx.graphics.getDeltaTime();
@@ -515,6 +533,10 @@ public class MyGdxGame implements ApplicationListener {
 		won = false;
 		lost = false;
 		
+		
+		pauseTime = GameConstants.startTime;
+		paused = true;
+		resuming = true;
 	}
 	
 	private void checkWave(float totalTime)
