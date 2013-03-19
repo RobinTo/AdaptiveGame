@@ -611,7 +611,7 @@ public class MyGdxGame implements ApplicationListener {
 			nameLabel.setText(t.towerStats.type);
 			buildCostLabel.setText("Build: " + selectedTower.towerStats.buildCost);
 			if (selectedTower.towerStats.upgradesTo.equals("null"))
-				upgradeCostLabel.setText("Upgrade: Fully Upgraded");
+				upgradeCostLabel.setText("Upgrade: MAX");
 			else
 			{
 				int upgradeCost = towerInfo.get(selectedTower.towerStats.upgradesTo).buildCost
