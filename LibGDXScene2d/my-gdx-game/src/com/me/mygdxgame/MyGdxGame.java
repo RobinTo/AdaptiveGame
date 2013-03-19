@@ -101,7 +101,9 @@ public class MyGdxGame implements ApplicationListener {
 	String buildingTower = "", towerName = "Tower";
 	
 	Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.BLACK);
-	static Label uiLabel, uiLabel2, uiLabel3, uiLabelSellPrice;
+
+	static Label nameLabel, buildCostLabel, upgradeCostLabel, uiLabelSellPrice;
+
 	
 	Camera gameCamera;
 
@@ -113,6 +115,9 @@ public class MyGdxGame implements ApplicationListener {
 	boolean showingInput = false;
 	FeedbackTextInput listener = new FeedbackTextInput();
 	TextButton livesButton, goldButton;
+	
+	ExtendedActor yellowBox;
+	Group yellowBoxGroup;
 	
 	@Override
 	public void create() {
@@ -287,6 +292,7 @@ public class MyGdxGame implements ApplicationListener {
 			replayHandler.addEvents(totalTime, eventHandler);
 		}
 		handleEvents();
+		updateYellowBoxPosition();
         checkWave(totalTime);
         if(enemies.size() > 0)
         {
@@ -597,39 +603,42 @@ public class MyGdxGame implements ApplicationListener {
 		return t;
 	}
 	
-	private static void selectTower(Tower t)
+	private void selectTower(Tower t)
 	{
 		if (t != null)
 		{
 			selectedTower = t;
-			uiLabel.setText(t.towerStats.type);
-			uiLabel2.setText("Build: " + selectedTower.towerStats.buildCost);
+			nameLabel.setText(t.towerStats.type);
+			buildCostLabel.setText("Build: " + selectedTower.towerStats.buildCost);
 			if (selectedTower.towerStats.upgradesTo.equals("null"))
-				uiLabel3.setText("Upgrade: Fully Upgraded");
+				upgradeCostLabel.setText("Upgrade: Fully Upgraded");
 			else
 			{
 				int upgradeCost = towerInfo.get(selectedTower.towerStats.upgradesTo).buildCost
 						- selectedTower.towerStats.buildCost;
-				uiLabel3.setText("Upgrade: " + upgradeCost);
+				upgradeCostLabel.setText("Upgrade: " + upgradeCost);
 			}
 			uiLabelSellPrice.setText("Sell: " + selectedTower.towerStats.sellPrice);
+			this.fadeInYellowBox(t);
 		}
 		else
 		{
 			selectedTower = null;
-			uiLabel.setText("");
-			uiLabel2.setText("");
-			uiLabel3.setText("");
+			nameLabel.setText("");
+			buildCostLabel.setText("");
+			upgradeCostLabel.setText("");
 			uiLabelSellPrice.setText("");
+			this.fadeOutYellowBox();
 		}
 	}
 	
 	private void selectEnemy(Enemy e)
 	{	
-		uiLabel.setText(e.enemyStats.type);
-		uiLabel2.setText("Health: " + e.getStat("currentHealth"));
-		uiLabel3.setText("Yields: " + e.getStat("currentGoldYield"));
+		nameLabel.setText(e.enemyStats.type);
+		buildCostLabel.setText("Health: " + e.getStat("currentHealth"));
+		upgradeCostLabel.setText("Yields: " + e.getStat("currentGoldYield"));
 		uiLabelSellPrice.setText("");
+		fadeInYellowBox(e);
 	}
 	
 	private void handleEvents()
@@ -684,7 +693,7 @@ public class MyGdxGame implements ApplicationListener {
 						{
 							TowerStats newTowerStats = towerInfo.get(towers.get(u).towerStats.upgradesTo);
 							towers.get(u).upgrade(newTowerStats, towersAtlas.createSprite(newTowerStats.towerTexture), miscAtlas.createSprite(newTowerStats.missileTexture));
-							MyGdxGame.selectTower(towers.get(u));
+							selectTower(towers.get(u));
 						}
 					}
 				}
@@ -731,6 +740,10 @@ public class MyGdxGame implements ApplicationListener {
 				Enemy e = (Enemy)hit;
 				selectEnemy(e);
 			}
+			else
+			{
+				fadeOutYellowBox();
+			}
 		}
 		else if(temporaryTowerActor != null)
 		{
@@ -739,67 +752,70 @@ public class MyGdxGame implements ApplicationListener {
 		}
 	}
 
+	ExtendedActor targetYellowBoxActor = null;
+	private void updateYellowBoxPosition()
+	{
+		if(targetYellowBoxActor != null)
+		{
+			float x = targetYellowBoxActor.getX() + targetYellowBoxActor.getWidth()/2 - yellowBox.getWidth()/2;
+			float y = targetYellowBoxActor.getY() + targetYellowBoxActor.getHeight();
+			if(y >= GameConstants.screenHeight - yellowBox.getHeight())
+			{
+				y = targetYellowBoxActor.getY() - yellowBox.getHeight();
+			}
+			yellowBox.setPosition(x, y);
+			nameLabel.setPosition(x+10, y+(yellowBox.getHeight()-20));
+			buildCostLabel.setPosition(x+10, y+(yellowBox.getHeight()-50));
+			upgradeCostLabel.setPosition(x+10, y+(yellowBox.getHeight()-80));
+			uiLabelSellPrice.setPosition(x+10, y+(yellowBox.getHeight()-110));
+		}
+	}
+	
+	private void fadeInYellowBox(ExtendedActor targetActor)
+	{
+		targetYellowBoxActor = targetActor;
+		yellowBoxGroup.setScale(0, 0);
+		yellowBoxGroup.setVisible(true);
+		yellowBoxGroup.setColor(0, 0, 0, 60);
+		yellowBoxGroup.addAction(Actions.scaleTo(1, 1, 0.25f));
+		yellowBoxGroup.addAction(Actions.moveTo(0, 0, 0.25f));
+		yellowBoxGroup.setZIndex(1000);
+	}
+	
+	private void fadeOutYellowBox()
+	{
+		targetYellowBoxActor = null;
+		yellowBoxGroup.addAction(Actions.scaleTo(0, 0, 0.25f));
+		yellowBoxGroup.addAction(Actions.moveTo(yellowBox.getX(), yellowBox.getY(), 0.25f));
+	}
+	
 	private void createUI()
 	{
 		System.out.println("Generating UI");
+
+		yellowBoxGroup = new Group();
+		yellowBox = new ExtendedActor(miscAtlas.createSprite("YellowBox"));
+		yellowBoxGroup.addActor(yellowBox);
+		
 		towerKeys.addAll(towerInfo.keySet());
-		for (int i = 0; i < towerKeys.size(); i++)
-		{
-			if (!towerInfo.get(towerKeys.get(i)).buildable)
-			{
-				towerKeys.remove(i);
-				i--;
-				continue;
-			}
-			TextButton.TextButtonStyle towerButtonStyle = new TextButton.TextButtonStyle();
-			System.out.println("Trying to load: " + towerInfo.get(towerKeys.get(i)).towerTexture);
-			TextureRegion upStyle = new TextureRegion(towersAtlas.createSprite(towerInfo.get(towerKeys.get(i)).towerTexture));
-			TextureRegion downStyle = new TextureRegion(towersAtlas.createSprite(towerInfo.get(towerKeys.get(i)).towerTexture));
-			towerButtonStyle.font = font;
-			towerButtonStyle.up = new TextureRegionDrawable(upStyle);
-			towerButtonStyle.down = new TextureRegionDrawable(downStyle);
-			TextButton arrowTowerButton = new TextButton("", towerButtonStyle);
-			final String currentKey = towerKeys.get(i);
-			arrowTowerButton.addListener(new InputListener() {
-				public boolean touchDown(InputEvent event, float x, float y,
-						int pointer, int button) {
-					building = true;
-					buildingTower = towerInfo.get(currentKey).type;
-					buildingTowerSprite = towersAtlas.createSprite(towerInfo.get(currentKey).towerTexture);
-					towerName = currentKey;
-					temporaryTowerActor = new MapTile(towersAtlas.createSprite(towerInfo.get(towerName).towerTexture), -64,0);
-					stage.addActor(temporaryTowerActor);
-					uiLabel.setText(towerName);
-					uiLabel2.setText("Build: " + towerInfo.get(currentKey).buildCost);
-					if (towerInfo.get(currentKey).upgradesTo.equals("null"))
-						uiLabel3.setText("Upgrade: Fully Upgraded");
-					else
-					{
-						int upgradeCost = towerInfo.get(towerInfo
-								.get(currentKey).upgradesTo).buildCost
-								- towerInfo.get(currentKey).buildCost;
-						uiLabel3.setText("Upgrade: " + upgradeCost);
-					}
-					uiLabelSellPrice.setText("Sell: " + towerInfo.get(currentKey).sellPrice);
-					return true;
-				}
-			});
-			arrowTowerButton.setPosition(10 + 10*i + 64*i, GameConstants.screenHeight - 100);
-			stage.addActor(arrowTowerButton);
-		}
+		
 		Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.BLACK);
-		uiLabel = new Label("", labelStyle);
-		uiLabel.setPosition(800, GameConstants.screenHeight-40);
-		stage.addActor(uiLabel);
-		uiLabel2 = new Label("", labelStyle);
-		uiLabel2.setPosition(800, GameConstants.screenHeight-60);
-		stage.addActor(uiLabel2);
-		uiLabel3 = new Label("", labelStyle);
-		uiLabel3.setPosition(800, GameConstants.screenHeight-80);
-		stage.addActor(uiLabel3);
+		nameLabel = new Label("", labelStyle);
+		nameLabel.setPosition(800, GameConstants.screenHeight-40);
+		yellowBoxGroup.addActor(nameLabel);
+		buildCostLabel = new Label("", labelStyle);
+		buildCostLabel.setPosition(800, GameConstants.screenHeight-60);
+		yellowBoxGroup.addActor(buildCostLabel);
+		upgradeCostLabel = new Label("", labelStyle);
+		upgradeCostLabel.setPosition(800, GameConstants.screenHeight-80);
+		yellowBoxGroup.addActor(upgradeCostLabel);
 		uiLabelSellPrice = new Label("", labelStyle);
 		uiLabelSellPrice.setPosition(800, GameConstants.screenHeight-100);
-		stage.addActor(uiLabelSellPrice);
+		
+		yellowBoxGroup.addActor(uiLabelSellPrice);
+		yellowBoxGroup.setVisible(false);
+		
+		stage.addActor(yellowBoxGroup);
 		
 		TextButton.TextButtonStyle settingsButtonStyle = new TextButton.TextButtonStyle();
 		TextureRegion upStyle = new TextureRegion(miscAtlas.createSprite("settingsButton"));
@@ -837,7 +853,7 @@ public class MyGdxGame implements ApplicationListener {
 					goldButton.setText("        " + currentGold);
 					selectedTower.remove();
 					MyGdxGame.towers.remove(selectedTower);
-					MyGdxGame.selectTower(null);
+					selectTower(null);
 				}
 				return true;
 			}
@@ -849,9 +865,10 @@ public class MyGdxGame implements ApplicationListener {
 		TextureRegion upStyleUpgrade = new TextureRegion(miscAtlas.createSprite("upgradeTowerButton"));
 		TextureRegion downStyleUpgrade = new TextureRegion(miscAtlas.createSprite("upgradeTowerButton"));
 		upgradeButtonStyle.font = font;
+		upgradeButtonStyle.fontColor = Color.BLACK;
 		upgradeButtonStyle.up = new TextureRegionDrawable(upStyleUpgrade);
 		upgradeButtonStyle.down = new TextureRegionDrawable(downStyleUpgrade);
-		TextButton upgradeButton = new TextButton("", upgradeButtonStyle);
+		final TextButton upgradeButton = new TextButton("", upgradeButtonStyle);
 		upgradeButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -871,6 +888,53 @@ public class MyGdxGame implements ApplicationListener {
 			}
 		});
 		upgradeButton.setPosition(GameConstants.screenWidth - 4*GameConstants.tileSize, GameConstants.screenHeight-100);
+		
+		for (int i = 0; i < towerKeys.size(); i++)
+		{
+			if (!towerInfo.get(towerKeys.get(i)).buildable)
+			{
+				towerKeys.remove(i);
+				i--;
+				continue;
+			}
+			TextButton.TextButtonStyle towerButtonStyle = new TextButton.TextButtonStyle();
+			System.out.println("Trying to load: " + towerInfo.get(towerKeys.get(i)).towerTexture);
+			TextureRegion upStyle2 = new TextureRegion(towersAtlas.createSprite(towerInfo.get(towerKeys.get(i)).towerTexture));
+			TextureRegion downStyle2 = new TextureRegion(towersAtlas.createSprite(towerInfo.get(towerKeys.get(i)).towerTexture));
+			towerButtonStyle.font = font;
+			towerButtonStyle.up = new TextureRegionDrawable(upStyle2);
+			towerButtonStyle.down = new TextureRegionDrawable(downStyle2);
+			TextButton arrowTowerButton = new TextButton("", towerButtonStyle);
+			final String currentKey = towerKeys.get(i);
+			arrowTowerButton.addListener(new InputListener() {
+				public boolean touchDown(InputEvent event, float x, float y,
+						int pointer, int button) {
+					building = true;
+					buildingTower = towerInfo.get(currentKey).type;
+					buildingTowerSprite = towersAtlas.createSprite(towerInfo.get(currentKey).towerTexture);
+					towerName = currentKey;
+					temporaryTowerActor = new MapTile(towersAtlas.createSprite(towerInfo.get(towerName).towerTexture), -64,0);
+					stage.addActor(temporaryTowerActor);
+					nameLabel.setText(towerName);
+					buildCostLabel.setText("Build: " + towerInfo.get(currentKey).buildCost);
+					if (towerInfo.get(currentKey).upgradesTo.equals("null"))
+						upgradeButton.setText("Max");
+					else
+					{
+						int upgradeCost = towerInfo.get(towerInfo
+								.get(currentKey).upgradesTo).buildCost
+								- towerInfo.get(currentKey).buildCost;
+						upgradeCostLabel.setText("Upgrade: " + upgradeCost);
+					}
+					uiLabelSellPrice.setText("Sell: " + towerInfo.get(currentKey).sellPrice);
+					return true;
+				}
+			});
+			arrowTowerButton.setPosition(10 + 10*i + 64*i, GameConstants.screenHeight - 100);
+			stage.addActor(arrowTowerButton);
+		}
+		
+		
 		stage.addActor(upgradeButton);
 	
 		TextButton.TextButtonStyle livesButtonStyle = new TextButton.TextButtonStyle();

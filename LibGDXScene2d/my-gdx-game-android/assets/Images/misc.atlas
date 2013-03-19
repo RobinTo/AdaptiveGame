@@ -3,100 +3,107 @@ misc.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+YellowBox
+  rotate: false
+  xy: 1, 20
+  size: 125, 200
+  orig: 125, 200
+  offset: 0, 0
+  index: -1
 gold
   rotate: false
-  xy: 1, 27
+  xy: 128, 156
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 heart
   rotate: false
-  xy: 67, 27
+  xy: 128, 90
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 rangeHighlight
   rotate: false
-  xy: 133, 27
+  xy: 194, 156
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 sellTowerButton
   rotate: false
-  xy: 199, 27
+  xy: 128, 24
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 settingsButton
   rotate: false
-  xy: 265, 27
+  xy: 194, 90
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 tinkerButton
   rotate: false
-  xy: 331, 27
+  xy: 260, 156
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 upgradeTowerButton
   rotate: false
-  xy: 397, 27
+  xy: 194, 24
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 flameBullet
   rotate: false
-  xy: 1, 15
+  xy: 1, 8
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 blackBullet
   rotate: false
-  xy: 463, 86
+  xy: 260, 149
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 blueBullet
   rotate: false
-  xy: 1, 8
+  xy: 326, 215
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 redBullet
   rotate: false
-  xy: 13, 20
+  xy: 1, 1
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 laserBullet
   rotate: false
-  xy: 463, 79
+  xy: 13, 13
   size: 3, 5
   orig: 3, 5
   offset: 0, 0
   index: -1
 healthBarRed
   rotate: false
-  xy: 470, 86
+  xy: 260, 142
   size: 1, 5
   orig: 1, 5
   offset: 0, 0
   index: -1
 healthBarYellow
   rotate: false
-  xy: 1, 1
+  xy: 267, 149
   size: 1, 5
   orig: 1, 5
   offset: 0, 0

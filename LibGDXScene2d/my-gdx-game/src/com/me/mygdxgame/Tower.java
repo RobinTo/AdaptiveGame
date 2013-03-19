@@ -82,7 +82,7 @@ public class Tower extends ExtendedActor {
         if (targetEnemy != null)
         {
         	rotation = (float)Math.toDegrees(Math.atan2(deltaYTarget, deltaXTarget));
-        	addAndClearActions(Actions.rotateTo(rotation));
+        	setRotation(rotation); // Possibly add an action rotating to rotation during a time, for smoother rotations.
 
         	enemyX = targetEnemy.getX() + targetEnemy.getWidth()/2;
         	enemyY = targetEnemy.getY() + targetEnemy.getHeight()/2;
@@ -109,7 +109,6 @@ public class Tower extends ExtendedActor {
 	{
 		if(targetEnemy != null)
 		{
-
 			Missile m;
 			
 			if(effects.missileTarget.targetingStrategy == TargetingStrategy.Circle)
