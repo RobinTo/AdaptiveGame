@@ -18,7 +18,7 @@ public class Enemy extends ExtendedActor
 	Rectangle healthBarYellowRectangle, healthBarRedRectangle;
 	boolean slowed, dotted;
 	HashMap<String, Float> floatingStats = new HashMap<String, Float>();
-
+	
     public Enemy(EnemyStats enemyStats, Vector2 startPosition, List<Direction> directions, Sprite enemySprite, Sprite redHealthBarSprite, Sprite yellowHealthBarSprite)
     {
     	
@@ -33,6 +33,7 @@ public class Enemy extends ExtendedActor
     	floatingStats.put("dotDurationBetweenTicks", 0f);
     	floatingStats.put("currentDotDurationBetweenTicks", 0f);
     	floatingStats.put("currentGoldYield", (float)enemyStats.goldYield);
+    	floatingStats.put("distanceTravelled", 0f);
     	
     	setSize(enemySprite.getWidth(), enemySprite.getHeight());
     	
@@ -72,9 +73,14 @@ public class Enemy extends ExtendedActor
     // Basically update(gameTime)
     @Override
 	public void act(float gameTime) {
-
+    	float x1 = this.getX();
+    	float y1 = this.getY();
 		super.act(gameTime * floatingStats.get("currentMoveSpeedMultiplier"));
-
+		float x2 = this.getX();
+		float y2 = this.getY();
+		
+		this.editStat("distanceTravelled", (float)Math.abs(Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2 - y1, 2))));
+		
 		if (floatingStats.get("currentMoveSpeedMultiplier") != 1.0f)
 		{
 			editStat("currentSlowDuration", -gameTime);

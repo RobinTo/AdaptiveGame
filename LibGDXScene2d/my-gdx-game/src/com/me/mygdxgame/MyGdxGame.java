@@ -702,7 +702,7 @@ public class MyGdxGame implements ApplicationListener {
 		}
 		if(wasTouched && !Gdx.input.isTouched())
 		{
-			if(building)
+			if(building && temporaryTowerActor != null)
 			{
 				if(touchedTile.x<=20 && touchedTile.y<=10 && a!= null && a.getClass() == MapTile.class)
 					buildTower(buildingTower, touchedTile);
