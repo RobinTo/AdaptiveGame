@@ -101,7 +101,7 @@ public class MyGdxGame implements ApplicationListener {
 	String buildingTower = "", towerName = "Tower";
 	
 	Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.BLACK);
-	static Label uiLabel, uiLabel2, uiLabel3, uiLabelSellPrice, uiLabelGold, uiLabelLives;
+	static Label uiLabel, uiLabel2, uiLabel3, uiLabelSellPrice;
 	
 	Camera gameCamera;
 
@@ -112,6 +112,7 @@ public class MyGdxGame implements ApplicationListener {
 	
 	boolean showingInput = false;
 	FeedbackTextInput listener = new FeedbackTextInput();
+	TextButton livesButton, goldButton;
 	
 	@Override
 	public void create() {
@@ -450,7 +451,7 @@ public class MyGdxGame implements ApplicationListener {
         	{
         		enemies.remove(enemy);
         		currentGold += enemy.getStat("currentGoldYield");
-        		uiLabelGold.setText("Gold: " + currentGold);
+        		goldButton.setText("        " + currentGold);
         		enemy.remove();
         		counter --;
         	}
@@ -459,7 +460,7 @@ public class MyGdxGame implements ApplicationListener {
         		enemies.remove(enemy);
         		enemy.remove();
         		livesLeft --;
-        		uiLabelLives.setText("Lives: " + livesLeft);
+        		livesButton.setText("" + livesLeft);
         		counter --;
         	}
         }
@@ -526,9 +527,9 @@ public class MyGdxGame implements ApplicationListener {
 		createUI();
 		
 		currentGold = GameConstants.startGold;
-		uiLabelGold.setText("Gold: " + currentGold);
+		goldButton.setText("        " + currentGold);
 		livesLeft = GameConstants.startLives;
-		uiLabelLives.setText("Lives: " + livesLeft);
+		livesButton.setText("" + livesLeft);
 		
 		won = false;
 		lost = false;
@@ -658,7 +659,7 @@ public class MyGdxGame implements ApplicationListener {
 					{
 						
 						currentGold -= buildCost;
-						uiLabelGold.setText("Gold: " + currentGold);
+						goldButton.setText("        " + currentGold);
 						stage.addActor(t);
 						towers.add(t);
 						selectTower(t);
@@ -799,12 +800,6 @@ public class MyGdxGame implements ApplicationListener {
 		uiLabelSellPrice = new Label("", labelStyle);
 		uiLabelSellPrice.setPosition(800, GameConstants.screenHeight-100);
 		stage.addActor(uiLabelSellPrice);
-		uiLabelGold = new Label("Gold: " + currentGold, labelStyle);
-		uiLabelGold.setPosition(600, GameConstants.screenHeight-70);
-		stage.addActor(uiLabelGold);
-		uiLabelLives = new Label("Lives: " + livesLeft, labelStyle);
-		uiLabelLives.setPosition(600, GameConstants.screenHeight-50);
-		stage.addActor(uiLabelLives);
 		
 		TextButton.TextButtonStyle settingsButtonStyle = new TextButton.TextButtonStyle();
 		TextureRegion upStyle = new TextureRegion(miscAtlas.createSprite("settingsButton"));
@@ -839,7 +834,7 @@ public class MyGdxGame implements ApplicationListener {
 				if (selectedTower != null)
 				{
 					currentGold += selectedTower.towerStats.sellPrice;
-					uiLabelGold.setText("Gold: " + currentGold);
+					goldButton.setText("        " + currentGold);
 					selectedTower.remove();
 					MyGdxGame.towers.remove(selectedTower);
 					MyGdxGame.selectTower(null);
@@ -868,7 +863,7 @@ public class MyGdxGame implements ApplicationListener {
 				boolean canAfford = currentGold >= upgradeCost ? true : false;
 				if (canAfford) {
 					MyGdxGame.currentGold -= upgradeCost;
-					uiLabelGold.setText("Gold: " + currentGold);
+					goldButton.setText("        " + currentGold);
 					eventHandler.queueEvent(new Event("upgrade", (int)(selectedTower.getX()/GameConstants.tileSize), (int)(selectedTower.getY()/GameConstants.tileSize), ""));
 				}
 				
@@ -878,7 +873,35 @@ public class MyGdxGame implements ApplicationListener {
 		upgradeButton.setPosition(GameConstants.screenWidth - 4*GameConstants.tileSize, GameConstants.screenHeight-100);
 		stage.addActor(upgradeButton);
 	
+		TextButton.TextButtonStyle livesButtonStyle = new TextButton.TextButtonStyle();
+		TextureRegion upStyleLives = new TextureRegion(miscAtlas.createSprite("heart"));
+		TextureRegion downStyleLives = new TextureRegion(miscAtlas.createSprite("heart"));
+		livesButtonStyle.font = font;
+		livesButtonStyle.up = new TextureRegionDrawable(upStyleLives);
+		livesButtonStyle.down = new TextureRegionDrawable(downStyleLives);
+		livesButton = new TextButton("" + livesLeft, livesButtonStyle);
+		livesButton.addListener(new InputListener() {
+			public boolean touchDown() {
+				return false;
+			}
+		});
+		livesButton.setPosition(10*GameConstants.tileSize, GameConstants.screenHeight-100);
+		stage.addActor(livesButton);
 		
+		TextButton.TextButtonStyle goldButtonStyle = new TextButton.TextButtonStyle();
+		TextureRegion upStyleGold = new TextureRegion(miscAtlas.createSprite("gold"));
+		TextureRegion downStyleGold = new TextureRegion(miscAtlas.createSprite("gold"));
+		goldButtonStyle.font = font;
+		goldButtonStyle.up = new TextureRegionDrawable(upStyleGold);
+		goldButtonStyle.down = new TextureRegionDrawable(downStyleGold);
+		goldButton = new TextButton("        " + currentGold, goldButtonStyle);
+		goldButton.addListener(new InputListener() {
+			public boolean touchDown() {
+				return false;
+			}
+		});
+		goldButton.setPosition(12*GameConstants.tileSize, GameConstants.screenHeight-100);
+		stage.addActor(goldButton);
 	}
 	private void loadSounds()
 	{

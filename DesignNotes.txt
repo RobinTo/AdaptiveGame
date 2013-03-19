@@ -1,5 +1,4 @@
 - Fancywin og fancytap
-- Flere tårn
 - Better towergui
 
 Etterhvert
