@@ -446,6 +446,7 @@ Public resources found in...
 Translatable source found in...
 Found 0 cached/archived units.  Used 0 / 2728 units from cache.
 Compiling...
+<<<<<<< HEAD
    50% complete (ETR: 4 seconds)
    50% complete (ETR: 4 seconds)
    50% complete (ETR: 4 seconds)
@@ -458,19 +459,41 @@ Compiling...
    90% complete (ETR: 1 seconds)
    100% complete (ETR: 0 seconds)
    Compilation completed in 11.13 seconds
+=======
+   0% complete (ETR: 70 seconds)
+   10% complete (ETR: 52 seconds)
+   20% complete (ETR: 37 seconds)
+   30% complete (ETR: 25 seconds)
+   40% complete (ETR: 20 seconds)
+   50% complete (ETR: 14 seconds)
+   60% complete (ETR: 10 seconds)
+   70% complete (ETR: 7 seconds)
+   80% complete (ETR: 5 seconds)
+   90% complete (ETR: 2 seconds)
+   100% complete (ETR: 0 seconds)
+   Compilation completed in 89,43 seconds
+>>>>>>> Towers, font
 Removing invalidated units
 Finding entry point classes
 Public resources found in...
 Translatable source found in...
 Found 2728 cached/archived units.  Used 2728 / 2728 units from cache.
 Compiling...
+<<<<<<< HEAD
    Compilation completed in 0.00 seconds
+=======
+   Compilation completed in 0,00 seconds
+>>>>>>> Towers, font
 Removing invalidated units
 Finding entry point classes
 Public resources found in...
 Translatable source found in...
 Found 2728 cached/archived units.  Used 2728 / 2728 units from cache.
 Compiling...
+<<<<<<< HEAD
    Compilation completed in 0.00 seconds
+=======
+   Compilation completed in 0,00 seconds
+>>>>>>> Towers, font
 Removing invalidated units
 Finding entry point classes

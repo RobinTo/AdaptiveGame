@@ -98,7 +98,7 @@ public class MyGdxGame implements ApplicationListener {
 	
 	Vector2 touchedTile = new Vector2(0,0);
 	
-	String buildingTower = "", towerName = "Tower", towerDamage = "10", towerCost = "30";
+	String buildingTower = "", towerName = "Tower";
 	
 	Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.BLACK);
 	static Label uiLabel, uiLabel2, uiLabel3, uiLabelSellPrice, uiLabelGold, uiLabelLives;
@@ -119,7 +119,7 @@ public class MyGdxGame implements ApplicationListener {
 		Gdx.graphics.setTitle("Adaptive Tower Defense v0.001");
 		spriteBatch = new SpriteBatch();
 		
-		font = new BitmapFont();
+		font = new BitmapFont(Gdx.files.internal("Fonts/KatyBerry.fnt"), Gdx.files.internal("Fonts/KatyBerry_0.tga"), false);
 		
 		stage = new Stage();
 		stage.setCamera(gameCamera);
