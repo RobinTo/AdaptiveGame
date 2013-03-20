@@ -2,7 +2,6 @@ package com.me.mygdxgame;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import com.badlogic.gdx.files.FileHandle;
@@ -43,9 +42,9 @@ public class ThinkTank {
 		}
 	}
 	
-	public void calculateResults()
+	public void calculateResults(int happy, int difficult)
 	{
-		
+		System.out.println("Happy: " + happy + "\nDifficult: " + difficult);
 	}
 	
 	public void writeParameters(FileHandle handle)

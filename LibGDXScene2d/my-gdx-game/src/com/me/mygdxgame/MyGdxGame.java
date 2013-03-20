@@ -125,6 +125,8 @@ public class MyGdxGame implements ApplicationListener {
 	
 	ThinkTank thinkTank = new ThinkTank();
 	
+	Questionaire questionaire;
+	
 	@Override
 	public void create() {
 		gameCamera = new OrthographicCamera(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
@@ -179,6 +181,7 @@ public class MyGdxGame implements ApplicationListener {
         Gdx.gl.glClearColor(Color.GRAY.r, Color.GRAY.g, Color.GRAY.b, Color.GRAY.a);
         
         loadSounds();
+        
 	}
 
 	@Override
@@ -191,6 +194,11 @@ public class MyGdxGame implements ApplicationListener {
 
     // clear previous frame
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		if (won || lost)
+		{
+			if (questionaire != null && questionaire.happy > 0 && questionaire.difficult > 0)
+	        	thinkTank.calculateResults(questionaire.happy, questionaire.difficult);
+		}
 		if(!paused)
 		{
 			updateGame();
@@ -234,7 +242,7 @@ public class MyGdxGame implements ApplicationListener {
         uC++;
         if(timer >= 1)
         {
-        	System.out.println("FPS: " + uC);
+        	//System.out.println("FPS: " + uC);
         	uC = 0;
         	timer = 0;
         }
@@ -244,6 +252,7 @@ public class MyGdxGame implements ApplicationListener {
         	spriteBatch.begin();
         	font.setScale(10);
         	font.draw(spriteBatch, "Game won", GameConstants.screenWidth/2 - 300, GameConstants.screenHeight/2);
+        	//questionaire.draw(spriteBatch);
         	font.setScale(1);
         	spriteBatch.end();
         }
@@ -252,6 +261,7 @@ public class MyGdxGame implements ApplicationListener {
         	spriteBatch.begin();
         	font.setScale(10);
         	font.draw(spriteBatch, "Game lost", GameConstants.screenWidth/2 - 300, GameConstants.screenHeight/2);
+        	//questionaire.draw(spriteBatch);
         	font.setScale(1);
         	spriteBatch.end();
         }
@@ -544,6 +554,9 @@ public class MyGdxGame implements ApplicationListener {
 		pauseTime = GameConstants.startTime;
 		paused = true;
 		resuming = true;
+		
+		questionaire.reset();
+		questionaire = null;
 	}
 	
 	private void checkWave(float totalTime)
@@ -561,7 +574,7 @@ public class MyGdxGame implements ApplicationListener {
 	
 	private void createWave()
 	{
-		
+		/*
 		addEnemyToWave(0.5f, createEnemy("basic"));
 		addEnemyToWave(10.5f, createEnemy("fast"));
 		addEnemyToWave(5.5f, createEnemy("tough"));
@@ -572,8 +585,8 @@ public class MyGdxGame implements ApplicationListener {
 		addEnemyToWave(6.5f, createEnemy("fast"));
 		addEnemyToWave(7.5f, createEnemy("tough"));
 		addEnemyToWave(8.5f, createEnemy("basic"));
-		
 		addEnemyToWave(11.5f, createEnemy("tough"));
+		*/
 		addEnemyToWave(0.1f, createEnemy("fast"));
 		Collections.sort(waveTime);
 	}
@@ -979,6 +992,7 @@ public class MyGdxGame implements ApplicationListener {
         		thinkTank.writeParameters(new FileHandle(parameterSavePath));
     			savedParameters = true;
     		}
+        	questionaire = new Questionaire(miscAtlas.createSprite("starButton"), stage, font);
         }
         else if (enemies.size() <= 0 && enemyWave.size() <= 0)
         {
@@ -990,7 +1004,7 @@ public class MyGdxGame implements ApplicationListener {
         		thinkTank.writeParameters(new FileHandle(parameterSavePath));
         		savedParameters = true;
         	}
-        	
+        	questionaire = new Questionaire(miscAtlas.createSprite("starButton"), stage, font);
         }
 	}
 }

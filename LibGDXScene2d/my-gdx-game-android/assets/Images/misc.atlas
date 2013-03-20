@@ -24,6 +24,13 @@ heart
   orig: 64, 64
   offset: 0, 0
   index: -1
+starButton
+  rotate: false
+  xy: 128, 90
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
 rangeHighlight
   rotate: false
   xy: 194, 156
