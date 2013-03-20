@@ -2,7 +2,10 @@ package com.me.mygdxgame;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+
+import com.badlogic.gdx.files.FileHandle;
 
 public class ThinkTank {
 
@@ -32,5 +35,28 @@ public class ThinkTank {
 			parameters.put("variety", variety);
 			measurements.put((int)Math.floor(totalTime), parameters);
 		}
+	}
+	
+	public void WriteParameters(FileHandle handle)
+	{
+		Iterator<String> keyIterator = parameters.keySet().iterator();
+		handle.writeString("Parameter List\r\n\r\n", false);
+		while(keyIterator.hasNext())
+		{
+			String s = keyIterator.next();
+			Float parameter = parameters.get(s);
+			
+				try
+				{
+					handle.writeString(s +":"+parameter+":\r\n", true);
+					System.out.println(s +":"+parameter+"\n");
+				}
+				catch(Exception e)
+				{
+					System.out.println(s +":"+parameter+"\n");
+					System.out.println(e.toString());
+				}
+		}
+		System.out.println("Saved Replay successfully");
 	}
 }
