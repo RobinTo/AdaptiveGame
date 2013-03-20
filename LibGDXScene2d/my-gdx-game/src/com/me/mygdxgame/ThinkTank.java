@@ -70,4 +70,9 @@ public class ThinkTank {
 		}*/
 		System.out.println("Saved Replay successfully");
 	}
+	
+	public void clear()
+	{
+		measurements.clear();
+	}
 }

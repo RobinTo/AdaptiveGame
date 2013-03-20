@@ -105,7 +105,7 @@ public class MyGdxGame implements ApplicationListener {
 	
 	Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.BLACK);
 
-	static Label nameLabel, buildCostLabel, upgradeCostLabel, uiLabelSellPrice;
+	static Label yellowBoxLabel;
 
 	
 	Camera gameCamera;
@@ -115,7 +115,6 @@ public class MyGdxGame implements ApplicationListener {
 	static int livesLeft, currentGold;
 	EventHandler eventHandler = new EventHandler();
 	
-	boolean showingInput = false;
 	FeedbackTextInput listener = new FeedbackTextInput();
 	TextButton livesButton, goldButton;
 	
@@ -260,7 +259,7 @@ public class MyGdxGame implements ApplicationListener {
 
 	@Override
 	public void resize(int width, int height) {
-		// calculate new viewport
+		
         float aspectRatio = (float)width/(float)height;
         float scale = 1f;
         Vector2 crop = new Vector2(0f, 0f);
@@ -516,8 +515,6 @@ public class MyGdxGame implements ApplicationListener {
 		replayHandler.savingEvents.clear();
 		useReplay = false;
 		
-		showingInput = false;
-		
 		stage.getActors().clear();
 		
 		towers.clear();
@@ -542,6 +539,7 @@ public class MyGdxGame implements ApplicationListener {
 		won = false;
 		lost = false;
 		
+		thinkTank.clear();
 		
 		pauseTime = GameConstants.startTime;
 		paused = true;
@@ -609,92 +607,47 @@ public class MyGdxGame implements ApplicationListener {
 	{
 		if (t != null)
 		{
-			int maxWidth = 0;
-			int height = 0;
-			int tempX;
+			List<String> textForBox = new ArrayList<String>();
 			selectedTower = t;
-			height += yellowBoxYPadding;
-			maxWidth = (int)font.getBounds(t.towerStats.type).width;
-			height += (int)font.getBounds(t.towerStats.type).height;
-			height += yellowBoxYPadding;
-			nameLabel.setText(t.towerStats.type);
+			textForBox.add(t.towerStats.type);
+			//nameLabel.setText(t.towerStats.type);
 
-			height += (int)font.getBounds(t.towerStats.description).height;
-			height += yellowBoxYPadding;
-			tempX = (int)font.getBounds(t.towerStats.description).width;
-			if(tempX>maxWidth)
-				maxWidth = tempX;
-			buildCostLabel.setText(t.towerStats.description);
+			textForBox.add(t.towerStats.description);
+			//buildCostLabel.setText(t.towerStats.description);
 			
 			
 			if (selectedTower.towerStats.upgradesTo.equals("null"))
 			{
-				height += (int)font.getBounds("Upgrade: MAX").height;
-				height += yellowBoxYPadding;
-				tempX = (int)font.getBounds("Upgrade: MAX").width;
-				if(tempX>maxWidth)
-					maxWidth = tempX;
-				upgradeCostLabel.setText("Upgrade: MAX");
+				textForBox.add("Upgrade: MAX");
+				//upgradeCostLabel.setText("Upgrade: MAX");
 			}
 			else
 			{
 				int upgradeCost = towerInfo.get(selectedTower.towerStats.upgradesTo).buildCost
 						- selectedTower.towerStats.buildCost;
-				height += (int)font.getBounds("Upgrade: " + upgradeCost).height;
-				height += yellowBoxYPadding;
-				tempX = (int)font.getBounds("Upgrade: " + upgradeCost).width;
-				if(tempX>maxWidth)
-					maxWidth = tempX;
-				upgradeCostLabel.setText("Upgrade: " + upgradeCost);
+				textForBox.add("Upgrade: " + upgradeCost);
+				//upgradeCostLabel.setText("Upgrade: " + upgradeCost);
 			}
-			height += (int)font.getBounds("Sell: " + selectedTower.towerStats.sellPrice).height;
-			height += yellowBoxYPadding;
-			tempX = (int)font.getBounds("Sell: " + selectedTower.towerStats.sellPrice).width;
-			if(tempX>maxWidth)
-				maxWidth = tempX;
-			uiLabelSellPrice.setText("Sell: " + selectedTower.towerStats.sellPrice);
-			height += yellowBoxYPadding;
-			
-			maxWidth += 2*yellowBoxXPadding;
-			
-			this.fadeInYellowBox(t, maxWidth, height);
+			textForBox.add("Sell: " + selectedTower.towerStats.sellPrice);
+			//uiLabelSellPrice.setText("Sell: " + selectedTower.towerStats.sellPrice);
+			this.fadeInYellowBox(t, textForBox);
 		}
 		else
 		{
 			selectedTower = null;
-			nameLabel.setText("");
-			buildCostLabel.setText("");
-			upgradeCostLabel.setText("");
-			uiLabelSellPrice.setText("");
+			yellowBoxLabel.setText("");
 			this.fadeOutYellowBox();
 		}
 	}
 	
 	private void selectEnemy(Enemy e)
 	{	
-		int maxWidth = 0;
-		int height = 0;
-		int tempX;
-		height += yellowBoxYPadding;
-		maxWidth = (int)font.getBounds(e.enemyStats.type).width;
-		height += (int)font.getBounds(e.enemyStats.type).height;
-		nameLabel.setText(e.enemyStats.type);
+		List<String> textForBox = new ArrayList<String>();
 		
-		tempX = (int)font.getBounds("Health: " + e.getStat("currentHealth")).width;
-		height += (int)font.getBounds("Health: " + e.getStat("currentHealth")).height;
-		if(tempX > maxWidth)
-			maxWidth = tempX;
-		buildCostLabel.setText("Health: " + e.getStat("currentHealth"));
-
-		tempX = (int)font.getBounds("Yields: " + e.getStat("currentGoldYield")).width;
-		height += (int)font.getBounds("Health: " + e.getStat("currentHealth")).height;
-		if(tempX > maxWidth)
-			maxWidth = tempX;
-		upgradeCostLabel.setText("Yields: " + e.getStat("currentGoldYield"));
-		uiLabelSellPrice.setText("");
-		height += 2*yellowBoxYPadding;
-		maxWidth += 2*yellowBoxXPadding;
-		fadeInYellowBox(e, maxWidth, height);
+		textForBox.add(e.enemyStats.type);
+		textForBox.add("Health: " + e.getStat("currentHealth"));
+		textForBox.add("Yields: " + e.getStat("currentGoldYield"));
+		fadeInYellowBox(e, textForBox);
 	}
 	
 	private void handleEvents()
@@ -796,7 +749,7 @@ public class MyGdxGame implements ApplicationListener {
 				Enemy e = (Enemy)hit;
 				selectEnemy(e);
 			}
-			else
+			else if(Gdx.input.justTouched())
 			{
 				fadeOutYellowBox();
 			}
@@ -820,30 +773,36 @@ public class MyGdxGame implements ApplicationListener {
 				y = targetYellowBoxActor.getY() - yellowBox.getHeight();
 			}
 			yellowBox.setPosition(x, y);
-			nameLabel.setPosition(x+10, y+(yellowBox.getHeight()-20));
-			buildCostLabel.setPosition(x+10, y+(yellowBox.getHeight()-50));
-			upgradeCostLabel.setPosition(x+10, y+(yellowBox.getHeight()-80));
-			uiLabelSellPrice.setPosition(x+10, y+(yellowBox.getHeight()-110));
+			yellowBoxLabel.setPosition(x+yellowBoxXPadding, y + (yellowBox.getHeight() - yellowBoxLines*font.getBounds(yellowBoxLabel.getText()).height));
 		}
 	}
 	
-	private void fadeInYellowBox(ExtendedActor targetActor, int width, int height)
+	int yellowBoxLines = 0;
+	private void fadeInYellowBox(ExtendedActor targetActor, List<String> strings)
 	{
+		yellowBoxLines = strings.size();
+		int height = 2*yellowBoxYPadding;
+		int width = 0;
+		yellowBoxLabel.setText("");
+		for(String s : strings)
+		{
+			height += 2*(int)font.getBounds(s).height;
+			yellowBoxLabel.setText(yellowBoxLabel.getText() + s + "\n");
+			if(font.getBounds(s).width > width)
+				width = (int)font.getBounds(s).width;
+		}
+		width += 2*yellowBoxXPadding;
 		yellowBox.setSize(width, height);
 		targetYellowBoxActor = targetActor;
-		yellowBoxGroup.setScale(0, 0);
 		yellowBoxGroup.setVisible(true);
 		yellowBoxGroup.setColor(0, 0, 0, 60);
-		yellowBoxGroup.addAction(Actions.scaleTo(1, 1, 0.25f));
-		yellowBoxGroup.addAction(Actions.moveTo(0, 0, 0.25f));
-		yellowBoxGroup.setZIndex(1000);
+		yellowBoxGroup.setZIndex(1000);		// Random high value, to keep it above anything.
 	}
 	
 	private void fadeOutYellowBox()
 	{
 		targetYellowBoxActor = null;
-		yellowBoxGroup.addAction(Actions.scaleTo(0, 0, 0.25f));
-		yellowBoxGroup.addAction(Actions.moveTo(yellowBox.getX(), yellowBox.getY(), 0.25f));
+		yellowBoxGroup.setVisible(false);
 	}
 	
 	private void createUI()
@@ -857,19 +816,10 @@ public class MyGdxGame implements ApplicationListener {
 		towerKeys.addAll(towerInfo.keySet());
 		
 		Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.BLACK);
-		nameLabel = new Label("", labelStyle);
-		nameLabel.setPosition(800, GameConstants.screenHeight-40);
-		yellowBoxGroup.addActor(nameLabel);
-		buildCostLabel = new Label("", labelStyle);
-		buildCostLabel.setPosition(800, GameConstants.screenHeight-60);
-		yellowBoxGroup.addActor(buildCostLabel);
-		upgradeCostLabel = new Label("", labelStyle);
-		upgradeCostLabel.setPosition(800, GameConstants.screenHeight-80);
-		yellowBoxGroup.addActor(upgradeCostLabel);
-		uiLabelSellPrice = new Label("", labelStyle);
-		uiLabelSellPrice.setPosition(800, GameConstants.screenHeight-100);
-		
-		yellowBoxGroup.addActor(uiLabelSellPrice);
+		yellowBoxLabel = new Label("", labelStyle);
+		yellowBoxLabel.setPosition(800, GameConstants.screenHeight-40);
+		yellowBoxGroup.addActor(yellowBoxLabel);
+
 		yellowBoxGroup.setVisible(false);
 		
 		stage.addActor(yellowBoxGroup);
@@ -972,18 +922,7 @@ public class MyGdxGame implements ApplicationListener {
 					towerName = currentKey;
 					temporaryTowerActor = new MapTile(towersAtlas.createSprite(towerInfo.get(towerName).towerTexture), -64,0);
 					stage.addActor(temporaryTowerActor);
-					nameLabel.setText(towerName);
-					buildCostLabel.setText("Build: " + towerInfo.get(currentKey).buildCost);
-					if (towerInfo.get(currentKey).upgradesTo.equals("null"))
-						upgradeButton.setText("Max");
-					else
-					{
-						int upgradeCost = towerInfo.get(towerInfo
-								.get(currentKey).upgradesTo).buildCost
-								- towerInfo.get(currentKey).buildCost;
-						upgradeCostLabel.setText("Upgrade: " + upgradeCost);
-					}
-					uiLabelSellPrice.setText("Sell: " + towerInfo.get(currentKey).sellPrice);
+					yellowBoxLabel.setText(towerName);
 					return true;
 				}
 			});
@@ -1035,11 +974,6 @@ public class MyGdxGame implements ApplicationListener {
         {
         	//Loser
         	lost = true;
-        	if(!showingInput)
-        	{
-        		Gdx.input.getTextInput(listener, "Feedback", "Rate this map with a number from 0 to 9");
-        		showingInput = true;
-        	}
         	if (!savedParameters)
         	{
         		thinkTank.writeParameters(new FileHandle(parameterSavePath));
@@ -1050,12 +984,6 @@ public class MyGdxGame implements ApplicationListener {
         {
         	//Winner
         	won = true;
-
-        	if(!showingInput)
-        	{
-        		Gdx.input.getTextInput(listener, "Feedback", "Rate this map with a number from 0 to 9");
-        		showingInput = true;
-        	}
         	//resetGame();
         	if (!savedParameters)
         	{
