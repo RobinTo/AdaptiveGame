@@ -46,7 +46,6 @@ public class MyGdxGame implements ApplicationListener {
 	String replayPath = "/AdaptiveTDReplays/testReplay.txt";			// Must be external, relative to user directory.
 	String replaySavePath = "/AdaptiveTDReplays/testReplay.txt";
 	
-	ParameterHandler parameterHandler = new ParameterHandler();
 	String parameterSavePath = "/AdaptiveTDParameters/parameters.txt";
 	
 	boolean paused = true;
@@ -1040,7 +1039,6 @@ public class MyGdxGame implements ApplicationListener {
         		Gdx.input.getTextInput(listener, "Feedback", "Rate this map with a number from 0 to 9");
         		showingInput = true;
         	}
-        	parameterHandler.saveParameters(new FileHandle(parameterSavePath));
         }
         else if (enemies.size() <= 0 && enemyWave.size() <= 0)
         {
@@ -1053,7 +1051,7 @@ public class MyGdxGame implements ApplicationListener {
         		showingInput = true;
         	}
         	//resetGame();
-        	parameterHandler.saveParameters(new FileHandle(parameterSavePath));
+        	
         }
 	}
 }
