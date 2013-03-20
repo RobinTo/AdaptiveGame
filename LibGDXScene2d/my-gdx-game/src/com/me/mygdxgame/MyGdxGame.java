@@ -46,6 +46,9 @@ public class MyGdxGame implements ApplicationListener {
 	String replayPath = "/AdaptiveTDReplays/testReplay.txt";			// Must be external, relative to user directory.
 	String replaySavePath = "/AdaptiveTDReplays/testReplay.txt";
 	
+	ParameterHandler parameterHandler = new ParameterHandler();
+	String parameterSavePath = "/AdaptiveTDParameters/parameters.txt";
+	
 	boolean paused = true;
 	boolean resuming = true;
 	
@@ -486,29 +489,8 @@ public class MyGdxGame implements ApplicationListener {
         		counter --;
         	}
         }
+        checkWinConditions();
         
-        if (livesLeft <= 0)
-        {
-        	//Loser
-        	lost = true;
-        	if(!showingInput)
-        	{
-        		Gdx.input.getTextInput(listener, "Feedback", "Rate this map with a number from 0 to 9");
-        		showingInput = true;
-        	}
-        }
-        else if (enemies.size() <= 0 && enemyWave.size() <= 0)
-        {
-        	//Winner
-        	won = true;
-
-        	if(!showingInput)
-        	{
-        		Gdx.input.getTextInput(listener, "Feedback", "Rate this map with a number from 0 to 9");
-        		showingInput = true;
-        	}
-        	//resetGame();
-        }
 	}
 	
 	@Override
@@ -1015,11 +997,6 @@ public class MyGdxGame implements ApplicationListener {
 		livesButtonStyle.up = new TextureRegionDrawable(upStyleLives);
 		livesButtonStyle.down = new TextureRegionDrawable(downStyleLives);
 		livesButton = new TextButton("" + livesLeft, livesButtonStyle);
-		livesButton.addListener(new InputListener() {
-			public boolean touchDown() {
-				return false;
-			}
-		});
 		livesButton.setPosition(10*GameConstants.tileSize, GameConstants.screenHeight-100);
 		stage.addActor(livesButton);
 		
@@ -1030,11 +1007,6 @@ public class MyGdxGame implements ApplicationListener {
 		goldButtonStyle.up = new TextureRegionDrawable(upStyleGold);
 		goldButtonStyle.down = new TextureRegionDrawable(downStyleGold);
 		goldButton = new TextButton("        " + currentGold, goldButtonStyle);
-		goldButton.addListener(new InputListener() {
-			public boolean touchDown() {
-				return false;
-			}
-		});
 		goldButton.setPosition(12*GameConstants.tileSize, GameConstants.screenHeight-100);
 		stage.addActor(goldButton);
 	}
@@ -1052,5 +1024,32 @@ public class MyGdxGame implements ApplicationListener {
 		}
 
 		System.out.println("Finished loading sounds");
+	}
+	private void checkWinConditions()
+	{
+		if (livesLeft <= 0)
+        {
+        	//Loser
+        	lost = true;
+        	if(!showingInput)
+        	{
+        		Gdx.input.getTextInput(listener, "Feedback", "Rate this map with a number from 0 to 9");
+        		showingInput = true;
+        	}
+        	parameterHandler.saveParameters(new FileHandle(parameterSavePath));
+        }
+        else if (enemies.size() <= 0 && enemyWave.size() <= 0)
+        {
+        	//Winner
+        	won = true;
+
+        	if(!showingInput)
+        	{
+        		Gdx.input.getTextInput(listener, "Feedback", "Rate this map with a number from 0 to 9");
+        		showingInput = true;
+        	}
+        	//resetGame();
+        	parameterHandler.saveParameters(new FileHandle(parameterSavePath));
+        }
 	}
 }
