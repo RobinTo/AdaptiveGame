@@ -11,6 +11,7 @@ reloadtime:0.5f
 range:300
 effect:edit:currentHealth:-1
 buildable:true
+description:Single target tower.
 endTower
 type:Arrow2
 towerTexture:arrowTower2
@@ -25,6 +26,7 @@ reloadtime:0.5f
 range:400
 effect:edit:currentHealth:-2
 buildable:false
+description:Single target tower.
 endTower
 type:Arrow3
 towerTexture:arrowTower3
@@ -39,6 +41,7 @@ reloadtime:0.5f
 range:500
 effect:edit:currentHealth:-3
 buildable:false
+description:Single target tower.
 endTower
 type:FrostArrow1
 towerTexture:blueTower
@@ -54,6 +57,7 @@ range:300
 effect:set:currentMoveSpeedMultiplier:0.7f
 effect:set:currentSlowDuration:2.0f
 buildable:true
+description:Slows enemies in an area on impact.
 endTower
 type:FrostArrow2
 towerTexture:blueTower2
@@ -69,6 +73,7 @@ range:300
 effect:set:currentMoveSpeedMultiplier:0.5f
 effect:set:currentSlowDuration:2.0f
 buildable:false
+description:Slows enemies in an area on impact.
 endTower
 type:FrostArrow3
 towerTexture:blueTower3
@@ -84,6 +89,7 @@ range:300
 effect:set:currentMoveSpeedMultiplier:0.3f
 effect:set:currentSlowDuration:2.0f
 buildable:false
+description:Slows enemies in an area on impact.
 endTower
 type:FlameCircle1
 towerTexture:redTower
@@ -97,6 +103,7 @@ reloadtime:1.5f
 range:100
 effect:edit:currentHealth:-10
 buildable:true
+description:Deals damage in an area around itself.
 endTower
 type:FlameCircle2
 towerTexture:redTower2
@@ -110,6 +117,7 @@ reloadtime:1.5f
 range:100
 effect:edit:currentHealth:-20
 buildable:false
+description:Deals damage in an area around itself.
 endTower
 type:FlameCircle3
 towerTexture:redTower3
@@ -123,6 +131,7 @@ reloadtime:1.5f
 range:100
 effect:edit:currentHealth:-30
 buildable:false
+description:Deals damage in an area around itself.
 endTower
 type:LineLaser
 towerTexture:testTower
@@ -136,6 +145,7 @@ reloadtime:2.0f
 range:400
 effect:edit:currentHealth:-20
 buildable:true
+description:Deals damage to enemies in a line.
 endTower
 type:LineLaser2
 towerTexture:testTower2
@@ -149,6 +159,7 @@ reloadtime:2.0f
 range:400
 effect:edit:currentHealth:-40
 buildable:false
+description:Deals damage to enemies in a line.
 endTower
 type:LineLaser3
 towerTexture:testTower3
@@ -162,4 +173,5 @@ reloadtime:2.0f
 range:400
 effect:edit:currentHealth:-60
 buildable:false
+description:Deals damage to enemies in a line.
 endTower

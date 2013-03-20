@@ -27,7 +27,7 @@ public class StatsFetcher {
 		{
 			boolean towerDone = false, buildable = false;
 
-			String type = "", towerTexture = "", upgradesTo = "", missileTexture = "", shootSound = "", impactSound = "";
+			String type = "", towerTexture = "", upgradesTo = "", missileTexture = "", shootSound = "", impactSound = "", description = "";
 
 			MissileEffect missileEffects = null;
 			float reloadTime = 1f;
@@ -114,6 +114,10 @@ public class StatsFetcher {
 					{
 						buildable = Boolean.valueOf(split[1]);
 					}
+					else if(testString0.equals("description"))
+					{
+						description = split[1];
+					}
 					i++;
 				}
 				
@@ -135,7 +139,7 @@ public class StatsFetcher {
 				missileEffects = new MissileEffect(new TargetSingle(null), effectsForMissile);
 			}
 			System.out.println("Created tower: " + type + ":" + towerTexture + ":" + missileTexture + ":" + sellPrice + ":" + upgradeCost + ":" + buildCost + ":" + missileEffects.effects.size() + ":" + reloadTime + ":" + range);
-			towerInfo.put(type, new TowerStats(type, upgradesTo, towerTexture, missileTexture, sellPrice, upgradeCost, buildCost, missileEffects, reloadTime, range, radius, buildable, shootSound, impactSound));
+			towerInfo.put(type, new TowerStats(type, description, upgradesTo, towerTexture, missileTexture, sellPrice, upgradeCost, buildCost, missileEffects, reloadTime, range, radius, buildable, shootSound, impactSound));
 		}
 		return towerInfo;
 	}

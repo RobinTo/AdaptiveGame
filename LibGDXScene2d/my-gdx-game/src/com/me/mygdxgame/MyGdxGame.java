@@ -118,6 +118,8 @@ public class MyGdxGame implements ApplicationListener {
 	
 	ExtendedActor yellowBox;
 	Group yellowBoxGroup;
+	int yellowBoxYPadding = 10;
+	int yellowBoxXPadding = 15;
 	
 	@Override
 	public void create() {
@@ -193,6 +195,20 @@ public class MyGdxGame implements ApplicationListener {
 		}
 		else if(resuming && !won && !lost)
 		{
+			if(!useReplay)
+			{
+				handleInput();
+				eventHandler.update();
+			}
+			else{
+				eventHandler.events = replayHandler.playReplay(totalTime);
+			}
+			if(saveReplay)
+			{
+				replayHandler.addEvents(totalTime, eventHandler);
+			}
+			handleEvents();
+			updateYellowBoxPosition();
 			// Draws game
 	        stage.draw();
 	        
@@ -607,19 +623,55 @@ public class MyGdxGame implements ApplicationListener {
 	{
 		if (t != null)
 		{
+			int maxWidth = 0;
+			int height = 0;
+			int tempX;
 			selectedTower = t;
+			height += yellowBoxYPadding;
+			maxWidth = (int)font.getBounds(t.towerStats.type).width;
+			height += (int)font.getBounds(t.towerStats.type).height;
+			height += yellowBoxYPadding;
 			nameLabel.setText(t.towerStats.type);
-			buildCostLabel.setText("Build: " + selectedTower.towerStats.buildCost);
+
+			height += (int)font.getBounds(t.towerStats.description).height;
+			height += yellowBoxYPadding;
+			tempX = (int)font.getBounds(t.towerStats.description).width;
+			if(tempX>maxWidth)
+				maxWidth = tempX;
+			buildCostLabel.setText(t.towerStats.description);
+			
+			
 			if (selectedTower.towerStats.upgradesTo.equals("null"))
+			{
+				height += (int)font.getBounds("Upgrade: MAX").height;
+				height += yellowBoxYPadding;
+				tempX = (int)font.getBounds("Upgrade: MAX").width;
+				if(tempX>maxWidth)
+					maxWidth = tempX;
 				upgradeCostLabel.setText("Upgrade: MAX");
+			}
 			else
 			{
 				int upgradeCost = towerInfo.get(selectedTower.towerStats.upgradesTo).buildCost
 						- selectedTower.towerStats.buildCost;
+				height += (int)font.getBounds("Upgrade: " + upgradeCost).height;
+				height += yellowBoxYPadding;
+				tempX = (int)font.getBounds("Upgrade: " + upgradeCost).width;
+				if(tempX>maxWidth)
+					maxWidth = tempX;
 				upgradeCostLabel.setText("Upgrade: " + upgradeCost);
 			}
+			height += (int)font.getBounds("Sell: " + selectedTower.towerStats.sellPrice).height;
+			height += yellowBoxYPadding;
+			tempX = (int)font.getBounds("Sell: " + selectedTower.towerStats.sellPrice).width;
+			if(tempX>maxWidth)
+				maxWidth = tempX;
 			uiLabelSellPrice.setText("Sell: " + selectedTower.towerStats.sellPrice);
-			this.fadeInYellowBox(t);
+			height += yellowBoxYPadding;
+			
+			maxWidth += 2*yellowBoxXPadding;
+			
+			this.fadeInYellowBox(t, maxWidth, height);
 		}
 		else
 		{
@@ -634,11 +686,29 @@ public class MyGdxGame implements ApplicationListener {
 	
 	private void selectEnemy(Enemy e)
 	{	
+		int maxWidth = 0;
+		int height = 0;
+		int tempX;
+		height += yellowBoxYPadding;
+		maxWidth = (int)font.getBounds(e.enemyStats.type).width;
+		height += (int)font.getBounds(e.enemyStats.type).height;
 		nameLabel.setText(e.enemyStats.type);
+		
+		tempX = (int)font.getBounds("Health: " + e.getStat("currentHealth")).width;
+		height += (int)font.getBounds("Health: " + e.getStat("currentHealth")).height;
+		if(tempX > maxWidth)
+			maxWidth = tempX;
 		buildCostLabel.setText("Health: " + e.getStat("currentHealth"));
+
+		tempX = (int)font.getBounds("Yields: " + e.getStat("currentGoldYield")).width;
+		height += (int)font.getBounds("Health: " + e.getStat("currentHealth")).height;
+		if(tempX > maxWidth)
+			maxWidth = tempX;
 		upgradeCostLabel.setText("Yields: " + e.getStat("currentGoldYield"));
 		uiLabelSellPrice.setText("");
-		fadeInYellowBox(e);
+		height += 2*yellowBoxYPadding;
+		maxWidth += 2*yellowBoxXPadding;
+		fadeInYellowBox(e, maxWidth, height);
 	}
 	
 	private void handleEvents()
@@ -771,8 +841,9 @@ public class MyGdxGame implements ApplicationListener {
 		}
 	}
 	
-	private void fadeInYellowBox(ExtendedActor targetActor)
+	private void fadeInYellowBox(ExtendedActor targetActor, int width, int height)
 	{
+		yellowBox.setSize(width, height);
 		targetYellowBoxActor = targetActor;
 		yellowBoxGroup.setScale(0, 0);
 		yellowBoxGroup.setVisible(true);

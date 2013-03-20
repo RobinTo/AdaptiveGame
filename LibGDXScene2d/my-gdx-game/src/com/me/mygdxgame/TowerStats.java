@@ -10,14 +10,16 @@ public class TowerStats
 	int sellPrice, upgradeCost, buildCost, range, radius;
 	float reloadTime;
 	boolean buildable;
+	String description;
 
-	public TowerStats(String type, String upgradesTo, String towerTexture,
+	public TowerStats(String type, String description, String upgradesTo, String towerTexture,
 			String missileTexture, int sellPrice, int upgradeCost,
 			int buildCost, MissileEffect missileEffects, float reloadTime,
 			int range, int radius, boolean buildable, String shootSound,
 			String impactSound)
 	{
 		this.type = type;
+		this.description = description;
 		this.towerTexture = towerTexture;
 		this.missileEffects = missileEffects;
 		this.sellPrice = sellPrice;

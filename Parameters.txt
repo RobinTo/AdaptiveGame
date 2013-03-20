@@ -33,5 +33,6 @@ Sensors
 - Selling is generally impulsive, not planned (bad)
 - Using focus fire function
 
-
-
+Feedback:
+gøy
+vanskelig
