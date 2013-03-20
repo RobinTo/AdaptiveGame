@@ -124,6 +124,8 @@ public class MyGdxGame implements ApplicationListener {
 	int yellowBoxYPadding = 10;
 	int yellowBoxXPadding = 15;
 	
+	ThinkTank thinkTank = new ThinkTank();
+	
 	@Override
 	public void create() {
 		gameCamera = new OrthographicCamera(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
@@ -210,6 +212,7 @@ public class MyGdxGame implements ApplicationListener {
 			{
 				replayHandler.addEvents(totalTime, eventHandler);
 			}
+			thinkTank.UpdateParameters(0, currentGold, livesLeft, towers, eventHandler.events, towerInfo);
 			handleEvents();
 			updateYellowBoxPosition();
 			// Draws game
@@ -310,6 +313,7 @@ public class MyGdxGame implements ApplicationListener {
 		{
 			replayHandler.addEvents(totalTime, eventHandler);
 		}
+		thinkTank.UpdateParameters(totalTime, currentGold, livesLeft, towers, eventHandler.events, towerInfo);
 		handleEvents();
 		updateYellowBoxPosition();
         checkWave(totalTime);
