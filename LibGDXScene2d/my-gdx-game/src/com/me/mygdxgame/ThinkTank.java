@@ -10,15 +10,19 @@ import com.badlogic.gdx.files.FileHandle;
 public class ThinkTank {
 
 	HashMap<Integer, HashMap<String, Float>> measurements = new HashMap<Integer, HashMap<String, Float>>();
+	int actionCounter = 0;
+	int timePerTick = 10;
 	
-	public void UpdateParameters(float totalTime, int gold, int lives, List<Tower> towers, List<Event> events, HashMap<String, TowerStats> availableTowers){
+	public void updateParameters(float totalTime, int gold, int lives, List<Tower> towers, List<Event> events, HashMap<String, TowerStats> availableTowers){
 
-		if(Math.floor(totalTime)%10 == 0 && !measurements.containsKey(Math.floor(totalTime)))
+		actionCounter += events.size();
+		if(Math.floor(totalTime)%timePerTick == 0 && !measurements.containsKey(Math.floor(totalTime)))
 		{
 			HashMap<String, Float> parameters = new HashMap<String, Float>();
 			parameters.put("totalTime", totalTime);
-			parameters.put("goldPerLife", (float)(gold/lives));
-			parameters.put("APM", parameters.get("APM") + events.size()); // Do Events/totalTime when done
+			parameters.put("gold", (float) gold);
+			parameters.put("lives", (float) lives);
+			parameters.put("APM", (float) actionCounter);
 			parameters.put("lives", (float)lives);
 			
 			float variety = 0;
@@ -34,12 +38,19 @@ public class ThinkTank {
 			variety = variety/availableTowers.size();
 			parameters.put("variety", variety);
 			measurements.put((int)Math.floor(totalTime), parameters);
+			
+			actionCounter = 0;
 		}
 	}
 	
-	public void WriteParameters(FileHandle handle)
+	public void calculateResults()
 	{
-		Iterator<String> keyIterator = parameters.keySet().iterator();
+		
+	}
+	
+	public void writeParameters(FileHandle handle)
+	{
+		/*Iterator<String> keyIterator = parameters.keySet().iterator();
 		handle.writeString("Parameter List\r\n\r\n", false);
 		while(keyIterator.hasNext())
 		{
@@ -56,7 +67,7 @@ public class ThinkTank {
 					System.out.println(s +":"+parameter+"\n");
 					System.out.println(e.toString());
 				}
-		}
+		}*/
 		System.out.println("Saved Replay successfully");
 	}
 }

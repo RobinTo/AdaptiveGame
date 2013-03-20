@@ -212,7 +212,7 @@ public class MyGdxGame implements ApplicationListener {
 			{
 				replayHandler.addEvents(totalTime, eventHandler);
 			}
-			thinkTank.UpdateParameters(0, currentGold, livesLeft, towers, eventHandler.events, towerInfo);
+			thinkTank.updateParameters(0, currentGold, livesLeft, towers, eventHandler.events, towerInfo);
 			handleEvents();
 			updateYellowBoxPosition();
 			// Draws game
@@ -313,7 +313,7 @@ public class MyGdxGame implements ApplicationListener {
 		{
 			replayHandler.addEvents(totalTime, eventHandler);
 		}
-		thinkTank.UpdateParameters(totalTime, currentGold, livesLeft, towers, eventHandler.events, towerInfo);
+		thinkTank.updateParameters(totalTime, currentGold, livesLeft, towers, eventHandler.events, towerInfo);
 		handleEvents();
 		updateYellowBoxPosition();
         checkWave(totalTime);
@@ -1042,7 +1042,7 @@ public class MyGdxGame implements ApplicationListener {
         	}
         	if (!savedParameters)
         	{
-        		thinkTank.WriteParameters(new FileHandle(parameterSavePath));
+        		thinkTank.writeParameters(new FileHandle(parameterSavePath));
     			savedParameters = true;
     		}
         }
@@ -1059,7 +1059,7 @@ public class MyGdxGame implements ApplicationListener {
         	//resetGame();
         	if (!savedParameters)
         	{
-        		thinkTank.WriteParameters(new FileHandle(parameterSavePath));
+        		thinkTank.writeParameters(new FileHandle(parameterSavePath));
         		savedParameters = true;
         	}
         	
