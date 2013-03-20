@@ -1,9 +1,27 @@
-- Fancywin og fancytap
-- Better towergui
+Tasks
+- Tower cost
+- Questionaire text
+  - "For lett, Perfekt, For vanskelig"
+- Questionaire images
+- Kalkulere nye stats(leste parametere)
+  - Monster HP, Speed, gold yield
+  - Tower reload time, damage, cost
+  - Wave mobcount, composition
+- Lagre parametere
+- Lese parametere
+- Endre lagringsplasser (en mappe kun)
+- Lage en ny versjon deploy. (som er adaptiv)
+- Replay: Events til removelist.
 
 Etterhvert
 - Lyd
 - Grafikk
+
+
+Ideas
+- Advanced questionaire
+- Tower upgrade shop
+
 
 From Sondre (12.02.2013)
 - Questionaire

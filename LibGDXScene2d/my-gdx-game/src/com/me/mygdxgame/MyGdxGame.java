@@ -41,8 +41,8 @@ public class MyGdxGame implements ApplicationListener {
 	boolean printDebug = true; // Print debug, add or remove writes in end of render.
 
 	ReplayHandler replayHandler = new ReplayHandler();
-	boolean saveReplay = true;
-	boolean useReplay = false;
+	boolean saveReplay = false;
+	boolean useReplay = true;
 	String replayPath = "/AdaptiveTDReplays/testReplay.txt";			// Must be external, relative to user directory.
 	String replaySavePath = "/AdaptiveTDReplays/testReplay.txt";
 	
@@ -901,7 +901,7 @@ public class MyGdxGame implements ApplicationListener {
 				if (canAfford) {
 					MyGdxGame.currentGold -= upgradeCost;
 					goldButton.setText("        " + currentGold);
-					eventHandler.queueEvent(new Event("upgrade", (int)(selectedTower.getX()/GameConstants.tileSize), (int)(selectedTower.getY()/GameConstants.tileSize), ""));
+					eventHandler.queueEvent(new Event("upgrade", (int)(selectedTower.getX()/GameConstants.tileSize), (int)(selectedTower.getY()/GameConstants.tileSize), "x"));
 				}
 				
 				return true;
