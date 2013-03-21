@@ -38,7 +38,7 @@ public class ReplayHandler {
 			if(f <= totalGameTime)
 			{
 				returnEvents = events.get(f);
-				events.remove(f);
+				//events.remove(f);
 			}
 		}
 		return returnEvents;
