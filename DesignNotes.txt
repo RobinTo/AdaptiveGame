@@ -10,7 +10,7 @@ Tasks
 - Lagre parametere
 - Lese parametere
 - Lage en ny versjon deploy. (som er adaptiv)
-- Replay: Events til removelist.
+- Replay: Events til removelist. Tror dette er ok nå
 
 Etterhvert
 - Lyd
