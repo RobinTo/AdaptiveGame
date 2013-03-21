@@ -47,7 +47,7 @@ public class ReplayHandler {
 	public void saveReplay(FileHandle handle)
 	{
 		Iterator<Float> keyIterator = savingEvents.keySet().iterator();
-		
+		//handle.writeString("", false);
 		while(keyIterator.hasNext())
 		{
 			float f = keyIterator.next();
