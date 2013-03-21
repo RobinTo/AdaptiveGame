@@ -41,13 +41,13 @@ public class MyGdxGame implements ApplicationListener {
 	boolean printDebug = true; // Print debug, add or remove writes in end of render.
 
 	ReplayHandler replayHandler = new ReplayHandler();
-	boolean saveReplay = false;
-	boolean useReplay = true;
-	String replayPath = "/AdaptiveTDReplays/testReplay.txt";			// Must be external, relative to user directory.
-	String replaySavePath = "/AdaptiveTDReplays/testReplay.txt";
+	boolean saveReplay = true;
+	boolean useReplay = false;
+	String replayPath = "/AdaptiveTD/Replays/testReplay.txt";			// Must be external, relative to user directory.
+	String replaySavePath = "/AdaptiveTD/Replays/testReplay.txt";
 	
 	boolean savedParameters = false;
-	String parameterSavePath = "/AdaptiveTDParameters/parameters.txt";
+	String parameterSavePath = "/AdaptiveTD/Parameters/parameters.txt";
 	
 	boolean paused = true;
 	boolean resuming = true;
