@@ -196,8 +196,8 @@ public class MyGdxGame implements ApplicationListener {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		if (won || lost)
 		{
-			if (questionaire != null && questionaire.happy > 0 && questionaire.difficult > 0)
-	        	thinkTank.calculateResults(questionaire.happy, questionaire.difficult);
+			if (questionaire != null && Questionaire.happy > 0 && Questionaire.difficult > 0)
+	        	thinkTank.calculateResults(Questionaire.happy, Questionaire.difficult);
 		}
 		if(!paused)
 		{
@@ -207,6 +207,8 @@ public class MyGdxGame implements ApplicationListener {
 		}
 		else if(resuming && !won && !lost)
 		{
+			totalTime += Gdx.graphics.getDeltaTime();
+			
 			if(!useReplay)
 			{
 				handleInput();
@@ -555,8 +557,12 @@ public class MyGdxGame implements ApplicationListener {
 		paused = true;
 		resuming = true;
 		
-		questionaire.reset();
-		questionaire = null;
+		if (questionaire != null)
+		{
+			questionaire.reset();
+			questionaire = null;
+		}
+		
 	}
 	
 	private void checkWave(float totalTime)
