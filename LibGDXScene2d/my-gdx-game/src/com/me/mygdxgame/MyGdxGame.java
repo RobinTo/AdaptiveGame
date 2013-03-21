@@ -525,7 +525,13 @@ public class MyGdxGame implements ApplicationListener {
 		}
 		replayHandler.events.clear();
 		replayHandler.savingEvents.clear();
-		useReplay = false;
+		//useReplay = false;
+		
+		if(useReplay)
+		{
+			FileHandle replayHandle = Gdx.files.external(replayPath);
+			replayHandler.loadReplay(replayHandle);
+		}
 		
 		stage.getActors().clear();
 		
