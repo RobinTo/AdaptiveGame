@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -37,12 +38,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class MyGdxGame implements ApplicationListener {
 	
+	float startingMinionDelay = 2.0f; // Enemy delay at start
+	float currentMinionDelay = 2.0f;
+	
 	boolean fullScreen = false; // Full screen yes or no.
 	boolean printDebug = true; // Print debug, add or remove writes in end of render.
 
 	ReplayHandler replayHandler = new ReplayHandler();
 	boolean saveReplay = false;
-	boolean useReplay = true;
+	boolean useReplay = false;
 	String replayPath = "/AdaptiveTD/Replays/testReplay.txt";			// Must be external, relative to user directory.
 	String replaySavePath = "/AdaptiveTD/Replays/testReplay.txt";
 	
@@ -580,25 +584,13 @@ public class MyGdxGame implements ApplicationListener {
 				enemies.add(enemyWave.get(waveTime.get(0)));
 				enemyWave.remove(waveTime.get(0));
 				waveTime.remove(0);
+				generateNextEnemy();
 			}
 		}
 	}
 	
 	private void createWave()
 	{
-		/*
-		addEnemyToWave(0.5f, createEnemy("basic"));
-		addEnemyToWave(10.5f, createEnemy("fast"));
-		addEnemyToWave(5.5f, createEnemy("tough"));
-		addEnemyToWave(1.5f, createEnemy("basic"));
-		addEnemyToWave(2.5f, createEnemy("fast"));
-		addEnemyToWave(3.5f, createEnemy("tough"));
-		addEnemyToWave(4.5f, createEnemy("basic"));
-		addEnemyToWave(6.5f, createEnemy("fast"));
-		addEnemyToWave(7.5f, createEnemy("tough"));
-		addEnemyToWave(8.5f, createEnemy("basic"));
-		addEnemyToWave(11.5f, createEnemy("tough"));
-		*/
 		addEnemyToWave(0.1f, createEnemy("fast"));
 		Collections.sort(waveTime);
 	}
@@ -1018,5 +1010,32 @@ public class MyGdxGame implements ApplicationListener {
         	}
         	questionaire = new Questionaire(miscAtlas.createSprite("starButton"), stage, font);
         }
+	}
+	
+	int nextEnemyGeneratedCounter = 0;
+	private void generateNextEnemy()
+	{
+		currentMinionDelay -= (currentMinionDelay/100);
+		float time = totalTime+currentMinionDelay;
+		waveTime.add(time);
+		Random rand = new Random();
+		Enemy e = null;
+		double randValue = rand.nextDouble();
+		
+		if(randValue <= 0.50)
+			e = createEnemy("basic");
+		else if(randValue <=0.75)
+			e = createEnemy("fast");
+		else
+			e = createEnemy("tough");
+				
+		enemyWave.put(time, e);
+		nextEnemyGeneratedCounter++;
+		if(nextEnemyGeneratedCounter > 10)
+		{
+			enemyInfo.get("basic").health+=enemyInfo.get("basic").health/10;
+			enemyInfo.get("fast").health+=enemyInfo.get("fast").health/10;
+			enemyInfo.get("tough").health+=enemyInfo.get("tough").health/10;
+		}
 	}
 }
