@@ -111,6 +111,7 @@ public class MyGdxGame implements ApplicationListener {
 
 	static Label yellowBoxLabel;
 
+	static List<Label> towerCostLabels = new ArrayList<Label>();
 	
 	Camera gameCamera;
 
@@ -945,6 +946,13 @@ public class MyGdxGame implements ApplicationListener {
 			});
 			arrowTowerButton.setPosition(10 + 10*i + 64*i, GameConstants.screenHeight - 100);
 			stage.addActor(arrowTowerButton);
+			
+			Label towerCostLabel = new Label("10", labelStyle);
+			towerCostLabel.setText(""+towerInfo.get(towerKeys.get(i)).buildCost);
+			towerCostLabel.setVisible(true);
+			towerCostLabel.setPosition(55 + 10*i + 64*i, GameConstants.screenHeight - 125);
+			stage.addActor(towerCostLabel);
+			towerCostLabels.add(towerCostLabel);
 		}
 		
 		

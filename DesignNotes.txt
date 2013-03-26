@@ -1,5 +1,4 @@
 Tasks
-- Tower cost
 - Questionaire text
   - "For lett, Perfekt, For vanskelig"
 - Questionaire images
