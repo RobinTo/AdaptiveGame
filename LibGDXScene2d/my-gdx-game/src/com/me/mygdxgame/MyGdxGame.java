@@ -128,7 +128,7 @@ public class MyGdxGame implements ApplicationListener {
 	int yellowBoxYPadding = 10;
 	int yellowBoxXPadding = 15;
 	
-	ThinkTank thinkTank = new ThinkTank();
+	ThinkTank thinkTank;
 	
 	Questionaire questionaire;
 	
@@ -186,7 +186,8 @@ public class MyGdxGame implements ApplicationListener {
         Gdx.gl.glClearColor(Color.GRAY.r, Color.GRAY.g, Color.GRAY.b, Color.GRAY.a);
         
         loadSounds();
-        
+        thinkTank = new ThinkTank();
+        //thinkTank.readParameters(Gdx.files.internal(parameterSavePath)); (Må ha et replay, ellers får man feil)
 	}
 
 	@Override
@@ -226,7 +227,7 @@ public class MyGdxGame implements ApplicationListener {
 			{
 				replayHandler.addEvents(totalTime, eventHandler);
 			}
-			thinkTank.updateParameters(0, currentGold, livesLeft, towers, eventHandler.events, towerInfo);
+			thinkTank.measureParameters(0, currentGold, livesLeft, towers, eventHandler.events, towerInfo);
 			handleEvents();
 			updateYellowBoxPosition();
 			// Draws game
@@ -329,7 +330,7 @@ public class MyGdxGame implements ApplicationListener {
 		{
 			replayHandler.addEvents(totalTime, eventHandler);
 		}
-		thinkTank.updateParameters(totalTime, currentGold, livesLeft, towers, eventHandler.events, towerInfo);
+		thinkTank.measureParameters(totalTime, currentGold, livesLeft, towers, eventHandler.events, towerInfo);
 		handleEvents();
 		updateYellowBoxPosition();
         checkWave(totalTime);
@@ -585,7 +586,7 @@ public class MyGdxGame implements ApplicationListener {
 				enemies.add(enemyWave.get(waveTime.get(0)));
 				enemyWave.remove(waveTime.get(0));
 				waveTime.remove(0);
-				generateNextEnemy();
+				//generateNextEnemy();
 			}
 		}
 	}
