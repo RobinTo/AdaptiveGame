@@ -6,8 +6,7 @@ Tasks
   - Monster HP, Speed, gold yield
   - Tower reload time, damage, cost
   - Wave mobcount, composition
-- Lagre parametere
-- Lese parametere
+- Lagre/Lese parametere. Done. Mangler default parameters, i tilfelle ingen er tilgjengelige.
 - Lage en ny versjon deploy. (som er adaptiv)
 - Replay: Events til removelist. Tror dette er ok nå
 

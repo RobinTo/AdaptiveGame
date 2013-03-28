@@ -8,14 +8,19 @@ import java.util.List;
 import com.badlogic.gdx.files.FileHandle;
 
 public class ThinkTank {
-
+	/*
+	 * This class has two objectives:
+	 * 1. Reading and writing parameters to disk. A parameter is an in-game modifiable value, such as fast-monster health and arrowtower damage. (Vi bruker enemystats og towerstats som parametere.
+	 * 2. Calculating a new set of parameters based on another set of sensors. A sensor is in-game statistics about the player, such as APM, gold left and lives left. 
+	 */
+	
 	HashMap<Integer, HashMap<String, Float>> measurements = new HashMap<Integer, HashMap<String, Float>>();
 	HashMap<String, Float> parameters = new HashMap<String, Float>();
 	int actionCounter = 0;
 	int timeBetweenMeasurements = 10;
 	
 	//public void measureParameters(float totalTime, int gold, int lives, List<Tower> towers, List<Event> events, HashMap<String, TowerStats> availableTowers){
-		public void measureParameters(float totalTime, int gold, int lives, List<Tower> towers, List<Event> events, HashMap<String, TowerStats> availableTowers){
+		public void calculateNewParameters(float totalTime, int gold, int lives, List<Tower> towers, List<Event> events, HashMap<String, TowerStats> availableTowers){
 		actionCounter += events.size();
 		if(Math.floor(totalTime)%timeBetweenMeasurements == 0 && !measurements.containsKey(Math.floor(totalTime)))
 		{
