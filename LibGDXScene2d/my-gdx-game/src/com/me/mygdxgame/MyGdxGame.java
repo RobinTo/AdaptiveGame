@@ -187,7 +187,7 @@ public class MyGdxGame implements ApplicationListener {
         
         loadSounds();
         thinkTank = new ThinkTank();
-        //thinkTank.readParameters(Gdx.files.internal(parameterSavePath)); (If no available set of parameters, application will crash).
+        thinkTank.initializeVariables();
 	}
 
 	@Override
@@ -203,7 +203,10 @@ public class MyGdxGame implements ApplicationListener {
 		if (won || lost)
 		{
 			if (questionaire != null && Questionaire.happy > 0 && Questionaire.difficult > 0)
-	        	thinkTank.calculateResults(Questionaire.happy, Questionaire.difficult);
+			{
+	        	thinkTank.calculateVariables(Questionaire.happy, Questionaire.difficult);
+	        	resetGame();
+			}
 		}
 		if(!paused)
 		{
@@ -330,7 +333,8 @@ public class MyGdxGame implements ApplicationListener {
 		{
 			replayHandler.addEvents(totalTime, eventHandler);
 		}
-		thinkTank.calculateNewParameters(totalTime, currentGold, livesLeft, towers, eventHandler.events, towerInfo);
+		if(!won && !lost)
+			thinkTank.calculateNewParameters(totalTime, currentGold, livesLeft, towers, eventHandler.events, towerInfo);
 		handleEvents();
 		updateYellowBoxPosition();
         checkWave(totalTime);
