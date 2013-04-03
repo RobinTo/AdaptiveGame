@@ -187,7 +187,18 @@ public class MyGdxGame implements ApplicationListener {
         
         loadSounds();
         thinkTank = new ThinkTank();
-        thinkTank.initializeVariables();
+        FileHandle variableHandle = Gdx.files.external("/AdaptiveTD/Parameters.txt");
+        thinkTank.initializeVariables(variableHandle);
+        thinkTank.defaultEnemyInfo = StatsFetcher.generateEnemyInfo(enemyHandle);
+        try {
+			thinkTank.defaultTowerInfo = StatsFetcher.loadTowerStats(towerHandle);
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
