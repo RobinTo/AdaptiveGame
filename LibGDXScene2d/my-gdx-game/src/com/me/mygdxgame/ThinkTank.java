@@ -54,8 +54,6 @@ public class ThinkTank {
 			System.out.println(events.size());
 		if(Math.floor(totalTime)%timeBetweenMeasurements == 0 && !measurements.containsKey((int)Math.floor(totalTime)))
 		{
-			System.out.println(Math.floor(totalTime)%timeBetweenMeasurements);
-			System.out.println(Math.floor(totalTime));
 			/*parameters = new HashMap<String, Float>();
 			parameters.put("totalTime", totalTime);
 			parameters.put("gold", (float) gold);
@@ -81,7 +79,6 @@ public class ThinkTank {
 			measuredParameters.put("gold", (float) gold);
 			measuredParameters.put("lives", (float) lives);
 			float f = (float)actionCounter;
-			System.out.println("M: " +actionCounter);
 			measuredParameters.put("APM", (float) f);
 			measuredParameters.put("variety", variety);
 			measurements.put((int)Math.floor(totalTime), measuredParameters);
@@ -92,8 +89,6 @@ public class ThinkTank {
 	
 	public void calculateVariables(int happy, int difficult)
 	{
-		System.out.println("Happy: " + happy + "\nDifficult: " + difficult);
-		
 		Iterator<Integer> it = measurements.keySet().iterator();
 		double averageGold = 0;
 		double averageLives = 0;
@@ -113,14 +108,7 @@ public class ThinkTank {
 		System.out.println("APM BEFORE DIVIDE"+ averageAPM);
 		averageGold /= measurements.size();
 		averageLives /= measurements.size();
-		averageAPM  /= measurements.size();
-		
-		
-		System.out.println("Average Gold: " + averageGold);
-		System.out.println("Average Lives: " + averageLives);
-		System.out.println("Average apm: " + averageAPM);
-		System.out.println("Max variety: " + maxVariety);
-		
+		averageAPM  /= measurements.size();	
 		// -----------------
 	}
 	

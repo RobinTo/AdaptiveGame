@@ -21,6 +21,7 @@ public class GameConstants {
 	
 	public static List<String> readRawTextFile(FileHandle handle)
     {
+		System.out.println("Reading: " + handle.path());
 		List<String> fileContent = new ArrayList<String>();
 		
 		String content = handle.readString();
