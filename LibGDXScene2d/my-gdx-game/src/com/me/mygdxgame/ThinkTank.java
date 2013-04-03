@@ -20,13 +20,32 @@ public class ThinkTank {
 	int timeBetweenMeasurements = 1;
 	float x, y, z, fdsfs;
 	
-	public void initializeVariables()
-	{
-		x = 0;
-		y = 0;
-		z = 0;
-		fdsfs = 0;
-	}
+	public void initializeVariables(FileHandle fileHandle)
+	{	
+		List<String> fileContent = GameConstants.readRawTextFile(fileHandle);
+        
+        for (int counter = 0; counter < fileContent.size(); counter++)
+        {
+        	String s = fileContent.get(counter);
+            String[] split = s.split(":");
+            if (split[0] == "x")
+            {
+            	x = Float.valueOf(split[1]);
+            }
+            else if (split[0] == "y")
+            {
+            	y = Float.valueOf(split[1]);
+            }
+            else if (split[0] == "z")
+            {
+            	z = Float.valueOf(split[1]);
+            }
+            else if (split[0] == "fdsfs")
+            {
+            	fdsfs = Float.valueOf(split[1]);
+            }
+        }
+    }
 	
 	//public void measureParameters(float totalTime, int gold, int lives, List<Tower> towers, List<Event> events, HashMap<String, TowerStats> availableTowers){
 	public void calculateNewParameters(float totalTime, int gold, int lives, List<Tower> towers, List<Event> events, HashMap<String, TowerStats> availableTowers){
@@ -154,49 +173,15 @@ public class ThinkTank {
 					}
 					
 				}
-
 	}
 	
-	public void readParameters(FileHandle handle)
+	public void writeVariablesToDisk(FileHandle fileHandle)
 	{
-		HashMap<String, Float> newParameters = new HashMap<String, Float>();
-		List<String> fileContent = GameConstants.readRawTextFile(handle);
-
-        System.out.println("Loaded parameter file" + handle.path());
-        
-        for (int x = 0; x<fileContent.size(); x++)
-        {
-        	String s = fileContent.get(x);
-            String[] split = s.split(":");
-            newParameters.put(split[0], Float.valueOf(split[1]));
-            System.out.println("Reading parameter: " + split[0] + ":"+ split[1]);
-        }
-        parameters = newParameters;
-
-        System.out.println("Successfully loaded parameters" + handle.path());
-	}
-	
-	public void writeParameters(FileHandle handle)
-	{
-		Iterator<String> keyIterator = parameters.keySet().iterator();
-		handle.writeString("", false);
-		System.out.println(parameters.isEmpty());
-		while(keyIterator.hasNext())
-		{
-			String s = keyIterator.next();
-			Float parameter = parameters.get(s);
-				try
-				{
-					handle.writeString(s +":"+parameter+":\r\n", true);
-					System.out.println("Writing parameter: " + s +":"+parameter+"\n");
-				}
-				catch(Exception e)
-				{
-					System.out.println("Writing parameter: " + s +":"+parameter+"\n");
-					System.out.println(e.toString());
-				}
-		}
-		System.out.println("Saved parameters successfully");
+		fileHandle.writeString("", false);
+		fileHandle.writeString("x:" + x + ":\r\n", true);
+		fileHandle.writeString("y:" + y + ":\r\n", true);
+		fileHandle.writeString("z:" + z + ":\r\n", true);
+		fileHandle.writeString("fdsfs:" + fdsfs + ":\r\n", true);
 	}
 	
 	public void clear()

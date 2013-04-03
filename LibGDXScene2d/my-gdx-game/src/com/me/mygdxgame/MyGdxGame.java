@@ -1006,7 +1006,7 @@ public class MyGdxGame implements ApplicationListener {
         	lost = true;
         	if (!savedParameters)
         	{
-        		thinkTank.writeParameters(new FileHandle(parameterSavePath));
+        		thinkTank.writeVariablesToDisk(new FileHandle(parameterSavePath));
     			savedParameters = true;
     		}
         	questionaire = new Questionaire(miscAtlas.createSprite("starButton"), stage, font);
@@ -1018,7 +1018,7 @@ public class MyGdxGame implements ApplicationListener {
         	//resetGame();
         	if (!savedParameters)
         	{
-        		thinkTank.writeParameters(new FileHandle(parameterSavePath));
+        		thinkTank.writeVariablesToDisk(new FileHandle(parameterSavePath));
         		savedParameters = true;
         	}
         	questionaire = new Questionaire(miscAtlas.createSprite("starButton"), stage, font);
