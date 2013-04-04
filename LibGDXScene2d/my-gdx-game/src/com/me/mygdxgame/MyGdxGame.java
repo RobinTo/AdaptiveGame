@@ -38,8 +38,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class MyGdxGame implements ApplicationListener {
 	
-	float startingMinionDelay = 2.0f; // Enemy delay at start
-	float currentMinionDelay = 2.0f;
+	float currentMinionDelay = 2.0f; // Will be set at random
+	int waveSize = 10;
 	
 	boolean fullScreen = false; // Full screen yes or no.
 	boolean printDebug = true; // Print debug, add or remove writes in end of render.
@@ -64,8 +64,8 @@ public class MyGdxGame implements ApplicationListener {
         (float)VIRTUAL_WIDTH/(float)VIRTUAL_HEIGHT;
     private Rectangle viewport;
 	
-	HashMap<Float, Enemy> enemyWave = new HashMap<Float, Enemy>();
-    List<Float> waveTime = new ArrayList<Float>();
+	static HashMap<Float, Enemy> enemyWave = new HashMap<Float, Enemy>();
+    static List<Float> waveTime = new ArrayList<Float>();
 	
 	List<Enemy> enemies = new ArrayList<Enemy>();
 	static List<Tower> towers = new ArrayList<Tower>();
@@ -590,6 +590,11 @@ public class MyGdxGame implements ApplicationListener {
 			questionaire = null;
 		}
 		
+		lastMinionTime = 0;
+		for(int i = 0; i < waveSize; i++)
+		{
+			generateNextEnemy();
+		}
 	}
 	
 	private void checkWave(float totalTime)
@@ -1037,12 +1042,14 @@ public class MyGdxGame implements ApplicationListener {
 	}
 	
 	int nextEnemyGeneratedCounter = 0;
+	float lastMinionTime = 0;
+	Random rand = new Random();
 	private void generateNextEnemy()
 	{
-		currentMinionDelay -= (currentMinionDelay/100);
-		float time = totalTime+currentMinionDelay;
-		waveTime.add(time);
-		Random rand = new Random();
+		currentMinionDelay = rand.nextInt(30);
+		currentMinionDelay /= 10.0f;
+		float time = lastMinionTime + currentMinionDelay; // Redundant, use lastminiontime.
+		lastMinionTime += currentMinionDelay;
 		Enemy e = null;
 		double randValue = rand.nextDouble();
 		
@@ -1052,14 +1059,15 @@ public class MyGdxGame implements ApplicationListener {
 			e = createEnemy("fast");
 		else
 			e = createEnemy("tough");
-				
-		enemyWave.put(time, e);
-		nextEnemyGeneratedCounter++;
-		if(nextEnemyGeneratedCounter > 10)
+		
+		if(!waveTime.contains(time))
 		{
-			enemyInfo.get("basic").health+=enemyInfo.get("basic").health/10;
-			enemyInfo.get("fast").health+=enemyInfo.get("fast").health/10;
-			enemyInfo.get("tough").health+=enemyInfo.get("tough").health/10;
+			waveTime.add(time);
+			enemyWave.put(time, e);
+		}
+		else
+		{
+			generateNextEnemy();
 		}
 	}
 }

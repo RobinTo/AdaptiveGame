@@ -62,8 +62,6 @@ public class ThinkTank {
 			List<Tower> towers, List<Event> events,
 			HashMap<String, TowerStats> availableTowers) {
 		actionCounter += events.size();
-		if (events.size() > 0)
-			System.out.println(events.size());
 		if (Math.floor(totalTime) % timeBetweenMeasurements == 0
 				&& !measurements.containsKey((int) Math.floor(totalTime))) {
 			/*
@@ -115,7 +113,6 @@ public class ThinkTank {
 				maxVariety += measurements.get(key).get("variety");
 
 		}
-		System.out.println("APM BEFORE DIVIDE" + averageAPM);
 		averageGold /= measurements.size();
 		averageLives /= measurements.size();
 		averageAPM /= measurements.size();
@@ -138,9 +135,8 @@ public class ThinkTank {
 		while (enemyStatsIterator.hasNext()) {
 			String s = enemyStatsIterator.next();
 			MyGdxGame.enemyInfo.get(s).health = (int)(defaultEnemyInfo.get(s).health * x);
-			System.out.println(s + " : " + MyGdxGame.enemyInfo.get(s).health + " : Multiplier: " + x);
-				MyGdxGame.enemyInfo.get(s).goldYield = (int)(defaultEnemyInfo.get(s).goldYield * y);
-				MyGdxGame.enemyInfo.get(s).speed = defaultEnemyInfo.get(s).speed * z;
+			MyGdxGame.enemyInfo.get(s).goldYield = (int)(defaultEnemyInfo.get(s).goldYield * y);
+			MyGdxGame.enemyInfo.get(s).speed = defaultEnemyInfo.get(s).speed * z;
 		}
 
 		Iterator<String> towerStatsIterator = MyGdxGame.towerInfo.keySet()
