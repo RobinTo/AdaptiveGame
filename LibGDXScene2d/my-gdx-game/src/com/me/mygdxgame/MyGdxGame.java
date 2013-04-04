@@ -862,14 +862,8 @@ public class MyGdxGame implements ApplicationListener {
 		yellowBoxGroup.setVisible(false);
 		
 		stage.addActor(yellowBoxGroup);
-		
-		TextButton.TextButtonStyle settingsButtonStyle = new TextButton.TextButtonStyle();
-		TextureRegion upStyle = new TextureRegion(miscAtlas.createSprite("settingsButton"));
-		TextureRegion downStyle = new TextureRegion(miscAtlas.createSprite("settingsButton"));
-		settingsButtonStyle.font = font;
-		settingsButtonStyle.up = new TextureRegionDrawable(upStyle);
-		settingsButtonStyle.down = new TextureRegionDrawable(downStyle);
-		TextButton settingsButton = new TextButton("", settingsButtonStyle);
+
+		TextButton settingsButton = ButtonGenerator.createButton(miscAtlas.createSprite("settingsButton"), font);
 		settingsButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -881,14 +875,7 @@ public class MyGdxGame implements ApplicationListener {
 		settingsButton.setPosition(GameConstants.screenWidth - 2*GameConstants.tileSize, GameConstants.screenHeight-100);
 		stage.addActor(settingsButton);
 		
-		
-		TextButton.TextButtonStyle sellButtonSTyle = new TextButton.TextButtonStyle();
-		TextureRegion upStyleSell = new TextureRegion(miscAtlas.createSprite("sellTowerButton"));
-		TextureRegion downStyleSell = new TextureRegion(miscAtlas.createSprite("sellTowerButton"));
-		sellButtonSTyle.font = font;
-		sellButtonSTyle.up = new TextureRegionDrawable(upStyleSell);
-		sellButtonSTyle.down = new TextureRegionDrawable(downStyleSell);
-		TextButton sellButton = new TextButton("", sellButtonSTyle);
+		TextButton sellButton = ButtonGenerator.createButton(miscAtlas.createSprite("sellTowerButton"), font);
 		sellButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -907,14 +894,7 @@ public class MyGdxGame implements ApplicationListener {
 		sellButton.setPosition(GameConstants.screenWidth - 3*GameConstants.tileSize, GameConstants.screenHeight-100);
 		stage.addActor(sellButton);
 		
-		TextButton.TextButtonStyle upgradeButtonStyle = new TextButton.TextButtonStyle();
-		TextureRegion upStyleUpgrade = new TextureRegion(miscAtlas.createSprite("upgradeTowerButton"));
-		TextureRegion downStyleUpgrade = new TextureRegion(miscAtlas.createSprite("upgradeTowerButton"));
-		upgradeButtonStyle.font = font;
-		upgradeButtonStyle.fontColor = Color.BLACK;
-		upgradeButtonStyle.up = new TextureRegionDrawable(upStyleUpgrade);
-		upgradeButtonStyle.down = new TextureRegionDrawable(downStyleUpgrade);
-		final TextButton upgradeButton = new TextButton("", upgradeButtonStyle);
+		TextButton upgradeButton = ButtonGenerator.createButton(miscAtlas.createSprite("upgradeTowerButton"), font);
 		upgradeButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -934,6 +914,7 @@ public class MyGdxGame implements ApplicationListener {
 			}
 		});
 		upgradeButton.setPosition(GameConstants.screenWidth - 4*GameConstants.tileSize, GameConstants.screenHeight-100);
+		stage.addActor(upgradeButton);
 		
 		for (int i = 0; i < towerKeys.size(); i++)
 		{
@@ -943,16 +924,10 @@ public class MyGdxGame implements ApplicationListener {
 				i--;
 				continue;
 			}
-			TextButton.TextButtonStyle towerButtonStyle = new TextButton.TextButtonStyle();
-			System.out.println("Trying to load: " + towerInfo.get(towerKeys.get(i)).towerTexture);
-			TextureRegion upStyle2 = new TextureRegion(towersAtlas.createSprite(towerInfo.get(towerKeys.get(i)).towerTexture));
-			TextureRegion downStyle2 = new TextureRegion(towersAtlas.createSprite(towerInfo.get(towerKeys.get(i)).towerTexture));
-			towerButtonStyle.font = font;
-			towerButtonStyle.up = new TextureRegionDrawable(upStyle2);
-			towerButtonStyle.down = new TextureRegionDrawable(downStyle2);
-			TextButton arrowTowerButton = new TextButton("", towerButtonStyle);
+
+			TextButton eachTowerButton = ButtonGenerator.createButton(towersAtlas.createSprite(towerInfo.get(towerKeys.get(i)).towerTexture), font);
 			final String currentKey = towerKeys.get(i);
-			arrowTowerButton.addListener(new InputListener() {
+			eachTowerButton.addListener(new InputListener() {
 				public boolean touchDown(InputEvent event, float x, float y,
 						int pointer, int button) {
 					building = true;
@@ -965,8 +940,8 @@ public class MyGdxGame implements ApplicationListener {
 					return true;
 				}
 			});
-			arrowTowerButton.setPosition(10 + 10*i + 64*i, GameConstants.screenHeight - 100);
-			stage.addActor(arrowTowerButton);
+			eachTowerButton.setPosition(10 + 10*i + 64*i, GameConstants.screenHeight - 100);
+			stage.addActor(eachTowerButton);
 			
 			Label towerCostLabel = new Label("10", labelStyle);
 			towerCostLabel.setText(""+towerInfo.get(towerKeys.get(i)).buildCost);
@@ -975,27 +950,12 @@ public class MyGdxGame implements ApplicationListener {
 			stage.addActor(towerCostLabel);
 			towerCostLabels.add(towerCostLabel);
 		}
-		
-		
-		stage.addActor(upgradeButton);
 	
-		TextButton.TextButtonStyle livesButtonStyle = new TextButton.TextButtonStyle();
-		TextureRegion upStyleLives = new TextureRegion(miscAtlas.createSprite("heart"));
-		TextureRegion downStyleLives = new TextureRegion(miscAtlas.createSprite("heart"));
-		livesButtonStyle.font = font;
-		livesButtonStyle.up = new TextureRegionDrawable(upStyleLives);
-		livesButtonStyle.down = new TextureRegionDrawable(downStyleLives);
-		livesButton = new TextButton("" + livesLeft, livesButtonStyle);
+		livesButton = ButtonGenerator.createButton(miscAtlas.createSprite("heart"), font, "" + livesLeft);
 		livesButton.setPosition(10*GameConstants.tileSize, GameConstants.screenHeight-100);
 		stage.addActor(livesButton);
 		
-		TextButton.TextButtonStyle goldButtonStyle = new TextButton.TextButtonStyle();
-		TextureRegion upStyleGold = new TextureRegion(miscAtlas.createSprite("gold"));
-		TextureRegion downStyleGold = new TextureRegion(miscAtlas.createSprite("gold"));
-		goldButtonStyle.font = font;
-		goldButtonStyle.up = new TextureRegionDrawable(upStyleGold);
-		goldButtonStyle.down = new TextureRegionDrawable(downStyleGold);
-		goldButton = new TextButton("        " + currentGold, goldButtonStyle);
+		goldButton = ButtonGenerator.createButton(miscAtlas.createSprite("gold"), font, "        " + currentGold);
 		goldButton.setPosition(12*GameConstants.tileSize, GameConstants.screenHeight-100);
 		stage.addActor(goldButton);
 	}
@@ -1025,7 +985,7 @@ public class MyGdxGame implements ApplicationListener {
         		thinkTank.writeVariablesToDisk(new FileHandle(parameterSavePath));
     			savedParameters = true;
     		}
-        	questionaire = new Questionaire(miscAtlas.createSprite("starButton"), stage, font);
+        	questionaire = new Questionaire(miscAtlas.createSprite("thumbUp"), miscAtlas.createSprite("thumbDown"), miscAtlas.createSprite("thumbSide"), stage, font);
         }
         else if (enemies.size() <= 0 && enemyWave.size() <= 0)
         {
@@ -1037,7 +997,7 @@ public class MyGdxGame implements ApplicationListener {
         		thinkTank.writeVariablesToDisk(new FileHandle(parameterSavePath));
         		savedParameters = true;
         	}
-        	questionaire = new Questionaire(miscAtlas.createSprite("starButton"), stage, font);
+        	questionaire = new Questionaire(miscAtlas.createSprite("thumbUp"), miscAtlas.createSprite("thumbDown"), miscAtlas.createSprite("thumbSide"), stage, font);
         }
 	}
 	

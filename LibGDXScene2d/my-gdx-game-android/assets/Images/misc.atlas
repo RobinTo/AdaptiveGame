@@ -5,112 +5,133 @@ filter: Nearest,Nearest
 repeat: none
 YellowBox
   rotate: false
-  xy: 1, 20
+  xy: 1, 51
   size: 125, 200
   orig: 125, 200
   offset: 0, 0
   index: -1
+thumbDown
+  rotate: false
+  xy: 128, 133
+  size: 118, 118
+  orig: 118, 118
+  offset: 0, 0
+  index: -1
+thumbSide
+  rotate: false
+  xy: 248, 133
+  size: 118, 118
+  orig: 118, 118
+  offset: 0, 0
+  index: -1
+thumbUp
+  rotate: false
+  xy: 368, 133
+  size: 118, 118
+  orig: 118, 118
+  offset: 0, 0
+  index: -1
 gold
   rotate: false
-  xy: 128, 156
+  xy: 128, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 heart
   rotate: false
-  xy: 128, 90
+  xy: 194, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 starButton
   rotate: false
-  xy: 128, 90
+  xy: 194, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 rangeHighlight
   rotate: false
-  xy: 194, 156
+  xy: 260, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 sellTowerButton
   rotate: false
-  xy: 128, 24
+  xy: 326, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 settingsButton
   rotate: false
-  xy: 194, 90
+  xy: 392, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 tinkerButton
   rotate: false
-  xy: 260, 156
+  xy: 128, 1
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 upgradeTowerButton
   rotate: false
-  xy: 194, 24
+  xy: 194, 1
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 flameBullet
   rotate: false
-  xy: 1, 8
+  xy: 488, 241
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 blackBullet
   rotate: false
-  xy: 260, 149
+  xy: 458, 126
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 blueBullet
   rotate: false
-  xy: 326, 215
+  xy: 1, 44
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 redBullet
   rotate: false
-  xy: 1, 1
+  xy: 260, 60
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 laserBullet
   rotate: false
-  xy: 13, 13
+  xy: 488, 234
   size: 3, 5
   orig: 3, 5
   offset: 0, 0
   index: -1
 healthBarRed
   rotate: false
-  xy: 260, 142
+  xy: 500, 246
   size: 1, 5
   orig: 1, 5
   offset: 0, 0
   index: -1
 healthBarYellow
   rotate: false
-  xy: 267, 149
+  xy: 458, 119
   size: 1, 5
   orig: 1, 5
   offset: 0, 0

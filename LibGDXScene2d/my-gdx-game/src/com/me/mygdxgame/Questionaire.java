@@ -18,42 +18,10 @@ public class Questionaire
 	static int difficult = 0;
 	List<TextButton> buttons = new ArrayList<TextButton>();
 	
-	public Questionaire(Sprite buttonSprite, Stage stage, BitmapFont font)
+	public Questionaire(Sprite thumbUpSprite, Sprite thumbDownSprite, Sprite thumbSideSprite, Stage stage, BitmapFont font)
 	{
-		TextButton.TextButtonStyle starButtonStyle = new TextButton.TextButtonStyle();
-		TextureRegion upStyleStar = new TextureRegion(buttonSprite);
-		TextureRegion downStyleStar = new TextureRegion(buttonSprite);
-		starButtonStyle.font = font;
-		starButtonStyle.up = new TextureRegionDrawable(upStyleStar);
-		starButtonStyle.down = new TextureRegionDrawable(downStyleStar);
-		
-		TextButton star1Button = new TextButton("", starButtonStyle);
-		star1Button.addListener(new InputListener() {
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
-				happy = 1;
-				return true;
-			}
-		});
-		star1Button.setPosition(GameConstants.screenWidth/2, GameConstants.screenHeight/2);
-		stage.addActor(star1Button);
-		buttons.add(star1Button);
-		
-		TextButton star2Button = new TextButton("", starButtonStyle);
-		star2Button.addListener(new InputListener() {
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
-
-				happy = 2;
-				return true;
-			}
-		});
-		star2Button.setPosition(GameConstants.screenWidth/2 + 2*GameConstants.tileSize, GameConstants.screenHeight/2);
-		stage.addActor(star2Button);
-		buttons.add(star2Button);
-		
-		TextButton star3Button = new TextButton("", starButtonStyle);
-		star3Button.addListener(new InputListener() {
+		TextButton thumbDownButton = ButtonGenerator.createButton(thumbDownSprite, font);
+		thumbDownButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
 
@@ -61,18 +29,36 @@ public class Questionaire
 				return true;
 			}
 		});
-		star3Button.setPosition(GameConstants.screenWidth/2 + 4*GameConstants.tileSize, GameConstants.screenHeight/2);
-		stage.addActor(star3Button);
-		buttons.add(star3Button);
-		
-		TextButton.TextButtonStyle smileyButtonStyle = new TextButton.TextButtonStyle();
-		TextureRegion upStyleSmiley = new TextureRegion(buttonSprite);
-		TextureRegion downStyleSmiley = new TextureRegion(buttonSprite);
-		smileyButtonStyle.font = font;
-		smileyButtonStyle.up = new TextureRegionDrawable(upStyleSmiley);
-		smileyButtonStyle.down = new TextureRegionDrawable(downStyleSmiley);
-		
-		TextButton smiley1Button = new TextButton("", smileyButtonStyle);
+		thumbDownButton.setPosition(GameConstants.screenWidth/2, GameConstants.screenHeight/2);
+		stage.addActor(thumbDownButton);
+		buttons.add(thumbDownButton);
+
+		TextButton thumbSideButton = ButtonGenerator.createButton(thumbSideSprite, font);
+		thumbSideButton.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+
+				happy = 2;
+				return true;
+			}
+		});
+		thumbSideButton.setPosition(GameConstants.screenWidth/2 + 2*GameConstants.tileSize, GameConstants.screenHeight/2);
+		stage.addActor(thumbSideButton);
+		buttons.add(thumbSideButton);
+
+		TextButton thumbUpButton = ButtonGenerator.createButton(thumbUpSprite, font);
+		thumbUpButton.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				happy = 1;
+				return true;
+			}
+		});
+		thumbUpButton.setPosition(GameConstants.screenWidth/2 + 4*GameConstants.tileSize, GameConstants.screenHeight/2);
+		stage.addActor(thumbUpButton);
+		buttons.add(thumbUpButton);		
+
+		TextButton smiley1Button = ButtonGenerator.createButton(thumbDownSprite, font);
 		smiley1Button.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -84,7 +70,7 @@ public class Questionaire
 		stage.addActor(smiley1Button);
 		buttons.add(smiley1Button);
 		
-		TextButton smiley2Button = new TextButton("", starButtonStyle);
+		TextButton smiley2Button = ButtonGenerator.createButton(thumbSideSprite, font);
 		smiley2Button.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -97,7 +83,7 @@ public class Questionaire
 		stage.addActor(smiley2Button);
 		buttons.add(smiley2Button);
 		
-		TextButton smiley3Button = new TextButton("", starButtonStyle);
+		TextButton smiley3Button = ButtonGenerator.createButton(thumbUpSprite, font);
 		smiley3Button.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
