@@ -94,8 +94,8 @@ public class ThinkTank {
 		Random rand = new Random();
 		// Metric is calculated by taking a random integer value ranging from 1 to happy,
 		// plus another random integer value ranging from 1 to difficult,
-		// and lastly adding a random double value between 0 and 0.5
-		// Metric will range from 2.0 to 6.5
+		// and lastly adding a random double value between -0.5 and +0.5
+		// Metric will range from 1.5 to 6.5
 		double happyMetric = 1 + rand.nextInt(happy);
 		double difficultyMetric = 1 + rand.nextInt(difficult);
 		double metric = happyMetric + difficultyMetric + rand.nextDouble() - 0.5;
