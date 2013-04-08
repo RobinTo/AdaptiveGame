@@ -5,12 +5,10 @@ import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class Questionaire
 {
@@ -25,7 +23,7 @@ public class Questionaire
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
 
-				happy = 3;
+				happy = 1;
 				return true;
 			}
 		});
@@ -50,7 +48,7 @@ public class Questionaire
 		thumbUpButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-				happy = 1;
+				happy = 3;
 				return true;
 			}
 		});

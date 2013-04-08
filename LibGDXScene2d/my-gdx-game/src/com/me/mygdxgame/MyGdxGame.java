@@ -23,7 +23,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -34,7 +33,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class MyGdxGame implements ApplicationListener {
 	
@@ -187,8 +185,6 @@ public class MyGdxGame implements ApplicationListener {
         
         loadSounds();
         thinkTank = new ThinkTank();
-        FileHandle variableHandle = Gdx.files.external("/AdaptiveTD/Parameters.txt");
-        thinkTank.initializeVariables(variableHandle);
         thinkTank.defaultEnemyInfo = StatsFetcher.generateEnemyInfo(enemyHandle);
         try {
 			thinkTank.defaultTowerInfo = StatsFetcher.loadTowerStats(towerHandle);
@@ -199,6 +195,9 @@ public class MyGdxGame implements ApplicationListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+        FileHandle variableHandle = Gdx.files.external("/AdaptiveTD/Parameters.txt");
+        thinkTank.initializeVariables(variableHandle);
 	}
 
 	@Override

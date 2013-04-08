@@ -1,7 +1,7 @@
 package com.me.mygdxgame;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.badlogic.gdx.Input.TextInputListener;
 
