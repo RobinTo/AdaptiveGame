@@ -6,3 +6,8 @@ Map generation vs. Pre-defined map
 
 I begynnelsen, hoppet vi random, helt random.
 Så satte vi på restraints.
+
+Tre typer variabler:
+- Visuelle (Avhengige)
+- Ratio variabler (Ikke endrer vanskelighetsgraden)
+- Direkte vanskelighetsgradsvariabler (endrer vanskelighetsgraden)

@@ -43,7 +43,8 @@ public class MyGdxGame implements ApplicationListener
 	int waveParts = 3;
 	int waveIncrements = 5;
 	int wavePartDelay = 7; // Seconds
-
+	
+	Group mapGroup;
 	Group consoleGroup;
 	List<String> consoleStrings = new ArrayList<String>();
 	boolean showConsole = false;
@@ -166,8 +167,8 @@ public class MyGdxGame implements ApplicationListener
 
 		map = new Map(mapTilesAtlas);
 		FileHandle handle = Gdx.files.internal("Maps/map.txt");
-		Group g = map.loadMap(handle);
-		stage.addActor(g);
+		mapGroup = map.loadMap(handle);
+		stage.addActor(mapGroup);
 
 		FileHandle towerHandle = Gdx.files.internal("Stats/towerStats.txt");
 		try
@@ -223,6 +224,7 @@ public class MyGdxGame implements ApplicationListener
 		FileHandle variableHandle = Gdx.files
 				.external("/AdaptiveTD/Parameters.txt");
 		thinkTank.initializeVariables(variableHandle);
+		
 	}
 
 	@Override
@@ -234,7 +236,17 @@ public class MyGdxGame implements ApplicationListener
 	@Override
 	public void render()
 	{
-
+		/*
+		for (Actor actor : consoleGroup.getChildren())
+		{
+			actor.setColor(Color.BLUE);
+		}*/
+		
+		for (Actor actor : mapGroup.getChildren())
+		{
+			((MapTile)actor).setColor(0.1f,0.1f,0.1f,1f);
+		}
+		
 		// clear previous frame
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		if (won || lost)
@@ -616,8 +628,8 @@ public class MyGdxGame implements ApplicationListener
 
 		map = new Map(mapTilesAtlas);
 		FileHandle handle = Gdx.files.internal("Maps/map.txt");
-		Group g = map.loadMap(handle);
-		stage.addActor(g);
+		mapGroup = map.loadMap(handle);
+		stage.addActor(mapGroup);
 		createWave();
 		createUI();
 
