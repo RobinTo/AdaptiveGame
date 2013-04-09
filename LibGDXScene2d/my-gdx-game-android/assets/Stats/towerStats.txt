@@ -49,7 +49,7 @@ missileTexture:blackBullet
 shootSound:arrowShoot.mp3
 impactSound:arrowImpact.mp3
 upgradesTo:FrostArrow2
-sellPrice:10
+sellPrice:15
 buildCost:25
 targeting:circle:10
 reloadtime:1.3f
@@ -65,7 +65,7 @@ missileTexture:blackBullet
 shootSound:arrowShoot.mp3
 impactSound:arrowImpact.mp3
 upgradesTo:FrostArrow3
-sellPrice:10
+sellPrice:30
 buildCost:40
 targeting:circle:10
 reloadtime:1.3f
@@ -81,7 +81,7 @@ missileTexture:blackBullet
 shootSound:arrowShoot.mp3
 impactSound:arrowImpact.mp3
 upgradesTo:null
-sellPrice:10
+sellPrice:40
 buildCost:55
 targeting:circle:10
 reloadtime:1.3f
@@ -96,7 +96,7 @@ towerTexture:redTower
 missileTexture:blackBullet
 shootSound:flameShoot.mp3
 upgradesTo:FlameCircle2
-sellPrice:10
+sellPrice:15
 buildCost:25
 targeting:circleonself
 reloadtime:1.5f
@@ -110,7 +110,7 @@ towerTexture:redTower2
 missileTexture:blackBullet
 shootSound:flameShoot.mp3
 upgradesTo:FlameCircle3
-sellPrice:10
+sellPrice:30
 buildCost:40
 targeting:circleonself
 reloadtime:1.5f
@@ -124,7 +124,7 @@ towerTexture:redTower3
 missileTexture:blackBullet
 shootSound:flameShoot.mp3
 upgradesTo:null
-sellPrice:10
+sellPrice:40
 buildCost:55
 targeting:circleonself
 reloadtime:1.5f
@@ -138,7 +138,7 @@ towerTexture:testTower
 missileTexture:blackBullet
 shootSound:laserShoot.mp3
 upgradesTo:LineLaser2
-sellPrice:10
+sellPrice:30
 buildCost:40
 targeting:line
 reloadtime:2.0f
@@ -152,7 +152,7 @@ towerTexture:testTower2
 missileTexture:blackBullet
 shootSound:laserShoot.mp3
 upgradesTo:LineLaser3
-sellPrice:10
+sellPrice:55
 buildCost:70
 targeting:line
 reloadtime:2.0f
@@ -166,7 +166,7 @@ towerTexture:testTower3
 missileTexture:blackBullet
 shootSound:laserShoot.mp3
 upgradesTo:null
-sellPrice:10
+sellPrice:75
 buildCost:100
 targeting:line
 reloadtime:2.0f

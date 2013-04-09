@@ -971,6 +971,9 @@ public class MyGdxGame implements ApplicationListener
 						.add("current metric: " + thinkTank.currentMetric);
 				consoleStrings.add("challenger metric: "
 						+ thinkTank.challengerMetric);
+				consoleStrings.add("gameLengthMultiplier: "
+						+ thinkTank.gameLengthMultiplier);
+
 				consoleGroup.setVisible(true);
 				break;
 			default:
