@@ -286,41 +286,51 @@ public class MyGdxGame implements ApplicationListener
 			if (pauseTime <= 0)
 				paused = false;
 		}
-
-		// Fps counter
-		timer += Gdx.graphics.getDeltaTime();
-		uC++;
-		if (timer >= 1)
-		{
-			//System.out.println("FPS: " + uC);
-			uC = 0;
-			timer = 0;
-		}
-
-		if (Gdx.input.isKeyPressed(Keys.TAB) && !wasTab)
-		{
-			updateConsoleState(true);
-			wasTab = true;
-		} else if (!Gdx.input.isKeyPressed(Keys.TAB))
-			wasTab = false;
-
-		if (won)
-		{
-			spriteBatch.begin();
-			font.setScale(10);
-			font.draw(spriteBatch, "Game won", GameConstants.screenWidth / 2 - 300, GameConstants.screenHeight / 2);
-			//questionaire.draw(spriteBatch);
-			font.setScale(1);
-			spriteBatch.end();
-		} else if (lost)
-		{
-			spriteBatch.begin();
-			font.setScale(10);
-			font.draw(spriteBatch, "Game lost", GameConstants.screenWidth / 2 - 300, GameConstants.screenHeight / 2);
-			//questionaire.draw(spriteBatch);
-			font.setScale(1);
-			spriteBatch.end();
-		}
+     
+        // Fps counter
+        timer += Gdx.graphics.getDeltaTime();
+        uC++;
+        if(timer >= 1)
+        {
+        	//System.out.println("FPS: " + uC);
+        	uC = 0;
+        	timer = 0;
+        }
+        
+        if(Gdx.input.isKeyPressed(Keys.TAB) && !wasTab)
+        {
+        	updateConsoleState(true);
+        	wasTab = true;
+        }
+        else if(!Gdx.input.isKeyPressed(Keys.TAB))
+        	wasTab = false;
+        if(Gdx.input.isKeyPressed(Keys.X))
+        {
+        	waveTime.clear();
+        	enemyWave.clear();
+        	for(Enemy e : enemies)
+        		stage.getActors().removeValue(e, true);
+        	enemies.clear();
+        }
+        
+        if (won)
+        {
+        	spriteBatch.begin();
+        	font.setScale(10);
+        	font.draw(spriteBatch, "Game won", GameConstants.screenWidth/2 - 300, GameConstants.screenHeight/2);
+        	//questionaire.draw(spriteBatch);
+        	font.setScale(1);
+        	spriteBatch.end();
+        }
+        else if (lost)
+        {
+        	spriteBatch.begin();
+        	font.setScale(10);
+        	font.draw(spriteBatch, "Game lost", GameConstants.screenWidth/2 - 300, GameConstants.screenHeight/2);
+        	//questionaire.draw(spriteBatch);
+        	font.setScale(1);
+        	spriteBatch.end();
+        }
 	}
 
 	@Override
