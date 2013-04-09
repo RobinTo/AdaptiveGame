@@ -41,7 +41,7 @@ public class MyGdxGame implements ApplicationListener {
 	int waveSize = 10;
 	int waveParts = 3;
 	int waveIncrements = 5;
-	int wavePartDelay = 3; // Seconds
+	int wavePartDelay = 7; // Seconds
 	
 	Group consoleGroup;
 	List<String> consoleStrings = new ArrayList<String>();
@@ -1106,17 +1106,18 @@ public class MyGdxGame implements ApplicationListener {
 		if(randValue <= 0.50)
 		{
 			e = createEnemy("basic");
-			e.editStat("currentHealth", e.getStat("currentHealth")*statMultiplier);
+			e.modifyOriginalHealth(statMultiplier);
+			e.modifyOriginalMoveSpeed(statMultiplier);
 		}
 		else if(randValue <=0.75)
 		{
 			e = createEnemy("fast");
-			e.editStat("currentHealth", e.getStat("currentHealth")*statMultiplier);
+			e.modifyOriginalMoveSpeed(statMultiplier);
 		}
 		else
 		{
 			e = createEnemy("tough");
-			e.editStat("currentHealth", e.getStat("currentHealth")*statMultiplier);
+			e.modifyOriginalHealth(statMultiplier);
 		}
 		
 		if(!waveTime.contains(time))

@@ -18,6 +18,20 @@ public class Enemy extends ExtendedActor
 	Rectangle healthBarYellowRectangle, healthBarRedRectangle;
 	boolean slowed, dotted;
 	HashMap<String, Float> floatingStats = new HashMap<String, Float>();
+	float originalMoveSpeedMultiplier = 1.0f;
+	float originalHealth = 1.0f;
+	
+	public void modifyOriginalMoveSpeed(float f)
+	{
+		originalMoveSpeedMultiplier = f;
+		this.setStat("currentMoveSpeedMultiplier", f);
+	}
+	
+	public void modifyOriginalHealth(float f)
+	{
+		this.setStat("currentHealth", (float)Math.floor(this.getStat("currentHealth") * f));
+		originalHealth = this.getStat("currentHealth");
+	}
 	
     public Enemy(EnemyStats enemyStats, Vector2 startPosition, List<Direction> directions, Sprite enemySprite, Sprite redHealthBarSprite, Sprite yellowHealthBarSprite)
     {
@@ -25,6 +39,7 @@ public class Enemy extends ExtendedActor
     	super(enemySprite);
     	this.enemyStats = enemyStats;
     	floatingStats.put("currentHealth", (float)enemyStats.health);
+    	originalHealth = this.getStat("currentHealth");
     	floatingStats.put("dotTicksLeft", 0f);
     	floatingStats.put("distanceTravelled", 0f);
     	floatingStats.put("currentMoveSpeedMultiplier", 1.0f);
@@ -81,12 +96,12 @@ public class Enemy extends ExtendedActor
 		
 		this.editStat("distanceTravelled", (float)Math.abs(Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2 - y1, 2))));
 		
-		if (floatingStats.get("currentMoveSpeedMultiplier") != 1.0f)
+		if (floatingStats.get("currentMoveSpeedMultiplier") != originalMoveSpeedMultiplier)
 		{
 			editStat("currentSlowDuration", -gameTime);
 			if (getStat("currentSlowDuration") <= 0)
 			{
-				setStat("currentMoveSpeedMultiplier", 1.0f);
+				setStat("currentMoveSpeedMultiplier", originalMoveSpeedMultiplier);
 			}
 		}
 		if (getStat("dotTicksLeft") > 0)
@@ -107,8 +122,7 @@ public class Enemy extends ExtendedActor
 				(int) getX(),
 				GameConstants.screenHeight - GameConstants.tileSize
 						- (int) getY() - 10,
-				(int) ((float) 64 * (float) getStat("currentHealth") / (float) enemyStats
-						.getHealth()), 5);
+				(int) ((float) 64 * (float) getStat("currentHealth") / originalHealth), 5);
 
 	}
 
