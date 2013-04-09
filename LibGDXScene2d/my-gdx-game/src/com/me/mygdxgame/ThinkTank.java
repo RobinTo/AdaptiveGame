@@ -15,11 +15,15 @@ public class ThinkTank {
 	HashMap<String, Float> parameters = new HashMap<String, Float>();
 	int actionCounter = 0;
 	int timeBetweenMeasurements = 1;
-	float x, y, z, fdsfs;
+	Variables variables, oldVariables;
 	double lastMetric = 0;
+	double currentMetric = 0;
+	double challengerMetric = 0;
 	double maxJumpDistance = 0.5;
 
 	public void initializeVariables(FileHandle fileHandle) {
+		variables = new Variables();
+		oldVariables = new Variables();
 		if (fileHandle.exists()) {
 			List<String> fileContent = GameConstants
 					.readRawTextFile(fileHandle);
@@ -28,24 +32,25 @@ public class ThinkTank {
 				String s = fileContent.get(counter);
 				String[] split = s.split(":");
 				if (split[0].equals("x")) {
-					x = Float.valueOf(split[1]);
+					variables.x = Float.valueOf(split[1]);
 				} else if (split[0].equals("y")) {
-					y = Float.valueOf(split[1]);
+					variables.y = Float.valueOf(split[1]);
 				} else if (split[0].equals("z")) {
-					z = Float.valueOf(split[1]);
-				} else if (split[0].equals("fdsfs")) {
-					fdsfs = Float.valueOf(split[1]);
-				}
+					variables.z = Float.valueOf(split[1]);
+				} /*else if (split[0].equals("fdsfs")) {
+					variables.fdsfs = Float.valueOf(split[1]);
+				}*/
 			}
 		}
 		else
 		{
-			x = 1;
-			y = 1;
-			z = 1;
-			fdsfs = 1;
+			variables.x = 1;
+			variables.y = 1;
+			variables.z = 1;
+			//variables.fdsfs = 1;
 			writeVariablesToDisk(fileHandle);
 		}
+		oldVariables = variables;
 		calculateNewStats();
 	}
 
@@ -98,18 +103,27 @@ public class ThinkTank {
 		// Metric will range from 1.5 to 6.5
 		double happyMetric = 1 + rand.nextInt(happy);
 		double difficultyMetric = 1 + rand.nextInt(difficult);
-		double metric = happyMetric + difficultyMetric + rand.nextDouble() - 0.5;
+		challengerMetric = happyMetric + difficultyMetric + rand.nextDouble() - 0.5;
 		
-		//Jump if metric is higher than last one.
-		if (metric > lastMetric)
+		//Jump from variables if metric is higher than last one.
+		if (challengerMetric > currentMetric)
 		{
 			// Jump between specified interval
 			// So all variables are added a random value between -maxJumpDistance and +maxJumpDistance
-			x = calculateSingleVariable(x);
-			y = calculateSingleVariable(y);
-			z = calculateSingleVariable(z);
-			fdsfs = calculateSingleVariable(fdsfs);
-			lastMetric = metric;
+			variables.x = calculateSingleVariable(variables.x);
+			variables.y = calculateSingleVariable(variables.y);
+			variables.z = calculateSingleVariable(variables.z);
+			//variables.fdsfs = calculateSingleVariable(variables.fdsfs);
+			currentMetric = challengerMetric;
+		}
+		else // Jump from oldVariables if metric is lower or equal to the last one.
+		{
+			// Jump between specified interval
+			// So all variables are added a random value between -maxJumpDistance and +maxJumpDistance
+			variables.x = calculateSingleVariable(oldVariables.x);
+			variables.y = calculateSingleVariable(oldVariables.y);
+			variables.z = calculateSingleVariable(oldVariables.z);
+			//variables.fdsfs = calculateSingleVariable(oldVariables.fdsfs);
 		}
 		
 		// Calculate sensors
@@ -133,14 +147,6 @@ public class ThinkTank {
 		averageLives /= measurements.size();
 		averageAPM /= measurements.size();
 		
-		/*
-		// Calculate new variables
-		x = (float)((rand.nextDouble() + 0.1 )*3.0);
-		y = (float)((rand.nextDouble() + 0.1 )*3.0);
-		z = (float)((rand.nextDouble() + 0.1 )*3.0);
-		fdsfs = (float)((rand.nextDouble() + 0.1 )*3.0);
-		*/
-		
 		calculateNewStats();
 	}
 
@@ -151,9 +157,9 @@ public class ThinkTank {
 
 		while (enemyStatsIterator.hasNext()) {
 			String s = enemyStatsIterator.next();
-			MyGdxGame.enemyInfo.get(s).health = (int)(defaultEnemyInfo.get(s).health * x);
-			MyGdxGame.enemyInfo.get(s).goldYield = (int)(defaultEnemyInfo.get(s).goldYield * y);
-			MyGdxGame.enemyInfo.get(s).speed = defaultEnemyInfo.get(s).speed * z;
+			MyGdxGame.enemyInfo.get(s).health = (int)(defaultEnemyInfo.get(s).health * variables.x);
+			MyGdxGame.enemyInfo.get(s).goldYield = (int)(defaultEnemyInfo.get(s).goldYield * variables.y);
+			MyGdxGame.enemyInfo.get(s).speed = defaultEnemyInfo.get(s).speed * variables.z;
 		}
 
 		Iterator<String> towerStatsIterator = MyGdxGame.towerInfo.keySet()
@@ -161,16 +167,17 @@ public class ThinkTank {
 
 		while (towerStatsIterator.hasNext()) {
 			String key = towerStatsIterator.next();
-				MyGdxGame.towerInfo.get(key).range = (int)(defaultTowerInfo.get(key).range * fdsfs);
+				MyGdxGame.towerInfo.get(key).buildCost = (int)(defaultTowerInfo.get(key).buildCost * variables.y);
+				//MyGdxGame.towerInfo.get(key).range = (int)(defaultTowerInfo.get(key).range * variables.fdsfs);
 		}
 	}
 
 	public void writeVariablesToDisk(FileHandle fileHandle) {
 		fileHandle.writeString("", false);
-		fileHandle.writeString("x:" + x + ":\r\n", true);
-		fileHandle.writeString("y:" + y + ":\r\n", true);
-		fileHandle.writeString("z:" + z + ":\r\n", true);
-		fileHandle.writeString("fdsfs:" + fdsfs + ":\r\n", true);
+		fileHandle.writeString("x:" + variables.x + ":\r\n", true);
+		fileHandle.writeString("y:" + variables.y + ":\r\n", true);
+		fileHandle.writeString("z:" + variables.z + ":\r\n", true);
+		//fileHandle.writeString("fdsfs:" + variables.fdsfs + ":\r\n", true);
 	}
 
 	public void clear() {
@@ -183,8 +190,16 @@ public class ThinkTank {
 		variable += distance;
 		if (variable > 3.0)
 			variable = 3.0f;
-		else if (variable < 0.1)
-			variable = 0.1f;
+		else if (variable < 0.33)
+			variable = 0.33f;
 		return variable;
+	}
+	public Variables getVariables()
+	{
+		return variables;
+	}
+	public Variables getOldVariables()
+	{
+		return oldVariables;
 	}
 }

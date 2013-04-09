@@ -895,10 +895,12 @@ public class MyGdxGame implements ApplicationListener {
 		switch(consoleStates)
 		{
 		case 1:
-			consoleStrings.add("x: "+thinkTank.x);
-			consoleStrings.add("y: "+thinkTank.y);
-			consoleStrings.add("z: "+thinkTank.z);
-			consoleStrings.add("fdsfs: "+thinkTank.fdsfs);
+			consoleStrings.add("x: "+thinkTank.getVariables().x);
+			consoleStrings.add("y: "+thinkTank.getVariables().y);
+			consoleStrings.add("z: "+thinkTank.getVariables().z);
+			//consoleStrings.add("fdsfs: "+thinkTank.getVariables().fdsfs);
+			consoleStrings.add("metric: "+thinkTank.currentMetric);
+			consoleStrings.add("challenger metric: "+ thinkTank.challengerMetric);
 			consoleGroup.setVisible(true);
 			break;
 		case 2:

@@ -4,3 +4,5 @@ Can combine multiple types instead
 Pathfinding vs. No-pathfinding
 Map generation vs. Pre-defined map
 
+I begynnelsen, hoppet vi random, helt random.
+Så satte vi på restraints.
