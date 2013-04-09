@@ -47,17 +47,31 @@ public class ThinkTank
 					variables.fdsfs = Float.valueOf(split[1]);
 					}*/
 			}
-		} else
+
+			variables.r = 1f;
+			variables.g = 1f;
+			variables.b = 1f;
+			variables.a = 1f;
+		}
+		else
 		{
 			variables.x = 1;
 			variables.y = 1;
 			variables.z = 1;
-			//variables.fdsfs = 1;
+			variables.r = 1f;
+			variables.g = 1f;
+			variables.b = 1f;
+			variables.a = 1f;
+
 			writeVariablesToDisk(fileHandle);
 		}
 		oldVariables.x = variables.x;
 		oldVariables.y = variables.y;
 		oldVariables.z = variables.z;
+		oldVariables.r = variables.r;
+		oldVariables.g = variables.g;
+		oldVariables.b = variables.b;
+		oldVariables.a = variables.a;
 		calculateNewStats();
 	}
 

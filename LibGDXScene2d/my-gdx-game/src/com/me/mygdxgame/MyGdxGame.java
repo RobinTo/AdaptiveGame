@@ -225,6 +225,15 @@ public class MyGdxGame implements ApplicationListener
 				.external("/AdaptiveTD/Parameters.txt");
 		thinkTank.initializeVariables(variableHandle);
 		
+		newGame();
+	}
+	
+	private void newGame()
+	{
+		for (Actor actor : mapGroup.getChildren())
+		{
+			((MapTile)actor).setColor(thinkTank.variables.r,thinkTank.variables.g,thinkTank.variables.b,thinkTank.variables.a);
+		}
 	}
 
 	@Override
@@ -241,11 +250,6 @@ public class MyGdxGame implements ApplicationListener
 		{
 			actor.setColor(Color.BLUE);
 		}*/
-		
-		for (Actor actor : mapGroup.getChildren())
-		{
-			((MapTile)actor).setColor(0.1f,0.1f,0.1f,1f);
-		}
 		
 		// clear previous frame
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
@@ -665,6 +669,7 @@ public class MyGdxGame implements ApplicationListener
 			lastMinionTime += wavePartDelay;
 		}
 		updateConsoleState(false);
+		newGame();
 	}
 
 	private void checkWave(float totalTime)

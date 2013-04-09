@@ -11,6 +11,9 @@ Effekter
 Nå
 - Random earthquakes. Flytter tårn
 - Flash blinkende mobs
-- Skjermbildet: Endre farge
 - Super mobs, med hodeskalle, eller lyser rødt.
+
+
+Done
 - Random vei generation
+- Skjermbildet: Endre farge
