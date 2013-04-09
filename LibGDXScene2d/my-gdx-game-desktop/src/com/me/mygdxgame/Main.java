@@ -48,27 +48,48 @@ public class Main
 	{
 		// Enter path to android asset folder on your computer, or remove this to compile if you want
 		// to compile and no new images have been added.
+		boolean packed = false;
 		String path = "D:\\github\\AdaptiveGame\\LibGDXScene2d\\my-gdx-game-android\\assets\\Images";
-		//String path = "C:\\Users\\Robin\\github\\AdaptiveGame\\LibGDXScene2d\\my-gdx-game-android\\assets\\Images";
-
+		try
+		{
+			packFiles(path, settings);
+			packed = true;
+		}
+		catch(Exception e)
+		{}
+		if(!packed)
+		{
+			path = "C:\\Users\\Robin\\github\\AdaptiveGame\\LibGDXScene2d\\my-gdx-game-android\\assets\\Images";
+			try
+			{
+				packFiles(path, settings);
+			} catch (Exception e)
+			{
+			}
+		}
+		
+	}
+	
+	private static void packFiles(String path, Settings settings)
+	{
 		// Make copies in android project
-		TexturePacker2.process(settings, path + "\\Enemies",
-				"../my-gdx-game-android/assets/Images", "enemies"); // settings, source path, destination path, texture atlas file name
-		TexturePacker2.process(settings, path + "\\MiscSmall",
-				"../my-gdx-game-android/assets/Images", "misc");
-		TexturePacker2.process(settings, path + "\\Towers",
-				"../my-gdx-game-android/assets/Images", "towers");
-		TexturePacker2.process(settings, path + "\\MapTiles",
-				"../my-gdx-game-android/assets/Images", "mapTiles");
+		TexturePacker2
+				.process(settings, path + "\\Enemies", "../my-gdx-game-android/assets/Images", "enemies"); // settings, source path, destination path, texture atlas file name
+		TexturePacker2
+				.process(settings, path + "\\MiscSmall", "../my-gdx-game-android/assets/Images", "misc");
+		TexturePacker2
+				.process(settings, path + "\\Towers", "../my-gdx-game-android/assets/Images", "towers");
+		TexturePacker2
+				.process(settings, path + "\\MapTiles", "../my-gdx-game-android/assets/Images", "mapTiles");
 
 		// Make copies in desktop project
-		TexturePacker2.process(settings, path + "\\Enemies",
-				"../my-gdx-game-desktop/bin/Images", "enemies");
-		TexturePacker2.process(settings, path + "\\MiscSmall",
-				"../my-gdx-game-desktop/bin/Images", "misc");
-		TexturePacker2.process(settings, path + "\\Towers",
-				"../my-gdx-game-desktop/bin/Images", "towers");
-		TexturePacker2.process(settings, path + "\\MapTiles",
-				"../my-gdx-game-desktop/bin/Images", "mapTiles");
+		TexturePacker2
+				.process(settings, path + "\\Enemies", "../my-gdx-game-desktop/bin/Images", "enemies");
+		TexturePacker2
+				.process(settings, path + "\\MiscSmall", "../my-gdx-game-desktop/bin/Images", "misc");
+		TexturePacker2
+				.process(settings, path + "\\Towers", "../my-gdx-game-desktop/bin/Images", "towers");
+		TexturePacker2
+				.process(settings, path + "\\MapTiles", "../my-gdx-game-desktop/bin/Images", "mapTiles");
 	}
 }
