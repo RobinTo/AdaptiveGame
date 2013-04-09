@@ -128,7 +128,7 @@ public class Map {
 	
 	public boolean canBuild(int x, int y)
 	{
-		if(x<20 && x >= 0 && y < 10 && y >= 0)
+		if(x<mapWidth && x >= 0 && y < mapHeight && y >= 0)
 			return (!pathTiles.contains(map[x][y]) && !unbuildableTiles.contains(map[x][y]));
 		else
 			return false;
@@ -235,7 +235,7 @@ public class Map {
         while(!done)
         {
 			double d = rand.nextDouble();
-			if (xPos > 0 && d < 0.25)
+			if (xPos > 0 && d < 0.3)
 			{
 				yPos++;
 				if (checkTileToEat(xPos, yPos, textureInt))
@@ -248,7 +248,7 @@ public class Map {
 					yPos--;
 					testTries++;
 				}
-			} else if (xPos > 0 && d < 0.5)
+			} else if (xPos > 0 && d < 0.6)
 			{
 				yPos--;
 				if (checkTileToEat(xPos, yPos, textureInt))
@@ -261,7 +261,7 @@ public class Map {
 					yPos++;
 					testTries++;
 				}
-			} else if (xPos > 1 && yPos < mapHeight - 3 && yPos > 2 && d < 6)
+			} else if (xPos > 1 && yPos < mapHeight - 3 && yPos > 2 && d < 0.8)
 			{
 				xPos--;
 				if (checkTileToEat(xPos, yPos, textureInt))
