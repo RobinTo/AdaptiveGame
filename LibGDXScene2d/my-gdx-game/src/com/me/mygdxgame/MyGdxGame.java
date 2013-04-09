@@ -13,6 +13,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Camera;
@@ -38,6 +39,13 @@ public class MyGdxGame implements ApplicationListener {
 	
 	float currentMinionDelay = 2.0f; // Will be set at random
 	int waveSize = 10;
+	
+	Group consoleGroup;
+	List<String> consoleStrings = new ArrayList<String>();
+	boolean showConsole = false;
+	boolean wasTab = false;
+	Label consoleLabel;
+	ExtendedActor consoleBackground;
 	
 	boolean fullScreen = false; // Full screen yes or no.
 	boolean printDebug = true; // Print debug, add or remove writes in end of render.
@@ -174,7 +182,7 @@ public class MyGdxGame implements ApplicationListener {
 		// UI Creation
 		createUI();
 		// -----------
-		
+
 		if(useReplay)
 		{
 			FileHandle replayHandle = Gdx.files.external(replayPath);
@@ -268,6 +276,14 @@ public class MyGdxGame implements ApplicationListener {
         	timer = 0;
         }
         
+        if(Gdx.input.isKeyPressed(Keys.TAB) && !wasTab)
+        {
+        	updateConsoleState(true);
+        	wasTab = true;
+        }
+        else if(!Gdx.input.isKeyPressed(Keys.TAB))
+        	wasTab = false;
+        
         if (won)
         {
         	spriteBatch.begin();
@@ -326,7 +342,8 @@ public class MyGdxGame implements ApplicationListener {
 		gameCamera.apply(Gdx.gl10);
     
 	}
-
+	
+	int consoleStates = 0;
 	private void updateGame()
 	{
 		totalTime += Gdx.graphics.getDeltaTime();
@@ -594,6 +611,7 @@ public class MyGdxGame implements ApplicationListener {
 		{
 			generateNextEnemy();
 		}
+		updateConsoleState(false);
 	}
 	
 	private void checkWave(float totalTime)
@@ -837,6 +855,59 @@ public class MyGdxGame implements ApplicationListener {
 		yellowBoxGroup.setZIndex(1000);		// Random high value, to keep it above anything.
 	}
 	
+	int consoleLines = 0;
+	int consoleLinesPadding = 5;
+	private void updateConsole() // This must be called after console strings are changed for visually reflecting changes.
+	{
+		consoleLines = consoleStrings.size();
+		int height = 2*consoleLinesPadding;
+		int width = 0;
+		consoleLabel.setText("");
+		for(String s : consoleStrings)
+		{
+			height += 2*(int)font.getBounds(s).height;
+			consoleLabel.setText(consoleLabel.getText() + s + "\n");
+			if(font.getBounds(s).width > width)
+				width = (int)font.getBounds(s).width;
+		}
+		width += 2*consoleLinesPadding;
+		consoleBackground.setSize(width, height);
+		consoleGroup.setZIndex(1001); // Random high value, to keep it above anything.
+		int consoleX = 0;
+		int consoleY = 0;
+		consoleBackground.setPosition(consoleX, consoleY);
+		consoleLabel.setPosition(consoleX+consoleLinesPadding, consoleY + (height - consoleLines*font.getBounds(consoleLabel.getText()).height));
+	}
+	
+	private void updateConsoleState(boolean goNextState)
+	{
+		consoleStrings.clear();
+		if(goNextState)
+			consoleStates++;
+		switch(consoleStates)
+		{
+		case 1:
+			consoleStrings.add("x: "+thinkTank.x);
+			consoleStrings.add("y: "+thinkTank.y);
+			consoleStrings.add("z: "+thinkTank.z);
+			consoleStrings.add("fdsfs: "+thinkTank.fdsfs);
+			consoleGroup.setVisible(true);
+			break;
+		case 2:
+			consoleStrings.add("Tab 2, what to show?");
+			consoleGroup.setVisible(true);
+			break;
+		default:
+			consoleStates = 0;
+			break;
+		}
+		if(consoleStates>0)
+			consoleGroup.setVisible(true);
+		else
+			consoleGroup.setVisible(false);
+		updateConsole();
+	}
+
 	private void fadeOutYellowBox()
 	{
 		targetYellowBoxActor = null;
@@ -857,6 +928,18 @@ public class MyGdxGame implements ApplicationListener {
 		yellowBoxLabel = new Label("", labelStyle);
 		yellowBoxLabel.setPosition(800, GameConstants.screenHeight-40);
 		yellowBoxGroup.addActor(yellowBoxLabel);
+		
+		consoleLabel = new Label("", labelStyle);
+		
+		consoleGroup = new Group();
+		consoleBackground = new ExtendedActor(miscAtlas.createSprite("YellowBox"));
+		consoleBackground.setColor(Color.BLACK.r, Color.BLACK.g, Color.BLACK.b, 80);
+		consoleGroup.addActor(consoleBackground);
+		consoleGroup.addActor(consoleLabel);
+		stage.addActor(consoleGroup);
+		
+		consoleGroup.setVisible(showConsole);
+		
 
 		yellowBoxGroup.setVisible(false);
 		
