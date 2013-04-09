@@ -39,6 +39,9 @@ public class MyGdxGame implements ApplicationListener {
 	
 	float currentMinionDelay = 2.0f; // Will be set at random
 	int waveSize = 10;
+	int waveParts = 3;
+	int waveIncrements = 5;
+	int wavePartDelay = 3; // Seconds
 	
 	Group consoleGroup;
 	List<String> consoleStrings = new ArrayList<String>();
@@ -607,9 +610,14 @@ public class MyGdxGame implements ApplicationListener {
 		}
 		
 		lastMinionTime = 0;
-		for(int i = 0; i < waveSize; i++)
+		float statMultiplier = 1.0f;
+		for(int t = 0; t < waveParts; t++)
 		{
-			generateNextEnemy();
+			for (int i = 0; i < waveSize +(t*waveIncrements); i++) {
+				generateNextEnemy(statMultiplier);
+			}
+			statMultiplier += 0.25f;
+			lastMinionTime += wavePartDelay;
 		}
 		updateConsoleState(false);
 	}
@@ -1086,21 +1094,30 @@ public class MyGdxGame implements ApplicationListener {
 	int nextEnemyGeneratedCounter = 0;
 	float lastMinionTime = 0;
 	Random rand = new Random();
-	private void generateNextEnemy()
+	private void generateNextEnemy(float statMultiplier)
 	{
 		currentMinionDelay = rand.nextInt(30);
 		currentMinionDelay /= 10.0f;
-		float time = lastMinionTime + currentMinionDelay; // Redundant, use lastminiontime.
-		lastMinionTime += currentMinionDelay;
+		float time = lastMinionTime + currentMinionDelay;
+		lastMinionTime += currentMinionDelay;	// Basically same as time
 		Enemy e = null;
 		double randValue = rand.nextDouble();
 		
 		if(randValue <= 0.50)
+		{
 			e = createEnemy("basic");
+			e.editStat("currentHealth", e.getStat("currentHealth")*statMultiplier);
+		}
 		else if(randValue <=0.75)
+		{
 			e = createEnemy("fast");
+			e.editStat("currentHealth", e.getStat("currentHealth")*statMultiplier);
+		}
 		else
+		{
 			e = createEnemy("tough");
+			e.editStat("currentHealth", e.getStat("currentHealth")*statMultiplier);
+		}
 		
 		if(!waveTime.contains(time))
 		{
@@ -1109,7 +1126,7 @@ public class MyGdxGame implements ApplicationListener {
 		}
 		else
 		{
-			generateNextEnemy();
+			generateNextEnemy(statMultiplier);
 		}
 	}
 }
