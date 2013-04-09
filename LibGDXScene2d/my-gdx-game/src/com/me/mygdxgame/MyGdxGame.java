@@ -23,7 +23,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -34,7 +33,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class MyGdxGame implements ApplicationListener {
 	
@@ -961,7 +959,8 @@ public class MyGdxGame implements ApplicationListener {
 	}
 	private void loadSounds()
 	{
-		System.out.println("Trying to load sounds");
+		System.out.println("Loading sounds");
+		
 		Iterator<String> it = towerInfo.keySet().iterator();
 		while(it.hasNext())
 		{
@@ -971,8 +970,6 @@ public class MyGdxGame implements ApplicationListener {
 			if (!towerInfo.get(s).shootSound.equals(""))
 				sounds.put(towerInfo.get(s).shootSound, Gdx.audio.newSound(Gdx.files.internal("sounds/" + towerInfo.get(s).shootSound)));
 		}
-
-		System.out.println("Finished loading sounds");
 	}
 	private void checkWinConditions()
 	{
