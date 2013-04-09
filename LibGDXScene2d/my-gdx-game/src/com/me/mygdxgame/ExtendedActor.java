@@ -1,5 +1,8 @@
 package com.me.mygdxgame;
 
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 public class ExtendedActor extends Actor {
 	TextureRegion region;
