@@ -286,6 +286,14 @@ public class MyGdxGame implements ApplicationListener {
         }
         else if(!Gdx.input.isKeyPressed(Keys.TAB))
         	wasTab = false;
+        if(Gdx.input.isKeyPressed(Keys.X))
+        {
+        	waveTime.clear();
+        	enemyWave.clear();
+        	for(Enemy e : enemies)
+        		stage.getActors().removeValue(e, true);
+        	enemies.clear();
+        }
         
         if (won)
         {
