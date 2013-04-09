@@ -4,11 +4,11 @@ missileTexture:blackBullet
 shootSound:arrowShoot.mp3
 impactSound:arrowImpact.mp3
 upgradesTo:Arrow2
-sellPrice:7
-buildCost:10
+sellPrice:3
+buildCost:5
 targeting:Single
 reloadtime:0.5f
-range:300
+range:250
 effect:edit:currentHealth:-1
 buildable:true
 description:Single target tower.
@@ -19,12 +19,12 @@ missileTexture:blackBullet
 shootSound:arrowShoot.mp3
 impactSound:arrowImpact.mp3
 upgradesTo:Arrow3
-sellPrice:10
-buildCost:15
+sellPrice:5
+buildCost:8
 targeting:Single
-reloadtime:0.5f
-range:400
-effect:edit:currentHealth:-2
+reloadtime:0.4f
+range:300
+effect:edit:currentHealth:-3
 buildable:false
 description:Single target tower.
 endTower
@@ -34,12 +34,12 @@ missileTexture:blackBullet
 shootSound:arrowShoot.mp3
 impactSound:arrowImpact.mp3
 upgradesTo:null
-sellPrice:15
-buildCost:20
+sellPrice:8
+buildCost:11
 targeting:Single
-reloadtime:0.5f
-range:500
-effect:edit:currentHealth:-3
+reloadtime:0.3f
+range:350
+effect:edit:currentHealth:-5
 buildable:false
 description:Single target tower.
 endTower
@@ -49,10 +49,10 @@ missileTexture:blackBullet
 shootSound:arrowShoot.mp3
 impactSound:arrowImpact.mp3
 upgradesTo:FrostArrow2
-sellPrice:10
-buildCost:25
+sellPrice:7
+buildCost:10
 targeting:circle:10
-reloadtime:1.3f
+reloadtime:1.0f
 range:300
 effect:set:currentMoveSpeedMultiplier:0.7f
 effect:set:currentSlowDuration:2.0f
@@ -66,9 +66,9 @@ shootSound:arrowShoot.mp3
 impactSound:arrowImpact.mp3
 upgradesTo:FrostArrow3
 sellPrice:10
-buildCost:40
+buildCost:15
 targeting:circle:10
-reloadtime:1.3f
+reloadtime:1.0f
 range:300
 effect:set:currentMoveSpeedMultiplier:0.5f
 effect:set:currentSlowDuration:2.0f
@@ -81,10 +81,10 @@ missileTexture:blackBullet
 shootSound:arrowShoot.mp3
 impactSound:arrowImpact.mp3
 upgradesTo:null
-sellPrice:10
-buildCost:55
+sellPrice:15
+buildCost:20
 targeting:circle:10
-reloadtime:1.3f
+reloadtime:1.0f
 range:300
 effect:set:currentMoveSpeedMultiplier:0.3f
 effect:set:currentSlowDuration:2.0f
@@ -97,11 +97,11 @@ missileTexture:blackBullet
 shootSound:flameShoot.mp3
 upgradesTo:FlameCircle2
 sellPrice:10
-buildCost:25
+buildCost:15
 targeting:circleonself
 reloadtime:1.5f
 range:100
-effect:edit:currentHealth:-10
+effect:edit:currentHealth:-8
 buildable:true
 description:Deals damage in an area around itself.
 endTower
@@ -110,12 +110,12 @@ towerTexture:redTower2
 missileTexture:blackBullet
 shootSound:flameShoot.mp3
 upgradesTo:FlameCircle3
-sellPrice:10
-buildCost:40
+sellPrice:18
+buildCost:25
 targeting:circleonself
 reloadtime:1.5f
 range:100
-effect:edit:currentHealth:-20
+effect:edit:currentHealth:-16
 buildable:false
 description:Deals damage in an area around itself.
 endTower
@@ -124,12 +124,12 @@ towerTexture:redTower3
 missileTexture:blackBullet
 shootSound:flameShoot.mp3
 upgradesTo:null
-sellPrice:10
-buildCost:55
+sellPrice:25
+buildCost:35
 targeting:circleonself
 reloadtime:1.5f
-range:100
-effect:edit:currentHealth:-30
+range:125
+effect:edit:currentHealth:-25
 buildable:false
 description:Deals damage in an area around itself.
 endTower
@@ -138,12 +138,12 @@ towerTexture:testTower
 missileTexture:blackBullet
 shootSound:laserShoot.mp3
 upgradesTo:LineLaser2
-sellPrice:10
-buildCost:40
+sellPrice:20
+buildCost:30
 targeting:line
 reloadtime:2.0f
 range:400
-effect:edit:currentHealth:-20
+effect:edit:currentHealth:-10
 buildable:true
 description:Deals damage to enemies in a line.
 endTower
@@ -152,12 +152,12 @@ towerTexture:testTower2
 missileTexture:blackBullet
 shootSound:laserShoot.mp3
 upgradesTo:LineLaser3
-sellPrice:10
-buildCost:70
+sellPrice:30
+buildCost:40
 targeting:line
 reloadtime:2.0f
 range:400
-effect:edit:currentHealth:-40
+effect:edit:currentHealth:-15
 buildable:false
 description:Deals damage to enemies in a line.
 endTower
@@ -166,12 +166,12 @@ towerTexture:testTower3
 missileTexture:blackBullet
 shootSound:laserShoot.mp3
 upgradesTo:null
-sellPrice:10
-buildCost:100
+sellPrice:35
+buildCost:50
 targeting:line
 reloadtime:2.0f
 range:400
-effect:edit:currentHealth:-60
+effect:edit:currentHealth:-20
 buildable:false
 description:Deals damage to enemies in a line.
 endTower

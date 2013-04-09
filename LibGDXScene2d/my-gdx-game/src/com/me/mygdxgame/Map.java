@@ -2,7 +2,9 @@ package com.me.mygdxgame;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -40,7 +42,7 @@ public class Map {
 	HashMap<Integer, Sprite> textures = new HashMap<Integer, Sprite>();
 	ArrayList<Integer> pathTiles = new ArrayList<Integer>();
 	ArrayList<Integer> unbuildableTiles = new ArrayList<Integer>();
-	
+	HashMap<String, Integer> texturesByName = new HashMap<String, Integer>();
 	TextureAtlas mapTilesAtlas;
 	
 	public Map(TextureAtlas mapTiles)
@@ -154,6 +156,7 @@ public class Map {
             if(split[0].equals("t"))
             {
                 textures.put(Integer.parseInt(split[1]), mapTilesAtlas.createSprite(split[2]));
+                texturesByName.put(split[2], Integer.parseInt(split[1]));
             }
             else if(split[0].equals("p"))
             {
@@ -177,9 +180,169 @@ public class Map {
                 yCounter++;
             }
         }
+        actorGroup.clear();
+        actorGroup = generateNewMap();
         generateDirections();
         System.out.println("Loaded map and generated directions");
         return actorGroup;
     }
 
+	public Group generateNewMap()
+	{
+		Group actorGroup = new Group();
+		for (int x = 0; x < mapWidth; x++)
+        {
+            for (int y = 0; y < mapHeight; y++)
+            {
+                map[x][y] = 0;
+                mapActors[x][y] = null;
+            }
+        }
+		while(!eatPath())
+		{
+			for (int x = 0; x < mapWidth; x++)
+	        {
+	            for (int y = 0; y < mapHeight; y++)
+	            {
+	                map[x][y] = 0;
+	                mapActors[x][y] = null;
+	            }
+	        }
+		}
+		for(int y = 0; y < mapHeight; y++)
+		{
+			for(int x = 0; x < mapWidth; x++)
+			{
+				MapTile mapTile = new MapTile(textures.get(map[x][y]), GameConstants.tileSize*x, GameConstants.tileSize*y);
+                actorGroup.addActor(mapTile);
+                mapActors[x][y] = mapTile;
+			}
+		}
+		return actorGroup;
+	}
+	
+	// 0 left, 1 up, 2 right, 3 down
+	public boolean eatPath()
+	{
+		Random rand = new Random();
+		int yPos = rand.nextInt(mapHeight-1);
+        int xPos = 0;
+        int textureInt = texturesByName.get("Horizontal");
+        map[xPos][yPos] = textureInt;
+        
+        boolean done = false;
+        int testTries = 0;
+        while(!done)
+        {
+			double d = rand.nextDouble();
+			if (xPos > 0 && d < 0.25)
+			{
+				yPos++;
+				if (checkTileToEat(xPos, yPos, textureInt))
+				{
+					map[xPos][yPos] = textureInt;
+					testTries = 0;
+				}
+				else
+				{
+					yPos--;
+					testTries++;
+				}
+			} else if (xPos > 0 && d < 0.5)
+			{
+				yPos--;
+				if (checkTileToEat(xPos, yPos, textureInt))
+				{
+					map[xPos][yPos] = textureInt;
+					testTries = 0;
+				}
+				else
+				{
+					yPos++;
+					testTries++;
+				}
+			} else if (xPos > 1 && yPos < mapHeight - 3 && yPos > 2 && d < 6)
+			{
+				xPos--;
+				if (checkTileToEat(xPos, yPos, textureInt))
+				{
+					map[xPos][yPos] = textureInt;
+					testTries = 0;
+				}
+				else
+				{
+					xPos++;
+					testTries++;
+				}
+			} else
+			{
+				xPos++;
+				if(xPos > mapWidth-1)
+					done = true;
+				else if (checkTileToEat(xPos, yPos, textureInt))
+				{
+					map[xPos][yPos] = textureInt;
+					testTries = 0;
+				}
+				else
+				{
+					xPos--;
+					testTries++;
+				}
+			}
+			if(xPos == mapWidth -1)
+				done = true;
+			if(testTries > 10)
+        	{
+				for(int y = 0; y < mapHeight; y++)
+		        {
+		        	for(int x = 0; x<mapWidth; x++)
+		        	{
+		        		System.out.print(map[x][y]);
+		        	}
+		        	System.out.print("\n");
+		        }
+				System.out.println("Fail!");
+        		return false;
+        	}
+        }
+        System.out.println("Great success!");
+        for(int y = 0; y < mapHeight; y++)
+        {
+        	for(int x = 0; x<mapWidth; x++)
+        	{
+        		System.out.print(map[x][y]);
+        	}
+        	System.out.print("\n");
+        }
+        return true;
+	}
+	
+	public boolean checkTileToEat(int xPos, int yPos, int textureInt)
+	{
+		boolean canGo = true;
+		if (xPos <= mapWidth - 1 && yPos <= mapHeight - 1 && xPos >= 0
+				&& yPos >= 0)
+		{
+			if (map[xPos][yPos] == textureInt)
+			{
+				return false;
+			}
+			int neighbourCounter = 0;
+			if (xPos > 0 && map[xPos - 1][yPos] == textureInt)
+				neighbourCounter++;
+			if (xPos < mapWidth -1 && map[xPos + 1][yPos] == textureInt)
+				neighbourCounter++;
+			if (yPos > 0 && map[xPos][yPos - 1] == textureInt)
+				neighbourCounter++;
+			if (yPos < mapHeight -1 && map[xPos][yPos + 1] == textureInt)
+				neighbourCounter++;
+
+			if (neighbourCounter > 1)
+				return false;
+		}
+		else
+			return false;
+		return true;
+	}
 }

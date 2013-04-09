@@ -1,33 +1,19 @@
-Tasks
-- Questionaire text
-  - "For lett, Perfekt, For vanskelig"
-- Questionaire images
-- Kalkulere nye stats(leste parametere)
-  - Monster HP, Speed, gold yield
-  - Tower reload time, damage, cost
-  - Wave mobcount, composition
-- Lagre/Lese parametere. Done. Mangler default parameters, i tilfelle ingen er tilgjengelige.
-- Lage en ny versjon deploy. (som er adaptiv)
-- Replay: Events til removelist. Tror dette er ok nå
+Effekter
+- Skjermbildet: Shading (Natt)
+- Mobs som kommer inn fra andre kanter
+- Mobs som blinker bortover, ikke går.
+- Medic mob
+- Coop mobs (Harpoon)
+- Slow aura mob
+- Absorb aura mob.
+- Shielding mob.
 
-Etterhvert
-- Lyd
-- Grafikk
-
-
-Ideas
-- Advanced questionaire
-- Tower upgrade shop
+Nå
+- Random earthquakes. Flytter tårn
+- Flash blinkende mobs
+- Super mobs, med hodeskalle, eller lyser rødt.
 
 
-From Sondre (12.02.2013)
-- Questionaire
-  - Guidelines
-- Global session settings, lese ut, og endre på.
-  - Parametere (liste)
-- Polishe
-- Enkel testing
-- Intuitivt spill
-- Se på gaussiske prosesser.
-- Enkel installasjon
-- Kompabilitet
+Done
+- Random vei generation
+- Skjermbildet: Endre farge
