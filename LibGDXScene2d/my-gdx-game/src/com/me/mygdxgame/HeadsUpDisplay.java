@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
-public class View
+public class HeadsUpDisplay
 {
 	Group yellowBoxGroup;
 	Label yellowBoxLabel;
@@ -38,7 +38,7 @@ public class View
 	
 	BitmapFont font;
 	
-	public View(BitmapFont font)
+	public HeadsUpDisplay(BitmapFont font)
 	{
 		this.font = font;
 	}

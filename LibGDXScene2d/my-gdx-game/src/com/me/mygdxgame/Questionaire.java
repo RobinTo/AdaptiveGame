@@ -12,8 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class Questionaire
 {
-	static int happy = 0;
-	static int difficult = 0;
+	int happy = 0;
+	int difficult = 0;
 	List<TextButton> buttons = new ArrayList<TextButton>();
 	
 	public Questionaire(Sprite thumbUpSprite, Sprite thumbDownSprite, Sprite thumbSideSprite, Stage stage, BitmapFont font, ButtonGenerator buttonGenerator)

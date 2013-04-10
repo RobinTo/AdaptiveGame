@@ -31,13 +31,15 @@ public class ListenerGenerator
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
 			{
 
-				if (myGdxGame.selectedTower != null)
+				if (myGdxGame.gameProcessor.selectedTower != null)
 				{
-					myGdxGame.currentGold += myGdxGame.selectedTower.towerStats.sellPrice;
-					myGdxGame.view.goldButton.setText("        " + myGdxGame.currentGold);
-					myGdxGame.selectedTower.remove();
-					myGdxGame.towers.remove(myGdxGame.selectedTower);
-					myGdxGame.selectTower(null);
+					myGdxGame.gameProcessor.currentGold += myGdxGame.gameProcessor.selectedTower.towerStats.sellPrice;
+					myGdxGame.hud.goldButton.setText("        " + myGdxGame.gameProcessor.currentGold);
+					myGdxGame.gameProcessor.selectedTower.remove();
+					myGdxGame.gameProcessor.towers.remove(myGdxGame.gameProcessor.selectedTower);
+					myGdxGame.gameProcessor.selectTower(null, myGdxGame.thinkTank.towerInfo);
+					myGdxGame.hud.yellowBoxLabel.setText("");
+					myGdxGame.hud.fadeOutYellowBox();
 				}
 				return true;
 			}
@@ -49,17 +51,17 @@ public class ListenerGenerator
 		{
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
 			{
-				if (myGdxGame.selectedTower == null)
+				if (myGdxGame.gameProcessor.selectedTower == null)
 					return true;
-				if (myGdxGame.selectedTower.towerStats.upgradesTo.equals("null"))
+				if (myGdxGame.gameProcessor.selectedTower.towerStats.upgradesTo.equals("null"))
 					return true;
-				int upgradeCost = myGdxGame.thinkTank.towerInfo.get(myGdxGame.selectedTower.towerStats.upgradesTo).buildCost - myGdxGame.selectedTower.towerStats.buildCost;
-				boolean canAfford = myGdxGame.currentGold >= upgradeCost ? true : false;
+				int upgradeCost = myGdxGame.thinkTank.towerInfo.get(myGdxGame.gameProcessor.selectedTower.towerStats.upgradesTo).buildCost - myGdxGame.gameProcessor.selectedTower.towerStats.buildCost;
+				boolean canAfford = myGdxGame.gameProcessor.currentGold >= upgradeCost ? true : false;
 				if (canAfford)
 				{
-					myGdxGame.currentGold -= upgradeCost;
-					myGdxGame.view.goldButton.setText("        " + myGdxGame.currentGold);
-					myGdxGame.eventHandler.queueEvent(new Event("upgrade", (int) (myGdxGame.selectedTower.getX() / GameConstants.tileSize), (int) (myGdxGame.selectedTower.getY() / GameConstants.tileSize), "x"));
+					myGdxGame.gameProcessor.currentGold -= upgradeCost;
+					myGdxGame.hud.goldButton.setText("        " + myGdxGame.gameProcessor.currentGold);
+					myGdxGame.eventHandler.queueEvent(new Event("upgrade", (int) (myGdxGame.gameProcessor.selectedTower.getX() / GameConstants.tileSize), (int) (myGdxGame.gameProcessor.selectedTower.getY() / GameConstants.tileSize), "x"));
 				}
 
 				return true;
@@ -74,11 +76,11 @@ public class ListenerGenerator
 			{
 				myGdxGame.building = true;
 				myGdxGame.buildingTower = myGdxGame.thinkTank.towerInfo.get(currentKey).type;
-				myGdxGame.buildingTowerSprite = myGdxGame.towersAtlas.createSprite(myGdxGame.thinkTank.towerInfo.get(currentKey).towerTexture);
+				myGdxGame.buildingTowerSprite = myGdxGame.assetManager.towersAtlas.createSprite(myGdxGame.thinkTank.towerInfo.get(currentKey).towerTexture);
 				myGdxGame.towerName = currentKey;
-				myGdxGame.temporaryTowerActor = new MapTile(myGdxGame.towersAtlas.createSprite(myGdxGame.thinkTank.towerInfo.get(myGdxGame.towerName).towerTexture), -64, 0);
+				myGdxGame.temporaryTowerActor = new MapTile(myGdxGame.assetManager.towersAtlas.createSprite(myGdxGame.thinkTank.towerInfo.get(myGdxGame.towerName).towerTexture), -64, 0);
 				myGdxGame.stage.addActor(myGdxGame.temporaryTowerActor);
-				myGdxGame.view.yellowBoxLabel.setText(myGdxGame.towerName);
+				myGdxGame.hud.yellowBoxLabel.setText(myGdxGame.towerName);
 				return true;
 			}
 		};

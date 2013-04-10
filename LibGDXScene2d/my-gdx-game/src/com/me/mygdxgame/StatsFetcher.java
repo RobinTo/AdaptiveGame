@@ -10,7 +10,7 @@ import com.badlogic.gdx.files.FileHandle;
 
 public class StatsFetcher {
 
-	public static HashMap<String, TowerStats> loadTowerStats(FileHandle handle)
+	public HashMap<String, TowerStats> loadTowerStats(FileHandle handle)
 			throws NumberFormatException, ParseException {
 		List<String> fileContent = GameConstants.readRawTextFile(handle);
 		System.out.println("Loaded file");
@@ -144,7 +144,7 @@ public class StatsFetcher {
 		return towerInfo;
 	}
 
-	public static HashMap<String, EnemyStats> generateEnemyInfo(
+	public HashMap<String, EnemyStats> generateEnemyInfo(
 			FileHandle handle) {
 		HashMap<String, EnemyStats> enemyInfo = new HashMap<String, EnemyStats>();
 		List<String> fileContent = GameConstants.readRawTextFile(handle);
