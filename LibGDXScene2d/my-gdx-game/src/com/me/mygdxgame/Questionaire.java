@@ -16,9 +16,9 @@ public class Questionaire
 	static int difficult = 0;
 	List<TextButton> buttons = new ArrayList<TextButton>();
 	
-	public Questionaire(Sprite thumbUpSprite, Sprite thumbDownSprite, Sprite thumbSideSprite, Stage stage, BitmapFont font)
+	public Questionaire(Sprite thumbUpSprite, Sprite thumbDownSprite, Sprite thumbSideSprite, Stage stage, BitmapFont font, ButtonGenerator buttonGenerator)
 	{
-		TextButton thumbDownButton = ButtonGenerator.createButton(thumbDownSprite, font);
+		TextButton thumbDownButton = buttonGenerator.createButton(thumbDownSprite, font);
 		thumbDownButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -31,7 +31,7 @@ public class Questionaire
 		stage.addActor(thumbDownButton);
 		buttons.add(thumbDownButton);
 
-		TextButton thumbSideButton = ButtonGenerator.createButton(thumbSideSprite, font);
+		TextButton thumbSideButton = buttonGenerator.createButton(thumbSideSprite, font);
 		thumbSideButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -44,7 +44,7 @@ public class Questionaire
 		stage.addActor(thumbSideButton);
 		buttons.add(thumbSideButton);
 
-		TextButton thumbUpButton = ButtonGenerator.createButton(thumbUpSprite, font);
+		TextButton thumbUpButton = buttonGenerator.createButton(thumbUpSprite, font);
 		thumbUpButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -56,7 +56,7 @@ public class Questionaire
 		stage.addActor(thumbUpButton);
 		buttons.add(thumbUpButton);		
 
-		TextButton smiley1Button = ButtonGenerator.createButton(thumbDownSprite, font);
+		TextButton smiley1Button = buttonGenerator.createButton(thumbDownSprite, font);
 		smiley1Button.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -68,7 +68,7 @@ public class Questionaire
 		stage.addActor(smiley1Button);
 		buttons.add(smiley1Button);
 		
-		TextButton smiley2Button = ButtonGenerator.createButton(thumbSideSprite, font);
+		TextButton smiley2Button = buttonGenerator.createButton(thumbSideSprite, font);
 		smiley2Button.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -81,7 +81,7 @@ public class Questionaire
 		stage.addActor(smiley2Button);
 		buttons.add(smiley2Button);
 		
-		TextButton smiley3Button = ButtonGenerator.createButton(thumbUpSprite, font);
+		TextButton smiley3Button = buttonGenerator.createButton(thumbUpSprite, font);
 		smiley3Button.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {

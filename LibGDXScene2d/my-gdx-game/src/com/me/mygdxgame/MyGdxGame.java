@@ -28,12 +28,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class MyGdxGame implements ApplicationListener
 {
@@ -53,12 +50,7 @@ public class MyGdxGame implements ApplicationListener
 	int wavePartDelay = 7; // Seconds
 
 	Group mapGroup;
-	Group consoleGroup;
-	List<String> consoleStrings = new ArrayList<String>();
-	boolean showConsole = false;
 	boolean wasTab = false;
-	Label consoleLabel;
-	ExtendedActor consoleBackground;
 
 	boolean fullScreen = false; // Full screen yes or no.
 	boolean printDebug = true; // Print debug, add or remove writes in end of
@@ -87,22 +79,20 @@ public class MyGdxGame implements ApplicationListener
 	private static final float ASPECT_RATIO = (float) VIRTUAL_WIDTH / (float) VIRTUAL_HEIGHT;
 	private Rectangle viewport;
 
-	static HashMap<Float, Enemy> enemyWave = new HashMap<Float, Enemy>();
-	static List<Float> waveTime = new ArrayList<Float>();
+	HashMap<Float, Enemy> enemyWave = new HashMap<Float, Enemy>();
+	List<Float> waveTime = new ArrayList<Float>();
 
 	List<Enemy> enemies = new ArrayList<Enemy>();
-	static List<Tower> towers = new ArrayList<Tower>();
+	List<Tower> towers = new ArrayList<Tower>();
 
 	List<Missile> missiles = new ArrayList<Missile>();
 	Enemy focusFireEnemy;
 
-	static Tower selectedTower;
+	Tower selectedTower;
+	
+	HashMap<String, Sound> sounds = new HashMap<String, Sound>();
 
-	static HashMap<String, TowerStats> towerInfo = new HashMap<String, TowerStats>();
-	static HashMap<String, EnemyStats> enemyInfo = new HashMap<String, EnemyStats>();
-	static HashMap<String, Sound> sounds = new HashMap<String, Sound>();
-
-	List<String> towerKeys = new ArrayList<String>();
+	
 
 	Stage stage;
 	ExtendedActor actor;
@@ -133,29 +123,22 @@ public class MyGdxGame implements ApplicationListener
 
 	Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.BLACK);
 
-	static Label yellowBoxLabel;
-
-	static List<Label> towerCostLabels = new ArrayList<Label>();
 
 	Camera gameCamera;
 
 	ExtendedActor temporaryTowerActor = null;
 
-	static int livesLeft, currentGold;
+	int livesLeft, currentGold;
 	EventHandler eventHandler = new EventHandler();
 
 	FeedbackTextInput listener = new FeedbackTextInput();
-	TextButton livesButton, goldButton;
 
-	ExtendedActor yellowBox;
-	Group yellowBoxGroup;
-	int yellowBoxYPadding = 10;
-	int yellowBoxXPadding = 15;
-
+	ListenerGenerator listenerGenerator;
+	ButtonGenerator buttonGenerator;
 	ThinkTank thinkTank;
-
 	Questionaire questionaire;
-
+	View view;
+	
 	@Override
 	public void create()
 	{
@@ -179,10 +162,11 @@ public class MyGdxGame implements ApplicationListener
 		mapGroup = map.loadMap(handle);
 		stage.addActor(mapGroup);
 
+		thinkTank = new ThinkTank();
 		FileHandle towerHandle = Gdx.files.internal("Stats/towerStats.txt");
 		try
 		{
-			towerInfo = StatsFetcher.loadTowerStats(towerHandle);
+			thinkTank.towerInfo = StatsFetcher.loadTowerStats(towerHandle);
 		} catch (NumberFormatException e)
 		{
 			// TODO Auto-generated catch block
@@ -193,15 +177,20 @@ public class MyGdxGame implements ApplicationListener
 			e.printStackTrace();
 		}
 		FileHandle enemyHandle = Gdx.files.internal("Stats/enemyStats.txt");
-		enemyInfo = StatsFetcher.generateEnemyInfo(enemyHandle);
+		thinkTank.enemyInfo = StatsFetcher.generateEnemyInfo(enemyHandle);
 
 		createWave();
 
 		livesLeft = GameConstants.startLives;
 		currentGold = GameConstants.startGold;
 
+		listenerGenerator = new ListenerGenerator(this);
+		buttonGenerator = new ButtonGenerator();
+		
 		// UI Creation
-		createUI();
+		System.out.println("Generating UI");
+		view = new View(font);
+		view.createUI(miscAtlas, towersAtlas, thinkTank.towerInfo, stage, buttonGenerator, listenerGenerator);
 		// -----------
 
 		if (useReplay)
@@ -213,7 +202,6 @@ public class MyGdxGame implements ApplicationListener
 		Gdx.gl.glClearColor(Color.GRAY.r, Color.GRAY.g, Color.GRAY.b, Color.GRAY.a);
 
 		loadSounds();
-		thinkTank = new ThinkTank();
 		thinkTank.defaultEnemyInfo = StatsFetcher.generateEnemyInfo(enemyHandle);
 		try
 		{
@@ -251,11 +239,6 @@ public class MyGdxGame implements ApplicationListener
 	@Override
 	public void render()
 	{
-		/*
-		 * for (Actor actor : consoleGroup.getChildren()) {
-		 * actor.setColor(Color.BLUE); }
-		 */
-
 		// clear previous frame
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		if (won || lost)
@@ -287,9 +270,9 @@ public class MyGdxGame implements ApplicationListener
 			{
 				replayHandler.addEvents(totalTime, eventHandler);
 			}
-			thinkTank.calculateNewParameters(0, currentGold, livesLeft, towers, eventHandler.events, towerInfo);
+			thinkTank.calculateNewParameters(0, currentGold, livesLeft, towers, eventHandler.events);
 			handleEvents();
-			updateYellowBoxPosition();
+			view.updateYellowBoxPosition();
 			// Draws game
 			stage.draw();
 
@@ -316,7 +299,7 @@ public class MyGdxGame implements ApplicationListener
 
 		if (Gdx.input.isKeyPressed(Keys.TAB) && !wasTab)
 		{
-			updateConsoleState(true);
+			view.updateConsoleState(true, thinkTank.oldVariables, thinkTank.variables, thinkTank.thinkTankInfo);
 			wasTab = true;
 		} else if (!Gdx.input.isKeyPressed(Keys.TAB))
 			wasTab = false;
@@ -479,7 +462,6 @@ public class MyGdxGame implements ApplicationListener
 
 	}
 
-	int consoleStates = 0;
 
 	private void updateGame()
 	{
@@ -500,9 +482,9 @@ public class MyGdxGame implements ApplicationListener
 			replayHandler.addEvents(totalTime, eventHandler);
 		}
 		if (!won && !lost)
-			thinkTank.calculateNewParameters(totalTime, currentGold, livesLeft, towers, eventHandler.events, towerInfo);
+			thinkTank.calculateNewParameters(totalTime, currentGold, livesLeft, towers, eventHandler.events);
 		handleEvents();
-		updateYellowBoxPosition();
+		view.updateYellowBoxPosition();
 		checkWave(totalTime);
 		if (enemies.size() > 0)
 		{
@@ -645,7 +627,7 @@ public class MyGdxGame implements ApplicationListener
 			{
 				enemies.remove(enemy);
 				currentGold += enemy.getStat("currentGoldYield");
-				goldButton.setText("        " + currentGold);
+				view.goldButton.setText("        " + currentGold);
 				enemy.remove();
 				counter--;
 			} else if (enemy.getActions().size == 0)
@@ -653,25 +635,15 @@ public class MyGdxGame implements ApplicationListener
 				enemies.remove(enemy);
 				enemy.remove();
 				livesLeft--;
-				livesButton.setText("" + livesLeft);
+				view.livesButton.setText("" + livesLeft);
 				counter--;
 			}
 		}
 		checkWinConditions();
 
 	}
-
-	@Override
-	public void pause()
-	{
-	}
-
-	@Override
-	public void resume()
-	{
-	}
-
-	private void resetGame()
+	
+	public void resetGame()
 	{
 		if (saveReplay && !useReplay)
 		{
@@ -694,7 +666,7 @@ public class MyGdxGame implements ApplicationListener
 		enemies.clear();
 		enemyWave.clear();
 		waveTime.clear();
-		towerKeys.clear();
+		view.towerKeys.clear();
 		totalTime = 0;
 
 		map = new Map(mapTilesAtlas);
@@ -702,12 +674,12 @@ public class MyGdxGame implements ApplicationListener
 		mapGroup = map.loadMap(handle);
 		stage.addActor(mapGroup);
 		createWave();
-		createUI();
+		view.createUI(miscAtlas, towersAtlas, thinkTank.towerInfo, stage, buttonGenerator, listenerGenerator);
 
 		currentGold = GameConstants.startGold;
-		goldButton.setText("        " + currentGold);
+		view.goldButton.setText("        " + currentGold);
 		livesLeft = GameConstants.startLives;
-		livesButton.setText("" + livesLeft);
+		view.livesButton.setText("" + livesLeft);
 
 		won = false;
 		lost = false;
@@ -735,7 +707,7 @@ public class MyGdxGame implements ApplicationListener
 			statMultiplier += 0.25f;
 			lastMinionTime += wavePartDelay;
 		}
-		updateConsoleState(false);
+		view.updateConsoleState(false, thinkTank.oldVariables, thinkTank.variables, thinkTank.thinkTankInfo);
 		newGame();
 	}
 
@@ -768,7 +740,7 @@ public class MyGdxGame implements ApplicationListener
 
 	private Enemy createEnemy(String type)
 	{
-		return new Enemy(enemyInfo.get(type), map.startPoint, map.directions, enemiesAtlas.createSprite(enemyInfo.get(type).enemyTexture), miscAtlas.createSprite("healthBarRed"), miscAtlas.createSprite("healthBarYellow"));
+		return new Enemy(thinkTank.enemyInfo.get(type), map.startPoint, map.directions, enemiesAtlas.createSprite(thinkTank.enemyInfo.get(type).enemyTexture), miscAtlas.createSprite("healthBarRed"), miscAtlas.createSprite("healthBarYellow"));
 	}
 
 	public void buildTower(String type, Vector2 tilePosition)
@@ -779,12 +751,12 @@ public class MyGdxGame implements ApplicationListener
 	// Eventually take a towerInfo id, and create appropriate.
 	private Tower createTower(String type, Vector2 tilePosition)
 	{
-		Tower t = new Tower(towerInfo.get(type), towersAtlas.createSprite(towerInfo.get(type).towerTexture), miscAtlas.createSprite(towerInfo.get(type).missileTexture));
+		Tower t = new Tower(thinkTank.towerInfo.get(type), towersAtlas.createSprite(thinkTank.towerInfo.get(type).towerTexture), miscAtlas.createSprite(thinkTank.towerInfo.get(type).missileTexture));
 		t.setPosition(tilePosition.x * GameConstants.tileSize, tilePosition.y * GameConstants.tileSize);
 		return t;
 	}
 
-	private void selectTower(Tower t)
+	public void selectTower(Tower t)
 	{
 		if (t != null)
 		{
@@ -802,19 +774,19 @@ public class MyGdxGame implements ApplicationListener
 				// upgradeCostLabel.setText("Upgrade: MAX");
 			} else
 			{
-				int upgradeCost = towerInfo.get(selectedTower.towerStats.upgradesTo).buildCost - selectedTower.towerStats.buildCost;
+				int upgradeCost = thinkTank.towerInfo.get(selectedTower.towerStats.upgradesTo).buildCost - selectedTower.towerStats.buildCost;
 				textForBox.add("Upgrade: " + upgradeCost);
 				// upgradeCostLabel.setText("Upgrade: " + upgradeCost);
 			}
 			textForBox.add("Sell: " + selectedTower.towerStats.sellPrice);
 			// uiLabelSellPrice.setText("Sell: " +
 			// selectedTower.towerStats.sellPrice);
-			this.fadeInYellowBox(t, textForBox);
+			view.fadeInYellowBox(t, textForBox);
 		} else
 		{
 			selectedTower = null;
-			yellowBoxLabel.setText("");
-			this.fadeOutYellowBox();
+			view.yellowBoxLabel.setText("");
+			view.fadeOutYellowBox();
 		}
 	}
 
@@ -825,7 +797,7 @@ public class MyGdxGame implements ApplicationListener
 		textForBox.add(e.enemyStats.type);
 		textForBox.add("Health: " + e.getStat("currentHealth"));
 		textForBox.add("Yields: " + e.getStat("currentGoldYield"));
-		fadeInYellowBox(e, textForBox);
+		view.fadeInYellowBox(e, textForBox);
 	}
 
 	private void handleEvents()
@@ -839,7 +811,7 @@ public class MyGdxGame implements ApplicationListener
 				{
 
 					Tower t = createTower(e.tower, new Vector2(e.x, e.y));
-					int buildCost = towerInfo.get(e.tower).buildCost;
+					int buildCost = thinkTank.towerInfo.get(e.tower).buildCost;
 					boolean canAfford = currentGold >= buildCost ? true : false;
 
 					boolean canBuild = canAfford;
@@ -855,7 +827,7 @@ public class MyGdxGame implements ApplicationListener
 					{
 
 						currentGold -= buildCost;
-						goldButton.setText("        " + currentGold);
+						view.goldButton.setText("        " + currentGold);
 						stage.addActor(t);
 						towers.add(t);
 						selectTower(t);
@@ -875,7 +847,7 @@ public class MyGdxGame implements ApplicationListener
 					{
 						if (!towers.get(u).towerStats.upgradesTo.equals("null"))
 						{
-							TowerStats newTowerStats = towerInfo.get(towers.get(u).towerStats.upgradesTo);
+							TowerStats newTowerStats = thinkTank.towerInfo.get(towers.get(u).towerStats.upgradesTo);
 							towers.get(u).upgrade(newTowerStats, towersAtlas.createSprite(newTowerStats.towerTexture), miscAtlas.createSprite(newTowerStats.missileTexture));
 							selectTower(towers.get(u));
 						}
@@ -924,7 +896,7 @@ public class MyGdxGame implements ApplicationListener
 				selectEnemy(e);
 			} else if (Gdx.input.justTouched())
 			{
-				fadeOutYellowBox();
+				view.fadeOutYellowBox();
 			}
 		} else if (temporaryTowerActor != null)
 		{
@@ -933,264 +905,18 @@ public class MyGdxGame implements ApplicationListener
 		}
 	}
 
-	ExtendedActor targetYellowBoxActor = null;
-
-	private void updateYellowBoxPosition()
-	{
-		if (targetYellowBoxActor != null)
-		{
-			float x = targetYellowBoxActor.getX() + targetYellowBoxActor.getWidth() / 2 - yellowBox.getWidth() / 2;
-			float y = targetYellowBoxActor.getY() + targetYellowBoxActor.getHeight();
-			if (y >= GameConstants.screenHeight - yellowBox.getHeight())
-			{
-				y = targetYellowBoxActor.getY() - yellowBox.getHeight();
-			}
-			yellowBox.setPosition(x, y);
-			yellowBoxLabel.setPosition(x + yellowBoxXPadding, y + (yellowBox.getHeight() - yellowBoxLines * font.getBounds(yellowBoxLabel.getText()).height));
-		}
-	}
-
-	int yellowBoxLines = 0;
-
-	private void fadeInYellowBox(ExtendedActor targetActor, List<String> strings)
-	{
-		yellowBoxLines = strings.size();
-		int height = 2 * yellowBoxYPadding;
-		int width = 0;
-		yellowBoxLabel.setText("");
-		for (String s : strings)
-		{
-			height += 2 * (int) font.getBounds(s).height;
-			yellowBoxLabel.setText(yellowBoxLabel.getText() + s + "\n");
-			if (font.getBounds(s).width > width)
-				width = (int) font.getBounds(s).width;
-		}
-		width += 2 * yellowBoxXPadding;
-		yellowBox.setSize(width, height);
-		targetYellowBoxActor = targetActor;
-		yellowBoxGroup.setVisible(true);
-		yellowBoxGroup.setColor(0, 0, 0, 60);
-		yellowBoxGroup.setZIndex(1000); // Random high value, to keep it above
-										// anything.
-	}
-
-	int consoleLines = 0;
-	int consoleLinesPadding = 5;
-
-	private void updateConsole() // This must be called after console strings
-									// are changed for visually reflecting
-									// changes.
-	{
-		consoleLines = consoleStrings.size();
-		int height = 2 * consoleLinesPadding;
-		int width = 0;
-		consoleLabel.setText("");
-		for (String s : consoleStrings)
-		{
-			height += 2 * (int) font.getBounds(s).height;
-			consoleLabel.setText(consoleLabel.getText() + s + "\n");
-			if (font.getBounds(s).width > width)
-				width = (int) font.getBounds(s).width;
-		}
-		width += 2 * consoleLinesPadding;
-		consoleBackground.setSize(width, height);
-		consoleGroup.setZIndex(1001); // Random high value, to keep it above
-										// anything.
-		int consoleX = 0;
-		int consoleY = 0;
-		consoleBackground.setPosition(consoleX, consoleY);
-		consoleLabel.setPosition(consoleX + consoleLinesPadding, consoleY + (height - consoleLines * font.getBounds(consoleLabel.getText()).height));
-	}
-
-	private void updateConsoleState(boolean goNextState)
-	{
-		consoleStrings.clear();
-		if (goNextState)
-			consoleStates++;
-		switch (consoleStates)
-		{
-			case 1:
-				consoleStrings.add("x: " + thinkTank.getVariables().x);
-				consoleStrings.add("y: " + thinkTank.getVariables().y);
-				consoleStrings.add("z: " + thinkTank.getVariables().z);
-				consoleStrings.add("old x: " + thinkTank.getOldVariables().x);
-				consoleStrings.add("old y: " + thinkTank.getOldVariables().y);
-				consoleStrings.add("old z: " + thinkTank.getOldVariables().z);
-				consoleStrings.add("diff x: " + (thinkTank.getVariables().x - thinkTank.getOldVariables().x));
-				consoleStrings.add("diff y: " + (thinkTank.getVariables().y - thinkTank.getOldVariables().y));
-				consoleStrings.add("diff z: " + (thinkTank.getVariables().z - thinkTank.getOldVariables().z));
-				consoleStrings.add("max jump distance: " + thinkTank.maxJumpDistance);
-				consoleGroup.setVisible(true);
-				break;
-			case 2:
-				consoleStrings.add("last metric: " + thinkTank.lastMetric);
-				consoleStrings.add("current metric: " + thinkTank.currentMetric);
-				consoleStrings.add("challenger metric: " + thinkTank.challengerMetric);
-				consoleStrings.add("gameLengthMultiplier: " + thinkTank.gameLengthMultiplier);
-
-				consoleGroup.setVisible(true);
-				break;
-			default:
-				consoleStates = 0;
-				break;
-		}
-		if (consoleStates > 0)
-			consoleGroup.setVisible(true);
-		else
-			consoleGroup.setVisible(false);
-		updateConsole();
-	}
-
-	private void fadeOutYellowBox()
-	{
-		targetYellowBoxActor = null;
-		yellowBoxGroup.setVisible(false);
-	}
-
-	private void createUI()
-	{
-		System.out.println("Generating UI");
-
-		yellowBoxGroup = new Group();
-		yellowBox = new ExtendedActor(miscAtlas.createSprite("YellowBox"));
-		yellowBoxGroup.addActor(yellowBox);
-
-		towerKeys.addAll(towerInfo.keySet());
-
-		Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.BLACK);
-		yellowBoxLabel = new Label("", labelStyle);
-		yellowBoxLabel.setPosition(800, GameConstants.screenHeight - 40);
-		yellowBoxGroup.addActor(yellowBoxLabel);
-
-		consoleLabel = new Label("", labelStyle);
-
-		consoleGroup = new Group();
-		consoleBackground = new ExtendedActor(miscAtlas.createSprite("YellowBox"));
-		consoleBackground.setColor(Color.BLACK.r, Color.BLACK.g, Color.BLACK.b, 80);
-		consoleGroup.addActor(consoleBackground);
-		consoleGroup.addActor(consoleLabel);
-		stage.addActor(consoleGroup);
-
-		consoleGroup.setVisible(showConsole);
-
-		yellowBoxGroup.setVisible(false);
-
-		stage.addActor(yellowBoxGroup);
-
-		TextButton settingsButton = ButtonGenerator.createButton(miscAtlas.createSprite("settingsButton"), font);
-		settingsButton.addListener(new InputListener()
-		{
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
-			{
-				resetGame();
-				// paused = !paused;
-				return true;
-			}
-		});
-		settingsButton.setPosition(GameConstants.screenWidth - 2 * GameConstants.tileSize, GameConstants.screenHeight - 100);
-		stage.addActor(settingsButton);
-
-		TextButton sellButton = ButtonGenerator.createButton(miscAtlas.createSprite("sellTowerButton"), font);
-		sellButton.addListener(new InputListener()
-		{
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
-			{
-
-				if (selectedTower != null)
-				{
-					currentGold += selectedTower.towerStats.sellPrice;
-					goldButton.setText("        " + currentGold);
-					selectedTower.remove();
-					MyGdxGame.towers.remove(selectedTower);
-					selectTower(null);
-				}
-				return true;
-			}
-		});
-		sellButton.setPosition(GameConstants.screenWidth - 3 * GameConstants.tileSize, GameConstants.screenHeight - 100);
-		stage.addActor(sellButton);
-
-		TextButton upgradeButton = ButtonGenerator.createButton(miscAtlas.createSprite("upgradeTowerButton"), font);
-		upgradeButton.addListener(new InputListener()
-		{
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
-			{
-				if (selectedTower == null)
-					return true;
-				if (selectedTower.towerStats.upgradesTo.equals("null"))
-					return true;
-				int upgradeCost = towerInfo.get(selectedTower.towerStats.upgradesTo).buildCost - selectedTower.towerStats.buildCost;
-				boolean canAfford = currentGold >= upgradeCost ? true : false;
-				if (canAfford)
-				{
-					MyGdxGame.currentGold -= upgradeCost;
-					goldButton.setText("        " + currentGold);
-					eventHandler.queueEvent(new Event("upgrade", (int) (selectedTower.getX() / GameConstants.tileSize), (int) (selectedTower.getY() / GameConstants.tileSize), "x"));
-				}
-
-				return true;
-			}
-		});
-		upgradeButton.setPosition(GameConstants.screenWidth - 4 * GameConstants.tileSize, GameConstants.screenHeight - 100);
-		stage.addActor(upgradeButton);
-
-		for (int i = 0; i < towerKeys.size(); i++)
-		{
-			if (!towerInfo.get(towerKeys.get(i)).buildable)
-			{
-				towerKeys.remove(i);
-				i--;
-				continue;
-			}
-
-			TextButton eachTowerButton = ButtonGenerator.createButton(towersAtlas.createSprite(towerInfo.get(towerKeys.get(i)).towerTexture), font);
-			final String currentKey = towerKeys.get(i);
-			eachTowerButton.addListener(new InputListener()
-			{
-				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
-				{
-					building = true;
-					buildingTower = towerInfo.get(currentKey).type;
-					buildingTowerSprite = towersAtlas.createSprite(towerInfo.get(currentKey).towerTexture);
-					towerName = currentKey;
-					temporaryTowerActor = new MapTile(towersAtlas.createSprite(towerInfo.get(towerName).towerTexture), -64, 0);
-					stage.addActor(temporaryTowerActor);
-					yellowBoxLabel.setText(towerName);
-					return true;
-				}
-			});
-			eachTowerButton.setPosition(10 + 10 * i + 64 * i, GameConstants.screenHeight - 100);
-			stage.addActor(eachTowerButton);
-
-			Label towerCostLabel = new Label("10", labelStyle);
-			towerCostLabel.setText("" + towerInfo.get(towerKeys.get(i)).buildCost);
-			towerCostLabel.setVisible(true);
-			towerCostLabel.setPosition(55 + 10 * i + 64 * i, GameConstants.screenHeight - 125);
-			stage.addActor(towerCostLabel);
-			towerCostLabels.add(towerCostLabel);
-		}
-
-		livesButton = ButtonGenerator.createButton(miscAtlas.createSprite("heart"), font, "" + livesLeft);
-		livesButton.setPosition(10 * GameConstants.tileSize, GameConstants.screenHeight - 100);
-		stage.addActor(livesButton);
-
-		goldButton = ButtonGenerator.createButton(miscAtlas.createSprite("gold"), font, "        " + currentGold);
-		goldButton.setPosition(12 * GameConstants.tileSize, GameConstants.screenHeight - 100);
-		stage.addActor(goldButton);
-	}
-
 	private void loadSounds()
 	{
 		System.out.println("Loading sounds");
 
-		Iterator<String> it = towerInfo.keySet().iterator();
+		Iterator<String> it = thinkTank.towerInfo.keySet().iterator();
 		while (it.hasNext())
 		{
 			String s = it.next();
-			if (!towerInfo.get(s).impactSound.equals(""))
-				sounds.put(towerInfo.get(s).impactSound, Gdx.audio.newSound(Gdx.files.internal("sounds/" + towerInfo.get(s).impactSound)));
-			if (!towerInfo.get(s).shootSound.equals(""))
-				sounds.put(towerInfo.get(s).shootSound, Gdx.audio.newSound(Gdx.files.internal("sounds/" + towerInfo.get(s).shootSound)));
+			if (!thinkTank.towerInfo.get(s).impactSound.equals(""))
+				sounds.put(thinkTank.towerInfo.get(s).impactSound, Gdx.audio.newSound(Gdx.files.internal("sounds/" + thinkTank.towerInfo.get(s).impactSound)));
+			if (!thinkTank.towerInfo.get(s).shootSound.equals(""))
+				sounds.put(thinkTank.towerInfo.get(s).shootSound, Gdx.audio.newSound(Gdx.files.internal("sounds/" + thinkTank.towerInfo.get(s).shootSound)));
 		}
 	}
 
@@ -1205,7 +931,7 @@ public class MyGdxGame implements ApplicationListener
 				thinkTank.writeVariablesToDisk(new FileHandle(parameterSavePath));
 				savedParameters = true;
 			}
-			questionaire = new Questionaire(miscAtlas.createSprite("thumbUp"), miscAtlas.createSprite("thumbDown"), miscAtlas.createSprite("thumbSide"), stage, font);
+			questionaire = new Questionaire(miscAtlas.createSprite("thumbUp"), miscAtlas.createSprite("thumbDown"), miscAtlas.createSprite("thumbSide"), stage, font, buttonGenerator);
 		} else if (enemies.size() <= 0 && enemyWave.size() <= 0)
 		{
 			// Winner
@@ -1216,7 +942,7 @@ public class MyGdxGame implements ApplicationListener
 				thinkTank.writeVariablesToDisk(new FileHandle(parameterSavePath));
 				savedParameters = true;
 			}
-			questionaire = new Questionaire(miscAtlas.createSprite("thumbUp"), miscAtlas.createSprite("thumbDown"), miscAtlas.createSprite("thumbSide"), stage, font);
+			questionaire = new Questionaire(miscAtlas.createSprite("thumbUp"), miscAtlas.createSprite("thumbDown"), miscAtlas.createSprite("thumbSide"), stage, font, buttonGenerator);
 		}
 	}
 
@@ -1256,5 +982,15 @@ public class MyGdxGame implements ApplicationListener
 		{
 			generateNextEnemy(statMultiplier);
 		}
+	}
+	
+	@Override
+	public void pause()
+	{
+	}
+
+	@Override
+	public void resume()
+	{
 	}
 }

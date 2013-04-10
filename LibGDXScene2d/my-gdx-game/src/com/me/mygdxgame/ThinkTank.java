@@ -12,15 +12,20 @@ public class ThinkTank
 {
 	HashMap<String, TowerStats> defaultTowerInfo = new HashMap<String, TowerStats>();
 	HashMap<String, EnemyStats> defaultEnemyInfo = new HashMap<String, EnemyStats>();
+	HashMap<String, TowerStats> towerInfo = new HashMap<String, TowerStats>();
+	HashMap<String, EnemyStats> enemyInfo = new HashMap<String, EnemyStats>();
 	HashMap<Integer, HashMap<String, Float>> measurements = new HashMap<Integer, HashMap<String, Float>>();
 	HashMap<String, Float> parameters = new HashMap<String, Float>();
 	int actionCounter = 0;
 	int timeBetweenMeasurements = 1;
 	Variables variables, oldVariables;
-	double lastMetric = 0, currentMetric = 0, challengerMetric = 0;
-	double maxJumpDistance = 0.5;
-	double gameLengthMultiplier = 1.0;
+	ThinkTankInfo thinkTankInfo;
 
+	public ThinkTank()
+	{
+		thinkTankInfo = new ThinkTankInfo();
+	}
+	
 	public void initializeVariables(FileHandle fileHandle)
 	{
 		variables = new Variables();
@@ -79,8 +84,7 @@ public class ThinkTank
 	// List<Tower> towers, List<Event> events, HashMap<String, TowerStats>
 	// availableTowers){
 	public void calculateNewParameters(float totalTime, int gold, int lives,
-			List<Tower> towers, List<Event> events,
-			HashMap<String, TowerStats> availableTowers)
+			List<Tower> towers, List<Event> events)
 	{
 		actionCounter += events.size();
 		if (Math.floor(totalTime) % timeBetweenMeasurements == 0
@@ -103,7 +107,7 @@ public class ThinkTank
 					types.add(t.towerStats.type);
 				}
 			}
-			variety = variety / availableTowers.size();
+			variety = variety / towerInfo.size();
 			// parameters.put("variety", variety);
 			// measurements.put((int)Math.floor(totalTime), parameters);
 
@@ -129,23 +133,24 @@ public class ThinkTank
 		// Metric will range from 1.5 to 6.5 the first time
 		double happyMetric = 1 + rand.nextInt(happy);
 		double difficultyMetric = 1 + rand.nextInt(difficult);
-		challengerMetric = happyMetric + difficultyMetric + rand.nextDouble()*gameLengthMultiplier
+		thinkTankInfo.challengerMetric = happyMetric + difficultyMetric + rand.nextDouble()*thinkTankInfo.gameLengthMultiplier
 				- 0.5;
-		gameLengthMultiplier += 0.02;
-		lastMetric = currentMetric;
+		thinkTankInfo.gameLengthMultiplier += 0.02;
+		thinkTankInfo.lastMetric = thinkTankInfo.currentMetric;
 		oldVariables.x = variables.x;
 		oldVariables.y = variables.y;
 		oldVariables.z = variables.z;
 		//Jump from variables if metric is higher than last one.
-		if (challengerMetric > currentMetric)
+		if (thinkTankInfo.challengerMetric > thinkTankInfo.currentMetric)
 		{
 			// Jump between specified interval
-			// So all variables are added a random value between -maxJumpDistance and +maxJumpDistance
+			// So all variables are added a random value between
+			// -maxJumpDistance and +maxJumpDistance
 			variables.x = calculateSingleVariable(variables.x);
 			variables.y = calculateSingleVariable(variables.y);
 			variables.z = calculateSingleVariable(variables.z);
-			//variables.fdsfs = calculateSingleVariable(variables.fdsfs);
-			currentMetric = challengerMetric;
+			// variables.fdsfs = calculateSingleVariable(variables.fdsfs);
+			thinkTankInfo.currentMetric = thinkTankInfo.challengerMetric;
 		} else
 		// Jump from oldVariables if metric is lower or equal to the last one.
 		{
@@ -185,26 +190,26 @@ public class ThinkTank
 	public void calculateNewStats()
 	{
 		// Changing of stats.
-		Iterator<String> enemyStatsIterator = MyGdxGame.enemyInfo.keySet()
+		Iterator<String> enemyStatsIterator = enemyInfo.keySet()
 				.iterator();
 
 		while (enemyStatsIterator.hasNext())
 		{
 			String s = enemyStatsIterator.next();
-			MyGdxGame.enemyInfo.get(s).health = (int) (defaultEnemyInfo.get(s).health * variables.x);
-			MyGdxGame.enemyInfo.get(s).goldYield = (int) (defaultEnemyInfo
+			enemyInfo.get(s).health = (int) (defaultEnemyInfo.get(s).health * variables.x);
+			enemyInfo.get(s).goldYield = (int) (defaultEnemyInfo
 					.get(s).goldYield * variables.y);
-			MyGdxGame.enemyInfo.get(s).speed = defaultEnemyInfo.get(s).speed
+			enemyInfo.get(s).speed = defaultEnemyInfo.get(s).speed
 					* variables.z;
 		}
 
-		Iterator<String> towerStatsIterator = MyGdxGame.towerInfo.keySet()
+		Iterator<String> towerStatsIterator = towerInfo.keySet()
 				.iterator();
 
 		while (towerStatsIterator.hasNext())
 		{
 			String key = towerStatsIterator.next();
-			MyGdxGame.towerInfo.get(key).buildCost = (int) (defaultTowerInfo
+			towerInfo.get(key).buildCost = (int) (defaultTowerInfo
 					.get(key).buildCost * variables.y);
 			//MyGdxGame.towerInfo.get(key).range = (int)(defaultTowerInfo.get(key).range * variables.fdsfs);
 		}
@@ -227,7 +232,7 @@ public class ThinkTank
 	private float calculateSingleVariable(float variable)
 	{
 		Random random = new Random();
-		float distance = (float) ((random.nextDouble() - 0.5) * 2 * maxJumpDistance);
+		float distance = (float) ((random.nextDouble() - 0.5) * 2 * thinkTankInfo.maxJumpDistance);
 		variable += distance;
 		if (variable > 3.0)
 			variable = 3.0f;

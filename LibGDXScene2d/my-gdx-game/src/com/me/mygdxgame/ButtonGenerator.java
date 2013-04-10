@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class ButtonGenerator
 {
-	public static TextButton createButton(Sprite buttonSprite, BitmapFont font)
+	public TextButton createButton(Sprite buttonSprite, BitmapFont font)
 	{
 		TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
 		TextureRegion buttonStyleUp = new TextureRegion(buttonSprite);
@@ -20,7 +20,7 @@ public class ButtonGenerator
 		
 		return button;
 	}
-	public static TextButton createButton(Sprite buttonSprite, BitmapFont font, String text)
+	public TextButton createButton(Sprite buttonSprite, BitmapFont font, String text)
 	{
 		TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
 		TextureRegion buttonStyleUp = new TextureRegion(buttonSprite);
