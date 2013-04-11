@@ -45,6 +45,12 @@ public class GameProcessor
 	float nudgeRandomizerTimer = 1.0f;
 	float nudgeRandomizerInterval = 0.5f;
 	
+	float superEnemyChance = 0.5f; // Set to 0 to disable super minions. Could add a seperate number for each type, if we desire.
+	float superEnemyHealthMultiplier = 1.5f;
+	float superEnemySpeedMultiplierBonus = 0.5f; // If currentSpeedMultiplier for an enemy is 2.0, it will be 2.5 for super minions of that kind.
+	float superEnemySpeedSizeScale = 0.8f; // Size scale for super enemies with speed bonus.
+	float superEnemyHealthSizeScale = 1.2f; // ^ for health super minions
+	
 	public void initialize()
 	{
 		livesLeft = GameConstants.startLives;
@@ -81,6 +87,22 @@ public class GameProcessor
 
 		if (!waveTime.contains(time))
 		{
+			float superMinionRand = (float)rand.nextDouble();
+			if(superMinionRand < superEnemyChance)
+			{
+				if(superMinionRand < superEnemyChance/2)
+				{
+					e.modifyOriginalHealth(superEnemyHealthMultiplier);
+					e.setScale(superEnemyHealthSizeScale);
+					e.setColor(e.getColor().r+150, e.getColor().g, e.getColor().b, e.getColor().a);
+				}
+				else
+				{
+					e.modifyOriginalMoveSpeed(e.getStat("currentMoveSpeedMultiplier") + superEnemySpeedMultiplierBonus);
+					e.setScale(superEnemySpeedSizeScale);
+					e.setColor(e.getColor().r, e.getColor().g, e.getColor().b+150, e.getColor().a);
+				}
+			}
 			waveTime.add(time);
 			enemyWave.put(time, e);
 		}
@@ -146,7 +168,8 @@ public class GameProcessor
 	public void createWave(ThinkTank thinkTank, Map map,
 			TextureAtlas enemiesAtlas, TextureAtlas miscAtlas)
 	{
-		addEnemyToWave(0.1f, createEnemy("fast", thinkTank, map, enemiesAtlas, miscAtlas));
+		Enemy e = createEnemy("fast", thinkTank, map, enemiesAtlas, miscAtlas);
+		addEnemyToWave(0.1f, e);
 		Collections.sort(waveTime);
 	}
 	public void updateGame(float totalTime, Camera gameCamera, Map map, AssetManager assetManager, Stage stage, HeadsUpDisplay hud)
