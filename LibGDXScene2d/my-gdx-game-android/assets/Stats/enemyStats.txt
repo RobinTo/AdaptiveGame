@@ -13,4 +13,9 @@ enemyTexture:fastEnemy
 health:45
 speed:1.8f
 goldYield:3
+type:digger
+enemyTexture:toughEnemy
+health:250
+speed:0.5f
+goldYield:20
 endFile

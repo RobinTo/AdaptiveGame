@@ -13,6 +13,7 @@ import java.util.Random;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -35,6 +36,7 @@ public class GameProcessor
 	List<Missile> missiles = new ArrayList<Missile>();
 	List<Enemy> enemies = new ArrayList<Enemy>();
 	List<Tower> towers = new ArrayList<Tower>();
+	List<Enemy> diggerEnemies = new ArrayList<Enemy>();
 	Tower selectedTower;
 
 	boolean earthquakeEnabled = true;
@@ -68,7 +70,13 @@ public class GameProcessor
 		Enemy e = null;
 		double randValue = rand.nextDouble();
 
-		if (randValue <= 0.50)
+		if(randValue <= 0.05)
+		{
+			e = createEnemy("digger", thinkTank, map, enemiesAtlas, miscAtlas);
+			e.modifyOriginalHealth(statMultiplier);
+			e.modifyOriginalMoveSpeed(statMultiplier);
+		}
+		else if (randValue <= 0.50)
 		{
 			e = createEnemy("basic", thinkTank, map, enemiesAtlas, miscAtlas);
 			e.modifyOriginalHealth(statMultiplier);
@@ -309,7 +317,23 @@ public class GameProcessor
 		}
 
 		stage.act(Gdx.graphics.getDeltaTime());
-
+		
+		if(diggerEnemies.size() > 0)
+		{
+			for(Enemy e : diggerEnemies)
+			{
+				int diggerX = (int)Math.floor(e.getX()/GameConstants.tileSize);
+				int diggerY = (int)Math.floor(e.getY()/GameConstants.tileSize);
+				diggerX = Math.max(0, diggerX);
+				diggerX = Math.min(map.mapWidth-1, diggerX);
+				diggerY = Math.max(0, diggerY);
+				diggerY = Math.min(map.mapHeight-1, diggerY);
+				int newTile = map.pathTiles.get(rand.nextInt(map.pathTiles.size()));
+				map.map[diggerX][diggerY] = newTile;
+				map.mapActors[diggerX][diggerY].region = new TextureRegion(map.textures.get(newTile));
+			}
+		}
+		
 		for (int counter = 0; counter < enemies.size(); counter++)
 		{
 			Enemy enemy = enemies.get(counter);
@@ -322,6 +346,8 @@ public class GameProcessor
 				counter--;
 			} else if (enemy.getActions().size == 0)
 			{
+				if(enemy.willDigg)
+					map.generateDirections();
 				enemies.remove(enemy);
 				enemy.remove();
 				livesLeft--;
@@ -353,15 +379,28 @@ public class GameProcessor
 		enemyWave.put(time, enemy);
 		waveTime.add(time);
 	}
+	
 	private Enemy createEnemy(String type, ThinkTank thinkTank, Map map,
 			TextureAtlas enemiesAtlas, TextureAtlas miscAtlas)
 	{
+		List<Direction> directions = new ArrayList<Direction>();
+		boolean digger = false;
+		if(type.equals("digger"))
+		{
+			for(int i = 0; i<=map.mapWidth; i++)
+				directions.add(Direction.Right);
+			digger = true;
+		}
+		else
+			directions = map.directions;
+		
 		return new Enemy(thinkTank.enemyInfo.get(type), map.startPoint,
-				map.directions, enemiesAtlas.createSprite(thinkTank.enemyInfo
+				directions, enemiesAtlas.createSprite(thinkTank.enemyInfo
 						.get(type).enemyTexture),
 				miscAtlas.createSprite("healthBarRed"),
-				miscAtlas.createSprite("healthBarYellow"));
+				miscAtlas.createSprite("healthBarYellow"), digger);
 	}
+	
 	private void doEarthquake(Camera gameCamera, Map map)
 	{
 		// Earthquake functionality, can be moved wherever, just to test.

@@ -20,6 +20,7 @@ public class Enemy extends ExtendedActor
 	HashMap<String, Float> floatingStats = new HashMap<String, Float>();
 	float originalMoveSpeedMultiplier = 1.0f;
 	float originalHealth = 1.0f;
+	boolean willDigg = false;
 	
 	public void modifyOriginalMoveSpeed(float f)
 	{
@@ -33,10 +34,11 @@ public class Enemy extends ExtendedActor
 		originalHealth = this.getStat("currentHealth");
 	}
 	
-    public Enemy(EnemyStats enemyStats, Vector2 startPosition, List<Direction> directions, Sprite enemySprite, Sprite redHealthBarSprite, Sprite yellowHealthBarSprite)
+    public Enemy(EnemyStats enemyStats, Vector2 startPosition, List<Direction> directions, Sprite enemySprite, Sprite redHealthBarSprite, Sprite yellowHealthBarSprite, boolean willDigg)
     {
     	
     	super(enemySprite);
+    	this.willDigg = willDigg;
     	this.enemyStats = enemyStats;
     	floatingStats.put("currentHealth", (float)enemyStats.health);
     	originalHealth = this.getStat("currentHealth");

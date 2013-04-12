@@ -54,7 +54,7 @@ public class Map {
 		textures.put(id, sprite);
 	}
 	
-	private void generateDirections()
+	public void generateDirections()
 	{
 		mapDone = false;
 		for(int y=0; y<mapHeight; y++)

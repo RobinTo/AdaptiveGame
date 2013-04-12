@@ -416,7 +416,8 @@ public class MyGdxGame implements ApplicationListener
 			questionaire = null;
 			questionaireIsDisplayed = false;
 		}
-
+		
+		gameProcessor.diggerEnemies.clear();
 		gameProcessor.lastMinionTime = 0;
 		float statMultiplier = 1.0f;
 		for (int t = 0; t < gameProcessor.waveParts; t++)
@@ -438,7 +439,10 @@ public class MyGdxGame implements ApplicationListener
 		{
 			if (gameProcessor.waveTime.get(0) <= totalTime)
 			{
-				stage.addActor(gameProcessor.enemyWave.get(gameProcessor.waveTime.get(0)));
+				Enemy addEnemy = gameProcessor.enemyWave.get(gameProcessor.waveTime.get(0));
+				if(addEnemy.willDigg)
+					gameProcessor.diggerEnemies.add(addEnemy);
+				stage.addActor(addEnemy);
 				gameProcessor.enemies.add(gameProcessor.enemyWave.get(gameProcessor.waveTime.get(0)));
 				gameProcessor.enemyWave.remove(gameProcessor.waveTime.get(0));
 				gameProcessor.waveTime.remove(0);
