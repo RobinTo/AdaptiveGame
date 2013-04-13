@@ -347,7 +347,7 @@ public class GameProcessor
 			} else if (enemy.getActions().size == 0)
 			{
 				if(enemy.willDigg)
-					map.generateDirections();
+					map.findStartPoint();
 				enemies.remove(enemy);
 				enemy.remove();
 				livesLeft--;
@@ -425,51 +425,51 @@ public class GameProcessor
 						double d = rand.nextDouble();
 						if (d < 0.1)
 						{
-							if (d < 0.025 && map.canBuild((int) Math.round((t.getX()+64) / 64), (int) Math.round(t.getY() / 64)))
+							if (d < 0.025 && map.canBuild((int) Math.round((t.getX()+GameConstants.tileSize) / GameConstants.tileSize), (int) Math.round(t.getY() / GameConstants.tileSize)))
 							{
 								boolean canMove = true;
 								for (int c = 0; c < towers.size(); c++)
 								{
-									if (towers.get(c).getX() == t.getX()+64 && towers.get(c).getY() == t.getY())
+									if (towers.get(c).getX() == t.getX()+GameConstants.tileSize && towers.get(c).getY() == t.getY())
 										canMove = false;
 								}
 								if(canMove)
-									t.setPosition(t.getX() + 64, t.getY());
+									t.setPosition(t.getX() + GameConstants.tileSize, t.getY());
 							}
-							else if (d < 0.05 && map.canBuild((int) Math.round((t.getX()-64) / 64), (int) Math.round(t.getY() / 64)))
+							else if (d < 0.05 && map.canBuild((int) Math.round((t.getX()-GameConstants.tileSize) / GameConstants.tileSize), (int) Math.round(t.getY() / GameConstants.tileSize)))
 							{
 								boolean canMove = true;
 								for (int c = 0; c < towers.size(); c++)
 								{
-									if (towers.get(c).getX() == t.getX()-64 && towers.get(c).getY() == t.getY())
+									if (towers.get(c).getX() == t.getX()-GameConstants.tileSize && towers.get(c).getY() == t.getY())
 										canMove = false;
 								}
 								if(canMove)
 								{
-									t.setPosition(t.getX() - 64, t.getY());
+									t.setPosition(t.getX() - GameConstants.tileSize, t.getY());
 								}
 							}
-							else if (d < 0.075 && map.canBuild((int) Math.round(t.getX() / 64), (int) Math.round((t.getY()+64) / 64)))
+							else if (d < 0.075 && map.canBuild((int) Math.round(t.getX() / GameConstants.tileSize), (int) Math.round((t.getY()+GameConstants.tileSize) / GameConstants.tileSize)))
 							{
 								boolean canMove = true;
 								for (int c = 0; c < towers.size(); c++)
 								{
-									if (towers.get(c).getX() == t.getX() && towers.get(c).getY() == t.getY()+64)
+									if (towers.get(c).getX() == t.getX() && towers.get(c).getY() == t.getY()+GameConstants.tileSize)
 										canMove = false;
 								}
 								if(canMove)
-									t.setPosition(t.getX(), t.getY()+64);
+									t.setPosition(t.getX(), t.getY()+GameConstants.tileSize);
 							}
-							else if (map.canBuild((int) Math.round(t.getX() / 64), (int) Math.round((t.getY()-64) / 64)))
+							else if (map.canBuild((int) Math.round(t.getX() / GameConstants.tileSize), (int) Math.round((t.getY()-GameConstants.tileSize) / GameConstants.tileSize)))
 							{
 								boolean canMove = true;
 								for (int c = 0; c < towers.size(); c++)
 								{
-									if (towers.get(c).getX() == t.getX() && towers.get(c).getY() == t.getY()-64)
+									if (towers.get(c).getX() == t.getX() && towers.get(c).getY() == t.getY()-GameConstants.tileSize)
 										canMove = false;
 								}
 								if(canMove)
-									t.setPosition(t.getX(), t.getY()-64);
+									t.setPosition(t.getX(), t.getY()-GameConstants.tileSize);
 							}
 						}
 					}

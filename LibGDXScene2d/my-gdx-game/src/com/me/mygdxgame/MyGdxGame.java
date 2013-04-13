@@ -389,9 +389,8 @@ public class MyGdxGame implements ApplicationListener
 		hud.towerKeys.clear();
 		totalTime = 0;
 
-		map = new Map(assetManager.mapTilesAtlas);
+		mapGroup = map.regenerateMap();
 		FileHandle handle = Gdx.files.internal("Maps/map.txt");
-		mapGroup = map.loadMap(handle);
 		stage.addActor(mapGroup);
 		gameProcessor.createWave(thinkTank, map, assetManager.enemiesAtlas, assetManager.miscAtlas);
 		hud.createUI(assetManager.miscAtlas, assetManager.towersAtlas, thinkTank.towerInfo, stage, buttonGenerator, listenerGenerator);
@@ -515,13 +514,13 @@ public class MyGdxGame implements ApplicationListener
 		Actor a = stage.hit(input.x, input.y, false);
 		if (a != null && a.getClass() == MapTile.class)
 		{
-			touchedTile = new Vector2((float) Math.floor(a.getX() / 64), (float) Math.floor(a.getY() / 64));
+			touchedTile = new Vector2((float) Math.floor(a.getX() / GameConstants.tileSize), (float) Math.floor(a.getY() / GameConstants.tileSize));
 		}
 		if (wasTouched && !Gdx.input.isTouched())
 		{
 			if (building && temporaryTowerActor != null) //Kanskje flytte dette også
 			{
-				if (touchedTile.x <= 20 && touchedTile.y <= 10 && a != null && a.getClass() == MapTile.class)
+				if (touchedTile.x <= map.mapWidth && touchedTile.y <= map.mapHeight  && a != null && a.getClass() == MapTile.class)
 					eventHandler.queueEvent(new Event("build", (int) touchedTile.x, (int) touchedTile.y, buildingTower));
 				building = false;
 				temporaryTowerActor.remove();

@@ -119,12 +119,12 @@ public class Enemy extends ExtendedActor
 		}
 		healthBarRedRectangle = new Rectangle((int) getX(),
 				GameConstants.screenHeight - GameConstants.tileSize
-						- (int) getY() - 10, 64, 5);
+						- (int) getY() - 10, this.getWidth(), 5);
 		healthBarYellowRectangle = new Rectangle(
 				(int) getX(),
 				GameConstants.screenHeight - GameConstants.tileSize
 						- (int) getY() - 10,
-				(int) ((float) 64 * (float) getStat("currentHealth") / originalHealth), 5);
+				(int) ((float) this.getWidth() * (float) getStat("currentHealth") / originalHealth), 5);
 
 	}
 

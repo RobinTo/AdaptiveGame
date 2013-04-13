@@ -40,7 +40,7 @@ public class Questionaire
 				return true;
 			}
 		});
-		thumbSideButton.setPosition(GameConstants.screenWidth/2 + 2*GameConstants.tileSize, GameConstants.screenHeight/2);
+		thumbSideButton.setPosition(GameConstants.screenWidth/2 + 2*64, GameConstants.screenHeight/2);
 		stage.addActor(thumbSideButton);
 		buttons.add(thumbSideButton);
 
@@ -52,7 +52,7 @@ public class Questionaire
 				return true;
 			}
 		});
-		thumbUpButton.setPosition(GameConstants.screenWidth/2 + 4*GameConstants.tileSize, GameConstants.screenHeight/2);
+		thumbUpButton.setPosition(GameConstants.screenWidth/2 + 4*64, GameConstants.screenHeight/2);
 		stage.addActor(thumbUpButton);
 		buttons.add(thumbUpButton);		
 
@@ -64,7 +64,7 @@ public class Questionaire
 				return true;
 			}
 		});
-		smiley1Button.setPosition(GameConstants.screenWidth/2, GameConstants.screenHeight/2 - 2*GameConstants.tileSize);
+		smiley1Button.setPosition(GameConstants.screenWidth/2, GameConstants.screenHeight/2 - 2*64);
 		stage.addActor(smiley1Button);
 		buttons.add(smiley1Button);
 		
@@ -77,7 +77,7 @@ public class Questionaire
 				return true;
 			}
 		});
-		smiley2Button.setPosition(GameConstants.screenWidth/2 + 2*GameConstants.tileSize, GameConstants.screenHeight/2 - 2*GameConstants.tileSize);
+		smiley2Button.setPosition(GameConstants.screenWidth/2 + 2*64, GameConstants.screenHeight/2 - 2*64);
 		stage.addActor(smiley2Button);
 		buttons.add(smiley2Button);
 		
@@ -90,7 +90,7 @@ public class Questionaire
 				return true;
 			}
 		});
-		smiley3Button.setPosition(GameConstants.screenWidth/2 + 4*GameConstants.tileSize, GameConstants.screenHeight/2 - 2*GameConstants.tileSize);
+		smiley3Button.setPosition(GameConstants.screenWidth/2 + 4*64, GameConstants.screenHeight/2 - 2*64);
 		stage.addActor(smiley3Button);
 		buttons.add(smiley3Button);
 	}

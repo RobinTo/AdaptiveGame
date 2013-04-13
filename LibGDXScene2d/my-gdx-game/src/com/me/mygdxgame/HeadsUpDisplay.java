@@ -73,17 +73,17 @@ public class HeadsUpDisplay
 
 		TextButton settingsButton = buttonGenerator.createButton(miscAtlas.createSprite("settingsButton"), font);
 		settingsButton.addListener(listenerGenerator.createSettingsButtonListener());
-		settingsButton.setPosition(GameConstants.screenWidth - 2 * GameConstants.tileSize, GameConstants.screenHeight - 100);
+		settingsButton.setPosition(GameConstants.screenWidth - 2 * 64, GameConstants.screenHeight - 100);
 		stage.addActor(settingsButton);
 
 		TextButton sellButton = buttonGenerator.createButton(miscAtlas.createSprite("sellTowerButton"), font);
 		sellButton.addListener(listenerGenerator.createSellButtonListener());
-		sellButton.setPosition(GameConstants.screenWidth - 3 * GameConstants.tileSize, GameConstants.screenHeight - 100);
+		sellButton.setPosition(GameConstants.screenWidth - 3 * 64, GameConstants.screenHeight - 100);
 		stage.addActor(sellButton);
 
 		TextButton upgradeButton = buttonGenerator.createButton(miscAtlas.createSprite("upgradeTowerButton"), font);
 		upgradeButton.addListener(listenerGenerator.createUpgradeButtonListener());
-		upgradeButton.setPosition(GameConstants.screenWidth - 4 * GameConstants.tileSize, GameConstants.screenHeight - 100);
+		upgradeButton.setPosition(GameConstants.screenWidth - 4 * 64, GameConstants.screenHeight - 100);
 		stage.addActor(upgradeButton);
 
 		for (int i = 0; i < towerKeys.size(); i++)
@@ -110,11 +110,11 @@ public class HeadsUpDisplay
 		}
 
 		livesButton = buttonGenerator.createButton(miscAtlas.createSprite("heart"), font, "" + GameConstants.startLives);
-		livesButton.setPosition(10 * GameConstants.tileSize, GameConstants.screenHeight - 100);
+		livesButton.setPosition(10 * 64, GameConstants.screenHeight - 100);
 		stage.addActor(livesButton);
 
 		goldButton = buttonGenerator.createButton(miscAtlas.createSprite("gold"), font, "        " + GameConstants.startGold);
-		goldButton.setPosition(12 * GameConstants.tileSize, GameConstants.screenHeight - 100);
+		goldButton.setPosition(12 * 64, GameConstants.screenHeight - 100);
 		stage.addActor(goldButton);
 	}
 	
