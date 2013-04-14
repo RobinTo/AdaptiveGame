@@ -19,7 +19,7 @@ public class Map
 	boolean mapDone = false;
 
 	public static int mapWidth = 20; // No getUpperBounds(dimension) for
-											// multidimensional arrays in java.
+										// multidimensional arrays in java.
 	public static int mapHeight = 10;
 
 	public int[][] getMap()
@@ -55,7 +55,7 @@ public class Map
 
 	ArrayList<MapNode> mapNodes = new ArrayList<MapNode>();
 	MapNode endNode;
-	
+
 	public Map(TextureAtlas mapTiles)
 	{
 		this.mapTilesAtlas = mapTiles;
@@ -84,13 +84,67 @@ public class Map
 	}
 
 	List<List<Direction>> directionsLister = new ArrayList<List<Direction>>();
+	Random rand = new Random();
+
+	public List<Direction> getDirectionList()
+	{
+		List<Direction> tempDirList = new ArrayList<Direction>();
+		tempDirList.add(Direction.Left);
+		int x = 0;
+		int y = (int) startPoint.y;
+		while (x < mapWidth)
+		{
+			System.out.println(x + ":" + y);
+			if (mapActors[x][y].possibleDirections.size() > 0)
+			{
+				tempDirList.add(mapActors[x][y].possibleDirections.get(rand.nextInt(mapActors[x][y].possibleDirections.size())));
+				System.out.println("Changed dir!");
+			}
+			// If is lager than 0
+			Direction lastDir = tempDirList.get(tempDirList.size() - 1);
+			if (lastDir == Direction.Right)
+			{
+				x++;
+				System.out.println("x++");
+			} else if (lastDir == Direction.Left)
+			{
+				x--;
+				System.out.println("x--");
+			} else if (lastDir == Direction.Up)
+			{
+				y--;
+				System.out.println("y++");
+			} else if (lastDir == Direction.Down)
+			{
+				y++;
+				System.out.println("y--");
+			} else
+			{
+				x++;
+				System.out.println("rand x++");
+			}
+		}
+
+		return tempDirList;
+	}
 
 	public void generateDirections()
 	{
-		Vector2 currentPosition = new Vector2(startPoint.x, startPoint.y);
-		
-		findNodeRecursively(currentPosition);
+		for (int x = 0; x < mapWidth; x++)
+		{
+			for (int y = 0; y < mapHeight; y++)
+			{
+				if (pathTiles.contains(map[x][y]))
+				{
+					for (Vector2 p : nextMultipleSteps(new Vector2(x, y)))
+					{
+						mapActors[x][y].possibleDirections.add(getDirection(new Vector2(x, y), p));
+					}
+				}
+			}
+		}
 	}
+
 	int nodeCounter = 0;
 	List<Vector2> checkedPoints = new ArrayList<Vector2>();
 
@@ -99,26 +153,25 @@ public class Map
 		System.out.println("Checking " + currentPosition.x + " , " + currentPosition.y);
 		checkedPoints.add(currentPosition);
 		List<Vector2> nextSteps = nextMultipleSteps(currentPosition);
-		
-		if(nextSteps.size() > 2)
+
+		if (nextSteps.size() > 2)
 		{
-			mapNodes.add(new MapNode(nodeCounter, (int)currentPosition.x, (int)currentPosition.y));
+			mapNodes.add(new MapNode(nodeCounter, (int) currentPosition.x, (int) currentPosition.y));
 			nodeCounter++;
 			System.out.println("New Node!");
 		}
-		
-		for(Vector2 point : nextSteps)
+
+		for (Vector2 point : nextSteps)
 		{
-			if(!checkedPoints.contains(point) && point.x < mapWidth)
+			if (!checkedPoints.contains(point) && point.x < mapWidth)
 			{
 				findNodeRecursively(point);
 				directions.add(getDirection(currentPosition, point));
 			}
-			if(point.x >= mapWidth)
-				endNode = new MapNode(nodeCounter, (int)point.x, (int)point.y);
+			if (point.x >= mapWidth)
+				endNode = new MapNode(nodeCounter, (int) point.x, (int) point.y);
 		}
 	}
-	
 
 	private Direction getDirection(Vector2 startPoint, Vector2 endPoint)
 	{
@@ -270,10 +323,10 @@ public class Map
 		System.out.println("Loaded map and generated directions");
 		return actorGroup;
 	}
-	
+
 	public Group regenerateMap()
 	{
-		 return generateNewMap();
+		return generateNewMap();
 	}
 
 	public Group generateNewMap()
@@ -312,15 +365,13 @@ public class Map
 		checkedPoints.clear();
 		nodeCounter = 0;
 		findStartPoint();
-		directions = new ArrayList<Direction>();
 		ArrayList<Direction> tempDirections = new ArrayList<Direction>();
-		generateDirections();
-		for(int i = directions.size()-1; i>= 0; i--)
+		for (int i = directions.size() - 1; i >= 0; i--)
 		{
 			tempDirections.add(directions.get(i));
 		}
-		directions=tempDirections;
-		
+		//directions = tempDirections;
+
 		return actorGroup;
 	}
 
@@ -335,6 +386,8 @@ public class Map
 
 		boolean done = false;
 		int testTries = 0;
+		directions.clear();
+		directions.add(Direction.Right);
 		while (!done)
 		{
 			double d = rand.nextDouble();
@@ -344,6 +397,7 @@ public class Map
 				if (checkTileToEat(xPos, yPos, textureInt))
 				{
 					map[xPos][yPos] = textureInt;
+					directions.add(Direction.Down);
 					testTries = 0;
 				} else
 				{
@@ -356,6 +410,7 @@ public class Map
 				if (checkTileToEat(xPos, yPos, textureInt))
 				{
 					map[xPos][yPos] = textureInt;
+					directions.add(Direction.Up);
 					testTries = 0;
 				} else
 				{
@@ -368,6 +423,7 @@ public class Map
 				if (checkTileToEat(xPos, yPos, textureInt))
 				{
 					map[xPos][yPos] = textureInt;
+					directions.add(Direction.Left);
 					testTries = 0;
 				} else
 				{
@@ -378,10 +434,14 @@ public class Map
 			{
 				xPos++;
 				if (xPos > mapWidth - 1)
+				{
 					done = true;
+					directions.add(Direction.Right);
+				}
 				else if (checkTileToEat(xPos, yPos, textureInt))
 				{
 					map[xPos][yPos] = textureInt;
+					directions.add(Direction.Right);
 					testTries = 0;
 				} else
 				{
@@ -390,7 +450,10 @@ public class Map
 				}
 			}
 			if (xPos == mapWidth - 1)
+			{
 				done = true;
+				directions.add(Direction.Right);
+			}
 			if (testTries > 10)
 			{
 				for (int y = 0; y < mapHeight; y++)

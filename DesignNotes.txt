@@ -1,3 +1,6 @@
+Bug:
+Dersom gule vinduet er oppe, kan ikke bygge tårn under det.
+
 Effekter
 - Skjermbildet: Shading (Natt)
 - Mobs som kommer inn fra andre kanter
