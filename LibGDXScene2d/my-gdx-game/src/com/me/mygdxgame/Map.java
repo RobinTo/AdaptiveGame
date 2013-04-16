@@ -298,7 +298,6 @@ public class Map
 		}
 
 		List<String> fileContent = GameConstants.readRawTextFile(handle);
-		int yCounter = 0;
 		System.out.println("Loaded file");
 		for (int x = 0; x < fileContent.size(); x++)
 		{
@@ -482,7 +481,6 @@ public class Map
 
 	public boolean checkTileToEat(int xPos, int yPos, int textureInt)
 	{
-		boolean canGo = true;
 		if (xPos <= mapWidth - 1 && yPos <= mapHeight - 1 && xPos >= 0 && yPos >= 0)
 		{
 			if (map[xPos][yPos] == textureInt)
