@@ -350,7 +350,7 @@ public class GameProcessor
 					map.findStartPoint();
 				enemies.remove(enemy);
 				enemy.remove();
-				livesLeft--;
+				livesLeft = livesLeft == 0 ? 0 : livesLeft - 1; 
 				hud.livesButton.setText("" + livesLeft);
 				counter--;
 			}

@@ -1,3 +1,14 @@
+Funksjoner:
+f1(Param) = 1 + 0.1*APS - 0.1*(10 - livesleft) = Global monster health multiplier
+f2(Param) = = Global monster speed multiplier
+f3(Param) = = Global monster gold yield multiplier
+f4(Param) = = Global tower buildcost multiplier
+
+f(param) = Vanskelighetsgrad = Param*HP
+
+
+Player level = max(1, (TotalLivesLeft/StartingLives) * (AvgGoldLeft/BuildCostMultiplier) + Variety )
+
 Parameters
 - Global Monster HP multiplier
 - Global Tower Damage multiplier
@@ -19,7 +30,7 @@ Parameters
     - Damage Over Time
     - AOE
 
-Sensors
+Sensors  --> Spilte brukeren godt
 - Actions Per Minute
 - Gold left
 - Leaks
@@ -35,4 +46,4 @@ Sensors
 
 Feedback:
 gøy
-vanskelig
+God vanskelighetsgrad
