@@ -1,13 +1,62 @@
 Funksjoner:
-f1(Param) = 1 + 0.1*APS - 0.1*(10 - livesleft) = Global monster health multiplier
-f2(Param) = = Global monster speed multiplier
-f3(Param) = = Global monster gold yield multiplier
-f4(Param) = = Global tower buildcost multiplier
+PlayerLevel = max(0.1, min(1, TotalLivesLeft/StartingLives + 0.1*APS + 0.1*Variety ))
+Metric = RandInt(1,(GoodDifficulty)) + RandInt(1,(Happy)) + RandDouble(-0.5,0.5) * gameLengthMultiplier
+  gameLengthMultiplier increases by 0.02 every game.
+  GoodDifficulty is integer number of thumbs, 1,2 or 3, chosen by user.
+  Happy is integer number of thumbs, 1, 2 or 3, chosen by user.
+Global HP Multiplier (Difficulty) = 
 
-f(param) = Vanskelighetsgrad = Param*HP
+Parameters:
+- Global HP Multiplier (Difficulty) = 
+- Global Build Cost Multiplier
+- Global Sell Price Multiplier
+- Global Gold Yield Multiplier
+- Global Monster Speed Multiplier
+- Tower effect: Damage
+- Tower Effect: DoT Damage
+- Tower Effect: DoT Ticks
+- Tower Effect: Slow Percentage
+- Tower Effect: Slow Duration
+- Tower Reload Time
+- Tower Range
+- Diggers
+- Super Mobs
+- Earthquakes
 
 
-Player level = max(1, (TotalLivesLeft/StartingLives) * (AvgGoldLeft/BuildCostMultiplier) + Variety )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Parameters
 - Global Monster HP multiplier
