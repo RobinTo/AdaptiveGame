@@ -70,7 +70,7 @@ public class GameProcessor
 		Enemy e = null;
 		double randValue = rand.nextDouble();
 
-		if(randValue <= 0.05)
+		if(randValue <= 0.25)
 		{
 			e = createEnemy("digger", thinkTank, map, enemiesAtlas, miscAtlas);
 			e.modifyOriginalHealth(statMultiplier);
@@ -328,9 +328,30 @@ public class GameProcessor
 				diggerX = Math.min(map.mapWidth-1, diggerX);
 				diggerY = Math.max(0, diggerY);
 				diggerY = Math.min(map.mapHeight-1, diggerY);
-				int newTile = map.pathTiles.get(rand.nextInt(map.pathTiles.size()));
-				map.map[diggerX][diggerY] = newTile;
-				map.mapActors[diggerX][diggerY].region = new TextureRegion(map.textures.get(newTile));
+				if(!map.pathTiles.contains(map.getMap()[diggerX][diggerY]))
+				{
+					int newTile = map.pathTiles.get(rand.nextInt(map.pathTiles.size()));
+					map.map[diggerX][diggerY] = newTile;
+					map.mapActors[diggerX][diggerY].region = new TextureRegion(map.textures.get(newTile));
+					e.offPath = true;
+					e.lastChanged = new Vector2(diggerX, diggerY);
+				}
+				else
+				{
+					if(e.offPath && e.lastChanged.x != diggerX)
+					{
+						map.generateDirections();
+						if (waveTime.size() > 0)
+						{
+							for(float enemyTimes : waveTime)
+							{
+								if(!diggerEnemies.contains(enemyWave.get(enemyTimes)))
+									enemyWave.get(enemyTimes).generateDirections(map.directions);
+							}
+						}
+						e.offPath = false;
+					}
+				}
 			}
 		}
 		

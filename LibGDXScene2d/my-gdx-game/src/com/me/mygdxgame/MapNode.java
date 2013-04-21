@@ -7,47 +7,26 @@ import java.util.Random;
 
 public class MapNode
 {
-	int id;
+	float g;
+	float h;
+	float f;
+
 	int x, y;
 	
-	// Contains all nodes you can get to from this node, and directions to get there.
-	HashMap<MapNode, List<Direction>> childNodes = new HashMap<MapNode, List<Direction>>();
-	Random rand = new Random();
+	MapNode parentNode;
 	
-	public MapNode(int nodeID, int x, int y)
+	public MapNode(int x, int y, float g, float h)
 	{
-		id = nodeID;
 		this.x = x;
 		this.y = y;
+		this.g = g;
+		this.h = h;
+		this.f = g+h;
 	}
 	
-	public void addChildNode(MapNode node, List<Direction> directions)
+	public void updateG(int g)
 	{
-		childNodes.put(node, directions);
-	}
-	
-	public List<Direction> getDirectionsToChild(int nodeID)
-	{
-		Iterator<MapNode> it = childNodes.keySet().iterator();
-		while(it.hasNext())
-		{
-			MapNode child = it.next();
-			if(child.id == nodeID)
-				return childNodes.get(child);
-		}
-		return null;
-	}
-	
-	public int getRandomChildNodeID(int excludeID)
-	{
-		int r = rand.nextInt(childNodes.size());
-		Iterator<MapNode> it = childNodes.keySet().iterator();
-		for(int i = 0; i < r; i++)
-			it.next();
-		int idToReturn = it.next().id;
-		if(idToReturn != excludeID)
-			return idToReturn;
-		else
-			return getRandomChildNodeID(excludeID);
+		this.g = g;
+		this.f = g+h;
 	}
 }

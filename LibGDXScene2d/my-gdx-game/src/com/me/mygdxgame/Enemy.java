@@ -21,6 +21,10 @@ public class Enemy extends ExtendedActor
 	float originalMoveSpeedMultiplier = 1.0f;
 	float originalHealth = 1.0f;
 	boolean willDigg = false;
+	boolean offPath = false;
+	Vector2 lastChanged = new Vector2(0,0);
+	Vector2 targetPosition;
+	Vector2 originalTargetPos;
 	
 	public void modifyOriginalMoveSpeed(float f)
 	{
@@ -36,7 +40,6 @@ public class Enemy extends ExtendedActor
 	
     public Enemy(EnemyStats enemyStats, Vector2 startPosition, List<Direction> directions, Sprite enemySprite, Sprite redHealthBarSprite, Sprite yellowHealthBarSprite, boolean willDigg)
     {
-    	
     	super(enemySprite);
     	this.willDigg = willDigg;
     	this.enemyStats = enemyStats;
@@ -54,14 +57,22 @@ public class Enemy extends ExtendedActor
     	
     	setSize(enemySprite.getWidth(), enemySprite.getHeight());
     	
-        Vector2 targetPosition = new Vector2(startPosition.x * GameConstants.tileSize, startPosition.y * GameConstants.tileSize);
+        targetPosition = new Vector2(startPosition.x * GameConstants.tileSize, startPosition.y * GameConstants.tileSize);
+        originalTargetPos = new Vector2(startPosition.x * GameConstants.tileSize, startPosition.y * GameConstants.tileSize);
         this.sprites = new HashMap<Integer, Sprite>();
         sprites.put(0, enemySprite);
         sprites.put(1, redHealthBarSprite);
         sprites.put(2, yellowHealthBarSprite);
         this.setPosition(targetPosition.x, targetPosition.y);
 
-        SequenceAction seqAct = new SequenceAction();
+        generateDirections(directions);
+    }
+    
+    public void generateDirections(List<Direction> directions)
+    {
+        targetPosition = originalTargetPos.cpy();
+    	this.clearActions();
+    	SequenceAction seqAct = new SequenceAction();
         for(int i = 0; i<directions.size(); i++)
         {
         	switch (directions.get(i))

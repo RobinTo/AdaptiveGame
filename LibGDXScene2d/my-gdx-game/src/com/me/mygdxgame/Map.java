@@ -38,14 +38,10 @@ public class Map
 			return null;
 	}
 
-	public ArrayList<Direction> getDirections()
-	{
-		return directions;
-	}
-
 	ArrayList<Direction> directions = new ArrayList<Direction>();
 
 	Vector2 startPoint = new Vector2(-1, 0);
+	Vector2 endPoint = new Vector2(mapWidth, 0);
 
 	HashMap<Integer, Sprite> textures = new HashMap<Integer, Sprite>();
 	ArrayList<Integer> pathTiles = new ArrayList<Integer>();
@@ -59,9 +55,6 @@ public class Map
 	public Map(TextureAtlas mapTiles)
 	{
 		this.mapTilesAtlas = mapTiles;
-		mapHeight *= 2;
-		mapWidth *= 2;
-		GameConstants.tileSize /= 2;
 		map = new int[mapWidth][mapHeight];
 		mapActors = new MapTile[mapWidth][mapHeight];
 	}
@@ -79,6 +72,13 @@ public class Map
 			if (pathTiles.contains(map[0][y]))
 			{
 				startPoint.y = y;
+			}
+		}
+		for (int y = 0; y < mapHeight; y++)
+		{
+			if (pathTiles.contains(map[mapWidth - 1][y]))
+			{
+				endPoint.y = y;
 			}
 		}
 	}
@@ -130,48 +130,127 @@ public class Map
 
 	public void generateDirections()
 	{
+		directions.clear();
+		List<Vector2> possibleSteps = new ArrayList<Vector2>();
+		MapNode[][] mapNodes = new MapNode[mapWidth][mapHeight];
 		for (int x = 0; x < mapWidth; x++)
 		{
 			for (int y = 0; y < mapHeight; y++)
 			{
 				if (pathTiles.contains(map[x][y]))
 				{
-					for (Vector2 p : nextMultipleSteps(new Vector2(x, y)))
-					{
-						mapActors[x][y].possibleDirections.add(getDirection(new Vector2(x, y), p));
-					}
+					possibleSteps.add(new Vector2(x, y));
+					float H = (float) (Math.sqrt(Math.pow((x - endPoint.x), 2) + Math.pow((y - endPoint.y), 2)));
+					mapNodes[x][y] = new MapNode(x, y, x, H);
 				}
 			}
 		}
+
+		List<Vector2> visitedTiles = new ArrayList<Vector2>();
+		boolean done = false;
+		Vector2 currentPoint = startPoint.cpy();
+		int counter = 0;
+		System.out.println("Calculating directions modified A*");
+		while (!done)
+		{
+			if (currentPoint.x >= mapWidth - 1)
+				done = true;
+			List<Vector2> neighbouringTiles = neighbouringSteps(possibleSteps, currentPoint);
+			float currentF = 0;
+			Vector2 lowestF = new Vector2(0, 0);
+			boolean setTile = false;
+			for (Vector2 v : neighbouringTiles)
+			{
+				mapNodes[(int) v.x][(int) v.y].updateG(directions.size());
+				if(getDirection(v,currentPoint) == Direction.Left)
+					mapNodes[(int)v.x][(int)v.y].updateG((int) (mapNodes[(int)v.x][(int)v.y].g-5));
+				if (currentF == 0 || mapNodes[(int) v.x][(int) v.y].f < currentF)
+				{
+					if (!visitedTiles.contains(v))
+					{
+						currentF = mapNodes[(int) v.x][(int) v.y].f;
+						lowestF = v.cpy();
+						setTile = true;
+					}
+				}
+			}
+			if (!setTile && directions.size() > 0)
+			{
+				System.out.println("Stepped backwards from " + currentPoint.x + "," + currentPoint.y);
+				if (directions.get(directions.size() - 1) == Direction.Down)
+					currentPoint.y--;
+				else if (directions.get(directions.size() - 1) == Direction.Up)
+					currentPoint.y++;
+				else if (directions.get(directions.size() - 1) == Direction.Left)
+					currentPoint.x++;
+				else if (directions.get(directions.size() - 1) == Direction.Right)
+					currentPoint.x--;
+				directions.remove(directions.size() - 1);
+			}
+			else if(!setTile && directions.size() == 0)
+			{
+				System.out.println("Something went wrong in pathfinding.");
+				visitedTiles.clear();
+				currentPoint = startPoint;
+			}
+			else
+			{
+				visitedTiles.add(lowestF.cpy());
+				Direction d = getDirection(currentPoint, lowestF);
+				directions.add(d);
+				if (d == Direction.Down)
+					currentPoint.y++;
+				else if (d == Direction.Up)
+					currentPoint.y--;
+				else if (d == Direction.Right)
+					currentPoint.x++;
+				else if (d == Direction.Left)
+					currentPoint.x--;
+			}
+
+		}
+		directions.add(Direction.Right);
+		
+		for(Direction d : directions)
+		{
+			System.out.println(d);
+		}
+	}
+
+	public List<Vector2> neighbouringSteps(List<Vector2> possibleSteps, Vector2 currentPosition)
+	{
+		List<Vector2> neighbours = new ArrayList<Vector2>();
+
+		for (Vector2 v : possibleSteps)
+		{
+			if (v.x == currentPosition.x && Math.abs(v.y - currentPosition.y) <= 1)
+			{
+				neighbours.add(v);
+			}
+			if (v.y == currentPosition.y && Math.abs(v.x - currentPosition.x) <= 1)
+			{
+				neighbours.add(v);
+			}
+		}
+
+		return neighbours;
+	}
+
+	public Direction getBackwards(Direction d)
+	{
+		if (d == Direction.Right)
+			return Direction.Left;
+		if (d == Direction.Left)
+			return Direction.Right;
+		if (d == Direction.Up)
+			return Direction.Down;
+		if (d == Direction.Down)
+			return Direction.Up;
+		return Direction.None;
 	}
 
 	int nodeCounter = 0;
 	List<Vector2> checkedPoints = new ArrayList<Vector2>();
-
-	public void findNodeRecursively(Vector2 currentPosition)
-	{
-		System.out.println("Checking " + currentPosition.x + " , " + currentPosition.y);
-		checkedPoints.add(currentPosition);
-		List<Vector2> nextSteps = nextMultipleSteps(currentPosition);
-
-		if (nextSteps.size() > 2)
-		{
-			mapNodes.add(new MapNode(nodeCounter, (int) currentPosition.x, (int) currentPosition.y));
-			nodeCounter++;
-			System.out.println("New Node!");
-		}
-
-		for (Vector2 point : nextSteps)
-		{
-			if (!checkedPoints.contains(point) && point.x < mapWidth)
-			{
-				findNodeRecursively(point);
-				directions.add(getDirection(currentPosition, point));
-			}
-			if (point.x >= mapWidth)
-				endNode = new MapNode(nodeCounter, (int) point.x, (int) point.y);
-		}
-	}
 
 	private Direction getDirection(Vector2 startPoint, Vector2 endPoint)
 	{
@@ -195,27 +274,22 @@ public class Map
 		boolean done = false;
 		if (currentTile.x + 1 >= mapWidth)
 		{
-			System.out.println("Done.");
 			availableTiles.add(new Vector2(newTile.x + 1, newTile.y));
 			done = true;
 		}
 
-		System.out.println("x-:" + (currentTile.x - 1));
 		if (!done && currentTile.x > 0 && pathTiles.contains(map[(int) currentTile.x - 1][(int) currentTile.y]))
 		{
 			availableTiles.add(new Vector2(newTile.x - 1, newTile.y));
 		}
-		System.out.println("x+:" + (currentTile.x + 1));
 		if (!done && currentTile.x < mapWidth - 1 && pathTiles.contains(map[(int) currentTile.x + 1][(int) currentTile.y]))
 		{
 			availableTiles.add(new Vector2(newTile.x + 1, newTile.y));
 		}
-		System.out.println("y-: " + (currentTile.y - 1));
 		if (!done && currentTile.y > 0 && currentTile.x > 0 && pathTiles.contains(map[(int) currentTile.x][(int) currentTile.y - 1]))
 		{
 			availableTiles.add(new Vector2(newTile.x, newTile.y - 1));
 		}
-		System.out.println("y+: " + currentTile.y + 1);
 		if (!done && currentTile.y < (mapHeight - 1) && currentTile.x > 0 && pathTiles.contains(map[(int) currentTile.x][(int) currentTile.y + 1]))
 		{
 			availableTiles.add(new Vector2(newTile.x, newTile.y + 1));
@@ -365,11 +439,14 @@ public class Map
 		nodeCounter = 0;
 		findStartPoint();
 		ArrayList<Direction> tempDirections = new ArrayList<Direction>();
+		directions.clear();
+		generateDirections();
+		System.out.println(directions.size());
 		for (int i = directions.size() - 1; i >= 0; i--)
 		{
 			tempDirections.add(directions.get(i));
 		}
-		//directions = tempDirections;
+		// directions = tempDirections;
 
 		return actorGroup;
 	}
@@ -436,8 +513,7 @@ public class Map
 				{
 					done = true;
 					directions.add(Direction.Right);
-				}
-				else if (checkTileToEat(xPos, yPos, textureInt))
+				} else if (checkTileToEat(xPos, yPos, textureInt))
 				{
 					map[xPos][yPos] = textureInt;
 					directions.add(Direction.Right);
