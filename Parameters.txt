@@ -6,37 +6,53 @@ Metric = RandInt(1,(GoodDifficulty)) + RandInt(1,(Happy)) + RandDouble(-0.5,0.5)
   gameLengthMultiplier increases by 0.02 every game.
   GoodDifficulty is integer number of thumbs, 1,2 or 3, chosen by user.
   Happy is integer number of thumbs, 1, 2 or 3, chosen by user.
-Global HP Multiplier (Difficulty) = 0.2 + PlayerLevel = [0.3,1.3]
-
-Parameters:
-- Global HP Multiplier (Difficulty) = 
-- Global Build Cost Multiplier
-- Global Sell Price Multiplier
-- Global Gold Yield Multiplier
-- Global Monster Speed Multiplier
-- Tower effect: Damage
-- Tower Effect: DoT Damage
-- Tower Effect: DoT Ticks
-- Tower Effect: Slow Percentage
-- Tower Effect: Slow Duration
-- Tower Reload Time
-- Tower Range
-- Diggers
-- Super Mobs
-- Earthquakes
 
 
+Difficulty
+- Global HP Multiplier (Difficulty) = RandDouble(0.2,0.6) + PlayerLevel = [0.3,1.7]
+Inverse Proportional (Use multipliers)
+- Tower Effect: DoT Damage - Tower Effect: DoT Ticks
+- Tower Effect: Slow Percentage - Tower Effect: Slow Duration
+- Tower Reload Time - Tower effect: Damage
+- Global Build Cost - Global Gold Yield
+- Global Monster Speed - Tower Range
+- Global Monster Speed - Tower Reload Time
+- Global HP - Tower Effect: Damage
+- Global HP - Global Monster Speed
+Proportional
+- Global Sell Price - Global Build Cost
 
+GeneralParameterMultiplier = RandDouble(-0.2,0.2)
+- Cappe venstre side, eller noe liknende.
 
-
-
-
-
-
+Class Parameter
+Class Relation
+- Parameter1
+- Parameter2
+- enum typeofRel
+- double impactLeftToRight
 
 
 
-
+- ChanceForDiggers = (SumHappyOn/(3*NumberOfGames))/(SumHappyOff/(3*NumberOfGames)
+  + SumHappyOn/(3*NumberOfGames))
+  SumHappyOn = Total gathered happiness when Diggers are switched on
+  = SumHappyOn + RandInt(1,(Happy))
+  SumHappyOff = Total gathered happiness when Diggers are switched off
+  = SumHappyOff + RandInt(1,(Happy))
+- ChanceForSuperMobs = (SumHappyOn/(3*NumberOfGames))/(SumHappyOff/(3*NumberOfGames)
+  + SumHappyOn/(3*NumberOfGames))
+  SumHappyOn = Total gathered happiness when Super Mobs are switched on
+  = SumHappyOn + RandInt(1,(Happy))
+  SumHappyOff = Total gathered happiness when Super Mobs are switched off
+  = SumHappyOff + RandInt(1,(Happy))
+- ChanceForEarthquakes = (SumHappyOn/(3*NumberOfGames))/(SumHappyOff/(3*NumberOfGames)
+  + SumHappyOn/(3*NumberOfGames))
+  SumHappyOn = Total gathered happiness when Earthquakes are switched on
+  = SumHappyOn + RandInt(1,(Happy))
+  SumHappyOff = Total gathered happiness when Earthquakes are switched off
+  = SumHappyOff + RandInt(1,(Happy))
+- Map color = min(255,max(0,128*(Global HP Multiplier)))
 
 
 

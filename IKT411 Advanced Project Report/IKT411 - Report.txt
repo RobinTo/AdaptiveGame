@@ -1,0 +1,46 @@
+$title = Adaptive Game Difficulty
+$authors = Jon Vegard Jansen, Robin Tollisen
+$supervisors = Sondre Glimsdal
+$course = IKT411
+$semester = Spring 2013
+$place = Grimstad
+$date = 7th of June
+$status = Final
+$keywords = Learning systems, "Random jump algorithm"
+
+$abstract = Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+@file(frontpage.txt)
+
+$ Table of contents | toc
+
+@toc
+
+# Table of figures
+
+@figures
+
+# Table of tables
+
+@tables
+
+# Preface
+
+Lorem ipsum see @pageref(preface) dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+# Introduction | intro
+
+Lorem @chapref(toc) ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+## Background and motivation
+
+
+
+
+## Proposed Solution
+
+Lorem ipsum @pageref(intro) 
+
+# References
+
+@references
