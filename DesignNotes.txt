@@ -1,3 +1,7 @@
+
+- Implementere parametersystem
+- Lage oversikt
+
 Bug:
 Dersom gule vinduet er oppe, kan ikke bygge tårn under det.
 
@@ -12,11 +16,12 @@ Effekter
 - Shielding mob.
 
 Nå
-- Random earthquakes. Flytter tårn
 - Flash blinkende mobs
-- Super mobs, med hodeskalle, eller lyser rødt.
+
 
 
 Done
 - Random vei generation
 - Skjermbildet: Endre farge
+- Random earthquakes. Flytter tårn
+- Super mobs, med hodeskalle, eller lyser rødt.

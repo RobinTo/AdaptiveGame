@@ -26,20 +26,108 @@ $ Table of contents | toc
 
 # Preface
 
-Lorem ipsum see @pageref(preface) dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Kanskje droppe dette kapittelet
 
-# Introduction | intro
+# Introduction
 
-Lorem @chapref(toc) ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Generelt om kapittelet introduksjon
 
-## Background and motivation
+## Background
+Situasjonen rundt og hvorfor dette er viktig.
+Hvor vi plasserer oss henne/Liknende arbeid
+Spørsmål: Hva/Hvem skal vi sammenlikne oss med? Kjenner du til noen andre spill som gjør det samme? Jeg gjør nemlig ikke det, kun på et mer "scriptet" nivå.
+- Mange spill jeg vet om har et Random-generated gameplay, vi skiller oss ut fordi vi har et også adaptivt et?
 
+## Problem Statement
+Problemet er at spill ikke tilpasser seg spilleren, og derfor blir spillet kjedelig. Vi ønsker å gjøre spillet mest mulig gøy.
 
+## Problem Solution
+Vi har tatt utgangspunkt i TD, fordi det er enkelt. Vi vil gjøre spillet tilpassende brukeren vha. noen inputs, som gir brukeren ulike spill, basert på input.
 
+# Game Description
 
-## Proposed Solution
+## Genre
+- Om TD generelt
 
-Lorem ipsum @pageref(intro) 
+## Our game
+- Same as TD, but differs:
+  - Adaptive gameplay and difficulty
+  - Adaptive, not scripted, progression
+  - Modular towers and enemies (Not pre-defined): Part of the adaptive focus, but could be used in a "Random-Generated-TD" as well, without adaption to user.
+
+# System
+
+Vi har følgende:
+- Sensors --> PlayerLevel
+- Feedback --> Metric for jump
+- Parameters: What changes the game
+- Relations: How parameters are changed i forhold til hverandre
+
+## Sensors
+Dette er våre sensorer
+- APS
+- Lives left
+- Variety
+
+Til sammen gir dette playerlevel som vi bruker til å endre vanskelighetsgrad.
+
+## Feedback
+Vi tar imot input fra brukeren slik. Se bildet.
+Happy og GoodDifficulty.
+Metrikk regnes ut slik og slik.
+
+## Parameters
+
+Vi endrer på parameterene våre i forhold til om de skal endre vanskelighetsgrad eller kun endre gameplay.
+- Difficulty: Global HP
+- Gameplay only: The rest.
+
+Dette er parameterene våre som vi endrer på, inkludert formler.
+- Global HP: Metrick.f+0das f+dsaf43o
+- Global Speed: 2x +54ifjd + gfd3
+-
+-
+-
+-
+-
+-
+- Etc
+
+## Relations
+
+Våre relasjoner er enten: Dvs. at om den ene endres, må den andre også endres.
+- Inverse proportional
+- Proportional
+
+De har også en impact factor, som bestemmer hvor mye de skal påvirke hverandre.
+
+Vi burde cappe (HUSK HUSK)
+
+Inverse
+Global HP - Global Speed
+Proportional
+Build cost - Sell value
+
+# Jumping
+
+## General jump algorithm (Name)
+
+This is how such an algorithm jumps in two dimensions. Se bildet.
+
+## Vår algoritme
+
+If else when then so do stuff and dont sit there.
+
+# Testing
+Vi testet spillet på 5 forskj. brukere som er ulike. Disse syntes spillet vårt var ca 1000 gøy, noe som er med på å bygge under at dette var en stor suksess. De nevnte en del mangler med spillet, men det er litt irrelevant, fordi det var ikke nettopp det vi har lagt vekt på i problem statement.
+
+# Discussion
+Gode ting er nettopp at det hele funket.
+Dårlige ting er at vi ikke kunne lage et godt nok spill, som kanskje kan ha noe å si, ettersom vår research bit er kun én del av hva som gjør et spill gøy.
+TD er kanskje ikke beste sjangeren.
+
+# Conclusion
+Dette kan bli bra i fremtiden, om vi kan ta det videre. Vi vil nok bruke det i en annen spillsjanger, hvor vi ser mer forskjell.
 
 # References
 

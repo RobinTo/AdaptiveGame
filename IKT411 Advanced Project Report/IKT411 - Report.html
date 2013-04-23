@@ -47,9 +47,24 @@
 <a href='#table_of_figures' class='toc_1'>Table of figures</a><br>
 <a href='#table_of_tables' class='toc_1'>Table of tables</a><br>
 <a href='#preface' class='toc_1'>Preface</a><br>
-<a href='#intro' class='toc_1'>Introduction</a><br>
-<a href='#introduction_-_background_and_motivation' class='toc_2'>Background and motivation</a><br>
-<a href='#introduction_-_proposed_solution' class='toc_2'>Proposed Solution</a><br>
+<a href='#introduction' class='toc_1'>Introduction</a><br>
+<a href='#introduction_-_background' class='toc_2'>Background</a><br>
+<a href='#introduction_-_problem_statement' class='toc_2'>Problem Statement</a><br>
+<a href='#introduction_-_problem_solution' class='toc_2'>Problem Solution</a><br>
+<a href='#game_description' class='toc_1'>Game Description</a><br>
+<a href='#game_description_-_genre' class='toc_2'>Genre</a><br>
+<a href='#game_description_-_our_game' class='toc_2'>Our game</a><br>
+<a href='#system' class='toc_1'>System</a><br>
+<a href='#system_-_sensors' class='toc_2'>Sensors</a><br>
+<a href='#system_-_feedback' class='toc_2'>Feedback</a><br>
+<a href='#system_-_parameters' class='toc_2'>Parameters</a><br>
+<a href='#system_-_relations' class='toc_2'>Relations</a><br>
+<a href='#jumping' class='toc_1'>Jumping</a><br>
+<a href='#jumping_-_general_jump_algorithm__name_' class='toc_2'>General jump algorithm (Name)</a><br>
+<a href='#jumping_-_v_r_algoritme' class='toc_2'>Vår algoritme</a><br>
+<a href='#testing' class='toc_1'>Testing</a><br>
+<a href='#discussion' class='toc_1'>Discussion</a><br>
+<a href='#conclusion' class='toc_1'>Conclusion</a><br>
 <a href='#references' class='toc_1'>References</a><br>
 </div>
 
@@ -69,24 +84,152 @@
 <h1 id='preface'>Preface</h1>
 
 <p>
-Lorem ipsum see <a href='#preface' class='pageref'>this link</a> dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Kanskje droppe dette kapittelet
 </p>
 
-<h1 id='intro'>Introduction</h1>
+<h1 id='introduction'>Introduction</h1>
 
 <p>
-Lorem <a href='#toc' class='chapref_1'>Table of contents</a> ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Generelt om kapittelet introduksjon
 </p>
 
-<h2 id='introduction_-_background_and_motivation'>Background and motivation</h2>
+<h2 id='introduction_-_background'>Background</h2>
+<p>
+Situasjonen rundt og hvorfor dette er viktig.<br>
+Hvor vi plasserer oss henne/Liknende arbeid<br>
+Spørsmål: Hva/Hvem skal vi sammenlikne oss med? Kjenner du til noen andre spill som gjør det samme? Jeg gjør nemlig ikke det, kun på et mer "scriptet" nivå.<br>
+- Mange spill jeg vet om har et Random-generated gameplay, vi skiller oss ut fordi vi har et også adaptivt et?
+</p>
 
+<h2 id='introduction_-_problem_statement'>Problem Statement</h2>
+<p>
+Problemet er at spill ikke tilpasser seg spilleren, og derfor blir spillet kjedelig. Vi ønsker å gjøre spillet mest mulig gøy.
+</p>
 
+<h2 id='introduction_-_problem_solution'>Problem Solution</h2>
+<p>
+Vi har tatt utgangspunkt i TD, fordi det er enkelt. Vi vil gjøre spillet tilpassende brukeren vha. noen inputs, som gir brukeren ulike spill, basert på input.
+</p>
 
+<h1 id='game_description'>Game Description</h1>
 
-<h2 id='introduction_-_proposed_solution'>Proposed Solution</h2>
+<h2 id='game_description_-_genre'>Genre</h2>
+<p>
+- Om TD generelt
+</p>
+
+<h2 id='game_description_-_our_game'>Our game</h2>
+<p>
+- Same as TD, but differs:<br>
+  - Adaptive gameplay and difficulty<br>
+  - Adaptive, not scripted, progression<br>
+  - Modular towers and enemies (Not pre-defined): Part of the adaptive focus, but could be used in a "Random-Generated-TD" as well, without adaption to user.
+</p>
+
+<h1 id='system'>System</h1>
 
 <p>
-Lorem ipsum <a href='#intro' class='pageref'>this link</a> 
+Vi har følgende:<br>
+- Sensors --> PlayerLevel<br>
+- Feedback --> Metric for jump<br>
+- Parameters: What changes the game<br>
+- Relations: How parameters are changed i forhold til hverandre
+</p>
+
+<h2 id='system_-_sensors'>Sensors</h2>
+<p>
+Dette er våre sensorer<br>
+- APS<br>
+- Lives left<br>
+- Variety
+</p>
+
+<p>
+Til sammen gir dette playerlevel som vi bruker til å endre vanskelighetsgrad.
+</p>
+
+<h2 id='system_-_feedback'>Feedback</h2>
+<p>
+Vi tar imot input fra brukeren slik. Se bildet.<br>
+Happy og GoodDifficulty.<br>
+Metrikk regnes ut slik og slik.
+</p>
+
+<h2 id='system_-_parameters'>Parameters</h2>
+
+<p>
+Vi endrer på parameterene våre i forhold til om de skal endre vanskelighetsgrad eller kun endre gameplay.<br>
+- Difficulty: Global HP<br>
+- Gameplay only: The rest.
+</p>
+
+<p>
+Dette er parameterene våre som vi endrer på, inkludert formler.<br>
+- Global HP: Metrick.f+0das f+dsaf43o<br>
+- Global Speed: 2x +54ifjd + gfd3
+</p>
+-
+-
+-
+-
+-
+-
+<p>
+- Etc
+</p>
+
+<h2 id='system_-_relations'>Relations</h2>
+
+<p>
+Våre relasjoner er enten: Dvs. at om den ene endres, må den andre også endres.<br>
+- Inverse proportional<br>
+- Proportional
+</p>
+
+<p>
+De har også en impact factor, som bestemmer hvor mye de skal påvirke hverandre.
+</p>
+
+<p>
+Vi burde cappe (HUSK HUSK)
+</p>
+
+<p>
+Inverse<br>
+Global HP - Global Speed<br>
+Proportional<br>
+Build cost - Sell value
+</p>
+
+<h1 id='jumping'>Jumping</h1>
+
+<h2 id='jumping_-_general_jump_algorithm__name_'>General jump algorithm (Name)</h2>
+
+<p>
+This is how such an algorithm jumps in two dimensions. Se bildet.
+</p>
+
+<h2 id='jumping_-_v_r_algoritme'>Vår algoritme</h2>
+
+<p>
+If else when then so do stuff and dont sit there.
+</p>
+
+<h1 id='testing'>Testing</h1>
+<p>
+Vi testet spillet på 5 forskj. brukere som er ulike. Disse syntes spillet vårt var ca 1000 gøy, noe som er med på å bygge under at dette var en stor suksess. De nevnte en del mangler med spillet, men det er litt irrelevant, fordi det var ikke nettopp det vi har lagt vekt på i problem statement.
+</p>
+
+<h1 id='discussion'>Discussion</h1>
+<p>
+Gode ting er nettopp at det hele funket.<br>
+Dårlige ting er at vi ikke kunne lage et godt nok spill, som kanskje kan ha noe å si, ettersom vår research bit er kun én del av hva som gjør et spill gøy.<br>
+TD er kanskje ikke beste sjangeren.
+</p>
+
+<h1 id='conclusion'>Conclusion</h1>
+<p>
+Dette kan bli bra i fremtiden, om vi kan ta det videre. Vi vil nok bruke det i en annen spillsjanger, hvor vi ser mer forskjell.
 </p>
 
 <h1 id='references'>References</h1>
