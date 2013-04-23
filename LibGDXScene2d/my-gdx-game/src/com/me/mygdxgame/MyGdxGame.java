@@ -160,7 +160,7 @@ public class MyGdxGame implements ApplicationListener
 			e.printStackTrace();
 		}
 
-		FileHandle variableHandle = Gdx.files.external("/AdaptiveTD/Parameters.txt");
+		FileHandle variableHandle = Gdx.files.external("/AdaptiveTD/Parameters/Parameters.txt");
 		thinkTank.initializeVariables(variableHandle);
 
 		newGame();
@@ -170,7 +170,7 @@ public class MyGdxGame implements ApplicationListener
 	{
 		for (Actor actor : mapGroup.getChildren())
 		{
-			((MapTile) actor).setColor(thinkTank.variables.r, thinkTank.variables.g, thinkTank.variables.b, thinkTank.variables.a);
+			((MapTile) actor).setColor(thinkTank.parameters.get("GlobalMonsterHP").value, thinkTank.parameters.get("GlobalMonsterHP").value, thinkTank.parameters.get("GlobalMonsterHP").value, 1.0f);
 		}
 	}
 
@@ -189,7 +189,7 @@ public class MyGdxGame implements ApplicationListener
 		{
 			if (questionaire != null && questionaire.happy > 0 && questionaire.difficult > 0)
 			{
-				thinkTank.calculateVariables(questionaire.happy, questionaire.difficult);
+				thinkTank.calculateVariables(questionaire.happy, questionaire.difficult, gameProcessor.livesLeft);
 				resetGame();
 			}
 		}
@@ -296,7 +296,7 @@ public class MyGdxGame implements ApplicationListener
 
 		if (Gdx.input.isKeyPressed(Keys.TAB) && !wasTab)
 		{
-			hud.updateConsoleState(true, thinkTank.oldVariables, thinkTank.variables, thinkTank.thinkTankInfo);
+			hud.updateConsoleState(true, thinkTank.parameters, thinkTank.thinkTankInfo);
 			wasTab = true;
 		} else if (!Gdx.input.isKeyPressed(Keys.TAB))
 			wasTab = false;
@@ -428,7 +428,8 @@ public class MyGdxGame implements ApplicationListener
 			statMultiplier += 0.25f;
 			gameProcessor.lastMinionTime += gameProcessor.wavePartDelay;
 		}
-		hud.updateConsoleState(false, thinkTank.oldVariables, thinkTank.variables, thinkTank.thinkTankInfo);
+		hud.updateConsoleState(false, thinkTank.parameters, thinkTank.thinkTankInfo);
+		savedParameters = false;
 		newGame();
 	}
 

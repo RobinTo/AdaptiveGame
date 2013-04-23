@@ -186,7 +186,7 @@ public class HeadsUpDisplay
 												.getText()).height));
 	}
 
-	public void updateConsoleState(boolean goNextState, Variables oldVariables, Variables newVariables, ThinkTankInfo thinkTankInfo)
+	public void updateConsoleState(boolean goNextState, HashMap<String, Parameter> parameters, ThinkTankInfo thinkTankInfo)
 	{
 		consoleStrings.clear();
 		if (goNextState)
@@ -194,15 +194,18 @@ public class HeadsUpDisplay
 		switch (consoleStates)
 		{
 			case 1:
-				consoleStrings.add("x: " + newVariables.x);
-				consoleStrings.add("y: " + newVariables.y);
-				consoleStrings.add("z: " + newVariables.z);
-				consoleStrings.add("old x: " + oldVariables.x);
-				consoleStrings.add("old y: " + oldVariables.y);
-				consoleStrings.add("old z: " + oldVariables.z);
-				consoleStrings.add("diff x: " + (newVariables.x - oldVariables.x));
-				consoleStrings.add("diff y: " + (newVariables.y - oldVariables.y));
-				consoleStrings.add("diff z: " + (newVariables.z - oldVariables.z));
+				consoleStrings.add("GlobalMonsterHP: " + parameters.get("GlobalMonsterHP").value);
+				consoleStrings.add("GlobalReloadTime: " + parameters.get("GlobalReloadTime").value);
+				consoleStrings.add("GlobalTowerRange: " + parameters.get("GlobalTowerRange").value);
+				consoleStrings.add("TEDotDamage: " + parameters.get("TEDotDamage").value);
+				consoleStrings.add("TEDamage: " + parameters.get("TEDamage").value);
+				consoleStrings.add("GlobalMonsterGoldYield: " + parameters.get("GlobalMonsterGoldYield").value);
+				consoleStrings.add("GlobalMonsterSpeed: " + parameters.get("GlobalMonsterSpeed").value);
+				consoleStrings.add("TESlowDuration: " + parameters.get("TESlowDuration").value);
+				consoleStrings.add("TESlowPercentage: " + parameters.get("TESlowPercentage").value);
+				consoleStrings.add("GlobalSellPrice: " + parameters.get("GlobalSellPrice").value);
+				consoleStrings.add("GlobalBuildCost: " + parameters.get("GlobalBuildCost").value);
+				consoleStrings.add("TEDotTicks: " + parameters.get("TEDotTicks").value);
 				consoleStrings.add("max jump distance: " + thinkTankInfo.maxJumpDistance);
 				consoleGroup.setVisible(true);
 				break;

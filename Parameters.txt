@@ -2,8 +2,8 @@ Funksjoner:
 PlayerLevel = max(0.1, min(1.1, TotalLivesLeft/StartingLives + 0.05*APS + 0.2*Variety ))
   Variety = [0,1]. n/TotalNumberofDifferentTowerTypesIncludingUpgrades, where n = player's number of different tower types.
   APS = Actions Per Second = Actions/Second. [0,inf>, but usually [0,5].
-Metric = RandDouble(1,(GoodDifficulty)) + RandDouble(1,(Happy)) + RandDouble(-0.5,0.5) * gameLengthMultiplier
-  gameLengthMultiplier increases by 0.02 every game.
+Metric = RandDouble(0,1) * (Happy+GoodDifficulty) * gameLengthMultiplier
+  gameLengthMultiplier = 1.00 and increases by 0.02 every game.
   GoodDifficulty is integer number of thumbs, 1,2 or 3, chosen by user.
   Happy is integer number of thumbs, 1, 2 or 3, chosen by user.
 
