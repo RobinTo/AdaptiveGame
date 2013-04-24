@@ -38,8 +38,9 @@ public class MyGdxGame implements ApplicationListener
 																// directory.
 	String replaySavePath = "/AdaptiveTD/Replays/testReplay.txt";
 
-	boolean savedParameters = false;
+	boolean savedParametersAndRelations = false;
 	String parameterSavePath = "/AdaptiveTD/Parameters/parameters.txt";
+	String relationsSavePath = "/AdaptiveTD/Parameters/relations.txt";
 
 	boolean paused = true;
 	boolean resuming = true;
@@ -126,7 +127,7 @@ public class MyGdxGame implements ApplicationListener
 		FileHandle enemyHandle = Gdx.files.internal("Stats/enemyStats.txt");
 		thinkTank.enemyInfo = statsFetcher.generateEnemyInfo(enemyHandle);
 
-		gameProcessor.createWave(thinkTank, map, assetManager.enemiesAtlas, assetManager.miscAtlas);
+		//gameProcessor.createWave(thinkTank, map, assetManager.enemiesAtlas, assetManager.miscAtlas);
 
 		listenerGenerator = new ListenerGenerator(this);
 		buttonGenerator = new ButtonGenerator();
@@ -160,10 +161,12 @@ public class MyGdxGame implements ApplicationListener
 			e.printStackTrace();
 		}
 
-		FileHandle variableHandle = Gdx.files.external("/AdaptiveTD/Parameters/Parameters.txt");
-		thinkTank.initializeVariables(variableHandle);
+		FileHandle parameterHandle = Gdx.files.external("/AdaptiveTD/Parameters/Parameters.txt");
+		FileHandle relationsHandle = Gdx.files.external("/AdaptiveTD/Parameters/Relations.txt");
+		thinkTank.initializeParameters(parameterHandle);
+		thinkTank.initializeRelations(relationsHandle);
 
-		newGame();
+		resetGame();
 	}
 
 	private void newGame()
@@ -223,10 +226,11 @@ public class MyGdxGame implements ApplicationListener
 			if (gameProcessor.isGameLost())
 			{
 				lost = true;
-				if (!savedParameters)
+				if (!savedParametersAndRelations)
 				{
-					thinkTank.writeVariablesToDisk(new FileHandle(parameterSavePath));
-					savedParameters = true;
+					thinkTank.writeParametersToDisk(new FileHandle(parameterSavePath));
+					thinkTank.writeRelationsToDisk(new FileHandle(relationsSavePath));
+					savedParametersAndRelations = true;
 				}
 				if (!questionaireIsDisplayed)
 				{
@@ -237,10 +241,11 @@ public class MyGdxGame implements ApplicationListener
 			else if (gameProcessor.isGameWon())
 			{
 				won = true;
-				if (!savedParameters)
+				if (!savedParametersAndRelations)
 				{
-					thinkTank.writeVariablesToDisk(new FileHandle(parameterSavePath));
-					savedParameters = true;
+					thinkTank.writeParametersToDisk(new FileHandle(parameterSavePath));
+					thinkTank.writeRelationsToDisk(new FileHandle(relationsSavePath));
+					savedParametersAndRelations = true;
 				}
 				if (!questionaireIsDisplayed)
 				{
@@ -392,7 +397,7 @@ public class MyGdxGame implements ApplicationListener
 		mapGroup = map.regenerateMap();
 		FileHandle handle = Gdx.files.internal("Maps/map.txt");
 		stage.addActor(mapGroup);
-		gameProcessor.createWave(thinkTank, map, assetManager.enemiesAtlas, assetManager.miscAtlas);
+		//gameProcessor.createWave(thinkTank, map, assetManager.enemiesAtlas, assetManager.miscAtlas);
 		hud.createUI(assetManager.miscAtlas, assetManager.towersAtlas, thinkTank.towerInfo, stage, buttonGenerator, listenerGenerator);
 
 		gameProcessor.currentGold = GameConstants.startGold;
@@ -429,7 +434,7 @@ public class MyGdxGame implements ApplicationListener
 			gameProcessor.lastMinionTime += gameProcessor.wavePartDelay;
 		}
 		hud.updateConsoleState(false, thinkTank.parameters, thinkTank.thinkTankInfo);
-		savedParameters = false;
+		savedParametersAndRelations = false;
 		newGame();
 	}
 

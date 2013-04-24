@@ -10,17 +10,19 @@ Metric = RandDouble(0,1) * (Happy+GoodDifficulty) * gameLengthMultiplier
 
 Difficulty
 - Global HP Multiplier (Difficulty) = RandDouble(0.2,0.6) + PlayerLevel = [0.3,1.7]
-Inverse Proportional (Use multipliers)
+
+Gameplay
 - Tower Effect: DoT Damage - Tower Effect: DoT Ticks
 - Tower Effect: Slow Percentage - Tower Effect: Slow Duration
-- Tower Reload Time - Tower effect: Damage
 - Global Build Cost - Global Gold Yield
 - Global Monster Speed - Tower Range
 - Global Monster Speed - Tower Reload Time
 - Global HP - Tower Effect: Damage
 - Global HP - Global Monster Speed
-Proportional
-- Global Sell Price - Global Build Cost
+- Tower Reload Time - Tower effect: Damage
+
+Linked
+- Global Build Cost - Global Sell Price
 
 GeneralParameterMultiplier = RandDouble(-0.2,0.2)
 - Cappe venstre side, eller noe liknende.

@@ -60,7 +60,7 @@ public class HeadsUpDisplay
 
 		consoleGroup = new Group();
 		consoleBackground = new ExtendedActor(miscAtlas.createSprite("YellowBox"));
-		consoleBackground.setColor(Color.BLACK.r, Color.BLACK.g, Color.BLACK.b, 80);
+		consoleBackground.setColor(Color.YELLOW.r, Color.YELLOW.g, Color.YELLOW.b, 50);
 		consoleGroup.addActor(consoleBackground);
 		consoleGroup.addActor(consoleLabel);
 		stage.addActor(consoleGroup);
@@ -194,26 +194,26 @@ public class HeadsUpDisplay
 		switch (consoleStates)
 		{
 			case 1:
-				consoleStrings.add("GlobalMonsterHP: " + parameters.get("GlobalMonsterHP").value);
-				consoleStrings.add("GlobalReloadTime: " + parameters.get("GlobalReloadTime").value);
-				consoleStrings.add("GlobalTowerRange: " + parameters.get("GlobalTowerRange").value);
-				consoleStrings.add("TEDotDamage: " + parameters.get("TEDotDamage").value);
-				consoleStrings.add("TEDamage: " + parameters.get("TEDamage").value);
-				consoleStrings.add("GlobalMonsterGoldYield: " + parameters.get("GlobalMonsterGoldYield").value);
-				consoleStrings.add("GlobalMonsterSpeed: " + parameters.get("GlobalMonsterSpeed").value);
-				consoleStrings.add("TESlowDuration: " + parameters.get("TESlowDuration").value);
-				consoleStrings.add("TESlowPercentage: " + parameters.get("TESlowPercentage").value);
-				consoleStrings.add("GlobalSellPrice: " + parameters.get("GlobalSellPrice").value);
-				consoleStrings.add("GlobalBuildCost: " + parameters.get("GlobalBuildCost").value);
-				consoleStrings.add("TEDotTicks: " + parameters.get("TEDotTicks").value);
-				consoleStrings.add("max jump distance: " + thinkTankInfo.maxJumpDistance);
+				consoleStrings.add("Global Monster HP Multiplier: " + parameters.get("GlobalMonsterHP").value);
+				consoleStrings.add("Global Reload Time Multiplier: " + parameters.get("GlobalReloadTime").value);
+				consoleStrings.add("Global Tower Range Multiplier: " + parameters.get("GlobalTowerRange").value);
+				consoleStrings.add("TE Dot Damage Multiplier: " + parameters.get("TEDotDamage").value);
+				consoleStrings.add("TE Damage Multiplier: " + parameters.get("TEDamage").value);
+				consoleStrings.add("Global Monster Gold Yield Multiplier: " + parameters.get("GlobalMonsterGoldYield").value);
+				consoleStrings.add("Global Monster Speed: " + parameters.get("GlobalMonsterSpeed").value);
+				consoleStrings.add("TE Slow Duration Multiplier: " + parameters.get("TESlowDuration").value);
+				consoleStrings.add("TE Slow Percentage Multiplier: " + parameters.get("TESlowPercentage").value);
+				consoleStrings.add("Global Build Cost Multiplier: " + parameters.get("GlobalBuildCost").value);
+				consoleStrings.add("TE Dot Ticks Multiplier: " + parameters.get("TEDotTicks").value);
+				consoleStrings.add("Max Jump Distance: " + thinkTankInfo.maxJumpDistance);
 				consoleGroup.setVisible(true);
 				break;
 			case 2:
-				consoleStrings.add("last metric: " + thinkTankInfo.lastMetric);
-				consoleStrings.add("current metric: " + thinkTankInfo.currentMetric);
-				consoleStrings.add("challenger metric: " + thinkTankInfo.challengerMetric);
-				consoleStrings.add("gameLengthMultiplier: " + thinkTankInfo.gameLengthMultiplier);
+				consoleStrings.add("Player Level: " + thinkTankInfo.playerLevel);
+				consoleStrings.add("Last Metric: " + thinkTankInfo.lastMetric);
+				consoleStrings.add("Current Metric: " + thinkTankInfo.currentMetric);
+				consoleStrings.add("Challenger Metric: " + thinkTankInfo.challengerMetric);
+				consoleStrings.add("Game Length Multiplier: " + thinkTankInfo.gameLengthMultiplier);
 
 				consoleGroup.setVisible(true);
 				break;
