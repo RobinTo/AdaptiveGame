@@ -521,7 +521,7 @@ public class MyGdxGame implements ApplicationListener
 		{
 			if (building && temporaryTowerActor != null) //Kanskje flytte dette også
 			{
-				if (touchedTile.x <= map.mapWidth && touchedTile.y <= map.mapHeight  && a != null && a.getClass() == MapTile.class)
+				if (touchedTile.x <= Map.mapWidth && touchedTile.y <= Map.mapHeight  && a != null && a.getClass() == MapTile.class)
 					eventHandler.queueEvent(new Event("build", (int) touchedTile.x, (int) touchedTile.y, buildingTower));
 				building = false;
 				temporaryTowerActor.remove();

@@ -325,9 +325,9 @@ public class GameProcessor
 				int diggerX = (int)Math.floor(e.getX()/GameConstants.tileSize);
 				int diggerY = (int)Math.floor(e.getY()/GameConstants.tileSize);
 				diggerX = Math.max(0, diggerX);
-				diggerX = Math.min(map.mapWidth-1, diggerX);
+				diggerX = Math.min(Map.mapWidth-1, diggerX);
 				diggerY = Math.max(0, diggerY);
-				diggerY = Math.min(map.mapHeight-1, diggerY);
+				diggerY = Math.min(Map.mapHeight-1, diggerY);
 				if(!map.pathTiles.contains(map.getMap()[diggerX][diggerY]))
 				{
 					int newTile = map.pathTiles.get(rand.nextInt(map.pathTiles.size()));
@@ -408,7 +408,7 @@ public class GameProcessor
 		boolean digger = false;
 		if(type.equals("digger"))
 		{
-			for(int i = 0; i<=map.mapWidth; i++)
+			for(int i = 0; i<=Map.mapWidth; i++)
 				directions.add(Direction.Right);
 			digger = true;
 		}
