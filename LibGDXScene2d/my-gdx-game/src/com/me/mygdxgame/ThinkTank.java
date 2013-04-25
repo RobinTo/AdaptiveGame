@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.badlogic.gdx.files.FileHandle;
-import com.me.mygdxgame.Parameter.Type;
 
 public class ThinkTank
 {
@@ -17,6 +16,7 @@ public class ThinkTank
 	HashMap<String, EnemyStats> enemyInfo = new HashMap<String, EnemyStats>();
 	HashMap<Integer, HashMap<String, Float>> measurements = new HashMap<Integer, HashMap<String, Float>>();
 	HashMap<String, Parameter> parameters = new HashMap<String, Parameter>();
+	HashMap<String, Relation> relations = new HashMap<String, Relation>();
 	int actionCounter = 0;
 	int timeBetweenMeasurements = 1;
 	ThinkTankInfo thinkTankInfo;
@@ -38,23 +38,23 @@ public class ThinkTank
 			{
 				String line = fileContent.get(counter);
 				String[] split = line.split(":");
-				parameters.put(split[0], new Parameter(split[0], Float.valueOf(split[1]), Float.valueOf(split[2]), Float.valueOf(split[3]), Type.valueOf(split[4])));
+				parameters.put(split[0], new Parameter(split[0], Float.valueOf(split[1]), Float.valueOf(split[2]), Float.valueOf(split[3])));
 			}
 		}
 		else
 		{
 			// Create new default parameters
-			parameters.put("GlobalMonsterHP", new Parameter("GlobalMonsterHP", 1.0f, Type.Difficulty));
-			parameters.put("TEDotDamage", new Parameter("TEDotDamage", 1.0f, Type.GamePlay));
-			parameters.put("TEDotTicks", new Parameter("TEDotTicks", 1.0f, Type.GamePlay));
-			parameters.put("TESlowPercentage", new Parameter("TESlowPercentage", 1.0f, 0.1f, 1.4f, Type.GamePlay));
-			parameters.put("TESlowDuration", new Parameter("TESlowDuration", 1.0f, Type.GamePlay));
-			parameters.put("GlobalReloadTime", new Parameter("GlobalReloadTime", 1.0f, Type.GamePlay));
-			parameters.put("TEDamage", new Parameter("TEDamage", 1.0f, 0.01f, 10.0f, Type.GamePlay));
-			parameters.put("GlobalBuildCost", new Parameter("GlobalBuildCost", 1.0f, Type.GamePlay));
-			parameters.put("GlobalMonsterSpeed", new Parameter("GlobalMonsterSpeed", 1.0f, 0.1f, 10.0f, Type.GamePlay));
-			parameters.put("GlobalMonsterGoldYield", new Parameter("GlobalMonsterGoldYield", 1.0f, Type.GamePlay));
-			parameters.put("GlobalTowerRange", new Parameter("GlobalTowerRange", 1.0f, 0.1f, 10.0f, Type.GamePlay));
+			parameters.put("GlobalMonsterHP", new Parameter("GlobalMonsterHP", 1.0f));
+			parameters.put("TEDotDamage", new Parameter("TEDotDamage", 1.0f));
+			parameters.put("TEDotTicks", new Parameter("TEDotTicks", 1.0f));
+			parameters.put("TESlowPercentage", new Parameter("TESlowPercentage", 1.0f, 0.1f, 1.4f));
+			parameters.put("TESlowDuration", new Parameter("TESlowDuration", 1.0f));
+			parameters.put("GlobalReloadTime", new Parameter("GlobalReloadTime", 1.0f));
+			parameters.put("TEDamage", new Parameter("TEDamage", 1.0f, 0.01f, 10.0f));
+			parameters.put("GlobalBuildCost", new Parameter("GlobalBuildCost", 1.0f));
+			parameters.put("GlobalMonsterSpeed", new Parameter("GlobalMonsterSpeed", 1.0f, 0.1f, 10.0f));
+			parameters.put("GlobalMonsterGoldYield", new Parameter("GlobalMonsterGoldYield", 1.0f));
+			parameters.put("GlobalTowerRange", new Parameter("GlobalTowerRange", 1.0f, 0.1f, 10.0f));
 		}
 		
 		setNewStats();
@@ -67,33 +67,65 @@ public class ThinkTank
 			// Fetch relations from disk
 			List<String> fileContent = GameConstants
 					.readRawTextFile(fileHandle);
-
-			for (int counter = 0; counter < fileContent.size(); counter++)
+			List<String> lines = new ArrayList<String>();
+			for (int lineCounter = 0; lineCounter < fileContent.size(); lineCounter++)
 			{
-				String line = fileContent.get(counter);
-				String[] split = line.split(":");
-				parameters.get(split[0]).addRelation(parameters.get(split[1]), Float.valueOf(split[2]));
+				String line = fileContent.get(lineCounter);
+				if (line.equalsIgnoreCase("endRelation"))
+				{
+					Relation newRelation = new Relation(lines.get(0), parameters.get(lines.get(1)));
+					for (int counter = 2; counter < lines.size(); counter ++)
+					{
+						String[] split = lines.get(counter).split(":");
+						newRelation.addRelatedParameter(parameters.get(split[0]), Float.valueOf(split[1]));
+					}
+					relations.put(newRelation.name, newRelation);
+					lines.clear();
+				}
+				else
+				{
+					lines.add(line);
+				}
 			}
 		}
 		else
 		{
 			//Create new gameplay relations
-			parameters.get("GlobalMonsterHP").addRelation(parameters.get("TEDamage"), 0.5f);
-			parameters.get("GlobalMonsterHP").addRelation(parameters.get("GlobalMonsterSpeed"), -0.5f);
-			parameters.get("GlobalMonsterSpeed").addRelation(parameters.get("GlobalTowerRange"), (1.0f/3.0f));
-			parameters.get("GlobalMonsterSpeed").addRelation(parameters.get("GlobalReloadTime"), -(1.0f/3.0f));
-			parameters.get("GlobalMonsterSpeed").addRelation(parameters.get("GlobalMonsterHP"), -(1.0f/3.0f));
-			parameters.get("GlobalBuildCost").addRelation(parameters.get("GlobalMonsterGoldYield"), 1.0f);
-			parameters.get("GlobalTowerRange").addRelation(parameters.get("GlobalMonsterSpeed"), 1.0f);
-			parameters.get("GlobalReloadTime").addRelation(parameters.get("GlobalMonsterSpeed"), -0.5f);
-			parameters.get("GlobalReloadTime").addRelation(parameters.get("TEDamage"), 0.5f);
-			parameters.get("GlobalMonsterGoldYield").addRelation(parameters.get("GlobalBuildCost"), 1.0f);
-			parameters.get("TESlowPercentage").addRelation(parameters.get("TESlowDuration"), -1.0f);
-			parameters.get("TESlowDuration").addRelation(parameters.get("TESlowPercentage"), -1.0f);
-			parameters.get("TEDotTicks").addRelation(parameters.get("TEDotDamage"), -1.0f);
-			parameters.get("TEDotDamage").addRelation(parameters.get("TEDotTicks"), -1.0f);
-			parameters.get("TEDamage").addRelation(parameters.get("GlobalReloadTime"), 0.5f);
-			parameters.get("TEDamage").addRelation(parameters.get("GlobalMonsterHP"), 0.5f);
+			Relation tempRelation;
+			
+			tempRelation = new Relation("GlobalMonsterHP_TEDamage_GlobalMonsterSpeed", parameters.get("GlobalMonsterHP"));
+			tempRelation.addRelatedParameter(parameters.get("TEDamage"), 0.5f);
+			tempRelation.addRelatedParameter(parameters.get("GlobalMonsterSpeed"), -0.5f);
+			relations.put("GlobalMonsterHP_TEDamage_GlobalMonsterSpeed", tempRelation);
+			
+			tempRelation = new Relation("GlobalMonsterHP_GlobalMonsterSpeed", parameters.get("GlobalMonsterHP"));
+			tempRelation.addRelatedParameter(parameters.get("GlobalMonsterSpeed"), -1.0f);
+			relations.put("GlobalMonsterHP_GlobalMonsterSpeed", tempRelation);
+			
+			tempRelation = new Relation("GlobalMonsterSpeed_GlobalTowerRange", parameters.get("GlobalMonsterSpeed"));
+			tempRelation.addRelatedParameter(parameters.get("GlobalTowerRange"), 1.0f);
+			relations.put("GlobalMonsterSpeed_GlobalTowerRange", tempRelation);
+			
+			tempRelation = new Relation("GlobalMonsterSpeed_GlobalReloadTime", parameters.get("GlobalMonsterSpeed"));
+			tempRelation.addRelatedParameter(parameters.get("GlobalReloadTime"), 1.0f);
+			relations.put("GlobalMonsterSpeed_GlobalReloadTime", tempRelation);
+			
+			tempRelation = new Relation("GlobalBuildCost_GlobalMonsterGoldYield", parameters.get("GlobalBuildCost"));
+			tempRelation.addRelatedParameter(parameters.get("GlobalMonsterGoldYield"), 1.0f);
+			relations.put("GlobalBuildCost_GlobalMonsterGoldYield", tempRelation);
+			
+			tempRelation = new Relation("GlobalReloadTime_TEDamage", parameters.get("GlobalReloadTime"));
+			tempRelation.addRelatedParameter(parameters.get("TEDamage"), 1.0f);
+			relations.put("GlobalReloadTime_TEDamage", tempRelation);
+			
+			tempRelation = new Relation("TESlowPercentage_TESlowDuration", parameters.get("TESlowPercentage"));
+			tempRelation.addRelatedParameter(parameters.get("TESlowDuration"), -1.0f);
+			relations.put("TESlowPercentage_TESlowDuration", tempRelation);
+			
+			tempRelation = new Relation("TEDotTicks_TEDotDamage", parameters.get("TEDotTicks"));
+			tempRelation.addRelatedParameter(parameters.get("TEDotDamage"), -1.0f);
+			relations.put("TEDotTicks_TEDotDamage", tempRelation);
+			
 		}
 	}
 
@@ -199,25 +231,25 @@ public class ThinkTank
 		{
 			String key = parameterIterator.next();
 			Parameter parameter = parameters.get(key);
-			fileHandle.writeString(parameter.name + ":" + parameter.value + ":" + parameter.minValue + ":" + parameter.maxValue + ":" + parameter.type + ":\r\n", true);
+			fileHandle.writeString(parameter.name + ":" + parameter.value + ":" + parameter.minValue + ":" + parameter.maxValue + ":\r\n", true);
 		}
 	}
 	public void writeRelationsToDisk(FileHandle fileHandle)
 	{
 		fileHandle.writeString("", false);
-		Iterator<String> parameterIterator = parameters.keySet()
-				.iterator();
-		while (parameterIterator.hasNext())
+		Iterator<String> relationsIterator = relations.keySet().iterator();
+		while (relationsIterator.hasNext())
 		{
-			String key = parameterIterator.next();
-			Parameter parameter = parameters.get(key);
-			Iterator<Parameter> relatedParametersIterator = parameter.relatedParameters.keySet().iterator();
+			Relation relation = relations.get(relationsIterator.next());
+			fileHandle.writeString(relation.name + "\r\n", true);
+			fileHandle.writeString(relation.variableParameter.name + "\r\n", true);
+			Iterator<Parameter> relatedParametersIterator = relation.relatedParametersAndImpact.keySet().iterator();
 			while (relatedParametersIterator.hasNext())
 			{
 				Parameter relatedParameter = relatedParametersIterator.next();
-				System.out.println(relatedParameter.name);
-				fileHandle.writeString(parameter.name + ":" + relatedParameter.name + ":" + parameter.relatedParameters.get(relatedParameter) + ":\r\n", true);
+				fileHandle.writeString(relatedParameter.name + ":" + relation.relatedParametersAndImpact.get(relatedParameter) + ":\r\n", true);
 			}
+			fileHandle.writeString("endRelation" + "\r\n", true);
 		}
 	}
 
@@ -285,22 +317,17 @@ public class ThinkTank
 	private void jump(HashMap<String, Parameter> parameters)
 	{
 		Random random = new Random();
-		Iterator<String> parameterIterator = parameters.keySet().iterator();
-		while (parameterIterator.hasNext())
+		//Change each parameter
+		Iterator<String> relationsIterator = relations.keySet().iterator();
+		while (relationsIterator.hasNext())
 		{
-			String key = parameterIterator.next();
-			Parameter parameter = parameters.get(key);
-			if (parameter.type == Parameter.Type.GamePlay)
-			{
-				float distance = (float) ((random.nextDouble() - 0.5) * 2 * thinkTankInfo.maxJumpDistance);
-				parameter.jump(distance);
-			}
-			else if (parameter.type == Parameter.Type.Difficulty)
-			{
-				float randomNumber = random.nextFloat();
-				randomNumber = randomNumber/2.5f + 0.2f;
-				parameter.value = ((float)thinkTankInfo.playerLevel + randomNumber); // DO NOT use parameter.jump, because this will make related parameters to change too.
-			}
+			Relation relation = relations.get(relationsIterator.next());
+			float distance = (float) ((random.nextDouble() - 0.5) * 2 * thinkTankInfo.maxJumpDistance);
+			relation.changeBalance(distance);
 		}
+		// Change difficulty
+		float randomNumber = random.nextFloat();
+		randomNumber = randomNumber/2.5f + 0.2f;
+		parameters.get("GlobalMonsterHP").value = ((float)thinkTankInfo.playerLevel + randomNumber);
 	}
 }

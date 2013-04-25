@@ -161,8 +161,8 @@ public class MyGdxGame implements ApplicationListener
 			e.printStackTrace();
 		}
 
-		FileHandle parameterHandle = Gdx.files.external("/AdaptiveTD/Parameters/Parameters.txt");
-		FileHandle relationsHandle = Gdx.files.external("/AdaptiveTD/Parameters/Relations.txt");
+		FileHandle parameterHandle = Gdx.files.external(parameterSavePath);
+		FileHandle relationsHandle = Gdx.files.external(relationsSavePath);
 		thinkTank.initializeParameters(parameterHandle);
 		thinkTank.initializeRelations(relationsHandle);
 
@@ -228,8 +228,8 @@ public class MyGdxGame implements ApplicationListener
 				lost = true;
 				if (!savedParametersAndRelations)
 				{
-					thinkTank.writeParametersToDisk(new FileHandle(parameterSavePath));
-					thinkTank.writeRelationsToDisk(new FileHandle(relationsSavePath));
+					thinkTank.writeParametersToDisk(Gdx.files.external(parameterSavePath));
+					thinkTank.writeRelationsToDisk(Gdx.files.external(relationsSavePath));
 					savedParametersAndRelations = true;
 				}
 				if (!questionaireIsDisplayed)
@@ -243,8 +243,8 @@ public class MyGdxGame implements ApplicationListener
 				won = true;
 				if (!savedParametersAndRelations)
 				{
-					thinkTank.writeParametersToDisk(new FileHandle(parameterSavePath));
-					thinkTank.writeRelationsToDisk(new FileHandle(relationsSavePath));
+					thinkTank.writeParametersToDisk(Gdx.files.external(parameterSavePath));
+					thinkTank.writeRelationsToDisk(Gdx.files.external(relationsSavePath));
 					savedParametersAndRelations = true;
 				}
 				if (!questionaireIsDisplayed)
