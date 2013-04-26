@@ -46,12 +46,12 @@ public class Relation
 
 		// Lastly, set new values for all parameters, multiplying by impact
 		// factor
-		variableParameter.value += distance;
+		variableParameter.value += smallestDistance;
 		parameterIterator = relatedParametersAndImpact.keySet().iterator();
 		while (parameterIterator.hasNext())
 		{
 			Parameter relatedParameter = parameterIterator.next();
-			relatedParameter.value += (distance * relatedParametersAndImpact
+			relatedParameter.value += (smallestDistance * relatedParametersAndImpact
 					.get(relatedParameter));
 		}
 
