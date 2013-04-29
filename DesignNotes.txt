@@ -1,5 +1,4 @@
 
-- Implementere parametersystem
 - Lage oversikt
 
 Bug:

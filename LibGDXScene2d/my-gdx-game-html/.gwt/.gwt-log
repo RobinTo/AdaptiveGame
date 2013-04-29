@@ -1730,6 +1730,7 @@ Removing invalidated units
 Finding entry point classes
 Public resources found in...
 Translatable source found in...
+<<<<<<< HEAD
 Found 0 cached/archived units.  Used 0 / 2728 units from cache.
 Compiling...
    10% complete (ETR: 20 seconds)
@@ -1744,18 +1745,42 @@ Compiling...
    90% complete (ETR: 2 seconds)
    100% complete (ETR: 0 seconds)
    Compilation completed in 21,40 seconds
+=======
+Found 0 cached/archived units.  Used 0 / 2729 units from cache.
+Compiling...
+   0% complete (ETR: 50 seconds)
+   10% complete (ETR: 46 seconds)
+   20% complete (ETR: 28 seconds)
+   30% complete (ETR: 22 seconds)
+   40% complete (ETR: 17 seconds)
+   50% complete (ETR: 14 seconds)
+   60% complete (ETR: 10 seconds)
+   70% complete (ETR: 7 seconds)
+   80% complete (ETR: 5 seconds)
+   90% complete (ETR: 2 seconds)
+   100% complete (ETR: 0 seconds)
+   Compilation completed in 48,65 seconds
+>>>>>>> Report work, about the abstract and structure of the paper
 Removing invalidated units
 Finding entry point classes
 Public resources found in...
 Translatable source found in...
+<<<<<<< HEAD
 Found 2728 cached/archived units.  Used 2728 / 2728 units from cache.
+=======
+Found 2729 cached/archived units.  Used 2729 / 2729 units from cache.
+>>>>>>> Report work, about the abstract and structure of the paper
 Compiling...
    Compilation completed in 0,00 seconds
 Removing invalidated units
 Finding entry point classes
 Public resources found in...
 Translatable source found in...
+<<<<<<< HEAD
 Found 2728 cached/archived units.  Used 2728 / 2728 units from cache.
+=======
+Found 2729 cached/archived units.  Used 2729 / 2729 units from cache.
+>>>>>>> Report work, about the abstract and structure of the paper
 Compiling...
    Compilation completed in 0,00 seconds
 Removing invalidated units
