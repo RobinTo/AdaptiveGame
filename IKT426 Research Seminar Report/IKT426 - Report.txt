@@ -53,8 +53,24 @@ The structure of the paper is resembling the structure of the abstract, starting
 
 ## Dynamic Scripting
 
+@figure(dynamicScripting, DynamicScripting.png, The Dynamic Scripting process, taken from [3])
+
+The game AIs used to test techniques in the paper are all created using a process created by the authors in earlier work called Dynamic Scripting @("[3]"). As the figure shows this process uses a rulebase with different rules as to how the game could be played. When the computer generates a script, which describes how the AI should play, it selects rules based on a weight value which is then modified based on the outcome of the game, if the AI wins the weight is increased and if the AI loses it is decreased.
+
+The problem discussed in the paper we discuss here is how to limit the AIs abilities to produce even games, which will be discussed in the following sub-chapters.
+
 ## Difficulty Scaling
 
+
+## Paper Experiments and Discussion
+
+The paper tested the different techniques in a series of experiments using two CRPG computer games. These games are based around combat between two teams, which may have different classes which can perform different abilities. Experiments were conducted in a created variation of Baldur's Gate and in the commercial game Neverwinter Nights.
+
+These experiments ran simulations playing one team using the dynamic scripting method with techniques mentioned above against a static AI team. The goal was to find which technique would be able to achieve closest to 50% win rate against all tactics.
+
+@figure(ExperimentResults, ExperimentResults.png, Result of the tests in the variation of Baldur's Gate)
+
+These experiments show that top culling was the best result, as it was the only technique to consistently produce even games against all the static tactics. 
 
 # Discussion
 
