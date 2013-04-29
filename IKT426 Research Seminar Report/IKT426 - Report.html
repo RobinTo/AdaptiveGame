@@ -28,7 +28,7 @@
 <p style="text-align: center">By<br>
 <br>Jon Vegard Jansen, Robin Tollisen
 </p>
-<p style='text-align: center'>Supervisors: Sondre Glimsdal<br><br></p>
+<p style='text-align: center'>Supervisors: Sondre Glimsdals<br><br></p>
 <p style='text-align: center'><b>Project report for IKT426 Research Seminar in Spring 2013</b><br><br></p>
 <p style="text-align: center">Faculty of Engineering and Science
 <br>University of Agder
@@ -60,7 +60,6 @@ We would like to acknowledge Sondre Glimsdal, for supervising the writing of thi
 <div>
 <a href='#preface' class='toc_1'>Preface</a><br>
 <a href='#table_of_figures' class='toc_1'>Table of figures</a><br>
-<a href='#table_of_tables' class='toc_1'>Table of tables</a><br>
 <a href='#intro' class='toc_1'>Introduction</a><br>
 <a href='#the_paper_-_difficulty_scaling_of_game_ai' class='toc_1'>The Paper - Difficulty Scaling of Game AI</a><br>
 <a href='#the_paper_-_difficulty_scaling_of_game_ai_-_paper_abstract' class='toc_2'>Paper Abstract</a><br>
@@ -82,14 +81,10 @@ We would like to acknowledge Sondre Glimsdal, for supervising the writing of thi
 <h1 id='table_of_figures'>Table of figures</h1>
 
 <div>
+<a href='#dynamicscripting' class='figtoc'>The Dynamic Scripting process, taken from [3]</a><br>
 <a href='#high-fitness_penalising' class='figtoc'>High-fitness penalising formula) (REF</a><br>
 <a href='#wc_and_tc' class='figtoc'>Weight Clipping and Top Culling process and parameters</a><br>
-</div>
-
-
-<h1 id='table_of_tables'>Table of tables</h1>
-
-<div>
+<a href='#experimentresults' class='figtoc'>Result of the tests in the variation of Baldur's Gate</a><br>
 </div>
 
 
@@ -130,6 +125,16 @@ The structure of the paper is resembling the structure of the abstract, starting
 
 <h2 id='the_paper_-_difficulty_scaling_of_game_ai_-_dynamic_scripting'>Dynamic Scripting</h2>
 
+<div id='dynamicscripting' class='figure'><img src='DynamicScripting.png' alt='The Dynamic Scripting process, taken from [3]' title='The Dynamic Scripting process, taken from [3]'><div class='caption'>The Dynamic Scripting process, taken from [3]</div></div>
+
+<p>
+The game AIs used to test techniques in the paper are all created using a process created by the authors in earlier work called Dynamic Scripting <a href='#reference_3' title='Rewrite to proper style, ONLINE ADAPTATION OF GAME OPPONENT AI WITH DYNAMIC SCRIPTING, published in the International Journal of Intelligent Games and Simulation, page 45-53, by Pieter Sprock et al.'>[3]</a>. As the figure shows this process uses a rulebase with different rules as to how the game could be played. When the computer generates a script, which describes how the AI should play, it selects rules based on a weight value which is then modified based on the outcome of the game, if the AI wins the weight is increased and if the AI loses it is decreased.
+</p>
+
+<p>
+The problem discussed in the paper we discuss here is how to limit the AIs abilities to produce even games, which will be discussed in the following sub-chapters.
+</p>
+
 <h2 id='the_paper_-_difficulty_scaling_of_game_ai_-_difficulty_scaling'>Difficulty Scaling</h2>
 <p>
 This section starts out by first describing how many games deal with players on different levels, that is by setting different, discrete difficulty settings, such as 'easy, normal and hard'. These settings usually does not affect the behavior of the game AI, only their relative strength to the player, maybe even in an unfair or cheating way. This paper presents how the difficulty level can adapt to the player as the game is played, not only by changing relative strength numbers, but also by allowing the game AI to change tactics.
@@ -166,8 +171,29 @@ Top culling is simlar to weight clipping, but instead of decreasing values for r
 
 <h2 id='the_paper_-_difficulty_scaling_of_game_ai_-_paper_experiments_and_discussion'>Paper Experiments and Discussion</h2>
 
+<p>
+The paper tested the different techniques in a series of experiments using two CRPG computer games. These games are based around combat between two teams, which may have different classes which can perform different abilities. Experiments were conducted in a created variation of Baldur's Gate and in the commercial game Neverwinter Nights.
+</p>
+
+<p>
+These experiments ran simulations playing one team using the dynamic scripting method with techniques mentioned above against a static AI team. The goal was to find which technique would be able to achieve closest to 50% win rate against all tactics.
+</p>
+
+<div id='experimentresults' class='figure'><img src='ExperimentResults.png' alt='Result of the tests in the variation of Baldur's Gate' title='Result of the tests in the variation of Baldur's Gate'><div class='caption'>Result of the tests in the variation of Baldur's Gate</div></div>
+
+<p>
+These experiments show that top culling was the best result, as it was the only technique to consistently produce even games against all the static tactics. 
+</p>
+
 <h2 id='the_paper_-_difficulty_scaling_of_game_ai_-_paper_conclusion_and_future_work'>Paper Conclusion and Future Work</h2>
 
+<p>
+The paper concludes that of the techniques tested top culling worked the best, and high fitness penalizing worked the worst. However they state that with a different fitness function, high fitness penalizing might work better.
+</p>
+
+<p>
+For future work the authors state that they want to experiment with offline learning techniques and see whether any can be used to design completely new rules for the Dynamic Scripting rulebase during gameplay, and the entertainment value for humans playing against AIs using Dynamic Scripting. <a href="http://www.dcc.ru.nl/~idak/publications/papers/SpronckGAMEON2004.pdf">[2]</a>
+</p>
 
 <h1 id='discussion'>Discussion</h1>
 

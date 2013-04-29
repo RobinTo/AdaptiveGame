@@ -28,10 +28,6 @@ $ Table of contents | toc
 
 @figures
 
-# Table of tables
-
-@tables
-
 # Introduction | intro
 
 This report will discuss the paper "Difficulty Scaling of Game AI", by Pieter Spronck, Ida Sprinkhuizen-Kuyper and Eric Postma, 2004. Artificial intelligence will henceforth be abbreviated AI. This problem is a hard problem to solve, as game AI usually cannot be approached the same way as regular AI, trying to make them as smart as possible, but has to make mistakes for the player to beat them.
@@ -80,11 +76,6 @@ There is a value called W_max, that limits the maximum level of optimisation for
 
 ### Top Culling
 Top culling is simlar to weight clipping, but instead of decreasing values for rules with too high weight values, it allows them to grow beyond W_max, but the game AI will not be able to select them. If W_max later changes to a higher level, they may be selected again.
-
-## Paper Experiments and Discussion
-
-## Paper Conclusion and Future Work
-
 
 ## Paper Experiments and Discussion
 
