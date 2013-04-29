@@ -12,6 +12,14 @@ $abstract = Something about us reviewing an article and its contents. Highlight 
 
 @file(frontpage.txt)
 
+# Preface
+
+This is a report for IKT426 - Research Seminar at the University of Agder, spring of 2013.
+
+We would like to acknowledge Sondre Glimsdal, for supervising the writing of this report.
+
+- Jon Vegard Jansen and Robin Tollisen, 4th of May 2013.
+
 $ Table of contents | toc
 
 @toc
@@ -24,29 +32,17 @@ $ Table of contents | toc
 
 @tables
 
-# Preface
-
-Lorem ipsum see @pageref(preface) dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
 # Introduction | intro
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+This report will discuss the paper "Difficulty Scaling of Game AI", by Pieter Spronck, Ida Sprinkhuizen-Kuyper and Eric Postma, 2004. Artificial intelligence will henceforth be abbreviated AI. This problem is a hard problem to solve, as game AI usually cannot be approached the same way as regular AI, trying to make them as smart as possible, but has to make mistakes for the player to beat them.
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do @("http://www.wikipedia.org") eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+The problem discussed in the paper by Spronck et al. is how you can adapt the difficulty of a game AI in real time. The difficulty in this case is how hard it would be for a player to win at the game. The main in this field is scaling the difficulty of the AI to produce what is referred to in the paper as "even games", which means that the player should not win 100% of the time, or if he does, for instance if the game requires it e.g. roguelikes@("http://en.wikipedia.org/wiki/Roguelike") with premanent death, it should not be easy for the player to win 100% of the time.
 
-Lorem @chapref(toc) ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+This paper will discuss Difficulty Scaling of Game AI @("http://www.dcc.ru.nl/~idak/publications/papers/SpronckGAMEON2004.pdf"), we have also read and may take elements from @("Rewrite to proper style, ONLINE ADAPTATION OF GAME OPPONENT AI WITH DYNAMIC SCRIPTING, published in the International Journal of Intelligent Games and Simulation, page 45-53, by Pieter Sprock et al.") which is the paper where they explain the method they use in the main paper.
 
 ## Background and motivation
 
-Lorem @("http://www.google.com") ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
 ## Proposed Solution
-
-Lorem ipsum @pageref(intro) dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-Lorem ipsum dolor sit amet, consectetur @("http://www.google.com") adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 # The Article - Difficulty Scaling of Game AI
 
