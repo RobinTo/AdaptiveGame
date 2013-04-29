@@ -55,7 +55,7 @@ The structure of the paper is resembling the structure of the abstract, starting
 
 @figure(dynamicScripting, DynamicScripting.png, The Dynamic Scripting process, taken from [3])
 
-The game AIs used to test techniques in the paper are all created using a process created by the authors in earlier work called Dynamic Scripting @("[3]"). As the figure shows this process uses a rulebase with different rules as to how the game could be played. When the computer generates a script, which describes how the AI should play, it selects rules based on a weight value which is then modified based on the outcome of the game, if the AI wins the weight is increased and if the AI loses it is decreased.
+The game AIs used to test techniques in the paper are all created using a process created by the authors in earlier work called Dynamic Scripting @("Rewrite to proper style, ONLINE ADAPTATION OF GAME OPPONENT AI WITH DYNAMIC SCRIPTING, published in the International Journal of Intelligent Games and Simulation, page 45-53, by Pieter Sprock et al."). As the figure shows this process uses a rulebase with different rules as to how the game could be played. When the computer generates a script, which describes how the AI should play, it selects rules based on a weight value which is then modified based on the outcome of the game, if the AI wins the weight is increased and if the AI loses it is decreased.
 
 The problem discussed in the paper we discuss here is how to limit the AIs abilities to produce even games, which will be discussed in the following sub-chapters.
 
@@ -71,6 +71,12 @@ These experiments ran simulations playing one team using the dynamic scripting m
 @figure(ExperimentResults, ExperimentResults.png, Result of the tests in the variation of Baldur's Gate)
 
 These experiments show that top culling was the best result, as it was the only technique to consistently produce even games against all the static tactics. 
+
+## Paper Conclusion and Future Work
+
+The paper concludes that of the techniques tested top culling worked the best, and high fitness penalizing worked the worst. However they state that with a different fitness function, high fitness penalizing might work better.
+
+For future work the authors state that they want to experiment with offline learning techniques and see whether any can be used to design completely new rules for the Dynamic Scripting rulebase during gameplay, and the entertainment value for humans playing against AIs using Dynamic Scripting. @("http://www.dcc.ru.nl/~idak/publications/papers/SpronckGAMEON2004.pdf")
 
 # Discussion
 
