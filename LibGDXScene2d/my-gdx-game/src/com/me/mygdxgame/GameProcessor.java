@@ -42,6 +42,7 @@ public class GameProcessor
 	boolean earthquakeEnabled = true;
 	boolean movesTowers = true;
 	boolean tempNudge = false;
+	float nudgeChance = 0;
 	float nudgeTimer = 0;
 	float nudgeRemainingTime = 0f;
 	float nudgeRandomizerTimer = 1.0f;
@@ -52,6 +53,8 @@ public class GameProcessor
 	float superEnemySpeedMultiplierBonus = 0.5f; // If currentSpeedMultiplier for an enemy is 2.0, it will be 2.5 for super minions of that kind.
 	float superEnemySpeedSizeScale = 0.8f; // Size scale for super enemies with speed bonus.
 	float superEnemyHealthSizeScale = 1.2f; // ^ for health super minions
+	
+	float diggerChance = 0; // Digger chance eats of the 0.5 set for Normal mob chance.
 	
 	public void initialize()
 	{
@@ -70,7 +73,7 @@ public class GameProcessor
 		Enemy e = null;
 		double randValue = rand.nextDouble();
 
-		if(randValue <= 0.25)
+		if(randValue <= diggerChance)
 		{
 			e = createEnemy("digger", thinkTank, map, enemiesAtlas, miscAtlas);
 			e.modifyOriginalHealth(statMultiplier);
@@ -508,7 +511,7 @@ public class GameProcessor
 			nudgeRandomizerTimer -= Gdx.graphics.getDeltaTime();
 			if (nudgeRandomizerTimer <= 0)
 			{
-				if (rand.nextDouble() < 0.1)
+				if (rand.nextDouble() < nudgeChance)
 					nudgeRemainingTime = 1.5f;
 				nudgeRandomizerTimer = nudgeRandomizerInterval;
 			}
