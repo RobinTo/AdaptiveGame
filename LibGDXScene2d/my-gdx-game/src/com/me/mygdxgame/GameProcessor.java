@@ -42,19 +42,19 @@ public class GameProcessor
 	boolean earthquakeEnabled = true;
 	boolean movesTowers = true;
 	boolean tempNudge = false;
-	float nudgeChance = 0;
+	float nudgeChance = 0.9f;
 	float nudgeTimer = 0;
 	float nudgeRemainingTime = 0f;
 	float nudgeRandomizerTimer = 1.0f;
 	float nudgeRandomizerInterval = 0.5f;
 	
-	float superEnemyChance = 0.5f; // Set to 0 to disable super minions. Could add a seperate number for each type, if we desire.
+	float superEnemyChance = 0.9f; // Set to 0 to disable super minions. Could add a seperate number for each type, if we desire.
 	float superEnemyHealthMultiplier = 1.5f;
 	float superEnemySpeedMultiplierBonus = 0.5f; // If currentSpeedMultiplier for an enemy is 2.0, it will be 2.5 for super minions of that kind.
 	float superEnemySpeedSizeScale = 0.8f; // Size scale for super enemies with speed bonus.
 	float superEnemyHealthSizeScale = 1.2f; // ^ for health super minions
 	
-	float diggerChance = 0; // Digger chance eats of the 0.5 set for Normal mob chance.
+	float diggerChance = 0.9f; // Digger chance eats of the 0.5 set for Normal mob chance.
 	
 	public void initialize()
 	{

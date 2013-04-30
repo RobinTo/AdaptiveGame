@@ -1,26 +1,21 @@
+Tasks
+JV - Skrive over til parametere
+JV - Musikk 
+     - Bakgrunnsmusikk med lydendring når oppe. 
+RT - Flammegrafikk (Sirkel) 
+RT - Endre farge på laseren  
+RT - Prosjektil til frost 
+JV - Lage dot tårn 
+RT - Icon i gul boks on slow/Dot 
+     - Kanskje: Tinte on slow/Dot 
+RT - Monsterinfo
+     - Som int
+     - Speed
+     - Forsvinner ikke når enemy går ut.
+JV - Lagring av data (Hopp)
+     - LAgre unna ekstra filer, ikke de vi faktisk bruker.
+     - Lagre dem i testmapper
+     RT - Plotting
+JVRT - Lage spillerprofiler
+RT - Gult vindu på det tårnet du vil bygge.
 
-- Lage oversikt
-
-Bug:
-Dersom gule vinduet er oppe, kan ikke bygge tårn under det.
-
-Effekter
-- Skjermbildet: Shading (Natt)
-- Mobs som kommer inn fra andre kanter
-- Mobs som blinker bortover, ikke går.
-- Medic mob
-- Coop mobs (Harpoon)
-- Slow aura mob
-- Absorb aura mob.
-- Shielding mob.
-
-Nå
-- Flash blinkende mobs
-
-
-
-Done
-- Random vei generation
-- Skjermbildet: Endre farge
-- Random earthquakes. Flytter tårn
-- Super mobs, med hodeskalle, eller lyser rødt.

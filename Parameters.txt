@@ -48,7 +48,7 @@ Class Relation
   = SumHappyOn + RandInt(1,(Happy))
   SumHappyOff = Total gathered happiness when Super Mobs are switched off
   = SumHappyOff + RandInt(1,(Happy))
-- ChanceForEarthquakes = (SumHappyOn/(3*NumberOfGames))/(SumHappyOff/(3*NumberOfGames)
+- ChanceForEarthquakes = (SumHappyOn/(3*NumberOfGames))/((SumHappyOff/(3*NumberOfGames)
   + SumHappyOn/(3*NumberOfGames))
   SumHappyOn = Total gathered happiness when Earthquakes are switched on
   = SumHappyOn + RandInt(1,(Happy))
