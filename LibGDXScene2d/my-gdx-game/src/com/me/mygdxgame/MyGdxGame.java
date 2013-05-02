@@ -146,7 +146,10 @@ public class MyGdxGame implements ApplicationListener
 
 		Gdx.gl.glClearColor(Color.GRAY.r, Color.GRAY.g, Color.GRAY.b, Color.GRAY.a);
 
-		loadSounds();
+		System.out.println("Loading sounds");
+		assetManager.loadSounds(thinkTank.towerInfo);
+		System.out.println("Loading music");
+		assetManager.loadMusic();
 		thinkTank.defaultEnemyInfo = statsFetcher.generateEnemyInfo(enemyHandle);
 		try
 		{
@@ -329,6 +332,8 @@ public class MyGdxGame implements ApplicationListener
 			assetManager.font.setScale(1);
 			spriteBatch.end();
 		}
+		
+		assetManager.checkMusic();
 	}
 
 	@Override
@@ -578,20 +583,7 @@ public class MyGdxGame implements ApplicationListener
 		}
 	}
 	
-	private void loadSounds()
-	{
-		System.out.println("Loading sounds");
-
-		Iterator<String> it = thinkTank.towerInfo.keySet().iterator();
-		while (it.hasNext())
-		{
-			String s = it.next();
-			if (!thinkTank.towerInfo.get(s).impactSound.equals(""))
-				assetManager.sounds.put(thinkTank.towerInfo.get(s).impactSound, Gdx.audio.newSound(Gdx.files.internal("sounds/" + thinkTank.towerInfo.get(s).impactSound)));
-			if (!thinkTank.towerInfo.get(s).shootSound.equals(""))
-				assetManager.sounds.put(thinkTank.towerInfo.get(s).shootSound, Gdx.audio.newSound(Gdx.files.internal("sounds/" + thinkTank.towerInfo.get(s).shootSound)));
-		}
-	}
+	
 	@Override
 	public void pause()
 	{

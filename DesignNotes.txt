@@ -1,7 +1,7 @@
 Tasks
-JV - Skrive over til parametere
-JV - Musikk 
-     - Bakgrunnsmusikk med lydendring når oppe. 
+JV - Skrive over superevents til parametere
+  JV - Fikse superevents
+JV - Lydeffekt på superevents
 RT - Flammegrafikk (Sirkel) 
 RT - Endre farge på laseren  
 RT - Prosjektil til frost 
