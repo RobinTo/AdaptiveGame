@@ -214,6 +214,9 @@ public class HeadsUpDisplay
 				consoleStrings.add("Current Metric: " + thinkTankInfo.currentMetric);
 				consoleStrings.add("Challenger Metric: " + thinkTankInfo.challengerMetric);
 				consoleStrings.add("Game Length Multiplier: " + thinkTankInfo.gameLengthMultiplier);
+				consoleStrings.add("Digger Chance: " + parameters.get("DiggerChance").value);
+				consoleStrings.add("Super Enemy Chance: " + parameters.get("SuperChance").value);
+				consoleStrings.add("Earthquake Chance: " + parameters.get("EarthquakeChance").value);
 
 				consoleGroup.setVisible(true);
 				break;

@@ -1,7 +1,5 @@
 Tasks
-JV - Skrive over superevents til parametere
-  JV - Fikse superevents
-JV - Lydeffekt på superevents
+JV - Lydeffekt på jordskjelv, super enemy og digger
 RT - Flammegrafikk (Sirkel) 
 RT - Endre farge på laseren  
 RT - Prosjektil til frost 
@@ -18,3 +16,7 @@ JV - Lagring av data (Hopp)
 JVRT - Lage spillerprofiler
 RT - Gult vindu på det tårnet du vil bygge.
 
+- Endre settingsbildet til reset.
+- La reset føre til questionnaire
+- Jordskjelv ser litt rart ut med default parameters og relations.
+- Diggerenemy grafikk

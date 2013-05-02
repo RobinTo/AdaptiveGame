@@ -42,19 +42,19 @@ public class GameProcessor
 	boolean earthquakeEnabled = true;
 	boolean movesTowers = true;
 	boolean tempNudge = false;
-	float nudgeChance = 0.9f;
+	
+	float nudgeChanceConstant = 0.2f;
 	float nudgeTimer = 0;
 	float nudgeRemainingTime = 0f;
 	float nudgeRandomizerTimer = 1.0f;
 	float nudgeRandomizerInterval = 0.5f;
 	
-	float superEnemyChance = 0.9f; // Set to 0 to disable super minions. Could add a seperate number for each type, if we desire.
+	
 	float superEnemyHealthMultiplier = 1.5f;
 	float superEnemySpeedMultiplierBonus = 0.5f; // If currentSpeedMultiplier for an enemy is 2.0, it will be 2.5 for super minions of that kind.
 	float superEnemySpeedSizeScale = 0.8f; // Size scale for super enemies with speed bonus.
 	float superEnemyHealthSizeScale = 1.2f; // ^ for health super minions
 	
-	float diggerChance = 0.9f; // Digger chance eats of the 0.5 set for Normal mob chance.
 	
 	public void initialize()
 	{
@@ -64,7 +64,7 @@ public class GameProcessor
 	}
 
 	public void generateNextEnemy(float statMultiplier, ThinkTank thinkTank,
-			Map map, TextureAtlas enemiesAtlas, TextureAtlas miscAtlas)
+			Map map, TextureAtlas enemiesAtlas, TextureAtlas miscAtlas, float diggerChance, float superEnemyChance)
 	{
 		currentMinionDelay = rand.nextInt(30);
 		currentMinionDelay /= 10.0f;
@@ -120,7 +120,7 @@ public class GameProcessor
 		else
 		{
 			generateNextEnemy(statMultiplier, thinkTank, map, enemiesAtlas,
-					miscAtlas);
+					miscAtlas, diggerChance, superEnemyChance);
 		}
 	}
 
@@ -183,10 +183,17 @@ public class GameProcessor
 		addEnemyToWave(0.1f, e);
 		Collections.sort(waveTime);
 	}
-	public void updateGame(float totalTime, Camera gameCamera, Map map, AssetManager assetManager, Stage stage, HeadsUpDisplay hud)
+	public void updateGame(float totalTime, Camera gameCamera, Map map, AssetManager assetManager, Stage stage, HeadsUpDisplay hud, float nudgeChanceConstant, float nudgeChance)
 	{
-		doEarthquake(gameCamera, map);
-
+		Random random = new Random();
+		if (random.nextFloat() < nudgeChance)
+			earthquakeEnabled = true;
+		else
+			earthquakeEnabled = false;
+		
+		if (earthquakeEnabled)
+			doEarthquake(gameCamera, map, nudgeChanceConstant);
+		
 		if (enemies.size() > 0)
 		{
 			for (int i = 0; i < towers.size(); i++)
@@ -425,7 +432,7 @@ public class GameProcessor
 				miscAtlas.createSprite("healthBarYellow"), digger);
 	}
 	
-	private void doEarthquake(Camera gameCamera, Map map)
+	private void doEarthquake(Camera gameCamera, Map map, float nudgeChanceConstant)
 	{
 		// Earthquake functionality, can be moved wherever, just to test.
 		if (nudgeRemainingTime > 0)
@@ -511,7 +518,7 @@ public class GameProcessor
 			nudgeRandomizerTimer -= Gdx.graphics.getDeltaTime();
 			if (nudgeRandomizerTimer <= 0)
 			{
-				if (rand.nextDouble() < nudgeChance)
+				if (rand.nextDouble() < nudgeChanceConstant)
 					nudgeRemainingTime = 1.5f;
 				nudgeRandomizerTimer = nudgeRandomizerInterval;
 			}

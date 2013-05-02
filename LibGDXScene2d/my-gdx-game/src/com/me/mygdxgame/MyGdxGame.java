@@ -224,7 +224,7 @@ public class MyGdxGame implements ApplicationListener
 			hud.updateYellowBoxPosition();
 			checkWave(totalTime);
 				
-			gameProcessor.updateGame(totalTime, gameCamera, map, assetManager, stage, hud);
+			gameProcessor.updateGame(totalTime, gameCamera, map, assetManager, stage, hud, gameProcessor.nudgeChanceConstant, thinkTank.nudgeChance);
 
 			if (gameProcessor.isGameLost())
 			{
@@ -422,15 +422,15 @@ public class MyGdxGame implements ApplicationListener
 		if (questionaire != null)
 		{
 			thinkTank.thinkTankInfo.totalGames++;
-			if(gameProcessor.nudgeChance > 0 )
+			if(gameProcessor.nudgeChanceConstant > 0 )
 				thinkTank.thinkTankInfo.totalHappinessSuperMobsOn += questionaire.happy;
 			else
 				thinkTank.thinkTankInfo.totalHappinessSuperMobsOff += questionaire.happy;
-			if(gameProcessor.diggerChance > 0 )
+			if(thinkTank.diggerChance > 0 )
 				thinkTank.thinkTankInfo.totalHappinessDiggersOn += questionaire.happy;
 			else
 				thinkTank.thinkTankInfo.totalHappinessDiggersOff += questionaire.happy;
-			if(gameProcessor.superEnemyChance > 0 )
+			if(thinkTank.superEnemyChance > 0 )
 				thinkTank.thinkTankInfo.totalHappinessSuperMobsOn += questionaire.happy;
 			else
 				thinkTank.thinkTankInfo.totalHappinessSuperMobsOff += questionaire.happy;
@@ -439,9 +439,9 @@ public class MyGdxGame implements ApplicationListener
 			questionaireIsDisplayed = false;
 		}
 		// Not sure what we  thought, we need some Min max values, or to multiply with something? E.g. 0.2* chance with diggers, 0.5* chance with nudge, etc.
-		gameProcessor.diggerChance = (float)((thinkTank.thinkTankInfo.totalHappinessDiggersOn/(3*thinkTank.thinkTankInfo.totalGames))/(thinkTank.thinkTankInfo.totalHappinessDiggersOff/(3*thinkTank.thinkTankInfo.totalGames) + thinkTank.thinkTankInfo.totalHappinessDiggersOn/(3*thinkTank.thinkTankInfo.totalGames)));
-		gameProcessor.nudgeChance = (float)((thinkTank.thinkTankInfo.totalHappinessSuperMobsOn/(3*thinkTank.thinkTankInfo.totalGames))/(thinkTank.thinkTankInfo.totalHappinessSuperMobsOff/(3*thinkTank.thinkTankInfo.totalGames) + thinkTank.thinkTankInfo.totalHappinessSuperMobsOn/(3*thinkTank.thinkTankInfo.totalGames)));
-		gameProcessor.superEnemyChance = (float)((thinkTank.thinkTankInfo.totalHappinessSuperMobsOn/(3*thinkTank.thinkTankInfo.totalGames))/(thinkTank.thinkTankInfo.totalHappinessSuperMobsOff/(3*thinkTank.thinkTankInfo.totalGames) + thinkTank.thinkTankInfo.totalHappinessSuperMobsOn/(3*thinkTank.thinkTankInfo.totalGames)));
+		//thinkTank.diggerChance = (float)((thinkTank.thinkTankInfo.totalHappinessDiggersOn/(3*thinkTank.thinkTankInfo.totalGames))/(thinkTank.thinkTankInfo.totalHappinessDiggersOff/(3*thinkTank.thinkTankInfo.totalGames) + thinkTank.thinkTankInfo.totalHappinessDiggersOn/(3*thinkTank.thinkTankInfo.totalGames)));
+		//thinkTank.nudgeChance = (float)((thinkTank.thinkTankInfo.totalHappinessSuperMobsOn/(3*thinkTank.thinkTankInfo.totalGames))/(thinkTank.thinkTankInfo.totalHappinessSuperMobsOff/(3*thinkTank.thinkTankInfo.totalGames) + thinkTank.thinkTankInfo.totalHappinessSuperMobsOn/(3*thinkTank.thinkTankInfo.totalGames)));
+		//thinkTank.superEnemyChance = (float)((thinkTank.thinkTankInfo.totalHappinessSuperMobsOn/(3*thinkTank.thinkTankInfo.totalGames))/(thinkTank.thinkTankInfo.totalHappinessSuperMobsOff/(3*thinkTank.thinkTankInfo.totalGames) + thinkTank.thinkTankInfo.totalHappinessSuperMobsOn/(3*thinkTank.thinkTankInfo.totalGames)));
 		
 		gameProcessor.diggerEnemies.clear();
 		gameProcessor.lastMinionTime = 0;
@@ -450,7 +450,7 @@ public class MyGdxGame implements ApplicationListener
 		{
 			for (int i = 0; i < gameProcessor.waveSize + (t * gameProcessor.waveIncrements); i++)
 			{
-				gameProcessor.generateNextEnemy(statMultiplier, thinkTank, map, assetManager.enemiesAtlas, assetManager.miscAtlas);
+				gameProcessor.generateNextEnemy(statMultiplier, thinkTank, map, assetManager.enemiesAtlas, assetManager.miscAtlas, thinkTank.diggerChance, thinkTank.superEnemyChance);
 			}
 			statMultiplier += 0.25f;
 			gameProcessor.lastMinionTime += gameProcessor.wavePartDelay;

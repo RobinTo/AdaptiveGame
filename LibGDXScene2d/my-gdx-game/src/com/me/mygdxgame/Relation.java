@@ -21,18 +21,18 @@ public class Relation
 	{
 		relatedParametersAndImpact.put(relatedParameter, impactFactor);
 	}
-	public void changeBalance(float distance)
+	public void changeBalance(float movement)
 	{
 		// Firstly, find accepted jump distances for each related parameter,
 		// including self.
 		List<Float> acceptedDistances = new ArrayList<Float>();
-		acceptedDistances.add(variableParameter.acceptedDistance(distance, 1.0f));
+		acceptedDistances.add(variableParameter.acceptedDistance(movement, 1.0f));
 		Iterator<Parameter> parameterIterator = relatedParametersAndImpact.keySet()
 				.iterator();
 		while (parameterIterator.hasNext())
 		{
 			Parameter relatedParameter = parameterIterator.next();
-			acceptedDistances.add(relatedParameter.acceptedDistance(distance,
+			acceptedDistances.add(relatedParameter.acceptedDistance(movement,
 					relatedParametersAndImpact.get(relatedParameter)));
 		}
 
@@ -40,7 +40,7 @@ public class Relation
 		float smallestDistance = variableParameter.maxValue;
 		for (float eachDistance : acceptedDistances)
 		{
-			if (smallestDistance > eachDistance)
+			if (Math.abs(smallestDistance) > Math.abs(eachDistance))
 				smallestDistance = eachDistance;
 		}
 

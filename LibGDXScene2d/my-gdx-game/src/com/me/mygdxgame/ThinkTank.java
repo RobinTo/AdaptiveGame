@@ -20,6 +20,10 @@ public class ThinkTank
 	int actionCounter = 0;
 	int timeBetweenMeasurements = 1;
 	ThinkTankInfo thinkTankInfo;
+	
+	float nudgeChance; //Chance for nudges at all
+	float superEnemyChance; 
+	float diggerChance; 
 
 	public ThinkTank()
 	{
@@ -55,6 +59,9 @@ public class ThinkTank
 			parameters.put("GlobalMonsterSpeed", new Parameter("GlobalMonsterSpeed", 1.0f, 0.1f, 10.0f));
 			parameters.put("GlobalMonsterGoldYield", new Parameter("GlobalMonsterGoldYield", 1.0f));
 			parameters.put("GlobalTowerRange", new Parameter("GlobalTowerRange", 1.0f, 0.1f, 10.0f));
+			parameters.put("DiggerChance", new Parameter("DiggerChance", 0.1f, 0.0f, 1.0f)); // Digger chance eats of the 0.5 set for Normal mob chance.
+			parameters.put("SuperChance", new Parameter("SuperChance", 0.1f, 0.0f, 1.0f)); // Set to 0 to disable super minions. Could add a seperate number for each type, if we desire.
+			parameters.put("EarthquakeChance", new Parameter("EarthquakeChance", 0.5f, 0.0f, 1.0f)); 
 		}
 		
 		setNewStats();
@@ -107,7 +114,7 @@ public class ThinkTank
 			relations.put("GlobalMonsterSpeed_GlobalTowerRange", tempRelation);
 			
 			tempRelation = new Relation("GlobalMonsterSpeed_GlobalReloadTime", parameters.get("GlobalMonsterSpeed"));
-			tempRelation.addRelatedParameter(parameters.get("GlobalReloadTime"), 1.0f);
+			tempRelation.addRelatedParameter(parameters.get("GlobalReloadTime"), -1.0f);
 			relations.put("GlobalMonsterSpeed_GlobalReloadTime", tempRelation);
 			
 			tempRelation = new Relation("GlobalBuildCost_GlobalMonsterGoldYield", parameters.get("GlobalBuildCost"));
@@ -125,6 +132,15 @@ public class ThinkTank
 			tempRelation = new Relation("TEDotTicks_TEDotDamage", parameters.get("TEDotTicks"));
 			tempRelation.addRelatedParameter(parameters.get("TEDotDamage"), -1.0f);
 			relations.put("TEDotTicks_TEDotDamage", tempRelation);
+
+			tempRelation = new Relation("DiggerChance", parameters.get("DiggerChance"));
+			relations.put("DiggerChance", tempRelation);
+			
+			tempRelation = new Relation("SuperChance", parameters.get("SuperChance"));
+			relations.put("SuperChance", tempRelation);
+			
+			tempRelation = new Relation("EarthquakeChance", parameters.get("EarthquakeChance"));
+			relations.put("EarthquakeChance", tempRelation);
 			
 		}
 	}
@@ -261,9 +277,12 @@ public class ThinkTank
 	private void setNewStats()
 	{
 		// Changing of stats.
+		this.diggerChance = parameters.get("DiggerChance").value;
+		this.superEnemyChance = parameters.get("SuperChance").value;
+		this.nudgeChance = parameters.get("EarthquakeChance").value;
+		
 		Iterator<String> enemyStatsIterator = enemyInfo.keySet()
-				.iterator();
-	
+				.iterator();	
 		while (enemyStatsIterator.hasNext())
 		{
 			String key = enemyStatsIterator.next();
@@ -272,7 +291,7 @@ public class ThinkTank
 			enemyInfo.get(key).speed = defaultEnemyInfo.get(key).speed * parameters.get("GlobalMonsterSpeed").value;
 			
 		}
-	
+		
 		Iterator<String> towerStatsIterator = towerInfo.keySet().iterator();
 		while (towerStatsIterator.hasNext())
 		{
