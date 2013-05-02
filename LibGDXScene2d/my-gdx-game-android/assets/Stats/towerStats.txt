@@ -175,3 +175,57 @@ effect:edit:currentHealth:-20
 buildable:false
 description:Deals damage to enemies in a line.
 endTower
+type:DotTower
+towerTexture:dotTower
+missileTexture:blackBullet
+shootSound:arrowShoot.mp3
+impactSound:arrowImpact.mp3
+upgradesTo:DotTower2
+sellPrice:7
+buildCost:10
+targeting:Single
+reloadtime:1.5f
+range:200
+effect:set:dotTicksLeft:3
+effect:set:currentDotDamage:5
+effect:set:currentDotDurationBetweenTicks:0f
+effect:set:dotDurationBetweenTicks:1f
+buildable:true
+description:Deals damage over time to an enemy
+endTower
+type:DotTower2
+towerTexture:dotTower2
+missileTexture:blackBullet
+shootSound:arrowShoot.mp3
+impactSound:arrowImpact.mp3
+upgradesTo:DotTower3
+sellPrice:10
+buildCost:15
+targeting:Single
+reloadtime:1.5f
+range:200
+effect:set:dotTicksLeft:3
+effect:set:currentDotDamage:10
+effect:set:currentDotDurationBetweenTicks:0f
+effect:set:dotDurationBetweenTicks:1f
+buildable:false
+description:Deals damage over time to an enemy
+endTower
+type:DotTower3
+towerTexture:dotTower3
+missileTexture:blackBullet
+shootSound:arrowShoot.mp3
+impactSound:arrowImpact.mp3
+upgradesTo:null
+sellPrice:16
+buildCost:20
+targeting:Single
+reloadtime:1.5f
+range:200
+effect:set:dotTicksLeft:3
+effect:set:currentDotDamage:20
+effect:set:currentDotDurationBetweenTicks:0f
+effect:set:dotDurationBetweenTicks:1f
+buildable:false
+description:Deals damage over time to an enemy
+endTower

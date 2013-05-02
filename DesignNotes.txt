@@ -5,7 +5,6 @@ JV - Musikk
 RT - Flammegrafikk (Sirkel) 
 RT - Endre farge på laseren  
 RT - Prosjektil til frost 
-JV - Lage dot tårn 
 RT - Icon i gul boks on slow/Dot 
      - Kanskje: Tinte on slow/Dot 
 RT - Monsterinfo

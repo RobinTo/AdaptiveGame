@@ -324,12 +324,13 @@ public class ThinkTank
 			Relation relation = relations.get(relationsIterator.next());
 			float distance = (float) ((random.nextDouble() - 0.5) * 2 * thinkTankInfo.maxJumpDistance);
 			relation.changeBalance(distance);
-			thinkTankInfo.maxJumpDistance -= 0.005;
-			thinkTankInfo.maxJumpDistance = thinkTankInfo.maxJumpDistance < 0.05 ? 0.05 : thinkTankInfo.maxJumpDistance;
 		}
 		// Change difficulty
 		float randomNumber = random.nextFloat();
 		randomNumber = randomNumber/2.5f + 0.2f;
 		parameters.get("GlobalMonsterHP").value = ((float)thinkTankInfo.playerLevel + randomNumber);
+		//Make sure jumps are smaller each jump
+		thinkTankInfo.maxJumpDistance -= 0.005;
+		thinkTankInfo.maxJumpDistance = thinkTankInfo.maxJumpDistance < 0.05 ? 0.05 : thinkTankInfo.maxJumpDistance;
 	}
 }
