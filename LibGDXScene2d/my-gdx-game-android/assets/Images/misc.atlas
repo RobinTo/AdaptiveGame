@@ -31,58 +31,65 @@ thumbUp
   orig: 118, 118
   offset: 0, 0
   index: -1
-gold
+AoEFlame
   rotate: false
   xy: 128, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
+gold
+  rotate: false
+  xy: 194, 67
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
 heart
-  rotate: false
-  xy: 194, 67
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
-starButton
-  rotate: false
-  xy: 194, 67
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
-rangeHighlight
   rotate: false
   xy: 260, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-sellTowerButton
+starButton
+  rotate: false
+  xy: 260, 67
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+rangeHighlight
   rotate: false
   xy: 326, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-settingsButton
+sellTowerButton
   rotate: false
   xy: 392, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-tinkerButton
+settingsButton
   rotate: false
   xy: 128, 1
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-upgradeTowerButton
+tinkerButton
   rotate: false
   xy: 194, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+upgradeTowerButton
+  rotate: false
+  xy: 260, 1
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
@@ -101,25 +108,25 @@ blackBullet
   orig: 5, 5
   offset: 0, 0
   index: -1
-blueBullet
+redBullet
   rotate: false
   xy: 1, 44
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
-redBullet
+blueBullet
   rotate: false
-  xy: 260, 60
-  size: 5, 5
-  orig: 5, 5
+  xy: 326, 61
+  size: 4, 4
+  orig: 4, 4
   offset: 0, 0
   index: -1
 laserBullet
   rotate: false
-  xy: 488, 234
-  size: 3, 5
-  orig: 3, 5
+  xy: 488, 235
+  size: 4, 4
+  orig: 4, 4
   offset: 0, 0
   index: -1
 healthBarRed

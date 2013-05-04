@@ -93,7 +93,7 @@ description:Slows enemies in an area on impact.
 endTower
 type:FlameCircle1
 towerTexture:redTower
-missileTexture:blackBullet
+missileTexture:AoEFlame
 shootSound:flameShoot.mp3
 upgradesTo:FlameCircle2
 sellPrice:10
@@ -107,7 +107,7 @@ description:Deals damage in an area around itself.
 endTower
 type:FlameCircle2
 towerTexture:redTower2
-missileTexture:blackBullet
+missileTexture:AoEFlame
 shootSound:flameShoot.mp3
 upgradesTo:FlameCircle3
 sellPrice:18
@@ -121,7 +121,7 @@ description:Deals damage in an area around itself.
 endTower
 type:FlameCircle3
 towerTexture:redTower3
-missileTexture:blackBullet
+missileTexture:AoEFlame
 shootSound:flameShoot.mp3
 upgradesTo:null
 sellPrice:25
@@ -135,7 +135,7 @@ description:Deals damage in an area around itself.
 endTower
 type:LineLaser
 towerTexture:testTower
-missileTexture:blackBullet
+missileTexture:laserBullet
 shootSound:laserShoot.mp3
 upgradesTo:LineLaser2
 sellPrice:20
@@ -149,7 +149,7 @@ description:Deals damage to enemies in a line.
 endTower
 type:LineLaser2
 towerTexture:testTower2
-missileTexture:blackBullet
+missileTexture:laserBullet
 shootSound:laserShoot.mp3
 upgradesTo:LineLaser3
 sellPrice:30
@@ -163,7 +163,7 @@ description:Deals damage to enemies in a line.
 endTower
 type:LineLaser3
 towerTexture:testTower3
-missileTexture:blackBullet
+missileTexture:laserBullet
 shootSound:laserShoot.mp3
 upgradesTo:null
 sellPrice:35

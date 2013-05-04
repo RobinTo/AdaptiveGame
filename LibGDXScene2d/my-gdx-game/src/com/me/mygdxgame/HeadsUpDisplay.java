@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
@@ -69,6 +70,8 @@ public class HeadsUpDisplay
 
 		yellowBoxGroup.setVisible(false);
 
+		yellowBoxGroup.setTouchable(Touchable.disabled);
+		consoleGroup.setTouchable(Touchable.disabled);
 		stage.addActor(yellowBoxGroup);
 
 		TextButton settingsButton = buttonGenerator.createButton(miscAtlas.createSprite("settingsButton"), font);
@@ -152,6 +155,7 @@ public class HeadsUpDisplay
 		yellowBoxGroup.setColor(0, 0, 0, 60);
 		yellowBoxGroup.setZIndex(1000); // Random high value, to keep it above
 										// anything.
+		yellowBoxGroup.setTouchable(Touchable.disabled);
 	}
 
 	public void updateConsole() // This must be called after console strings
