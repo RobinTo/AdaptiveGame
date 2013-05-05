@@ -38,6 +38,7 @@ public class MyGdxGame implements ApplicationListener
 	String replaySavePath = "/AdaptiveTD/Replays/testReplay.txt";
 
 	boolean savedParametersAndRelations = false;
+	String logSavePath = "/AdaptiveTD/Log/Logfile.txt";
 	String parameterSavePath = "/AdaptiveTD/Parameters/parameters.txt";
 	String relationsSavePath = "/AdaptiveTD/Parameters/relations.txt";
 
@@ -230,6 +231,7 @@ public class MyGdxGame implements ApplicationListener
 				lost = true;
 				if (!savedParametersAndRelations)
 				{
+					thinkTank.writeLogToDisk(Gdx.files.external(logSavePath));
 					thinkTank.writeParametersToDisk(Gdx.files.external(parameterSavePath));
 					thinkTank.writeRelationsToDisk(Gdx.files.external(relationsSavePath));
 					savedParametersAndRelations = true;
@@ -245,6 +247,7 @@ public class MyGdxGame implements ApplicationListener
 				won = true;
 				if (!savedParametersAndRelations)
 				{
+					thinkTank.writeLogToDisk(Gdx.files.external(logSavePath));
 					thinkTank.writeParametersToDisk(Gdx.files.external(parameterSavePath));
 					thinkTank.writeRelationsToDisk(Gdx.files.external(relationsSavePath));
 					savedParametersAndRelations = true;

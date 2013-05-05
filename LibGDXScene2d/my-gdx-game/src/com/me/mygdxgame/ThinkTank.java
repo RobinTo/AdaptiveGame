@@ -1,9 +1,12 @@
 package com.me.mygdxgame;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 import com.badlogic.gdx.files.FileHandle;
@@ -25,6 +28,8 @@ public class ThinkTank
 	float superEnemyChance; 
 	float diggerChance; 
 
+	int successiveGameCounter = 0;
+	
 	public ThinkTank()
 	{
 		thinkTankInfo = new ThinkTankInfo();
@@ -237,7 +242,46 @@ public class ThinkTank
 		
 		setNewStats();
 	}
-
+	public void writeLogToDisk(FileHandle fileHandle)
+	{
+		successiveGameCounter ++;
+		DateFormat df = DateFormat.getDateTimeInstance (DateFormat.MEDIUM, DateFormat.MEDIUM, new Locale ("en", "EN"));
+		String formattedDate = df.format (new Date ());
+		fileHandle.writeString("Game number " + successiveGameCounter + " - at " + formattedDate + "\r\n", true);
+		Iterator<String> parameterIterator = parameters.keySet()
+				.iterator();
+		while (parameterIterator.hasNext())
+		{
+			String key = parameterIterator.next();
+			Parameter parameter = parameters.get(key);
+			
+			//Add padding to make document look good
+			//First padding
+			int paddingCount = 24 - parameter.name.length();
+			String paddingString = "";
+			for (int counter = 0; counter < paddingCount; counter++)
+			{
+				 paddingString = paddingString.concat(" ");
+			}
+			//Second padding
+			paddingCount = 12 - ("" + parameter.value).length();
+			String paddingString2 = "";
+			for (int counter = 0; counter < paddingCount; counter++)
+			{
+				 paddingString2 = paddingString2.concat(" ");
+			}
+			//Third padding
+			paddingCount = 6 - ("" + parameter.minValue).length();
+			String paddingString3 = "";
+			for (int counter = 0; counter < paddingCount; counter++)
+			{
+				paddingString3 = paddingString3.concat(" ");
+			}
+			
+			fileHandle.writeString(parameter.name + ":" + paddingString + parameter.value + paddingString2 + "Min: " + parameter.minValue + paddingString3 + "Max: " + parameter.maxValue + "\r\n", true);
+		}
+		fileHandle.writeString("\r\n", true);
+	}
 	public void writeParametersToDisk(FileHandle fileHandle)
 	{
 		fileHandle.writeString("", false);

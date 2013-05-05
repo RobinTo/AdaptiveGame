@@ -1,5 +1,4 @@
 Tasks
-JV - Lydeffekt på jordskjelv, super enemy og digger
 RT - Flammegrafikk (Sirkel) 
 RT - Endre farge på laseren  
 RT - Prosjektil til frost 
@@ -9,9 +8,6 @@ RT - Monsterinfo
      - Som int
      - Speed
      - Forsvinner ikke når enemy går ut.
-JV - Lagring av data (Hopp)
-     - LAgre unna ekstra filer, ikke de vi faktisk bruker.
-     - Lagre dem i testmapper
      RT - Plotting
 JVRT - Lage spillerprofiler
 RT - Gult vindu på det tårnet du vil bygge.
@@ -20,3 +16,4 @@ RT - Gult vindu på det tårnet du vil bygge.
 - La reset føre til questionnaire
 - Jordskjelv ser litt rart ut med default parameters og relations.
 - Diggerenemy grafikk
+- Tiles hvor Diggerenemy har vært kan bli forskjellige.
