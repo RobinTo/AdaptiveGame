@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -101,6 +102,7 @@ public class GameProcessor
 			float superMinionRand = (float)rand.nextDouble();
 			if(superMinionRand < superEnemyChance)
 			{
+				e.superEnemy = true;
 				if(superMinionRand < superEnemyChance/2)
 				{
 					e.modifyOriginalHealth(superEnemyHealthMultiplier);
@@ -183,7 +185,7 @@ public class GameProcessor
 		addEnemyToWave(0.1f, e);
 		Collections.sort(waveTime);
 	}
-	public void updateGame(float totalTime, Camera gameCamera, Map map, AssetManager assetManager, Stage stage, HeadsUpDisplay hud, float nudgeChanceConstant, float nudgeChance)
+	public void updateGame(float totalTime, Camera gameCamera, Map map, AssetManager assetManager, Stage stage, HeadsUpDisplay hud, float nudgeChanceConstant, float nudgeChance, Sound earthquakeSound)
 	{
 		Random random = new Random();
 		if (random.nextFloat() < nudgeChance)
@@ -192,7 +194,9 @@ public class GameProcessor
 			earthquakeEnabled = false;
 		
 		if (earthquakeEnabled)
-			doEarthquake(gameCamera, map, nudgeChanceConstant);
+		{
+			doEarthquake(gameCamera, map, nudgeChanceConstant, earthquakeSound);
+		}
 		
 		if (enemies.size() > 0)
 		{
@@ -432,11 +436,12 @@ public class GameProcessor
 				miscAtlas.createSprite("healthBarYellow"), digger);
 	}
 	
-	private void doEarthquake(Camera gameCamera, Map map, float nudgeChanceConstant)
+	private void doEarthquake(Camera gameCamera, Map map, float nudgeChanceConstant, Sound earthquakeSound)
 	{
 		// Earthquake functionality, can be moved wherever, just to test.
 		if (nudgeRemainingTime > 0)
 		{
+			earthquakeSound.play();
 			nudgeRemainingTime -= Gdx.graphics.getDeltaTime();
 			nudgeTimer += Gdx.graphics.getDeltaTime();
 			if (nudgeTimer > 0.1)

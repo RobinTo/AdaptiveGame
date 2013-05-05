@@ -1,7 +1,6 @@
 package com.me.mygdxgame;
 
 import java.text.ParseException;
-import java.util.Iterator;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -224,7 +223,7 @@ public class MyGdxGame implements ApplicationListener
 			hud.updateYellowBoxPosition();
 			checkWave(totalTime);
 				
-			gameProcessor.updateGame(totalTime, gameCamera, map, assetManager, stage, hud, gameProcessor.nudgeChanceConstant, thinkTank.nudgeChance);
+			gameProcessor.updateGame(totalTime, gameCamera, map, assetManager, stage, hud, gameProcessor.nudgeChanceConstant, thinkTank.nudgeChance, assetManager.sounds.get("earthquake"));
 
 			if (gameProcessor.isGameLost())
 			{
@@ -400,7 +399,7 @@ public class MyGdxGame implements ApplicationListener
 		totalTime = 0;
 
 		mapGroup = map.regenerateMap();
-		FileHandle handle = Gdx.files.internal("Maps/map.txt");
+		//FileHandle handle = Gdx.files.internal("Maps/map.txt");
 		stage.addActor(mapGroup);
 		//gameProcessor.createWave(thinkTank, map, assetManager.enemiesAtlas, assetManager.miscAtlas);
 		hud.createUI(assetManager.miscAtlas, assetManager.towersAtlas, thinkTank.towerInfo, stage, buttonGenerator, listenerGenerator);
@@ -468,7 +467,12 @@ public class MyGdxGame implements ApplicationListener
 			{
 				Enemy addEnemy = gameProcessor.enemyWave.get(gameProcessor.waveTime.get(0));
 				if(addEnemy.willDigg)
+				{
 					gameProcessor.diggerEnemies.add(addEnemy);
+					assetManager.sounds.get("diggerEnemy").play();
+				}
+				if (addEnemy.superEnemy)
+					assetManager.sounds.get("superEnemy").play();
 				stage.addActor(addEnemy);
 				gameProcessor.enemies.add(gameProcessor.enemyWave.get(gameProcessor.waveTime.get(0)));
 				gameProcessor.enemyWave.remove(gameProcessor.waveTime.get(0));

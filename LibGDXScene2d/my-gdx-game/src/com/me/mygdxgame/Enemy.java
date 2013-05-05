@@ -22,6 +22,7 @@ public class Enemy extends ExtendedActor
 	float originalHealth = 1.0f;
 	boolean willDigg = false;
 	boolean offPath = false;
+	boolean superEnemy = false;
 	Vector2 lastChanged = new Vector2(0,0);
 	Vector2 targetPosition;
 	Vector2 originalTargetPos;

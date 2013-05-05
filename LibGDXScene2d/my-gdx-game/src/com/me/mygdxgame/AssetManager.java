@@ -44,6 +44,9 @@ public class AssetManager
 			if (!towerInfo.get(s).shootSound.equals(""))
 				sounds.put(towerInfo.get(s).shootSound, Gdx.audio.newSound(Gdx.files.internal("sounds/" + towerInfo.get(s).shootSound)));
 		}
+		sounds.put("earthquake", Gdx.audio.newSound(Gdx.files.internal("sounds/earthquake.mp3")));
+		sounds.put("diggerEnemy", Gdx.audio.newSound(Gdx.files.internal("sounds/diggerEnemy.mp3")));
+		sounds.put("superEnemy", Gdx.audio.newSound(Gdx.files.internal("sounds/superEnemy.mp3")));
 	}
 	public void loadMusic()
 	{
