@@ -12,8 +12,6 @@ RT - Monsterinfo
 JVRT - Lage spillerprofiler
 RT - Gult vindu på det tårnet du vil bygge.
 
-- Endre settingsbildet til reset.
 - La reset føre til questionnaire
 - Jordskjelv ser litt rart ut med default parameters og relations.
-- Diggerenemy grafikk
 - Tiles hvor Diggerenemy har vært kan bli forskjellige.
