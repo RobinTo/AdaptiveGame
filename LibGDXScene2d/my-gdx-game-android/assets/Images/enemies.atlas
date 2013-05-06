@@ -3,23 +3,30 @@ enemies.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-fastEnemy
+diggerEnemy
   rotate: false
   xy: 1, 1
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-testEnemy
+fastEnemy
   rotate: false
   xy: 67, 1
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-toughEnemy
+testEnemy
   rotate: false
   xy: 133, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+toughEnemy
+  rotate: false
+  xy: 199, 1
   size: 64, 64
   orig: 64, 64
   offset: 0, 0

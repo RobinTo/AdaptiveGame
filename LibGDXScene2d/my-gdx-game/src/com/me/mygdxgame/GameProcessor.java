@@ -433,7 +433,7 @@ public class GameProcessor
 				directions, enemiesAtlas.createSprite(thinkTank.enemyInfo
 						.get(type).enemyTexture),
 				miscAtlas.createSprite("healthBarRed"),
-				miscAtlas.createSprite("healthBarYellow"), digger);
+				miscAtlas.createSprite("healthBarYellow"), miscAtlas.createSprite("super"), digger);
 	}
 	
 	private void doEarthquake(Camera gameCamera, Map map, float nudgeChanceConstant, Sound earthquakeSound)
@@ -441,7 +441,6 @@ public class GameProcessor
 		// Earthquake functionality, can be moved wherever, just to test.
 		if (nudgeRemainingTime > 0)
 		{
-			earthquakeSound.play();
 			nudgeRemainingTime -= Gdx.graphics.getDeltaTime();
 			nudgeTimer += Gdx.graphics.getDeltaTime();
 			if (nudgeTimer > 0.1)
@@ -506,6 +505,7 @@ public class GameProcessor
 								}
 								if(canMove)
 									t.setPosition(t.getX(), t.getY()-GameConstants.tileSize);
+									
 							}
 						}
 					}
@@ -514,7 +514,9 @@ public class GameProcessor
 			tempNudge = !tempNudge;
 
 			if (nudgeRemainingTime <= 0)
+			{
 				gameCamera.position.set(gameCamera.viewportWidth / 2, gameCamera.viewportHeight / 2, 0);
+			}
 
 			gameCamera.update();
 
@@ -524,7 +526,10 @@ public class GameProcessor
 			if (nudgeRandomizerTimer <= 0)
 			{
 				if (rand.nextDouble() < nudgeChanceConstant)
+				{
 					nudgeRemainingTime = 1.5f;
+					earthquakeSound.play();
+				}
 				nudgeRandomizerTimer = nudgeRandomizerInterval;
 			}
 		}

@@ -94,6 +94,13 @@ upgradeTowerButton
   orig: 64, 64
   offset: 0, 0
   index: -1
+super
+  rotate: false
+  xy: 1, 25
+  size: 32, 24
+  orig: 32, 24
+  offset: 0, 0
+  index: -1
 flameBullet
   rotate: false
   xy: 488, 241
@@ -110,35 +117,35 @@ blackBullet
   index: -1
 redBullet
   rotate: false
-  xy: 1, 44
+  xy: 326, 60
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 blueBullet
   rotate: false
-  xy: 326, 61
+  xy: 1, 19
   size: 4, 4
   orig: 4, 4
   offset: 0, 0
   index: -1
 laserBullet
   rotate: false
-  xy: 488, 235
+  xy: 35, 45
   size: 4, 4
   orig: 4, 4
   offset: 0, 0
   index: -1
 healthBarRed
   rotate: false
-  xy: 500, 246
+  xy: 488, 234
   size: 1, 5
   orig: 1, 5
   offset: 0, 0
   index: -1
 healthBarYellow
   rotate: false
-  xy: 458, 119
+  xy: 500, 246
   size: 1, 5
   orig: 1, 5
   offset: 0, 0
