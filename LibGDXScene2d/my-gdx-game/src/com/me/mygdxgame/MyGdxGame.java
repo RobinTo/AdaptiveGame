@@ -546,7 +546,7 @@ public class MyGdxGame implements ApplicationListener
 	{
 		Vector2 input = new Vector2(Gdx.input.getX(), Gdx.input.getY());
 		input = stage.screenToStageCoordinates(input);
-		Actor a = stage.hit(input.x, input.y, false);
+		Actor a = stage.hit(input.x, input.y, true);
 		if (a != null && a.getClass() == MapTile.class)
 		{
 			touchedTile = new Vector2((float) Math.floor(a.getX() / GameConstants.tileSize), (float) Math.floor(a.getY() / GameConstants.tileSize));

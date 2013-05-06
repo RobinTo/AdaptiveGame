@@ -44,7 +44,7 @@ public class Enemy extends ExtendedActor
 	public Enemy(EnemyStats enemyStats, Vector2 startPosition,
 			List<Direction> directions, Sprite enemySprite,
 			Sprite redHealthBarSprite, Sprite yellowHealthBarSprite,
-			Sprite superSprite, boolean willDigg)
+			Sprite superSprite, Sprite slowedSprite, Sprite dotSprite, boolean willDigg)
 	{
 		super(enemySprite);
 		this.willDigg = willDigg;
@@ -73,6 +73,8 @@ public class Enemy extends ExtendedActor
 		sprites.put(1, redHealthBarSprite);
 		sprites.put(2, yellowHealthBarSprite);
 		sprites.put(3, superSprite);
+		sprites.put(4, slowedSprite);
+		sprites.put(5, dotSprite);
 		this.setPosition(targetPosition.x, targetPosition.y);
 
 		generateDirections(directions);
@@ -167,6 +169,20 @@ public class Enemy extends ExtendedActor
 			batch.draw(sprites.get(3), super.getX(), super.getY(), super
 					.getOriginX(), super.getOriginY(), sprites.get(3)
 					.getWidth(), sprites.get(3).getHeight(), 1, 1, super
+					.getRotation());
+		}
+		if (getStat("currentSlowDuration") > 0)
+		{
+			batch.draw(sprites.get(4), super.getX()+sprites.get(3).getWidth(), super.getY(), super
+					.getOriginX(), super.getOriginY(), sprites.get(4)
+					.getWidth(), sprites.get(4).getHeight(), 1, 1, super
+					.getRotation());
+		}
+		if (getStat("dotTicksLeft") > 0)
+		{
+			batch.draw(sprites.get(5), super.getX()+sprites.get(3).getWidth()+sprites.get(4).getWidth(), super.getY(), super
+					.getOriginX(), super.getOriginY(), sprites.get(5)
+					.getWidth(), sprites.get(5).getHeight(), 1, 1, super
 					.getRotation());
 		}
 	}

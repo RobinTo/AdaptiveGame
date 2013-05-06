@@ -101,23 +101,37 @@ super
   orig: 32, 24
   offset: 0, 0
   index: -1
+DoTIcon
+  rotate: false
+  xy: 488, 235
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+slowIcon
+  rotate: false
+  xy: 458, 115
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
 flameBullet
   rotate: false
-  xy: 488, 241
+  xy: 326, 55
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 blackBullet
   rotate: false
-  xy: 458, 126
+  xy: 506, 246
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 redBullet
   rotate: false
-  xy: 326, 60
+  xy: 506, 239
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
@@ -138,14 +152,14 @@ laserBullet
   index: -1
 healthBarRed
   rotate: false
-  xy: 488, 234
+  xy: 488, 228
   size: 1, 5
   orig: 1, 5
   offset: 0, 0
   index: -1
 healthBarYellow
   rotate: false
-  xy: 500, 246
+  xy: 458, 108
   size: 1, 5
   orig: 1, 5
   offset: 0, 0

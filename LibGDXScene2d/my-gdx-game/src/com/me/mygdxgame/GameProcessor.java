@@ -131,8 +131,9 @@ public class GameProcessor
 		List<String> textForBox = new ArrayList<String>();
 
 		textForBox.add(e.enemyStats.type);
-		textForBox.add("Health: " + e.getStat("currentHealth"));
-		textForBox.add("Yields: " + e.getStat("currentGoldYield"));
+		textForBox.add("Health: " + Math.round(e.getStat("currentHealth")));
+		textForBox.add("Speed: " + Math.round(e.getStat("currentMoveSpeedMultiplier")));
+		textForBox.add("Yields: " + Math.round(e.getStat("currentGoldYield")));
 		return textForBox;
 
 	}
@@ -433,7 +434,7 @@ public class GameProcessor
 				directions, enemiesAtlas.createSprite(thinkTank.enemyInfo
 						.get(type).enemyTexture),
 				miscAtlas.createSprite("healthBarRed"),
-				miscAtlas.createSprite("healthBarYellow"), miscAtlas.createSprite("super"), digger);
+				miscAtlas.createSprite("healthBarYellow"), miscAtlas.createSprite("super"), miscAtlas.createSprite("slowIcon"), miscAtlas.createSprite("DoTIcon"), digger);
 	}
 	
 	private void doEarthquake(Camera gameCamera, Map map, float nudgeChanceConstant, Sound earthquakeSound)
