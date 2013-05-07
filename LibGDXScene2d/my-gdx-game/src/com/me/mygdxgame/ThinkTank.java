@@ -19,6 +19,7 @@ public class ThinkTank
 	HashMap<String, EnemyStats> enemyInfo = new HashMap<String, EnemyStats>();
 	HashMap<Integer, HashMap<String, Float>> measurements = new HashMap<Integer, HashMap<String, Float>>();
 	HashMap<String, Parameter> parameters = new HashMap<String, Parameter>();
+	HashMap<String, Parameter> oldParameters = new HashMap<String, Parameter>();
 	HashMap<String, Relation> relations = new HashMap<String, Relation>();
 	int actionCounter = 0;
 	int timeBetweenMeasurements = 1;
@@ -194,23 +195,25 @@ public class ThinkTank
 	public void calculateVariables(int happy, int difficult, int livesLeft)
 	{
 		Random rand = new Random();
-		
 		thinkTankInfo.challengerMetric = rand.nextDouble()*(happy+difficult)*thinkTankInfo.gameLengthMultiplier;
 		thinkTankInfo.gameLengthMultiplier += 0.02;
 		thinkTankInfo.lastMetric = thinkTankInfo.currentMetric;
 		//Jump from variables if metric is higher than last one.
-		if (thinkTankInfo.challengerMetric > thinkTankInfo.currentMetric)
+		if (thinkTankInfo.challengerMetric > thinkTankInfo.currentMetric || (happy == 3 && difficult == 3))
 		{
 			// Jump between specified interval
 			// So all variables are added a random value between
 			// -maxJumpDistance and +maxJumpDistance
-			jump(parameters);
+			oldParameters = parameters;
 			thinkTankInfo.currentMetric = thinkTankInfo.challengerMetric;
+			jump(parameters);
+			
 		} else
 		// Jump from oldVariables if metric is lower or equal to the last one.
 		{
 			// Jump between specified interval
 			// So all variables are added a random value between -maxJumpDistance and +maxJumpDistance
+			parameters = oldParameters;
 			jump(parameters);
 		}
 
@@ -355,6 +358,7 @@ public class ThinkTank
 			if (effects.containsKey("currentMoveSpeedMultiplier"))
 			{
 				float newMoveSpeedMultiplier = 1.0f - (1.0f - effects.get("currentMoveSpeedMultiplier").f) * parameters.get("TESlowPercentage").value;
+				newMoveSpeedMultiplier = (newMoveSpeedMultiplier < 0) ? 0 : newMoveSpeedMultiplier;
 				effects.put("currentMoveSpeedMultiplier", new FloatingBoolean(effects
 						.get("currentMoveSpeedMultiplier").b, newMoveSpeedMultiplier));
 				
