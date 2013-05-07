@@ -56,6 +56,8 @@ public class MyGdxGame implements ApplicationListener
 
 	Map map;
 	
+	Sprite qBG;
+	
 	SpriteBatch spriteBatch;
 
 	boolean building = false, wasTouched = false, won = false, lost = false;
@@ -163,6 +165,8 @@ public class MyGdxGame implements ApplicationListener
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		qBG = assetManager.miscAtlas.createSprite("qBG");
 
 		FileHandle parameterHandle = Gdx.files.external(parameterSavePath);
 		FileHandle relationsHandle = Gdx.files.external(relationsSavePath);
@@ -238,7 +242,7 @@ public class MyGdxGame implements ApplicationListener
 				}
 				if (!questionaireIsDisplayed)
 				{
-					questionaire = new Questionaire(assetManager.miscAtlas.createSprite("thumbUp"), assetManager.miscAtlas.createSprite("thumbDown"), assetManager.miscAtlas.createSprite("thumbSide"), stage, assetManager.font, buttonGenerator);
+					questionaire = new Questionaire(qBG, assetManager.miscAtlas.createSprite("thumbUp"), assetManager.miscAtlas.createSprite("thumbDown"), assetManager.miscAtlas.createSprite("thumbSide"), stage, assetManager.font, buttonGenerator);
 					questionaireIsDisplayed = true;
 				}
 			}
@@ -254,7 +258,7 @@ public class MyGdxGame implements ApplicationListener
 				}
 				if (!questionaireIsDisplayed)
 				{
-					questionaire = new Questionaire(assetManager.miscAtlas.createSprite("thumbUp"), assetManager.miscAtlas.createSprite("thumbDown"), assetManager.miscAtlas.createSprite("thumbSide"), stage, assetManager.font, buttonGenerator);
+					questionaire = new Questionaire(qBG, assetManager.miscAtlas.createSprite("thumbUp"), assetManager.miscAtlas.createSprite("thumbDown"), assetManager.miscAtlas.createSprite("thumbSide"), stage, assetManager.font, buttonGenerator);
 					questionaireIsDisplayed = true;
 				}
 			}
@@ -293,7 +297,12 @@ public class MyGdxGame implements ApplicationListener
 			if (pauseTime <= 0)
 				paused = false;
 		}
-
+		if(questionaire != null)
+		{
+			spriteBatch.begin();
+			questionaire.draw(spriteBatch);
+			spriteBatch.end();
+		}
 		// Fps counter
 		timer += Gdx.graphics.getDeltaTime();
 		uC++;
@@ -317,22 +326,6 @@ public class MyGdxGame implements ApplicationListener
 			for (Enemy e : gameProcessor.enemies)
 				stage.getActors().removeValue(e, true);
 			gameProcessor.enemies.clear();
-		}
-
-		if (won)
-		{
-			spriteBatch.begin();
-			assetManager.font.setScale(10);
-			assetManager.font.draw(spriteBatch, "Game won", GameConstants.screenWidth / 2 - 300, GameConstants.screenHeight / 2);
-			assetManager.font.setScale(1);
-			spriteBatch.end();
-		} else if (lost)
-		{
-			spriteBatch.begin();
-			assetManager.font.setScale(10);
-			assetManager.font.draw(spriteBatch, "Game lost", GameConstants.screenWidth / 2 - 300, GameConstants.screenHeight / 2);
-			assetManager.font.setScale(1);
-			spriteBatch.end();
 		}
 		
 		assetManager.checkMusic();

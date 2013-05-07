@@ -150,16 +150,23 @@ laserBullet
   orig: 4, 4
   offset: 0, 0
   index: -1
+qBG
+  rotate: false
+  xy: 488, 229
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
 healthBarRed
   rotate: false
-  xy: 488, 228
+  xy: 458, 108
   size: 1, 5
   orig: 1, 5
   offset: 0, 0
   index: -1
 healthBarYellow
   rotate: false
-  xy: 458, 108
+  xy: 476, 126
   size: 1, 5
   orig: 1, 5
   offset: 0, 0

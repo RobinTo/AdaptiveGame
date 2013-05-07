@@ -194,7 +194,7 @@ public class GameProcessor
 		else
 			earthquakeEnabled = false;
 		
-		if (earthquakeEnabled)
+		if (earthquakeEnabled && !isGameWon() && !isGameLost())
 		{
 			doEarthquake(gameCamera, map, nudgeChanceConstant, earthquakeSound);
 		}
