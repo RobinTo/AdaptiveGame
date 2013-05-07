@@ -3,7 +3,7 @@ package com.me.mygdxgame;
 public class ThinkTankInfo
 {
 	double lastMetric = 0, currentMetric = 0, challengerMetric = 0;
-	double maxJumpDistance = 0.2;
+	float maxJumpDistance = 0.2f;
 	double gameLengthMultiplier = 1.0;
 	double playerLevel = 0;
 	

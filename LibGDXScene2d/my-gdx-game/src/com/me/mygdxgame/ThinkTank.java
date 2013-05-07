@@ -389,11 +389,21 @@ public class ThinkTank
 			relation.changeBalance(distance);
 		}
 		// Change difficulty
-		float randomNumber = random.nextFloat();
-		randomNumber = randomNumber/2.5f + 0.2f;
-		parameters.get("GlobalMonsterHP").value = ((float)thinkTankInfo.playerLevel + randomNumber);
+		float distance = (random.nextFloat() - 0.5f) * 2 * thinkTankInfo.maxJumpDistance;
+		if (thinkTankInfo.playerLevel >= 1.0)
+		{
+			parameters.get("GlobalMonsterHP").value += distance;
+			if (parameters.get("GlobalMonsterHP").value > 10.0f)
+				parameters.get("GlobalMonsterHP").value = 10.0f;
+		}
+		else
+		{
+			parameters.get("GlobalMonsterHP").value -= distance;
+			if (parameters.get("GlobalMonsterHP").value < 0.1f)
+				parameters.get("GlobalMonsterHP").value = 0.1f;
+		}
 		//Make sure jumps are smaller each jump
-		thinkTankInfo.maxJumpDistance -= 0.005;
-		thinkTankInfo.maxJumpDistance = thinkTankInfo.maxJumpDistance < 0.05 ? 0.05 : thinkTankInfo.maxJumpDistance;
+		thinkTankInfo.maxJumpDistance -= 0.005f;
+		thinkTankInfo.maxJumpDistance = thinkTankInfo.maxJumpDistance < 0.05f ? 0.05f : thinkTankInfo.maxJumpDistance;
 	}
 }
