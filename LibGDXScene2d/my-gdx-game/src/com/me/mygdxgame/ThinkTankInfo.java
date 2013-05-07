@@ -15,4 +15,21 @@ public class ThinkTankInfo
 	double totalHappinessEarthquakeOff = 0;
 
 	int totalGames = 0;
+	
+	public void initialize()
+	{
+		lastMetric = 0;
+		currentMetric = 0;
+		challengerMetric = 0;
+		maxJumpDistance = 0.2f;
+		gameLengthMultiplier = 1.0;
+		playerLevel = 0;
+		totalHappinessDiggersOff = 0;
+		totalHappinessDiggersOn = 0;
+		totalHappinessEarthquakeOff = 0;
+		totalHappinessEarthquakeOn = 0;
+		totalHappinessSuperMobsOff = 0;
+		totalHappinessSuperMobsOn = 0;
+		totalGames = 0;
+	}
 }

@@ -12,13 +12,14 @@ public class ListenerGenerator
 		this.myGdxGame = myGdxGame;
 	}
 	
-	public InputListener createSettingsButtonListener()
+	public InputListener createCleanButtonListener()
 	{
 		return new InputListener()
 		{
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button)
 			{
+				myGdxGame.thinkTank.clean(myGdxGame.parameterSavePath);
 				myGdxGame.resetGame();
 				return true;
 			}

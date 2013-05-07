@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 
 public class ThinkTank
@@ -69,6 +70,9 @@ public class ThinkTank
 			parameters.put("SuperChance", new Parameter("SuperChance", 0.1f, 0.0f, 1.0f)); // Set to 0 to disable super minions. Could add a seperate number for each type, if we desire.
 			parameters.put("EarthquakeChance", new Parameter("EarthquakeChance", 0.5f, 0.0f, 1.0f)); 
 		}
+		
+		thinkTankInfo.initialize();
+		
 		
 		setNewStats();
 	}
@@ -319,6 +323,12 @@ public class ThinkTank
 	public void clear()
 	{
 		measurements.clear();
+	}
+
+	public void clean(String parameterSavePath)
+	{
+		Gdx.files.external(parameterSavePath).delete();
+		this.initializeParameters(Gdx.files.external(parameterSavePath));
 	}
 
 	private void setNewStats()

@@ -75,7 +75,7 @@ public class HeadsUpDisplay
 		stage.addActor(yellowBoxGroup);
 
 		TextButton settingsButton = buttonGenerator.createButton(miscAtlas.createSprite("settingsButton"), font);
-		settingsButton.addListener(listenerGenerator.createSettingsButtonListener());
+		settingsButton.addListener(listenerGenerator.createCleanButtonListener());
 		settingsButton.setPosition(GameConstants.screenWidth - 2 * 64, GameConstants.screenHeight - 100);
 		stage.addActor(settingsButton);
 
