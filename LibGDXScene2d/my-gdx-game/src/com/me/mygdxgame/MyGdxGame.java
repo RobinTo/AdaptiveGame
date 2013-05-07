@@ -178,9 +178,17 @@ public class MyGdxGame implements ApplicationListener
 
 	private void newGame()
 	{
+		float colorValue;
+		if (thinkTank.parameters.get("GlobalMonsterHP").value <= 1.0f)
+			colorValue = 1.0f;
+		else
+		{
+			colorValue = thinkTank.parameters.get("GlobalMonsterHP").value / 10.0f;
+			colorValue = 1.0f - colorValue;
+		}
 		for (Actor actor : mapGroup.getChildren())
 		{
-			((MapTile) actor).setColor(thinkTank.parameters.get("GlobalMonsterHP").value, thinkTank.parameters.get("GlobalMonsterHP").value, thinkTank.parameters.get("GlobalMonsterHP").value, 1.0f);
+			((MapTile) actor).setColor(colorValue,colorValue,colorValue, 1.0f);
 		}
 	}
 

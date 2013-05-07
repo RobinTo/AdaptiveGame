@@ -19,7 +19,7 @@ public class ThinkTank
 	HashMap<String, TowerStats> towerInfo = new HashMap<String, TowerStats>();
 	HashMap<String, EnemyStats> enemyInfo = new HashMap<String, EnemyStats>();
 	HashMap<Integer, HashMap<String, Float>> measurements = new HashMap<Integer, HashMap<String, Float>>();
-	HashMap<String, Parameter> parameters = new HashMap<String, Parameter>();
+	HashMap<String, Parameter> parameters;
 	HashMap<String, Parameter> oldParameters = new HashMap<String, Parameter>();
 	HashMap<String, Relation> relations = new HashMap<String, Relation>();
 	int actionCounter = 0;
@@ -39,6 +39,8 @@ public class ThinkTank
 	
 	public void initializeParameters(FileHandle fileHandle)
 	{
+		parameters = new HashMap<String, Parameter>();
+		oldParameters = new HashMap<String, Parameter>();
 		if (fileHandle.exists())
 		{
 			// Fetch parameters from disk
@@ -66,9 +68,9 @@ public class ThinkTank
 			parameters.put("GlobalMonsterSpeed", new Parameter("GlobalMonsterSpeed", 1.0f, 0.1f, 10.0f));
 			parameters.put("GlobalMonsterGoldYield", new Parameter("GlobalMonsterGoldYield", 1.0f));
 			parameters.put("GlobalTowerRange", new Parameter("GlobalTowerRange", 1.0f, 0.1f, 10.0f));
-			parameters.put("DiggerChance", new Parameter("DiggerChance", 0.1f, 0.0f, 1.0f)); // Digger chance eats of the 0.5 set for Normal mob chance.
-			parameters.put("SuperChance", new Parameter("SuperChance", 0.1f, 0.0f, 1.0f)); // Set to 0 to disable super minions. Could add a seperate number for each type, if we desire.
-			parameters.put("EarthquakeChance", new Parameter("EarthquakeChance", 0.5f, 0.0f, 1.0f)); 
+			parameters.put("DiggerChance", new Parameter("DiggerChance", 0.0f, 0.0f, 1.0f)); // Digger chance eats of the 0.5 set for Normal mob chance.
+			parameters.put("SuperChance", new Parameter("SuperChance", 0.0f, 0.0f, 1.0f)); // Set to 0 to disable super minions. Could add a seperate number for each type, if we desire.
+			parameters.put("EarthquakeChance", new Parameter("EarthquakeChance", 0.0f, 0.0f, 1.0f)); 
 		}
 		
 		thinkTankInfo.initialize();
@@ -198,6 +200,35 @@ public class ThinkTank
 
 	public void calculateVariables(int happy, int difficult, int livesLeft)
 	{
+		// Calculate sensors
+		Iterator<Integer> it = measurements.keySet().iterator();
+		//double averageGold = 0;
+		//double averageLives = 0;
+		double averageAPM = 0; // measurements.get(key).get("APM") returns count
+								// of events in last 10 seconds.
+		double maxVariety = 0;
+		while (it.hasNext())
+		{
+			int key = it.next();
+
+			//averageGold += measurements.get(key).get("gold");
+			//averageLives += measurements.get(key).get("lives");
+			averageAPM += measurements.get(key).get("APM");
+			if (measurements.get(key).get("variety") > maxVariety)
+				maxVariety += measurements.get(key).get("variety");
+
+		}
+		//averageGold /= measurements.size();
+		//averageLives /= measurements.size();
+		averageAPM /= measurements.size();
+
+		thinkTankInfo.playerLevel = ((double) livesLeft
+				/ (double) GameConstants.startLives + 0.05 * averageAPM + 0.2 * maxVariety);
+		thinkTankInfo.playerLevel = (thinkTankInfo.playerLevel > 1.1) ? 1.1
+				: thinkTankInfo.playerLevel; //PlayerLevel not above 1.1
+		thinkTankInfo.playerLevel = (thinkTankInfo.playerLevel < 0.1) ? 0.1
+				: thinkTankInfo.playerLevel; //PlayerLevel not below 0.1				
+		
 		Random rand = new Random();
 		thinkTankInfo.challengerMetric = rand.nextDouble()*(happy+difficult)*thinkTankInfo.gameLengthMultiplier;
 		thinkTankInfo.gameLengthMultiplier += 0.02;
@@ -221,32 +252,6 @@ public class ThinkTank
 			jump(parameters);
 		}
 
-		// Calculate sensors
-		Iterator<Integer> it = measurements.keySet().iterator();
-		//double averageGold = 0;
-		//double averageLives = 0;
-		double averageAPM = 0; // measurements.get(key).get("APM") returns count
-								// of events in last 10 seconds.
-		double maxVariety = 0;
-		while (it.hasNext())
-		{
-			int key = it.next();
-
-			//averageGold += measurements.get(key).get("gold");
-			//averageLives += measurements.get(key).get("lives");
-			averageAPM += measurements.get(key).get("APM");
-			if (measurements.get(key).get("variety") > maxVariety)
-				maxVariety += measurements.get(key).get("variety");
-
-		}
-		//averageGold /= measurements.size();
-		//averageLives /= measurements.size();
-		averageAPM /= measurements.size();
-
-		thinkTankInfo.playerLevel =  ((double)livesLeft/(double)GameConstants.startLives + 0.05*averageAPM + 0.2*maxVariety);
-		thinkTankInfo.playerLevel = (thinkTankInfo.playerLevel > 1.1) ? 1.1 : thinkTankInfo.playerLevel; //PlayerLevel not above 1.1
-		thinkTankInfo.playerLevel = (thinkTankInfo.playerLevel < 0.1) ? 0.1 : thinkTankInfo.playerLevel; //PlayerLevel not below 0.1
-		
 		setNewStats();
 	}
 	public void writeLogToDisk(FileHandle fileHandle)

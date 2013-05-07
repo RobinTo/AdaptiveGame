@@ -1,9 +1,5 @@
 Tasks
-RT - Flammegrafikk (Sirkel) 
-RT - Endre farge på laseren  
 RT - Prosjektil til frost 
-RT - Icon i gul boks on slow/Dot 
-     - Kanskje: Tinte on slow/Dot 
 RT - Monsterinfo
      - Som int
      - Speed
@@ -12,6 +8,5 @@ RT - Monsterinfo
 JVRT - Lage spillerprofiler
 RT - Gult vindu på det tårnet du vil bygge.
 
-- La reset føre til questionnaire
 - Jordskjelv ser litt rart ut med default parameters og relations.
 - Tiles hvor Diggerenemy har vært kan bli forskjellige.
