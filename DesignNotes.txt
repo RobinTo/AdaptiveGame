@@ -10,3 +10,20 @@ RT - Gult vindu på det tårnet du vil bygge.
 
 - Jordskjelv ser litt rart ut med default parameters og relations.
 - Tiles hvor Diggerenemy har vært kan bli forskjellige.
+
+
+
+- Enda  mer tilbakemelding til brukeren om endringer.
+- Raskere konvergering
+- Raskere vanskeligere
+
+- Case testing - spillerprofiler
+
+
+
+JV
+- Earthquakebug (treg)
+- (Pathfindingbug)
+- Speedsanger
+- Voicing av effekter.
+- Tenk: Tilbakemelde brukeren generelt

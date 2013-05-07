@@ -68,9 +68,9 @@ public class ThinkTank
 			parameters.put("GlobalMonsterSpeed", new Parameter("GlobalMonsterSpeed", 1.0f, 0.1f, 10.0f));
 			parameters.put("GlobalMonsterGoldYield", new Parameter("GlobalMonsterGoldYield", 1.0f));
 			parameters.put("GlobalTowerRange", new Parameter("GlobalTowerRange", 1.0f, 0.1f, 10.0f));
-			parameters.put("DiggerChance", new Parameter("DiggerChance", 0.0f, 0.0f, 1.0f)); // Digger chance eats of the 0.5 set for Normal mob chance.
-			parameters.put("SuperChance", new Parameter("SuperChance", 0.0f, 0.0f, 1.0f)); // Set to 0 to disable super minions. Could add a seperate number for each type, if we desire.
-			parameters.put("EarthquakeChance", new Parameter("EarthquakeChance", 0.0f, 0.0f, 1.0f)); 
+			parameters.put("DiggerChance", new Parameter("DiggerChance", 0.1f, 0.0f, 1.0f)); // Digger chance eats of the 0.5 set for Normal mob chance.
+			parameters.put("SuperChance", new Parameter("SuperChance", 0.1f, 0.0f, 1.0f)); // Set to 0 to disable super minions. Could add a seperate number for each type, if we desire.
+			parameters.put("EarthquakeChance", new Parameter("EarthquakeChance", 0.5f, 0.0f, 1.0f)); 
 		}
 		
 		thinkTankInfo.initialize();
