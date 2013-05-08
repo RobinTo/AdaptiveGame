@@ -47,26 +47,41 @@ public class AssetManager
 		sounds.put("earthquake", Gdx.audio.newSound(Gdx.files.internal("sounds/earthquake.mp3")));
 		sounds.put("diggerEnemy", Gdx.audio.newSound(Gdx.files.internal("sounds/diggerEnemy.mp3")));
 		sounds.put("superEnemy", Gdx.audio.newSound(Gdx.files.internal("sounds/superEnemy.mp3")));
+		sounds.put("MonsterSpeedIncreased",  Gdx.audio.newSound(Gdx.files.internal("sounds/monsterSpeedIncreased.mp3")));
+		sounds.put("MonsterSpeedDecreased",  Gdx.audio.newSound(Gdx.files.internal("sounds/monsterSpeedDecreased.mp3")));
 	}
 	public void loadMusic()
 	{
-		allMusic.put(1, Gdx.audio.newMusic(Gdx.files.internal("Music/Cops.mp3")));
-		allMusic.put(2, Gdx.audio.newMusic(Gdx.files.internal("Music/Race.mp3")));
-		allMusic.put(3, Gdx.audio.newMusic(Gdx.files.internal("Music/SimianAcres.mp3")));
-		totalTracks = 3;
-		currentTrack = 1;
+		allMusic.put(1, Gdx.audio.newMusic(Gdx.files.internal("Music/Slow.mp3")));
+		allMusic.put(2, Gdx.audio.newMusic(Gdx.files.internal("Music/Mid.mp3")));
+		allMusic.put(3, Gdx.audio.newMusic(Gdx.files.internal("Music/Fast.mp3")));
+		allMusic.put(4, Gdx.audio.newMusic(Gdx.files.internal("Music/Faster.mp3")));
+		allMusic.put(5, Gdx.audio.newMusic(Gdx.files.internal("Music/Crazy.mp3")));
+		totalTracks = allMusic.size();
+		currentTrack = 2;
 		currentSong = allMusic.get(currentTrack);
-		currentSong.setVolume(0.1f);
-		currentSong.play();
+		currentSong.setVolume(0.5f);
 	}
 	public void checkMusic()
 	{
 		if (!currentSong.isPlaying())
 		{
+			//Repeat
+			currentSong.setVolume(0.5f);
+			currentSong.play();
+			/* Playlist
 			currentTrack = (currentTrack == totalTracks) ? (1) : (currentTrack + 1);
 			currentSong.dispose();
 			currentSong = allMusic.get(currentTrack);
 			currentSong.play();
+			*/
 		}
+	}
+	public void playSong(int number)
+	{
+		currentSong.stop();
+		currentSong = allMusic.get(number);
+		currentSong.setVolume(0.5f);
+		currentSong.play();
 	}
 }

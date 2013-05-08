@@ -175,23 +175,7 @@ public class MyGdxGame implements ApplicationListener
 
 		resetGame();
 	}
-
-	private void newGame()
-	{
-		float colorValue;
-		if (thinkTank.parameters.get("GlobalMonsterHP").value <= 1.0f)
-			colorValue = 1.0f;
-		else
-		{
-			colorValue = thinkTank.parameters.get("GlobalMonsterHP").value / 10.0f;
-			colorValue = 1.0f - colorValue;
-		}
-		for (Actor actor : mapGroup.getChildren())
-		{
-			((MapTile) actor).setColor(colorValue,colorValue,colorValue, 1.0f);
-		}
-	}
-
+	
 	@Override
 	public void dispose()
 	{
@@ -209,6 +193,16 @@ public class MyGdxGame implements ApplicationListener
 			{
 				thinkTank.calculateVariables(questionaire.happy, questionaire.difficult, gameProcessor.livesLeft);
 				resetGame();
+				//System.out.println(thinkTank.parameters.get("GlobalMonsterSpeed").value + " " + thinkTank.oldParameters.get("GlobalMonsterSpeed").value);
+				if (thinkTank.parameters.get("GlobalMonsterSpeed").value > thinkTank.oldParameters.get("GlobalMonsterSpeed").value)
+					assetManager.sounds.get("MonsterSpeedIncreased").play();
+				else if (thinkTank.parameters.get("GlobalMonsterSpeed").value < thinkTank.oldParameters.get("GlobalMonsterSpeed").value)
+					assetManager.sounds.get("MonsterSpeedDecreased").play();
+				/*if (thinkTank.parameters.get("GlobalMonsterSpeed").value < thinkTank.oldParameters.get("GlobalMonsterSpeed").value)
+					assetManager.sounds.get("MonsterHealthIncreased").play();
+				else if (thinkTank.parameters.get("GlobalMonsterSpeed").value > thinkTank.oldParameters.get("GlobalMonsterSpeed").value)
+					assetManager.sounds.get("MonsterHealthDecreased").play();
+				*/
 			}
 		}
 		if (!paused)
@@ -460,7 +454,20 @@ public class MyGdxGame implements ApplicationListener
 		}
 		hud.updateConsoleState(false, thinkTank.parameters, thinkTank.thinkTankInfo);
 		savedParametersAndRelations = false;
-		newGame();
+
+		float colorValue;
+		if (thinkTank.parameters.get("GlobalMonsterHP").value <= 1.0f)
+			colorValue = 1.0f;
+		else
+		{
+			colorValue = thinkTank.parameters.get("GlobalMonsterHP").value / 10.0f;
+			colorValue = 1.0f - colorValue;
+		}
+		for (Actor actor : mapGroup.getChildren())
+		{
+			((MapTile) actor).setColor(colorValue,colorValue,colorValue, 1.0f);
+		}
+		assetManager.playSong(thinkTank.speedLevel);
 	}
 
 	private void checkWave(float totalTime)

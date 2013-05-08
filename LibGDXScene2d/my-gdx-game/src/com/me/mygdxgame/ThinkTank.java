@@ -29,7 +29,10 @@ public class ThinkTank
 	float nudgeChance; //Chance for nudges at all
 	float superEnemyChance; 
 	float diggerChance; 
-
+	
+	float difficultyLevel = 1; 
+	int speedLevel;
+	
 	int successiveGameCounter = 0;
 	
 	public ThinkTank()
@@ -70,11 +73,11 @@ public class ThinkTank
 			parameters.put("GlobalTowerRange", new Parameter("GlobalTowerRange", 1.0f, 0.1f, 10.0f));
 			parameters.put("DiggerChance", new Parameter("DiggerChance", 0.1f, 0.0f, 1.0f)); // Digger chance eats of the 0.5 set for Normal mob chance.
 			parameters.put("SuperChance", new Parameter("SuperChance", 0.1f, 0.0f, 1.0f)); // Set to 0 to disable super minions. Could add a seperate number for each type, if we desire.
-			parameters.put("EarthquakeChance", new Parameter("EarthquakeChance", 0.5f, 0.0f, 1.0f)); 
+			parameters.put("EarthquakeChance", new Parameter("EarthquakeChance", 0.1f, 0.0f, 1.0f)); 
 		}
 		
 		thinkTankInfo.initialize();
-		
+		calculateSpeedLevel();
 		
 		setNewStats();
 	}
@@ -239,7 +242,7 @@ public class ThinkTank
 			// Jump between specified interval
 			// So all variables are added a random value between
 			// -maxJumpDistance and +maxJumpDistance
-			oldParameters = parameters;
+			oldParameters = this.deepCopyParameters(parameters);
 			thinkTankInfo.currentMetric = thinkTankInfo.challengerMetric;
 			jump(parameters);
 			
@@ -248,7 +251,7 @@ public class ThinkTank
 		{
 			// Jump between specified interval
 			// So all variables are added a random value between -maxJumpDistance and +maxJumpDistance
-			parameters = oldParameters;
+			this.restoreCopiedParameters(parameters, oldParameters);
 			jump(parameters);
 		}
 
@@ -399,14 +402,16 @@ public class ThinkTank
 	private void jump(HashMap<String, Parameter> parameters)
 	{
 		Random random = new Random();
-		//Change each parameter
+		//Change each parameter+
 		Iterator<String> relationsIterator = relations.keySet().iterator();
+		System.out.println(parameters.get("GlobalMonsterSpeed").value);
 		while (relationsIterator.hasNext())
 		{
 			Relation relation = relations.get(relationsIterator.next());
 			float distance = (float) ((random.nextDouble() - 0.5) * 2 * thinkTankInfo.maxJumpDistance);
 			relation.changeBalance(distance);
 		}
+		System.out.println(parameters.get("GlobalMonsterSpeed").value);
 		// Change difficulty
 		float distance = (random.nextFloat() - 0.5f) * 2 * thinkTankInfo.maxJumpDistance;
 		if (thinkTankInfo.playerLevel >= 1.0)
@@ -424,5 +429,41 @@ public class ThinkTank
 		//Make sure jumps are smaller each jump
 		thinkTankInfo.maxJumpDistance -= 0.005f;
 		thinkTankInfo.maxJumpDistance = thinkTankInfo.maxJumpDistance < 0.05f ? 0.05f : thinkTankInfo.maxJumpDistance;
+	
+		calculateSpeedLevel();
+	}
+	private void calculateSpeedLevel()
+	{
+		float speedMultiplier = parameters.get("GlobalMonsterSpeed").value;
+		if (speedMultiplier < 0.9f)
+			speedLevel = 1; 
+		else if (speedMultiplier < 1.1f)
+			speedLevel = 2; 
+		else if (speedMultiplier < 1.4f)
+			speedLevel = 3; 
+		else if (speedMultiplier < 1.7f)
+			speedLevel = 4; 
+		else
+			speedLevel = 5;
+	}
+	private HashMap<String, Parameter> deepCopyParameters(HashMap<String, Parameter> originalParameters)
+	{
+		HashMap<String, Parameter> newParameters = new HashMap<String, Parameter>();
+		Iterator<String> parameterIterator = originalParameters.keySet().iterator();
+		while (parameterIterator.hasNext())
+		{
+			String key = parameterIterator.next();
+			newParameters.put(key, new Parameter(key, originalParameters.get(key).value));
+		}
+		return newParameters;
+	}
+	private void restoreCopiedParameters(HashMap<String, Parameter> parameters, HashMap<String, Parameter> savedParameters)
+	{
+		Iterator<String> parameterIterator = savedParameters.keySet().iterator();
+		while (parameterIterator.hasNext())
+		{
+			String key = parameterIterator.next();
+			parameters.get(key).value = savedParameters.get(key).value;
+		}
 	}
 }

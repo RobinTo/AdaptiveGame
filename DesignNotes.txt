@@ -1,19 +1,19 @@
 Tasks
-RT - Prosjektil til frost 
-RT - Monsterinfo
-     - Som int
-     - Speed
-     - Forsvinner ikke når enemy går ut.
-     RT - Plotting
+RT - Plotting
 JVRT - Lage spillerprofiler
 RT - Gult vindu på det tårnet du vil bygge.
 
-- Jordskjelv ser litt rart ut med default parameters og relations.
-- Tiles hvor Diggerenemy har vært kan bli forskjellige.
+Earthquakebug
+- Klarer ikke å fremkalle bug
+
+Diggers/Pathfinding
+- DiggerEnemies ser ut til å stoppe å grave når en path har gravd seg helt gjennom.
+- Ikke-Diggers bruker pathfinding, men ikke hvis 'sub-pathen'går helt ut til høyresiden.
+- Ikke-Diggers sliter med å bruke gravd vei, hvis den er 'inntil seg selv'.
 
 
 
-- Enda  mer tilbakemelding til brukeren om endringer.
+- Enda mer tilbakemelding til brukeren om endringer.
 - Raskere konvergering
 - Raskere vanskeligere
 
@@ -22,8 +22,5 @@ RT - Gult vindu på det tårnet du vil bygge.
 
 
 JV
-- Earthquakebug (treg)
-- (Pathfindingbug)
-- Speedsanger
 - Voicing av effekter.
 - Tenk: Tilbakemelde brukeren generelt
