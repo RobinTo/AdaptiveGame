@@ -7,6 +7,7 @@ Diggers/Pathfinding
 - DiggerEnemies ser ut til å stoppe å grave når en path har gravd seg helt gjennom.
 - Ikke-Diggers bruker pathfinding, men ikke hvis 'sub-pathen'går helt ut til høyresiden.
 - Ikke-Diggers sliter med å bruke gravd vei, hvis den er 'inntil seg selv'.
+- Noen ganger bruker diggers "normale" ruter, hvis bedre ruter ALLEREDE har blitt gravd.
 
 
 
