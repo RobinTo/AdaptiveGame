@@ -186,14 +186,8 @@ public class GameProcessor
 		addEnemyToWave(0.1f, e);
 		Collections.sort(waveTime);
 	}
-	public void updateGame(float totalTime, Camera gameCamera, Map map, AssetManager assetManager, Stage stage, HeadsUpDisplay hud, float nudgeChanceConstant, float nudgeChance, Sound earthquakeSound)
+	public void updateGame(float totalTime, Camera gameCamera, Map map, AssetManager assetManager, Stage stage, HeadsUpDisplay hud, float nudgeChanceConstant, Sound earthquakeSound)
 	{
-		Random random = new Random();
-		if (random.nextFloat() < nudgeChance)
-			earthquakeEnabled = true;
-		else
-			earthquakeEnabled = false;
-		
 		if (earthquakeEnabled && !isGameWon() && !isGameLost())
 		{
 			doEarthquake(gameCamera, map, nudgeChanceConstant, earthquakeSound);
@@ -406,9 +400,13 @@ public class GameProcessor
 		else
 			return false;
 	}
-	public void resetGame()
+	public void resetGame(float nudgeChance)
 	{
-		//Ikke gjort enda
+		Random random = new Random();
+		if (random.nextFloat() < nudgeChance)
+			earthquakeEnabled = true;
+		else
+			earthquakeEnabled = false;
 	}
 	private void addEnemyToWave(float time, Enemy enemy)
 	{

@@ -3,9 +3,6 @@ RT - Plotting
 JVRT - Lage spillerprofiler
 RT - Gult vindu på det tårnet du vil bygge.
 
-Earthquakebug
-- Klarer ikke å fremkalle bug
-
 Diggers/Pathfinding
 - DiggerEnemies ser ut til å stoppe å grave når en path har gravd seg helt gjennom.
 - Ikke-Diggers bruker pathfinding, men ikke hvis 'sub-pathen'går helt ut til høyresiden.
