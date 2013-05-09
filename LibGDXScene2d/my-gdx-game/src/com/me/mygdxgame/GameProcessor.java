@@ -80,13 +80,13 @@ public class GameProcessor
 			e.modifyOriginalHealth(statMultiplier);
 			e.modifyOriginalMoveSpeed(statMultiplier);
 		}
-		else if (randValue <= 0.50)
+		else if (randValue <= (1.0 - diggerChance)/3.0 + diggerChance)
 		{
 			e = createEnemy("basic", thinkTank, map, enemiesAtlas, miscAtlas);
 			e.modifyOriginalHealth(statMultiplier);
 			e.modifyOriginalMoveSpeed(statMultiplier);
 		}
-		else if (randValue <= 0.75)
+		else if (randValue <= 2.0*(1.0 - diggerChance)/3.0 + diggerChance)
 		{
 			e = createEnemy("fast", thinkTank, map, enemiesAtlas, miscAtlas);
 			e.modifyOriginalMoveSpeed(statMultiplier);
