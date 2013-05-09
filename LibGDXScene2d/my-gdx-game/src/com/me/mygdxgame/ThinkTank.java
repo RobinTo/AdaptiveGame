@@ -333,10 +333,12 @@ public class ThinkTank
 		measurements.clear();
 	}
 
-	public void clean(String parameterSavePath)
+	public void clean(String parameterSavePath, String relationsSavePath)
 	{
 		Gdx.files.external(parameterSavePath).delete();
 		this.initializeParameters(Gdx.files.external(parameterSavePath));
+		Gdx.files.external(relationsSavePath).delete();
+		this.initializeRelations(Gdx.files.external(relationsSavePath));
 	}
 
 	private void setNewStats()

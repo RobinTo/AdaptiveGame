@@ -193,7 +193,6 @@ public class MyGdxGame implements ApplicationListener
 			{
 				thinkTank.calculateVariables(questionaire.happy, questionaire.difficult, gameProcessor.livesLeft);
 				resetGame();
-				//System.out.println(thinkTank.parameters.get("GlobalMonsterSpeed").value + " " + thinkTank.oldParameters.get("GlobalMonsterSpeed").value);
 				if (thinkTank.parameters.get("GlobalMonsterSpeed").value > thinkTank.oldParameters.get("GlobalMonsterSpeed").value)
 					assetManager.sounds.get("MonsterSpeedIncreased").play();
 				else if (thinkTank.parameters.get("GlobalMonsterSpeed").value < thinkTank.oldParameters.get("GlobalMonsterSpeed").value)
@@ -389,10 +388,6 @@ public class MyGdxGame implements ApplicationListener
 		stage.getActors().clear();
 
 		gameProcessor.resetGame(thinkTank.nudgeChance); 
-		gameProcessor.towers.clear();
-		gameProcessor.enemies.clear();
-		gameProcessor.enemyWave.clear();
-		gameProcessor.waveTime.clear();
 		hud.towerKeys.clear();
 		totalTime = 0;
 
@@ -402,9 +397,7 @@ public class MyGdxGame implements ApplicationListener
 		//gameProcessor.createWave(thinkTank, map, assetManager.enemiesAtlas, assetManager.miscAtlas);
 		hud.createUI(assetManager.miscAtlas, assetManager.towersAtlas, thinkTank.towerInfo, stage, buttonGenerator, listenerGenerator);
 
-		gameProcessor.currentGold = GameConstants.startGold;
 		hud.goldButton.setText("        " + gameProcessor.currentGold);
-		gameProcessor.livesLeft = GameConstants.startLives;
 		hud.livesButton.setText("" + gameProcessor.livesLeft);
 
 		won = false;
@@ -440,8 +433,6 @@ public class MyGdxGame implements ApplicationListener
 		//thinkTank.nudgeChance = (float)((thinkTank.thinkTankInfo.totalHappinessSuperMobsOn/(3*thinkTank.thinkTankInfo.totalGames))/(thinkTank.thinkTankInfo.totalHappinessSuperMobsOff/(3*thinkTank.thinkTankInfo.totalGames) + thinkTank.thinkTankInfo.totalHappinessSuperMobsOn/(3*thinkTank.thinkTankInfo.totalGames)));
 		//thinkTank.superEnemyChance = (float)((thinkTank.thinkTankInfo.totalHappinessSuperMobsOn/(3*thinkTank.thinkTankInfo.totalGames))/(thinkTank.thinkTankInfo.totalHappinessSuperMobsOff/(3*thinkTank.thinkTankInfo.totalGames) + thinkTank.thinkTankInfo.totalHappinessSuperMobsOn/(3*thinkTank.thinkTankInfo.totalGames)));
 		
-		gameProcessor.diggerEnemies.clear();
-		gameProcessor.lastMinionTime = 0;
 		float statMultiplier = 1.0f;
 		for (int t = 0; t < gameProcessor.waveParts; t++)
 		{

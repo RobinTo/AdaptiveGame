@@ -19,8 +19,8 @@ public class ListenerGenerator
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button)
 			{
-//				myGdxGame.thinkTank.clean(myGdxGame.parameterSavePath);
-//				myGdxGame.resetGame();
+				myGdxGame.thinkTank.clean(myGdxGame.parameterSavePath, myGdxGame.relationsSavePath);
+				myGdxGame.resetGame();
 				return true;
 			}
 		};

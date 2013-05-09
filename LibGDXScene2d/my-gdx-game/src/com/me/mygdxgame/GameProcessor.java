@@ -407,6 +407,15 @@ public class GameProcessor
 			earthquakeEnabled = true;
 		else
 			earthquakeEnabled = false;
+		
+		towers.clear();
+		enemies.clear();
+		enemyWave.clear();
+		waveTime.clear();
+		currentGold = GameConstants.startGold;
+		livesLeft = GameConstants.startLives;
+		diggerEnemies.clear();
+		lastMinionTime = 0;
 	}
 	private void addEnemyToWave(float time, Enemy enemy)
 	{
