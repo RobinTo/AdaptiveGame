@@ -115,9 +115,16 @@ testTower3
   orig: 64, 64
   offset: 0, 0
   index: -1
+walls
+  rotate: false
+  xy: 331, 67
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
 blueTower2
   rotate: false
-  xy: 331, 68
+  xy: 397, 134
   size: 64, 63
   orig: 64, 63
   offset: 0, 0

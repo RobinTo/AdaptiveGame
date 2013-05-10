@@ -174,7 +174,7 @@ public class GameProcessor
 		Tower t = new Tower(
 				towerInfo.get(type),
 				towersAtlas.createSprite(towerInfo.get(type).towerTexture),
-				miscAtlas.createSprite(towerInfo.get(type).missileTexture));
+				miscAtlas.createSprite(towerInfo.get(type).missileTexture), towersAtlas.createSprite("walls"));
 		t.setPosition(tilePosition.x * GameConstants.tileSize, tilePosition.y
 				* GameConstants.tileSize);
 		return t;
@@ -469,7 +469,7 @@ public class GameProcessor
 									if (towers.get(c).getX() == t.getX()+GameConstants.tileSize && towers.get(c).getY() == t.getY())
 										canMove = false;
 								}
-								if(canMove)
+								if(canMove && !t.hasWall())
 									t.setPosition(t.getX() + GameConstants.tileSize, t.getY());
 							}
 							else if (d < 0.05 && map.canBuild((int) Math.round((t.getX()-GameConstants.tileSize) / GameConstants.tileSize), (int) Math.round(t.getY() / GameConstants.tileSize)))
@@ -480,7 +480,7 @@ public class GameProcessor
 									if (towers.get(c).getX() == t.getX()-GameConstants.tileSize && towers.get(c).getY() == t.getY())
 										canMove = false;
 								}
-								if(canMove)
+								if(canMove && !t.hasWall())
 								{
 									t.setPosition(t.getX() - GameConstants.tileSize, t.getY());
 								}
@@ -493,7 +493,7 @@ public class GameProcessor
 									if (towers.get(c).getX() == t.getX() && towers.get(c).getY() == t.getY()+GameConstants.tileSize)
 										canMove = false;
 								}
-								if(canMove)
+								if(canMove && !t.hasWall())
 									t.setPosition(t.getX(), t.getY()+GameConstants.tileSize);
 							}
 							else if (map.canBuild((int) Math.round(t.getX() / GameConstants.tileSize), (int) Math.round((t.getY()-GameConstants.tileSize) / GameConstants.tileSize)))
@@ -504,7 +504,7 @@ public class GameProcessor
 									if (towers.get(c).getX() == t.getX() && towers.get(c).getY() == t.getY()-GameConstants.tileSize)
 										canMove = false;
 								}
-								if(canMove)
+								if(canMove && !t.hasWall())
 									t.setPosition(t.getX(), t.getY()-GameConstants.tileSize);
 									
 							}

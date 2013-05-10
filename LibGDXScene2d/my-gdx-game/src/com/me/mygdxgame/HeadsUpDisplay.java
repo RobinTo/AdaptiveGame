@@ -89,6 +89,11 @@ public class HeadsUpDisplay
 		upgradeButton.setPosition(GameConstants.screenWidth - 4 * 64, GameConstants.screenHeight - 100);
 		stage.addActor(upgradeButton);
 
+		TextButton wallButton = buttonGenerator.createButton(miscAtlas.createSprite("wallButton"), font);
+		wallButton.addListener(listenerGenerator.createWallButtonListener());
+		wallButton.setPosition(GameConstants.screenWidth - 5 * 64, GameConstants.screenHeight - 100);
+		stage.addActor(wallButton);
+		
 		for (int i = 0; i < towerKeys.size(); i++)
 		{
 			if (!towerInfo.get(towerKeys.get(i)).buildable)

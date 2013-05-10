@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class Tower extends ExtendedActor {
@@ -21,10 +22,11 @@ public class Tower extends ExtendedActor {
 	
 	Enemy targetEnemy;
 	boolean canShoot = false;
+	boolean wall = false;
 	
 	MissileEffect effects;
 	
-	public Tower (TowerStats towerStats, Sprite towerSprite, Sprite missileSprite) {
+	public Tower (TowerStats towerStats, Sprite towerSprite, Sprite missileSprite, Sprite wallSprite) {
 		super(towerSprite);
 		this.towerStats = towerStats;
 		this.currentSellPrice = towerStats.sellPrice;
@@ -32,6 +34,7 @@ public class Tower extends ExtendedActor {
 		this.targetEnemy = null;
 		textures.put(0, towerSprite);
 		textures.put(3, missileSprite);
+		textures.put(4, wallSprite);
 		currentLevel = 1;
 		effects = towerStats.missileEffects;
 		
@@ -88,6 +91,17 @@ public class Tower extends ExtendedActor {
 
         }
         
+	}
+	@Override
+	public void draw(SpriteBatch batch, float parentAlpha)
+	{
+		super.draw(batch, parentAlpha);
+		if (wall)
+		{
+			batch.draw(textures.get(4), super.getX(), super.getY(), super
+					.getOriginX(), super.getOriginY(), textures.get(4)
+					.getWidth(), textures.get(4).getHeight(), 1, 1, 0);
+		}
 	}
 	
 	@Override
@@ -169,5 +183,9 @@ public class Tower extends ExtendedActor {
 		textures.put(3, missileSprite);
 		super.setSprite(newTowerSprite);
 		return true;
+	}
+	public boolean hasWall()
+	{
+		return wall;
 	}
 }

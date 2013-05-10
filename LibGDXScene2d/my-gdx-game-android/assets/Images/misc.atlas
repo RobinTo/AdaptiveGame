@@ -94,6 +94,13 @@ upgradeTowerButton
   orig: 64, 64
   offset: 0, 0
   index: -1
+wallButton
+  rotate: false
+  xy: 326, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
 super
   rotate: false
   xy: 1, 25
@@ -117,7 +124,7 @@ slowIcon
   index: -1
 flameBullet
   rotate: false
-  xy: 326, 55
+  xy: 392, 55
   size: 10, 10
   orig: 10, 10
   offset: 0, 0

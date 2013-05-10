@@ -86,4 +86,26 @@ public class ListenerGenerator
 			}
 		};
 	}
+	public InputListener createWallButtonListener()
+	{
+		return new InputListener()
+		{
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
+			{
+				if (myGdxGame.gameProcessor.selectedTower == null)
+					return true;
+				if (myGdxGame.gameProcessor.selectedTower.towerStats.upgradesTo.equals("null"))
+					return true;
+				int upgradeCost = myGdxGame.gameProcessor.selectedTower.towerStats.buildCost * 2;
+				boolean canAfford = myGdxGame.gameProcessor.currentGold >= upgradeCost ? true : false;
+				if (canAfford)
+				{
+					myGdxGame.gameProcessor.currentGold -= upgradeCost;
+					myGdxGame.hud.goldButton.setText("        " + myGdxGame.gameProcessor.currentGold);
+					myGdxGame.gameProcessor.selectedTower.wall = true;
+				}
+				return true;
+			}
+		};
+	}
 }
