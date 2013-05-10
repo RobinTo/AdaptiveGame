@@ -344,21 +344,14 @@ public class GameProcessor
 					map.mapActors[diggerX][diggerY].region = new TextureRegion(map.textures.get(newTile));
 					e.offPath = true;
 					e.lastChanged = new Vector2(diggerX, diggerY);
-				}
-				else
-				{
-					if(e.offPath && e.lastChanged.x != diggerX)
+					map.generateDirections();
+					if (waveTime.size() > 0)
 					{
-						map.generateDirections();
-						if (waveTime.size() > 0)
+						for(float enemyTimes : waveTime)
 						{
-							for(float enemyTimes : waveTime)
-							{
-								if(!diggerEnemies.contains(enemyWave.get(enemyTimes)))
-									enemyWave.get(enemyTimes).generateDirections(map.directions);
-							}
+							if(!diggerEnemies.contains(enemyWave.get(enemyTimes)))
+								enemyWave.get(enemyTimes).generateDirections(map.directions);
 						}
-						e.offPath = false;
 					}
 				}
 			}
