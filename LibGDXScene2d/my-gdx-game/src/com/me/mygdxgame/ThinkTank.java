@@ -185,7 +185,7 @@ public class ThinkTank
 				}
 			}
 			variety = variety / towerInfo.size();
-			// parameters.put("variety", variety);
+			// parameters.put("variety", variety);x
 			// measurements.put((int)Math.floor(totalTime), parameters);
 
 			HashMap<String, Float> measuredParameters = new HashMap<String, Float>();
@@ -234,6 +234,7 @@ public class ThinkTank
 		
 		Random rand = new Random();
 		thinkTankInfo.challengerMetric = rand.nextDouble()*(happy+difficult)*thinkTankInfo.gameLengthMultiplier;
+		thinkTankInfo.lastDifficulty = difficult;
 		thinkTankInfo.gameLengthMultiplier += 0.02;
 		thinkTankInfo.lastMetric = thinkTankInfo.currentMetric;
 		//Jump from variables if metric is higher than last one.
@@ -251,7 +252,15 @@ public class ThinkTank
 		{
 			// Jump between specified interval
 			// So all variables are added a random value between -maxJumpDistance and +maxJumpDistance
+			
+			// Keep hp, difficulty is irrelevant to happiness.
+			float hpMultiplier = 0;
+			hpMultiplier += parameters.get("GlobalMonsterHP").value;
+			
 			this.restoreCopiedParameters(parameters, oldParameters);
+			
+			parameters.get("GlobalMonsterHP").value = 0+hpMultiplier;
+			
 			jump(parameters);
 		}
 
@@ -416,11 +425,17 @@ public class ThinkTank
 		System.out.println(parameters.get("GlobalMonsterSpeed").value);
 		// Change difficulty
 		float distance = (random.nextFloat() - 0.5f) * 2 * thinkTankInfo.maxJumpDistance;
-		if (thinkTankInfo.playerLevel >= 1.0)
+		
+		System.out.println("DIFF: "+thinkTankInfo.lastDifficulty);
+		if(thinkTankInfo.lastDifficulty == 1)
 		{
 			parameters.get("GlobalMonsterHP").value += distance;
 			if (parameters.get("GlobalMonsterHP").value > 10.0f)
 				parameters.get("GlobalMonsterHP").value = 10.0f;
+		}
+		else if(thinkTankInfo.lastDifficulty == 2)
+		{
+			// Do something minor?
 		}
 		else
 		{

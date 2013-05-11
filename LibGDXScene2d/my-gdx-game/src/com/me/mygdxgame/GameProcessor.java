@@ -349,7 +349,7 @@ public class GameProcessor
 					{
 						for(float enemyTimes : waveTime)
 						{
-							if(!diggerEnemies.contains(enemyWave.get(enemyTimes)))
+							if(!enemyWave.get(enemyTimes).willDigg)
 								enemyWave.get(enemyTimes).generateDirections(map.directions);
 						}
 					}

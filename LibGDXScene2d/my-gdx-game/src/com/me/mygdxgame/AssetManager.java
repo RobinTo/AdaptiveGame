@@ -52,11 +52,12 @@ public class AssetManager
 	}
 	public void loadMusic()
 	{
-		allMusic.put(1, Gdx.audio.newMusic(Gdx.files.internal("Music/Slow.mp3")));
-		allMusic.put(2, Gdx.audio.newMusic(Gdx.files.internal("Music/Mid.mp3")));
-		allMusic.put(3, Gdx.audio.newMusic(Gdx.files.internal("Music/Fast.mp3")));
-		allMusic.put(4, Gdx.audio.newMusic(Gdx.files.internal("Music/Faster.mp3")));
-		allMusic.put(5, Gdx.audio.newMusic(Gdx.files.internal("Music/Crazy.mp3")));
+		allMusic.put(6, Gdx.audio.newMusic(Gdx.files.internal("sounds/earthquake.mp3")));
+		allMusic.put(1, Gdx.audio.newMusic(Gdx.files.internal("music/slow.mp3")));
+		allMusic.put(2, Gdx.audio.newMusic(Gdx.files.internal("music/mid.mp3")));
+		allMusic.put(3, Gdx.audio.newMusic(Gdx.files.internal("music/fast.mp3")));
+		allMusic.put(4, Gdx.audio.newMusic(Gdx.files.internal("music/faster.mp3")));
+		allMusic.put(5, Gdx.audio.newMusic(Gdx.files.internal("music/crazy.mp3")));
 		totalTracks = allMusic.size();
 		currentTrack = 2;
 		currentSong = allMusic.get(currentTrack);

@@ -45,7 +45,7 @@ description:Single target tower.
 endTower
 type:FrostArrow1
 towerTexture:blueTower
-missileTexture:blackBullet
+missileTexture:blueBullet
 shootSound:arrowShoot.mp3
 impactSound:arrowImpact.mp3
 upgradesTo:FrostArrow2
@@ -61,7 +61,7 @@ description:Slows enemies in an area on impact.
 endTower
 type:FrostArrow2
 towerTexture:blueTower2
-missileTexture:blackBullet
+missileTexture:blueBullet
 shootSound:arrowShoot.mp3
 impactSound:arrowImpact.mp3
 upgradesTo:FrostArrow3
@@ -77,7 +77,7 @@ description:Slows enemies in an area on impact.
 endTower
 type:FrostArrow3
 towerTexture:blueTower3
-missileTexture:blackBullet
+missileTexture:blueBullet
 shootSound:arrowShoot.mp3
 impactSound:arrowImpact.mp3
 upgradesTo:null

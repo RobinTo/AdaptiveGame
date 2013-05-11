@@ -109,7 +109,7 @@ public class Questionaire
 	{
 		font.setColor(Color.BLACK);
 		font.draw(spriteBatch, "How fun was this game, compared to last? Less/Equal/More", 260, 600);
-		font.draw(spriteBatch, "Hus much did you enjoy the difficulty this game, compared to last? Less/Equal/More", 260, 300);
+		font.draw(spriteBatch, "Difficulty level? Too easy / Ok / Too hard", 260, 300);
 	}
 	
 	public void reset()

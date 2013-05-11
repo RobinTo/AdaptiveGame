@@ -92,34 +92,27 @@ public class Map
 		int y = (int) startPoint.y;
 		while (x < mapWidth)
 		{
-			System.out.println(x + ":" + y);
 			if (mapActors[x][y].possibleDirections.size() > 0)
 			{
 				tempDirList.add(mapActors[x][y].possibleDirections.get(rand.nextInt(mapActors[x][y].possibleDirections.size())));
-				System.out.println("Changed dir!");
 			}
 			// If is lager than 0
 			Direction lastDir = tempDirList.get(tempDirList.size() - 1);
 			if (lastDir == Direction.Right)
 			{
 				x++;
-				System.out.println("x++");
 			} else if (lastDir == Direction.Left)
 			{
 				x--;
-				System.out.println("x--");
 			} else if (lastDir == Direction.Up)
 			{
 				y--;
-				System.out.println("y++");
 			} else if (lastDir == Direction.Down)
 			{
 				y++;
-				System.out.println("y--");
 			} else
 			{
 				x++;
-				System.out.println("rand x++");
 			}
 		}
 
@@ -174,7 +167,6 @@ public class Map
 			}
 			if (!setTile && directions.size() > 0)
 			{
-				System.out.println("Stepped backwards from " + currentPoint.x + "," + currentPoint.y);
 				if (directions.get(directions.size() - 1) == Direction.Down)
 					currentPoint.y--;
 				else if (directions.get(directions.size() - 1) == Direction.Up)
@@ -187,7 +179,6 @@ public class Map
 			}
 			else if(!setTile && directions.size() == 0)
 			{
-				System.out.println("Something went wrong in pathfinding.");
 				visitedTiles.clear();
 				currentPoint = startPoint;
 			}
@@ -208,11 +199,7 @@ public class Map
 
 		}
 		directions.add(Direction.Right);
-		
-		for(Direction d : directions)
-		{
-			System.out.println(d);
-		}
+		System.out.println("Great success!");
 	}
 
 	public List<Vector2> neighbouringSteps(List<Vector2> possibleSteps, Vector2 currentPosition)
@@ -439,7 +426,6 @@ public class Map
 		ArrayList<Direction> tempDirections = new ArrayList<Direction>();
 		directions.clear();
 		generateDirections();
-		System.out.println(directions.size());
 		for (int i = directions.size() - 1; i >= 0; i--)
 		{
 			tempDirections.add(directions.get(i));
@@ -529,15 +515,6 @@ public class Map
 			}
 			if (testTries > 10)
 			{
-				for (int y = 0; y < mapHeight; y++)
-				{
-					for (int x = 0; x < mapWidth; x++)
-					{
-						System.out.print(map[x][y]);
-					}
-					System.out.print("\n");
-				}
-				System.out.println("Fail!");
 				return false;
 			}
 		}

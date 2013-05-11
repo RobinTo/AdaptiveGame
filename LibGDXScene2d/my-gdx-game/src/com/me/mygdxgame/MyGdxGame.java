@@ -412,18 +412,6 @@ public class MyGdxGame implements ApplicationListener
 		if (questionaire != null)
 		{
 			thinkTank.thinkTankInfo.totalGames++;
-			if(gameProcessor.nudgeChanceConstant > 0 )
-				thinkTank.thinkTankInfo.totalHappinessSuperMobsOn += questionaire.happy;
-			else
-				thinkTank.thinkTankInfo.totalHappinessSuperMobsOff += questionaire.happy;
-			if(thinkTank.diggerChance > 0 )
-				thinkTank.thinkTankInfo.totalHappinessDiggersOn += questionaire.happy;
-			else
-				thinkTank.thinkTankInfo.totalHappinessDiggersOff += questionaire.happy;
-			if(thinkTank.superEnemyChance > 0 )
-				thinkTank.thinkTankInfo.totalHappinessSuperMobsOn += questionaire.happy;
-			else
-				thinkTank.thinkTankInfo.totalHappinessSuperMobsOff += questionaire.happy;
 			questionaire.reset();
 			questionaire = null;
 			questionaireIsDisplayed = false;
