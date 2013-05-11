@@ -12,6 +12,5 @@ Robin
 JV
 - Voicing av effekter.
 - Tenk: Tilbakemelde brukeren generelt
-- Rapport: Discussion, conclusion og legge inn hvilke referanser.
-- Lockupgrade?
+- Rapport: Discussion, conclusion, abstract
 - Presentasjon
