@@ -13,4 +13,3 @@ JV
 - Voicing av effekter.
 - Tenk: Tilbakemelde brukeren generelt
 - Rapport: Discussion, conclusion, abstract
-- Presentasjon
