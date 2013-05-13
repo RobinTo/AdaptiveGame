@@ -13,13 +13,9 @@ Robin
 - OK Questionnaire
 
 JV
-- Fjerne voicing av effekter.
-- Èn sang med forskjellig tempo.
-- Not enough money lyd
-- Wall cost ved ikonet
-- Lydeffekt på salg, upgrade og bygg
 - Bars: HP, Speed, Damage
 - Digger på tårn
+- Upgrade og sell cost ved ikonet
 
 Tentative
 - Hotkeys

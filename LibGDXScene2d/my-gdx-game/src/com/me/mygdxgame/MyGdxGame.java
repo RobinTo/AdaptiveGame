@@ -193,11 +193,11 @@ public class MyGdxGame implements ApplicationListener
 			{
 				thinkTank.calculateVariables(questionaire.happy, questionaire.difficult, gameProcessor.livesLeft);
 				resetGame();
-				if (thinkTank.parameters.get("GlobalMonsterSpeed").value > thinkTank.oldParameters.get("GlobalMonsterSpeed").value)
+				/*if (thinkTank.parameters.get("GlobalMonsterSpeed").value > thinkTank.oldParameters.get("GlobalMonsterSpeed").value)
 					assetManager.sounds.get("MonsterSpeedIncreased").play();
 				else if (thinkTank.parameters.get("GlobalMonsterSpeed").value < thinkTank.oldParameters.get("GlobalMonsterSpeed").value)
 					assetManager.sounds.get("MonsterSpeedDecreased").play();
-				/*if (thinkTank.parameters.get("GlobalMonsterSpeed").value < thinkTank.oldParameters.get("GlobalMonsterSpeed").value)
+				if (thinkTank.parameters.get("GlobalMonsterSpeed").value < thinkTank.oldParameters.get("GlobalMonsterSpeed").value)
 					assetManager.sounds.get("MonsterHealthIncreased").play();
 				else if (thinkTank.parameters.get("GlobalMonsterSpeed").value > thinkTank.oldParameters.get("GlobalMonsterSpeed").value)
 					assetManager.sounds.get("MonsterHealthDecreased").play();
@@ -494,6 +494,11 @@ public class MyGdxGame implements ApplicationListener
 							if (gameProcessor.towers.get(c).getX() == t.getX() && gameProcessor.towers.get(c).getY() == t.getY())
 								canBuild = false;
 						}
+						assetManager.sounds.get("buildTower").play();
+					}
+					else
+					{
+						assetManager.sounds.get("notEnoughMoney").play();
 					}
 					if (canBuild)
 					{
@@ -503,6 +508,7 @@ public class MyGdxGame implements ApplicationListener
 						stage.addActor(t);
 						gameProcessor.towers.add(t);
 						hud.fadeInYellowBox(t, gameProcessor.selectTower(t, thinkTank.towerInfo));
+						hud.wallCostLabel.setText("" + t.towerStats.buildCost*2);
 					} else
 					{
 						t = null;
@@ -522,6 +528,7 @@ public class MyGdxGame implements ApplicationListener
 							TowerStats newTowerStats = thinkTank.towerInfo.get(gameProcessor.towers.get(u).towerStats.upgradesTo);
 							gameProcessor.towers.get(u).upgrade(newTowerStats, assetManager.towersAtlas.createSprite(newTowerStats.towerTexture), assetManager.miscAtlas.createSprite(newTowerStats.missileTexture));
 							hud.fadeInYellowBox(gameProcessor.towers.get(u), gameProcessor.selectTower(gameProcessor.towers.get(u), thinkTank.towerInfo));
+							hud.wallCostLabel.setText("" + newTowerStats.buildCost*2);
 						}
 					}
 				}
@@ -562,6 +569,8 @@ public class MyGdxGame implements ApplicationListener
 			{
 				Tower t = (Tower) hit;
 				hud.fadeInYellowBox(t, gameProcessor.selectTower(t, thinkTank.towerInfo));
+				hud.wallCostLabel.setText("" + t.towerStats.buildCost*2);
+				
 			} else if (hit != null && hit.getClass() == Enemy.class)
 			{
 				Enemy e = (Enemy) hit;
@@ -569,6 +578,8 @@ public class MyGdxGame implements ApplicationListener
 			} else if (Gdx.input.justTouched())
 			{
 				hud.fadeOutYellowBox();
+				hud.wallCostLabel.setText("");
+				gameProcessor.selectedTower = null;
 			}
 		} else if (temporaryTowerActor != null)
 		{

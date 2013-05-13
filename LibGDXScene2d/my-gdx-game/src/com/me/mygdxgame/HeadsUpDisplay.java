@@ -34,6 +34,7 @@ public class HeadsUpDisplay
 	
 	List<String> towerKeys = new ArrayList<String>();
 	List<Label> towerCostLabels = new ArrayList<Label>();
+	Label wallCostLabel;
 	
 	TextButton livesButton, goldButton;
 	
@@ -93,6 +94,12 @@ public class HeadsUpDisplay
 		wallButton.addListener(listenerGenerator.createWallButtonListener());
 		wallButton.setPosition(GameConstants.screenWidth - 5 * 64, GameConstants.screenHeight - 100);
 		stage.addActor(wallButton);
+		
+		wallCostLabel = new Label("10", labelStyle);
+		wallCostLabel.setVisible(true);
+		wallCostLabel.setPosition(wallButton.getX() + wallButton.getWidth()*2/3, wallButton.getY() - wallButton.getHeight()/9);
+		wallCostLabel.setText("");
+		stage.addActor(wallCostLabel);
 		
 		for (int i = 0; i < towerKeys.size(); i++)
 		{

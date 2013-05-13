@@ -512,16 +512,18 @@ public class ThinkTank
 	private void calculateSpeedLevel()
 	{
 		float speedMultiplier = parameters.get("GlobalMonsterSpeed").value;
-		if (speedMultiplier < 0.9f)
+		if (speedMultiplier < 0.5f)
 			speedLevel = 1; 
-		else if (speedMultiplier < 1.1f)
+		else if (speedMultiplier < 0.9f)
 			speedLevel = 2; 
-		else if (speedMultiplier < 1.4f)
+		else if (speedMultiplier < 1.1f)
 			speedLevel = 3; 
-		else if (speedMultiplier < 1.7f)
+		else if (speedMultiplier < 1.4f)
 			speedLevel = 4; 
+		else if (speedMultiplier < 1.7f)
+			speedLevel = 5; 
 		else
-			speedLevel = 5;
+			speedLevel = 6;
 	}
 	private HashMap<String, Parameter> deepCopyParameters(HashMap<String, Parameter> originalParameters)
 	{

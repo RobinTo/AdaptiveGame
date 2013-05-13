@@ -41,6 +41,7 @@ public class ListenerGenerator
 					myGdxGame.gameProcessor.selectTower(null, myGdxGame.thinkTank.towerInfo);
 					myGdxGame.hud.yellowBoxLabel.setText("");
 					myGdxGame.hud.fadeOutYellowBox();
+					myGdxGame.assetManager.sounds.get("sellTower").play();
 				}
 				return true;
 			}
@@ -55,7 +56,12 @@ public class ListenerGenerator
 				if (myGdxGame.gameProcessor.selectedTower == null)
 					return true;
 				if (myGdxGame.gameProcessor.selectedTower.towerStats.upgradesTo.equals("null"))
+				{
+					myGdxGame.assetManager.sounds.get("maxedOut")
+					.play();
 					return true;
+				}
+					
 				int upgradeCost = myGdxGame.thinkTank.towerInfo.get(myGdxGame.gameProcessor.selectedTower.towerStats.upgradesTo).buildCost - myGdxGame.gameProcessor.selectedTower.towerStats.buildCost;
 				boolean canAfford = myGdxGame.gameProcessor.currentGold >= upgradeCost ? true : false;
 				if (canAfford)
@@ -63,6 +69,11 @@ public class ListenerGenerator
 					myGdxGame.gameProcessor.currentGold -= upgradeCost;
 					myGdxGame.hud.goldButton.setText("        " + myGdxGame.gameProcessor.currentGold);
 					myGdxGame.eventHandler.queueEvent(new Event("upgrade", (int) (myGdxGame.gameProcessor.selectedTower.getX() / GameConstants.tileSize), (int) (myGdxGame.gameProcessor.selectedTower.getY() / GameConstants.tileSize), "x"));
+					myGdxGame.assetManager.sounds.get("upgradeTower").play();
+				}
+				else
+				{
+					myGdxGame.assetManager.sounds.get("notEnoughMoney").play();
 				}
 
 				return true;
@@ -94,15 +105,29 @@ public class ListenerGenerator
 			{
 				if (myGdxGame.gameProcessor.selectedTower == null)
 					return true;
-				if (myGdxGame.gameProcessor.selectedTower.towerStats.upgradesTo.equals("null"))
-					return true;
-				int upgradeCost = myGdxGame.gameProcessor.selectedTower.towerStats.buildCost * 2;
-				boolean canAfford = myGdxGame.gameProcessor.currentGold >= upgradeCost ? true : false;
-				if (canAfford)
+				int wallCost = myGdxGame.gameProcessor.selectedTower.towerStats.buildCost * 2;
+				boolean canAfford = myGdxGame.gameProcessor.currentGold >= wallCost ? true : false;
+				if (!myGdxGame.gameProcessor.selectedTower.wall)
 				{
-					myGdxGame.gameProcessor.currentGold -= upgradeCost;
-					myGdxGame.hud.goldButton.setText("        " + myGdxGame.gameProcessor.currentGold);
-					myGdxGame.gameProcessor.selectedTower.wall = true;
+					if (canAfford)
+					{
+						myGdxGame.gameProcessor.currentGold -= wallCost;
+						myGdxGame.hud.goldButton.setText("        "
+								+ myGdxGame.gameProcessor.currentGold);
+						myGdxGame.gameProcessor.selectedTower.wall = true;
+						myGdxGame.assetManager.sounds.get("upgradeTower")
+						.play();
+					}
+					else
+					{
+						myGdxGame.assetManager.sounds.get("notEnoughMoney")
+								.play();
+					}
+				}
+				else
+				{
+					myGdxGame.assetManager.sounds.get("maxedOut")
+					.play();
 				}
 				return true;
 			}

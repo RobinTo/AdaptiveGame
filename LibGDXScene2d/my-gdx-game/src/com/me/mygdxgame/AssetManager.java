@@ -49,19 +49,24 @@ public class AssetManager
 		sounds.put("earthquake", Gdx.audio.newSound(Gdx.files.internal("sounds/earthquake.mp3")));
 		sounds.put("diggerEnemy", Gdx.audio.newSound(Gdx.files.internal("sounds/diggerEnemy.mp3")));
 		sounds.put("superEnemy", Gdx.audio.newSound(Gdx.files.internal("sounds/superEnemy.mp3")));
-		sounds.put("MonsterSpeedIncreased",  Gdx.audio.newSound(Gdx.files.internal("sounds/monsterSpeedIncreased.mp3")));
-		sounds.put("MonsterSpeedDecreased",  Gdx.audio.newSound(Gdx.files.internal("sounds/monsterSpeedDecreased.mp3")));
+		sounds.put("notEnoughMoney", Gdx.audio.newSound(Gdx.files.internal("sounds/notEnoughMoney.mp3")));
+		sounds.put("buildTower", Gdx.audio.newSound(Gdx.files.internal("sounds/buildTower.mp3")));
+		sounds.put("sellTower", Gdx.audio.newSound(Gdx.files.internal("sounds/sellTower.mp3")));
+		sounds.put("upgradeTower", Gdx.audio.newSound(Gdx.files.internal("sounds/upgradeTower.mp3")));
+		sounds.put("maxedOut", Gdx.audio.newSound(Gdx.files.internal("sounds/maxedOut.mp3")));
+		//sounds.put("MonsterSpeedIncreased",  Gdx.audio.newSound(Gdx.files.internal("sounds/monsterSpeedIncreased.mp3")));
+		//sounds.put("MonsterSpeedDecreased",  Gdx.audio.newSound(Gdx.files.internal("sounds/monsterSpeedDecreased.mp3")));
 	}
 	public void loadMusic()
 	{
-		allMusic.put(6, Gdx.audio.newMusic(Gdx.files.internal("sounds/earthquake.mp3")));
-		allMusic.put(1, Gdx.audio.newMusic(Gdx.files.internal("music/slow.mp3")));
-		allMusic.put(2, Gdx.audio.newMusic(Gdx.files.internal("music/mid.mp3")));
-		allMusic.put(3, Gdx.audio.newMusic(Gdx.files.internal("music/fast.mp3")));
-		allMusic.put(4, Gdx.audio.newMusic(Gdx.files.internal("music/faster.mp3")));
-		allMusic.put(5, Gdx.audio.newMusic(Gdx.files.internal("music/crazy.mp3")));
+		allMusic.put(1, Gdx.audio.newMusic(Gdx.files.internal("music/slower.mp3")));
+		allMusic.put(2, Gdx.audio.newMusic(Gdx.files.internal("music/slow.mp3")));
+		allMusic.put(3, Gdx.audio.newMusic(Gdx.files.internal("music/mid.mp3")));
+		allMusic.put(4, Gdx.audio.newMusic(Gdx.files.internal("music/fast.mp3")));
+		allMusic.put(5, Gdx.audio.newMusic(Gdx.files.internal("music/faster.mp3")));
+		allMusic.put(6, Gdx.audio.newMusic(Gdx.files.internal("music/crazy.mp3")));
 		totalTracks = allMusic.size();
-		currentTrack = 2;
+		currentTrack = 3;
 		currentSong = allMusic.get(currentTrack);
 		currentSong.setVolume(0.5f);
 	}
