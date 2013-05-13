@@ -429,9 +429,36 @@ public class ThinkTank
 		System.out.println("DIFF: "+thinkTankInfo.lastDifficulty);
 		if(thinkTankInfo.lastDifficulty == 1)
 		{
-			parameters.get("GlobalMonsterHP").value += distance;
-			if (parameters.get("GlobalMonsterHP").value > 10.0f)
-				parameters.get("GlobalMonsterHP").value = 10.0f;
+			double chance = random.nextDouble();
+			if(chance < 0.5)
+			{
+				parameters.get("GlobalMonsterHP").value += distance;
+				if (parameters.get("GlobalMonsterHP").value > 10.0f)
+					parameters.get("GlobalMonsterHP").value = 10.0f;
+			}
+			else if (chance < 0.75)
+			{
+				double chanceTwo = random.nextDouble();
+				if (chanceTwo < 0.25)
+					parameters.get("GlobalMonsterSpeed").value += distance;
+				else if (chanceTwo < 0.5)
+					parameters.get("GlobalTowerRange").value -= distance;
+				else if (chanceTwo < 0.75)
+					parameters.get("TEDamage").value -= distance;
+				else
+					parameters.get("GlobalMonsterGoldYield").value -= distance;
+			}
+			else
+			{
+				double chanceTwo = random.nextDouble();
+				if (chanceTwo < 0.33)
+					parameters.get("DiggerChance").value += distance;
+				else if (chanceTwo < 0.66)
+					parameters.get("SuperChance").value += distance;
+				else
+					parameters.get("EarthquakeChance").value += distance;
+
+			}	
 		}
 		else if(thinkTankInfo.lastDifficulty == 2)
 		{
@@ -439,9 +466,37 @@ public class ThinkTank
 		}
 		else
 		{
-			parameters.get("GlobalMonsterHP").value -= distance;
-			if (parameters.get("GlobalMonsterHP").value < 0.1f)
-				parameters.get("GlobalMonsterHP").value = 0.1f;
+			double chance = random.nextDouble();
+			if(chance < 0.33)
+			{
+				parameters.get("GlobalMonsterHP").value -= distance;
+				if (parameters.get("GlobalMonsterHP").value < 0.1f)
+					parameters.get("GlobalMonsterHP").value = 0.1f;
+			}
+			else if (chance < 0.75)
+			{
+
+				double chanceTwo = random.nextDouble();
+				if (chanceTwo < 0.25)
+					parameters.get("GlobalMonsterSpeed").value -= distance;
+				else if (chanceTwo < 0.5)
+					parameters.get("GlobalTowerRange").value += distance;
+				else if (chanceTwo < 0.75)
+					parameters.get("TEDamage").value += distance;
+				else
+					parameters.get("GlobalMonsterGoldYield").value += distance;
+			}
+			else
+			{
+				double chanceTwo = random.nextDouble();
+				if (chanceTwo < 0.33)
+					parameters.get("DiggerChance").value -= distance;
+				else if (chanceTwo < 0.66)
+					parameters.get("SuperChance").value -= distance;
+				else
+					parameters.get("EarthquakeChance").value -= distance;
+				
+			}
 		}
 		//Make sure jumps are smaller each jump
 		thinkTankInfo.maxJumpDistance -= 0.005f;
