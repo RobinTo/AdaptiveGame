@@ -5,27 +5,44 @@ filter: Nearest,Nearest
 repeat: none
 YellowBox
   rotate: false
+<<<<<<< HEAD
   xy: 1, 43
+=======
+  xy: 1, 307
+>>>>>>> SpeedMusic, more sounds, wallcost, bars, bugfixing
   size: 125, 200
   orig: 125, 200
   offset: 0, 0
   index: -1
 thumbDown
   rotate: false
+<<<<<<< HEAD
   xy: 128, 133
   size: 82, 110
   orig: 82, 110
+=======
+  xy: 1, 187
+  size: 118, 118
+  orig: 118, 118
+>>>>>>> SpeedMusic, more sounds, wallcost, bars, bugfixing
   offset: 0, 0
   index: -1
 thumbSide
   rotate: false
+<<<<<<< HEAD
   xy: 212, 133
   size: 82, 110
   orig: 82, 110
+=======
+  xy: 128, 389
+  size: 118, 118
+  orig: 118, 118
+>>>>>>> SpeedMusic, more sounds, wallcost, bars, bugfixing
   offset: 0, 0
   index: -1
 thumbUp
   rotate: false
+<<<<<<< HEAD
   xy: 296, 133
   size: 82, 110
   orig: 82, 110
@@ -36,87 +53,165 @@ heartFeedback
   xy: 128, 44
   size: 82, 87
   orig: 82, 87
+=======
+  xy: 1, 67
+  size: 118, 118
+  orig: 118, 118
+>>>>>>> SpeedMusic, more sounds, wallcost, bars, bugfixing
+  offset: 0, 0
+  index: -1
+sliderBar
+  rotate: false
+  xy: 248, 497
+  size: 200, 10
+  orig: 200, 10
   offset: 0, 0
   index: -1
 AoEFlame
   rotate: false
+<<<<<<< HEAD
   xy: 380, 179
+=======
+  xy: 128, 323
+>>>>>>> SpeedMusic, more sounds, wallcost, bars, bugfixing
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 gold
   rotate: false
+<<<<<<< HEAD
   xy: 212, 67
+=======
+  xy: 1, 1
+>>>>>>> SpeedMusic, more sounds, wallcost, bars, bugfixing
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 heart
   rotate: false
+<<<<<<< HEAD
   xy: 446, 179
+=======
+  xy: 248, 431
+>>>>>>> SpeedMusic, more sounds, wallcost, bars, bugfixing
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 starButton
   rotate: false
+<<<<<<< HEAD
   xy: 446, 179
+=======
+  xy: 248, 431
+>>>>>>> SpeedMusic, more sounds, wallcost, bars, bugfixing
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 rangeHighlight
   rotate: false
+<<<<<<< HEAD
   xy: 278, 67
+=======
+  xy: 314, 431
+>>>>>>> SpeedMusic, more sounds, wallcost, bars, bugfixing
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 sellTowerButton
   rotate: false
+<<<<<<< HEAD
   xy: 380, 113
+=======
+  xy: 380, 431
+>>>>>>> SpeedMusic, more sounds, wallcost, bars, bugfixing
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 settingsButton
   rotate: false
+<<<<<<< HEAD
   xy: 446, 113
+=======
+  xy: 194, 323
+>>>>>>> SpeedMusic, more sounds, wallcost, bars, bugfixing
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 tinkerButton
   rotate: false
+<<<<<<< HEAD
   xy: 212, 1
+=======
+  xy: 67, 1
+>>>>>>> SpeedMusic, more sounds, wallcost, bars, bugfixing
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 upgradeTowerButton
   rotate: false
+<<<<<<< HEAD
   xy: 278, 1
+=======
+  xy: 260, 365
+>>>>>>> SpeedMusic, more sounds, wallcost, bars, bugfixing
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 wallButton
   rotate: false
+<<<<<<< HEAD
   xy: 344, 47
+=======
+  xy: 326, 365
+>>>>>>> SpeedMusic, more sounds, wallcost, bars, bugfixing
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
+damageKnob
+  rotate: false
+  xy: 392, 381
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+healthKnob
+  rotate: false
+  xy: 260, 331
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+speedKnob
+  rotate: false
+  xy: 294, 331
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 super
   rotate: false
+<<<<<<< HEAD
   xy: 1, 17
+=======
+  xy: 328, 339
+>>>>>>> SpeedMusic, more sounds, wallcost, bars, bugfixing
   size: 32, 24
   orig: 32, 24
   offset: 0, 0
   index: -1
 DoTIcon
   rotate: false
+<<<<<<< HEAD
   xy: 344, 29
   size: 16, 16
   orig: 16, 16
@@ -125,55 +220,102 @@ DoTIcon
 slowIcon
   rotate: false
   xy: 410, 95
+=======
+  xy: 362, 347
+>>>>>>> SpeedMusic, more sounds, wallcost, bars, bugfixing
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+<<<<<<< HEAD
+blackBullet
+  rotate: false
+  xy: 344, 126
+=======
+flameBullet
+  rotate: false
+  xy: 248, 419
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+slowIcon
+  rotate: false
+  xy: 128, 305
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 blackBullet
   rotate: false
-  xy: 344, 126
+  xy: 121, 300
+>>>>>>> SpeedMusic, more sounds, wallcost, bars, bugfixing
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 redBullet
   rotate: false
+<<<<<<< HEAD
   xy: 1, 10
+=======
+  xy: 450, 502
+>>>>>>> SpeedMusic, more sounds, wallcost, bars, bugfixing
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 blueBullet
   rotate: false
+<<<<<<< HEAD
   xy: 35, 37
+=======
+  xy: 392, 375
+>>>>>>> SpeedMusic, more sounds, wallcost, bars, bugfixing
   size: 4, 4
   orig: 4, 4
   offset: 0, 0
   index: -1
 laserBullet
   rotate: false
+<<<<<<< HEAD
   xy: 344, 23
+=======
+  xy: 260, 325
+>>>>>>> SpeedMusic, more sounds, wallcost, bars, bugfixing
   size: 4, 4
   orig: 4, 4
   offset: 0, 0
   index: -1
 qBG
   rotate: false
+<<<<<<< HEAD
   xy: 362, 41
+=======
+  xy: 328, 333
+>>>>>>> SpeedMusic, more sounds, wallcost, bars, bugfixing
   size: 4, 4
   orig: 4, 4
   offset: 0, 0
   index: -1
 healthBarRed
   rotate: false
+<<<<<<< HEAD
   xy: 410, 88
+=======
+  xy: 446, 490
+>>>>>>> SpeedMusic, more sounds, wallcost, bars, bugfixing
   size: 1, 5
   orig: 1, 5
   offset: 0, 0
   index: -1
 healthBarYellow
   rotate: false
+<<<<<<< HEAD
   xy: 428, 106
+=======
+  xy: 442, 424
+>>>>>>> SpeedMusic, more sounds, wallcost, bars, bugfixing
   size: 1, 5
   orig: 1, 5
   offset: 0, 0

@@ -13,9 +13,10 @@ Robin
 - OK Questionnaire
 
 JV
-- Bars: HP, Speed, Damage
 - Digger på tårn
 - Upgrade og sell cost ved ikonet
+- Bars: DiggerChance, Earthquake, SuperMob
+- Color working?
 
 Tentative
 - Hotkeys

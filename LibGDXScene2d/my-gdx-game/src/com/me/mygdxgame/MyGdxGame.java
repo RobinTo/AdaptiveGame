@@ -446,6 +446,9 @@ public class MyGdxGame implements ApplicationListener
 		{
 			((MapTile) actor).setColor(colorValue,colorValue,colorValue, 1.0f);
 		}
+		
+		this.setSliderLevels();
+		
 		assetManager.playSong(thinkTank.speedLevel);
 	}
 
@@ -586,6 +589,55 @@ public class MyGdxGame implements ApplicationListener
 			temporaryTowerActor.remove();
 			temporaryTowerActor = null;
 		}
+	}
+	private void setSliderLevels()
+	{
+		float healthValue = thinkTank.parameters.get("GlobalMonsterHP").value;
+		if (healthValue < 0.10f)
+			hud.healthSlider.setValue(1);
+		else if (healthValue < 0.35f)
+			hud.healthSlider.setValue(2);
+		else if (healthValue < 0.60f)
+			hud.healthSlider.setValue(3);
+		else if (healthValue < 0.85f)
+			hud.healthSlider.setValue(4);
+		else if (healthValue < 1.10f)
+			hud.healthSlider.setValue(5);
+		else if (healthValue < 1.35f)
+			hud.healthSlider.setValue(6);
+		else if (healthValue < 1.60f)
+			hud.healthSlider.setValue(7);
+		else if (healthValue < 1.85f)
+			hud.healthSlider.setValue(8);
+		else if (healthValue < 2.10f)
+			hud.healthSlider.setValue(9);
+		else
+			hud.healthSlider.setValue(10);
+		
+		
+		hud.speedSlider.setValue(thinkTank.speedLevel);
+		
+		float damageValue = thinkTank.parameters.get("TEDamage").value;
+		if (damageValue < 0.10f)
+			hud.damageSlider.setValue(1);
+		else if (damageValue < 0.35f)
+			hud.damageSlider.setValue(2);
+		else if (damageValue < 0.60f)
+			hud.damageSlider.setValue(3);
+		else if (damageValue < 0.85f)
+			hud.damageSlider.setValue(4);
+		else if (damageValue < 1.10f)
+			hud.damageSlider.setValue(5);
+		else if (damageValue < 1.35f)
+			hud.damageSlider.setValue(6);
+		else if (damageValue < 1.60f)
+			hud.damageSlider.setValue(7);
+		else if (damageValue < 1.85f)
+			hud.damageSlider.setValue(8);
+		else if (damageValue < 2.10f)
+			hud.damageSlider.setValue(9);
+		else
+			hud.damageSlider.setValue(10);
 	}
 	
 	

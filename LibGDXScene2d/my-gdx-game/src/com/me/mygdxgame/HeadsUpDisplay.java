@@ -11,7 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 public class HeadsUpDisplay
 {
@@ -35,6 +38,7 @@ public class HeadsUpDisplay
 	List<String> towerKeys = new ArrayList<String>();
 	List<Label> towerCostLabels = new ArrayList<Label>();
 	Label wallCostLabel;
+	Slider healthSlider, speedSlider, damageSlider;
 	
 	TextButton livesButton, goldButton;
 	
@@ -131,6 +135,24 @@ public class HeadsUpDisplay
 		goldButton = buttonGenerator.createButton(miscAtlas.createSprite("gold"), font, "        " + GameConstants.startGold);
 		goldButton.setPosition(12 * 64, GameConstants.screenHeight - 100);
 		stage.addActor(goldButton);
+		
+		healthSlider = new Slider(1f, 10f, 1f, false, new Slider.SliderStyle(new SpriteDrawable(miscAtlas.createSprite("sliderBar")), new SpriteDrawable(miscAtlas.createSprite("healthKnob"))));
+		healthSlider.setPosition(450, GameConstants.screenHeight - 50);
+		healthSlider.setVisible(true);
+		healthSlider.setTouchable(Touchable.disabled);
+		stage.addActor(healthSlider);
+		
+		speedSlider = new Slider(1f, 6f, 1f, false, new Slider.SliderStyle(new SpriteDrawable(miscAtlas.createSprite("sliderBar")), new SpriteDrawable(miscAtlas.createSprite("speedKnob"))));
+		speedSlider.setPosition(450, GameConstants.screenHeight - 85);
+		speedSlider.setVisible(true);
+		speedSlider.setTouchable(Touchable.disabled);
+		stage.addActor(speedSlider);
+		
+		damageSlider = new Slider(1f, 10f, 1f, false, new Slider.SliderStyle(new SpriteDrawable(miscAtlas.createSprite("sliderBar")), new SpriteDrawable(miscAtlas.createSprite("damageKnob"))));
+		damageSlider.setPosition(450, GameConstants.screenHeight - 125);
+		damageSlider.setVisible(true);
+		damageSlider.setTouchable(Touchable.disabled);
+		stage.addActor(damageSlider);
 	}
 	
 	public void updateYellowBoxPosition()
