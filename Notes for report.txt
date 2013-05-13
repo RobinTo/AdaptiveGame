@@ -11,3 +11,5 @@ Tre typer variabler:
 - Visuelle (Avhengige)
 - Ratio variabler (Ikke endrer vanskelighetsgraden)
 - Direkte vanskelighetsgradsvariabler (endrer vanskelighetsgraden)
+
+Vi hadde flere irrelevante parametere, slik som buildcost/goldyield, slowperentage/slowduration

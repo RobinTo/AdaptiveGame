@@ -81,10 +81,10 @@ We would like to acknowledge Sondre Glimsdal, for supervising the writing of thi
 <h1 id='table_of_figures'>Table of figures</h1>
 
 <div>
-<a href='#dynamicscripting' class='figtoc'>The Dynamic Scripting process, taken from [3]</a><br>
-<a href='#high-fitness_penalising' class='figtoc'>High-fitness penalising formula) @("Referanse til selve artikkelen, side 2"</a><br>
-<a href='#wc_and_tc' class='figtoc'>Weight Clipping and Top Culling process and parameters</a><br>
-<a href='#experimentresults' class='figtoc'>Result of the tests in the variation of Baldur's Gate</a><br>
+<a href='#dynamicscripting' class='figtoc'>The Dynamic Scripting process [2]</a><br>
+<a href='#high-fitness_penalising' class='figtoc'>High-fitness penalising formula [2]</a><br>
+<a href='#wc_and_tc' class='figtoc'>Weight Clipping and Top Culling process and parameters [2]</a><br>
+<a href='#experimentresults' class='figtoc'>Result of the tests in the variation of Baldur's Gate [2]</a><br>
 </div>
 
 
@@ -95,11 +95,11 @@ This report discusses the paper "Difficulty Scaling of Game AI", by Pieter Spron
 </p>
 
 <p>
-The problem discussed in the paper by Spronck et al. is how you can adapt the difficulty of a game AI in real time. The difficulty in this case is how hard it would be for a player to win at the game. The main in this field is scaling the difficulty of the AI to produce what is referred to in the paper as "even games", which means that the player should not win 100% of the time, or if he does, for instance if the game requires it e.g. roguelikes<a href="http://en.wikipedia.org/wiki/Roguelike">[1]</a> with premanent death, it should not be easy for the player to win 100% of the time.
+The problem discussed in the paper by Spronck et al. is how you can adapt the difficulty of a game AI in real time. The difficulty in this case is how hard it would be for a player to win at the game. The main in this field is scaling the difficulty of the AI to produce what is referred to in the paper as "even games", which means that the player should not win 100% of the time, or if he does, for instance if the game requires it e.g. roguelikes<a href='#reference_1' title='Wikimedia Foundation. (2013). Roguelike. Hentet fra http://en.wikipedia.org/wiki/Roguelike'>[1]</a> with premanent death, it should not be easy for the player to win 100% of the time.
 </p>
 
 <p>
-This paper discusses difficulty Scaling of Game AI <a href="http://www.dcc.ru.nl/~idak/publications/papers/SpronckGAMEON2004.pdf">[2]</a>, we have also read and may take elements from <a href='#reference_3' title='Rewrite to proper style, ONLINE ADAPTATION OF GAME OPPONENT AI WITH DYNAMIC SCRIPTING, published in the International Journal of Intelligent Games and Simulation, page 45-53, by Pieter Sprock et al.'>[3]</a> which is the paper where they explain the method they use in the main paper.
+This paper discuss Difficulty Scaling of Game AI <a href='#reference_2' title='Spronk,P.,I. Sprinkhuizen-Kuyper and E. Postma, Difficulty Scaling of Game AI. GAME-ON 2004: 5th International Conference on Intelligent Games and Simulation (eds. El Rhalibi, A., and D. Van Welden), pp. 33-37. EUROSIS, Belgium, 2004.'>[2]</a>, we have also read and may take elements from <a href='#reference_3' title='Spronk,P.,I. Sprinkhuizen-Kuyper and E. Postma. (2004). Online Adaptation of Game Opponent AI with Dynamic Scripting. International Journal of Intelligent Games and Simulation, Vol 3-No 1, page 45-53.'>[3]</a> which is the paper where they explain the method they use in the main paper.
 </p>
 
 <p>
@@ -115,11 +115,11 @@ We go through the paper mostly one headline at a time. First, we present the pap
 <h2 id='the_paper_-_difficulty_scaling_of_game_ai_-_paper_abstract'>Paper Abstract</h2>
 <p>
 The abstract of the paper is as follows:<br>
-"'Difficulty scaling' is the automatic adaptation of a game, to adapt the challenge a game poses to a human player. In general, a game of which the challenge level matches the skill of the human player (i.e., an “even game”) is experienced as more entertaining than a game that is either too easy or too hard. In practice, when difficulty scaling is implemented in a game, it only adapts a few parameters. Even state-of-the-art games do not apply it to game AI, i.e., to the behaviour of computer-controlled opponents in a game. In prior work, we designed a novel online-learning technique called “dynamic scripting”, that is able to automatically optimise game AI during game-play. In the present paper, we research to what extent dynamic scripting can be used to adapt game AI in order to elicit an even game. We investigate three difficulty-scaling enhancements to the dynamic scripting technique, namely high-fitness penalising, weight clipping, and top culling. Experimental results indicate that top culling is particularly successful in creating an even game. We conclude that dynamic scripting, using top culling, can enhance the entertainment value of games by scaling the difficulty level of the game AI to the playing skill of the human player." <a href='#reference_4' title='REFERANSE TIL SELVE ARTIKKELEN, side 1'>[4]</a>
+"'Difficulty scaling' is the automatic adaptation of a game, to adapt the challenge a game poses to a human player. In general, a game of which the challenge level matches the skill of the human player (i.e., an “even game”) is experienced as more entertaining than a game that is either too easy or too hard. In practice, when difficulty scaling is implemented in a game, it only adapts a few parameters. Even state-of-the-art games do not apply it to game AI, i.e., to the behaviour of computer-controlled opponents in a game. In prior work, we designed a novel online-learning technique called “dynamic scripting”, that is able to automatically optimise game AI during game-play. In the present paper, we research to what extent dynamic scripting can be used to adapt game AI in order to elicit an even game. We investigate three difficulty-scaling enhancements to the dynamic scripting technique, namely high-fitness penalising, weight clipping, and top culling. Experimental results indicate that top culling is particularly successful in creating an even game. We conclude that dynamic scripting, using top culling, can enhance the entertainment value of games by scaling the difficulty level of the game AI to the playing skill of the human player." <a href='#reference_2' title='Spronk,P.,I. Sprinkhuizen-Kuyper and E. Postma, Difficulty Scaling of Game AI. GAME-ON 2004: 5th International Conference on Intelligent Games and Simulation (eds. El Rhalibi, A., and D. Van Welden), pp. 33-37. EUROSIS, Belgium, 2004.'>[2]</a>
 </p>
 
 <p>
-Firstly, the abstract defines what difficulty scaling is, and its purpose. Since many computer games use computer-controlled opponents to challenge the player, the purpose of difficulty scaling is to make these challenges as even as possible, as this is often viewed as "more entertaining". Secondly, the abstract claims that state-of-the-art difficulty scaling is not applied to the behavior of game AI but rather to more simple parameters. In order to change this, the group has previously "designed a novel online-learning technique called 'dynamic scripting'". This technique is described in their prior paper, mentioned in the introduction. <a href='#reference_3' title='Rewrite to proper style, ONLINE ADAPTATION OF GAME OPPONENT AI WITH DYNAMIC SCRIPTING, published in the International Journal of Intelligent Games and Simulation, page 45-53, by Pieter Sprock et al.'>[3]</a> Thirdly, the abstract explains three "difficulty-scaling enhancements", which is added to dynamic scripting, in order to make even games. Lastly, the abstract concludes that the technique called 'top culling' is the best for using dynamic scripting to create even games.
+Firstly, the abstract defines what difficulty scaling is, and its purpose. Since many computer games use computer-controlled opponents to challenge the player, the purpose of difficulty scaling is to make these challenges as even as possible, as this is often viewed as "more entertaining". Secondly, the abstract claims that state-of-the-art difficulty scaling is not applied to the behavior of game AI but rather to more simple parameters. In order to change this, the group has previously "designed a novel online-learning technique called 'dynamic scripting'". This technique is described in their prior paper, mentioned in the introduction. <a href='#reference_3' title='Spronk,P.,I. Sprinkhuizen-Kuyper and E. Postma. (2004). Online Adaptation of Game Opponent AI with Dynamic Scripting. International Journal of Intelligent Games and Simulation, Vol 3-No 1, page 45-53.'>[3]</a> Thirdly, the abstract explains three "difficulty-scaling enhancements", which is added to dynamic scripting, in order to make even games. Lastly, the abstract concludes that the technique called 'top culling' is the best for using dynamic scripting to create even games.
 </p>
 
 <h2 id='the_paper_-_difficulty_scaling_of_game_ai_-_paper_structure'>Paper Structure</h2>
@@ -129,10 +129,9 @@ The structure of the paper is resembling the structure of the abstract, starting
 
 <h2 id='the_paper_-_difficulty_scaling_of_game_ai_-_dynamic_scripting'>Dynamic Scripting</h2>
 
-<div id='dynamicscripting' class='figure'><img src='DynamicScripting.png' alt='The Dynamic Scripting process, taken from [3]' title='The Dynamic Scripting process, taken from [3]'><div class='caption'>The Dynamic Scripting process, taken from [3]</div></div>
-
+<div id='dynamicscripting' class='figure'><img src='DynamicScripting.png' alt='The Dynamic Scripting process [2]' title='The Dynamic Scripting process [2]'><div class='caption'>The Dynamic Scripting process [2]</div></div>
 <p>
-The game AIs used to test techniques in the paper are all created using a process created by the authors in earlier work called Dynamic Scripting <a href='#reference_3' title='Rewrite to proper style, ONLINE ADAPTATION OF GAME OPPONENT AI WITH DYNAMIC SCRIPTING, published in the International Journal of Intelligent Games and Simulation, page 45-53, by Pieter Sprock et al.'>[3]</a>. As the figure shows this process uses a rulebase with different rules as to how the game could be played. When the computer generates a script, which describes how the AI should play, it selects rules based on a weight value which is then modified based on the outcome of the game, if the AI wins the weight is increased and if the AI loses it is decreased.
+The game AIs used to test techniques in the paper are all created using a process created by the authors in earlier work called Dynamic Scripting <a href='#reference_3' title='Spronk,P.,I. Sprinkhuizen-Kuyper and E. Postma. (2004). Online Adaptation of Game Opponent AI with Dynamic Scripting. International Journal of Intelligent Games and Simulation, Vol 3-No 1, page 45-53.'>[3]</a>. As the figure shows this process uses a rulebase with different rules as to how the game could be played. When the computer generates a script, which describes how the AI should play, it selects rules based on a weight value which is then modified based on the outcome of the game, if the AI wins the weight is increased and if the AI loses it is decreased.
 </p>
 
 <p>
@@ -152,20 +151,20 @@ Based on dynamic scripting, the paper presents three different enhancement techn
 
 <h3 id='the_paper_-_difficulty_scaling_of_game_ai_-_techniques_-_high-fitness_penalising'>High-Fitness Penalising</h3>
 <p>
-The first technique is high-fitness penalising, which gives more rewards to mediocre fitness values, instead of optimal ones, using the following formula, "where F is replaced by F′ defined as follows:" <a href='#reference_5' title='Referanse til selve artikkelen, side 2'>[5]</a>
+The first technique is high-fitness penalising, which gives more rewards to mediocre fitness values, instead of optimal ones, using the following formula, "where F is replaced by F′ defined as follows:" <a href='#reference_2' title='Spronk,P.,I. Sprinkhuizen-Kuyper and E. Postma, Difficulty Scaling of Game AI. GAME-ON 2004: 5th International Conference on Intelligent Games and Simulation (eds. El Rhalibi, A., and D. Van Welden), pp. 33-37. EUROSIS, Belgium, 2004.'>[2]</a>
 </p>
-<div id='high-fitness_penalising' class='figure'><img src='high-fitness_penalising.png' alt='High-fitness penalising formula) @("Referanse til selve artikkelen, side 2"' title='High-fitness penalising formula) @("Referanse til selve artikkelen, side 2"'><div class='caption'>High-fitness penalising formula) @("Referanse til selve artikkelen, side 2"</div></div>
+<div id='high-fitness_penalising' class='figure'><img src='high-fitness_penalising.png' alt='High-fitness penalising formula [2]' title='High-fitness penalising formula [2]'><div class='caption'>High-fitness penalising formula [2]</div></div>
 <p>
-"where F is the calculated fitness value and p is the reward-peak value, i.e., the fitness value that should get the highest reward. The higher p is set, the more effective opponent behaviour will be." <a href='#reference_6' title='Referanse til selve artikkelen, inkluder sidetall-2'>[6]</a> Also, the value of p is adjusted by a small amount after each fight with a player, based on whether the fight was lost (up) or won (down).
+"where F is the calculated fitness value and p is the reward-peak value, i.e., the fitness value that should get the highest reward. The higher p is set, the more effective opponent behaviour will be." <a href='#reference_2' title='Spronk,P.,I. Sprinkhuizen-Kuyper and E. Postma, Difficulty Scaling of Game AI. GAME-ON 2004: 5th International Conference on Intelligent Games and Simulation (eds. El Rhalibi, A., and D. Van Welden), pp. 33-37. EUROSIS, Belgium, 2004.'>[2]</a> Also, the value of p is adjusted by a small amount after each fight with a player, based on whether the fight was lost (up) or won (down).
 </p>
 
 <h3 id='the_paper_-_difficulty_scaling_of_game_ai_-_techniques_-_weight_clipping'>Weight Clipping</h3>
 <p>
 There is a value called W_max, that limits the maximum level of optimisation for a tactic. By changing this value to a higher number, better tactics can be developed, and vice versa. Weight clipping changes this value automatically, so that when the computer beats the player, W_max is lowered, and when the player wins, it is elevated.
 </p>
-<div id='wc_and_tc' class='figure'><img src='WCandTC.png' alt='Weight Clipping and Top Culling process and parameters' title='Weight Clipping and Top Culling process and parameters'><div class='caption'>Weight Clipping and Top Culling process and parameters</div></div>
+<div id='wc_and_tc' class='figure'><img src='WCandTC.png' alt='Weight Clipping and Top Culling process and parameters [2]' title='Weight Clipping and Top Culling process and parameters [2]'><div class='caption'>Weight Clipping and Top Culling process and parameters [2]</div></div>
 <p>
- (Referanse til artikkelen igjen, side 3) Where W_inc and W_dec is how much W_max is elevated or lowered, W_init is the starting value for W_max and W_min is the minimum value for W_max. The arrow 'a' shows a rule with too low weight value, and arrow 'b' shows a rule with too high weight value. Both will be increased/decreased to the minimum/maximum levels.
+Where W_inc and W_dec is how much W_max is elevated or lowered, W_init is the starting value for W_max and W_min is the minimum value for W_max. The arrow 'a' shows a rule with too low weight value, and arrow 'b' shows a rule with too high weight value. Both will be increased/decreased to the minimum/maximum levels.
 </p>
 
 <h3 id='the_paper_-_difficulty_scaling_of_game_ai_-_techniques_-_top_culling'>Top Culling</h3>
@@ -183,8 +182,7 @@ The paper tested the different techniques in a series of experiments using two C
 These experiments ran simulations playing one team using the dynamic scripting method with techniques mentioned above against a static AI team. The goal was to find which technique would be able to achieve closest to 50% win rate against all tactics.
 </p>
 
-<div id='experimentresults' class='figure'><img src='ExperimentResults.png' alt='Result of the tests in the variation of Baldur's Gate' title='Result of the tests in the variation of Baldur's Gate'><div class='caption'>Result of the tests in the variation of Baldur's Gate</div></div>
-
+<div id='experimentresults' class='figure'><img src='ExperimentResults.png' alt='Result of the tests in the variation of Baldur's Gate [2]' title='Result of the tests in the variation of Baldur's Gate [2]'><div class='caption'>Result of the tests in the variation of Baldur's Gate [2]</div></div>
 <p>
 These experiments show that top culling was the best result, as it was the only technique to consistently produce even games against all the static tactics. 
 </p>
@@ -196,7 +194,7 @@ The paper concludes that of the techniques tested top culling worked the best, a
 </p>
 
 <p>
-For future work the authors state that they want to experiment with offline learning techniques and see whether any can be used to design completely new rules for the Dynamic Scripting rulebase during gameplay, and the entertainment value for humans playing against AIs using Dynamic Scripting. <a href="http://www.dcc.ru.nl/~idak/publications/papers/SpronckGAMEON2004.pdf">[2]</a>
+For future work the authors state that they want to experiment with offline learning techniques and see whether any can be used to design completely new rules for the Dynamic Scripting rulebase during gameplay, and the entertainment value for humans playing against AIs using Dynamic Scripting. <a href='#reference_2' title='Spronk,P.,I. Sprinkhuizen-Kuyper and E. Postma, Difficulty Scaling of Game AI. GAME-ON 2004: 5th International Conference on Intelligent Games and Simulation (eds. El Rhalibi, A., and D. Van Welden), pp. 33-37. EUROSIS, Belgium, 2004.'>[2]</a>
 </p>
 
 <h1 id='discussion'>Discussion</h1>
@@ -205,7 +203,7 @@ Compared to our own Advanced Project, this paper focuses more on difficulty scal
 </p>
 
 <p>
-Another difference is that this paper uses dynamic scripting, which aims to create optimal AI tactics, whereas we use a stochastic hillclimbing algorithm with a rather weak prior. So instead of penalising an already optimal set of parameters, we start from scrth and climb higher with each jump.
+Another difference is that this paper uses dynamic scripting, which aims to create optimal AI tactics, whereas we use a stochastic hillclimbing algorithm with a rather weak prior. So instead of penalising an already optimal set of parameters, we start from scratch and climb higher with each jump.
 </p>
 
 <h1 id='conclusion'>Conclusion</h1>
@@ -220,12 +218,9 @@ Compared to our own project, this is rather different, as the enhancement techni
 <h1 id='references'>References</h1>
 
 <div>
-<a id='reference_1' href="http://en.wikipedia.org/wiki/Roguelike">[1] http://en.wikipedia.org/wiki/Roguelike</a><br>
-<a id='reference_2' href="http://www.dcc.ru.nl/~idak/publications/papers/SpronckGAMEON2004.pdf">[2] http://www.dcc.ru.nl/~idak/publications/papers/SpronckGAMEON2004.pdf</a><br>
-<span id='reference_3'>[3] Rewrite to proper style, ONLINE ADAPTATION OF GAME OPPONENT AI WITH DYNAMIC SCRIPTING, published in the International Journal of Intelligent Games and Simulation, page 45-53, by Pieter Sprock et al.</span><br>
-<span id='reference_4'>[4] REFERANSE TIL SELVE ARTIKKELEN, side 1</span><br>
-<span id='reference_5'>[5] Referanse til selve artikkelen, side 2</span><br>
-<span id='reference_6'>[6] Referanse til selve artikkelen, inkluder sidetall-2</span><br>
+<span id='reference_1'>[1] Wikimedia Foundation. (2013). <i>Roguelike</i>. Hentet fra http://en.wikipedia.org/wiki/Roguelike</span><br>
+<span id='reference_2'>[2] Spronk,P.,I. Sprinkhuizen-Kuyper and E. Postma, Difficulty Scaling of Game AI. <i>GAME-ON 2004: 5th International Conference on Intelligent Games and Simulation</i> (eds. El Rhalibi, A., and D. Van Welden), pp. 33-37. EUROSIS, Belgium, 2004.</span><br>
+<span id='reference_3'>[3] Spronk,P.,I. Sprinkhuizen-Kuyper and E. Postma. (2004). Online Adaptation of Game Opponent AI with Dynamic Scripting. <i>International Journal of Intelligent Games and Simulation</i>, Vol 3-No 1, page 45-53.</span><br>
 </div>
 
 </body></html>

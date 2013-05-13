@@ -1,25 +1,28 @@
 Møte
-- Plotting
-- Case testing - spillerprofiler
+- Plotting - Pyplot?
+- OK Måte å teste på (Erfaring, fun, antall spill)
+- Case testing - spillerprofiler (Parameters, vanskelig/lett)
+- Færre parametere å endre på:
+  - HP, Speed, Damage, ReloadTime, Earthquake, DiggerMob, SuperMob
 
 Robin
-- Raskere konvergering (Maxjumpdistance)
-- Pyplot
-- Generelt parametere: Endre flere variabler ennm HP for vanskelighetsgraden.
+- MaxDistance opp, 25% ned pr gang, helt til min jumpdistance.
+- Generelt parametere: Endre flere variabler enn HP for vanskelighetsgraden.
   - MapGeneration sjanse for høyre (Difficulty)
-- Rapport: Referanser
+- Pyplot
+- OK Questionnaire
 
 JV
-- Voicing av effekter.
-- Tenk: Tilbakemelde brukeren generelt
-- Rapport: Discussion, conclusion, abstract
-
-Feedback
-- Not enough money
-- Effektikoner i gult vindu
-- Hotkeys
+- Fjerne voicing av effekter.
+- Èn sang med forskjellig tempo.
+- Not enough money lyd
 - Wall cost ved ikonet
-- Markere på questions + OK knapp
-- Digger på tårn
-- Intuitiv tårngrafikk
 - Lydeffekt på salg, upgrade og bygg
+- Bars: HP, Speed, Damage
+- Digger på tårn
+
+Tentative
+- Hotkeys
+- Markere på questions + OK knapp
+- Intuitiv tårngrafikk
+

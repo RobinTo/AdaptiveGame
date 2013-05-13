@@ -1,4 +1,4 @@
-﻿$title = Difficulty Scaling of Game AI
+$title = Difficulty Scaling of Game AI
 $authors = Jon Vegard Jansen, Robin Tollisen
 $supervisors = Sondre Glimsdal
 $course = IKT426 Research Seminar
@@ -53,8 +53,7 @@ The structure of the paper is resembling the structure of the abstract, starting
 
 ## Dynamic Scripting
 
-@figure(dynamicScripting, DynamicScripting.png, The Dynamic Scripting process, taken from [3])
-
+@figure(dynamicScripting, DynamicScripting.png, The Dynamic Scripting process [2])
 The game AIs used to test techniques in the paper are all created using a process created by the authors in earlier work called Dynamic Scripting @("Spronk,P.,I. Sprinkhuizen-Kuyper and E. Postma. (2004). Online Adaptation of Game Opponent AI with Dynamic Scripting. International Journal of Intelligent Games and Simulation, Vol 3-No 1, page 45-53."). As the figure shows this process uses a rulebase with different rules as to how the game could be played. When the computer generates a script, which describes how the AI should play, it selects rules based on a weight value which is then modified based on the outcome of the game, if the AI wins the weight is increased and if the AI loses it is decreased.
 
 The problem discussed in the paper we discuss here is how to limit the AIs abilities to produce even games, which we discuss in the following sub-chapters.
@@ -68,13 +67,13 @@ Based on dynamic scripting, the paper presents three different enhancement techn
 
 ### High-Fitness Penalising
 The first technique is high-fitness penalising, which gives more rewards to mediocre fitness values, instead of optimal ones, using the following formula, "where F is replaced by F′ defined as follows:" @("Spronk,P.,I. Sprinkhuizen-Kuyper and E. Postma, Difficulty Scaling of Game AI. GAME-ON 2004: 5th International Conference on Intelligent Games and Simulation (eds. El Rhalibi, A., and D. Van Welden), pp. 33-37. EUROSIS, Belgium, 2004.")
-@figure(high-fitness_penalising, high-fitness_penalising.png, High-fitness penalising formula) @("Spronk,P.,I. Sprinkhuizen-Kuyper and E. Postma, Difficulty Scaling of Game AI. GAME-ON 2004: 5th International Conference on Intelligent Games and Simulation (eds. El Rhalibi, A., and D. Van Welden), pp. 33-37. EUROSIS, Belgium, 2004."))
+@figure(high-fitness_penalising, high-fitness_penalising.png, High-fitness penalising formula [2])
 "where F is the calculated fitness value and p is the reward-peak value, i.e., the fitness value that should get the highest reward. The higher p is set, the more effective opponent behaviour will be." @("Spronk,P.,I. Sprinkhuizen-Kuyper and E. Postma, Difficulty Scaling of Game AI. GAME-ON 2004: 5th International Conference on Intelligent Games and Simulation (eds. El Rhalibi, A., and D. Van Welden), pp. 33-37. EUROSIS, Belgium, 2004.") Also, the value of p is adjusted by a small amount after each fight with a player, based on whether the fight was lost (up) or won (down).
 
 ### Weight Clipping
 There is a value called W_max, that limits the maximum level of optimisation for a tactic. By changing this value to a higher number, better tactics can be developed, and vice versa. Weight clipping changes this value automatically, so that when the computer beats the player, W_max is lowered, and when the player wins, it is elevated.
-@figure(wc_and_tc, WCandTC.png, Weight Clipping and Top Culling process and parameters)
- (Referanse til artikkelen igjen, side 3) Where W_inc and W_dec is how much W_max is elevated or lowered, W_init is the starting value for W_max and W_min is the minimum value for W_max. The arrow 'a' shows a rule with too low weight value, and arrow 'b' shows a rule with too high weight value. Both will be increased/decreased to the minimum/maximum levels.
+@figure(wc_and_tc, WCandTC.png, Weight Clipping and Top Culling process and parameters [2])
+Where W_inc and W_dec is how much W_max is elevated or lowered, W_init is the starting value for W_max and W_min is the minimum value for W_max. The arrow 'a' shows a rule with too low weight value, and arrow 'b' shows a rule with too high weight value. Both will be increased/decreased to the minimum/maximum levels.
 
 ### Top Culling
 Top culling is simlar to weight clipping, but instead of decreasing values for rules with too high weight values, it allows them to grow beyond W_max, but the game AI will not be able to select them. If W_max later changes to a higher level, they may be selected again.
@@ -85,8 +84,7 @@ The paper tested the different techniques in a series of experiments using two C
 
 These experiments ran simulations playing one team using the dynamic scripting method with techniques mentioned above against a static AI team. The goal was to find which technique would be able to achieve closest to 50% win rate against all tactics.
 
-@figure(ExperimentResults, ExperimentResults.png, Result of the tests in the variation of Baldur's Gate)
-
+@figure(ExperimentResults, ExperimentResults.png, Result of the tests in the variation of Baldur's Gate [2])
 These experiments show that top culling was the best result, as it was the only technique to consistently produce even games against all the static tactics. 
 
 ## Paper Conclusion and Future Work
@@ -98,7 +96,7 @@ For future work the authors state that they want to experiment with offline lear
 # Discussion
 Compared to our own Advanced Project, this paper focuses more on difficulty scaling itself, rather than having an adaptive game. Our project aims to create a game that will change its contents over time, rather than just difficulty.
 
-Another difference is that this paper uses dynamic scripting, which aims to create optimal AI tactics, whereas we use a stochastic hillclimbing algorithm with a rather weak prior. So instead of penalising an already optimal set of parameters, we start from scrth and climb higher with each jump.
+Another difference is that this paper uses dynamic scripting, which aims to create optimal AI tactics, whereas we use a stochastic hillclimbing algorithm with a rather weak prior. So instead of penalising an already optimal set of parameters, we start from scratch and climb higher with each jump.
 
 # Conclusion
 This paper contains work on how to use the existing dynamic scripting for difficulty scaling too, and not just optimal scripts. They present three different enhancement techniques, namely high-fitness penalising, weight clipping and top culling, with top culling emerging as the better choice from the experiments.
