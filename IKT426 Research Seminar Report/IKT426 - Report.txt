@@ -6,9 +6,9 @@ $semester = Spring 2013
 $place = Grimstad
 $date = 13th of May
 $status = Final
-$keywords = Game Difficulty, Scaling
+$keywords = Gaming, game AI, difficulty scaling, artificial intelligence, machine learning, unsupervised online learning.
 
-$abstract = NEED
+$abstract = This document presents a paper called Difficulty Scaling of Game AI. The paper shortly presents a method called dynamic scripting, which aims to create optimal scripts, using unsupervised online learning, before moving on to three enhancement techniques that enables dynamic scripting for difficulty scaling. Lastly we compare it to our own ongoing project in IKT411 - Advanced Project, and how we can use it.
 
 @file(frontpage.txt)
 
@@ -30,15 +30,17 @@ $ Table of contents | toc
 
 # Introduction | intro
 
-This report will discuss the paper "Difficulty Scaling of Game AI", by Pieter Spronck, Ida Sprinkhuizen-Kuyper and Eric Postma, 2004. Artificial intelligence will henceforth be abbreviated AI. This problem is a hard problem to solve, as game AI usually cannot be approached the same way as regular AI, trying to make them as smart as possible, but has to make mistakes for the player to beat them.
+This report discusses the paper "Difficulty Scaling of Game AI", by Pieter Spronck, Ida Sprinkhuizen-Kuyper and Eric Postma, 2004. Artificial intelligence is henceforth abbreviated AI. This problem is a hard problem to solve, as game AI usually cannot be approached the same way as regular AI, trying to make them as smart as possible, but has to make mistakes for the player to beat them.
 
 The problem discussed in the paper by Spronck et al. is how you can adapt the difficulty of a game AI in real time. The difficulty in this case is how hard it would be for a player to win at the game. The main in this field is scaling the difficulty of the AI to produce what is referred to in the paper as "even games", which means that the player should not win 100% of the time, or if he does, for instance if the game requires it e.g. roguelikes@("http://en.wikipedia.org/wiki/Roguelike") with premanent death, it should not be easy for the player to win 100% of the time.
 
-This paper will discuss Difficulty Scaling of Game AI @("http://www.dcc.ru.nl/~idak/publications/papers/SpronckGAMEON2004.pdf"), we have also read and may take elements from @("Rewrite to proper style, ONLINE ADAPTATION OF GAME OPPONENT AI WITH DYNAMIC SCRIPTING, published in the International Journal of Intelligent Games and Simulation, page 45-53, by Pieter Sprock et al.") which is the paper where they explain the method they use in the main paper.
+This paper discusses difficulty Scaling of Game AI @("http://www.dcc.ru.nl/~idak/publications/papers/SpronckGAMEON2004.pdf"), we have also read and may take elements from @("Rewrite to proper style, ONLINE ADAPTATION OF GAME OPPONENT AI WITH DYNAMIC SCRIPTING, published in the International Journal of Intelligent Games and Simulation, page 45-53, by Pieter Sprock et al.") which is the paper where they explain the method they use in the main paper.
+
+Lastly we compare it with our own Advanced Project, which is to create an adaptive tower defence game.
 
 # The Paper - Difficulty Scaling of Game AI
 
-We will go through the paper mostly one headline at a time. First, we present the paper abstract, as it outlines the background and problems very well, and the rest of the article follows its structure.
+We go through the paper mostly one headline at a time. First, we present the paper abstract, as it outlines the background and problems very well, and the rest of the article follows its structure.
 
 ## Paper Abstract
 The abstract of the paper is as follows:
@@ -55,7 +57,7 @@ The structure of the paper is resembling the structure of the abstract, starting
 
 The game AIs used to test techniques in the paper are all created using a process created by the authors in earlier work called Dynamic Scripting @("Rewrite to proper style, ONLINE ADAPTATION OF GAME OPPONENT AI WITH DYNAMIC SCRIPTING, published in the International Journal of Intelligent Games and Simulation, page 45-53, by Pieter Sprock et al."). As the figure shows this process uses a rulebase with different rules as to how the game could be played. When the computer generates a script, which describes how the AI should play, it selects rules based on a weight value which is then modified based on the outcome of the game, if the AI wins the weight is increased and if the AI loses it is decreased.
 
-The problem discussed in the paper we discuss here is how to limit the AIs abilities to produce even games, which will be discussed in the following sub-chapters.
+The problem discussed in the paper we discuss here is how to limit the AIs abilities to produce even games, which we discuss in the following sub-chapters.
 
 ## Difficulty Scaling
 This section starts out by first describing how many games deal with players on different levels, that is by setting different, discrete difficulty settings, such as 'easy, normal and hard'. These settings usually does not affect the behavior of the game AI, only their relative strength to the player, maybe even in an unfair or cheating way. This paper presents how the difficulty level can adapt to the player as the game is played, not only by changing relative strength numbers, but also by allowing the game AI to change tactics.
@@ -94,10 +96,14 @@ The paper concludes that of the techniques tested top culling worked the best, a
 For future work the authors state that they want to experiment with offline learning techniques and see whether any can be used to design completely new rules for the Dynamic Scripting rulebase during gameplay, and the entertainment value for humans playing against AIs using Dynamic Scripting. @("http://www.dcc.ru.nl/~idak/publications/papers/SpronckGAMEON2004.pdf")
 
 # Discussion
+Compared to our own Advanced Project, this paper focuses more on difficulty scaling itself, rather than having an adaptive game. Our project aims to create a game that will change its contents over time, rather than just difficulty.
 
+Another difference is that this paper uses dynamic scripting, which aims to create optimal AI tactics, whereas we use a stochastic hillclimbing algorithm with a rather weak prior. So instead of penalising an already optimal set of parameters, we start from scrth and climb higher with each jump.
 
 # Conclusion
+This paper contains work on how to use the existing dynamic scripting for difficulty scaling too, and not just optimal scripts. They present three different enhancement techniques, namely high-fitness penalising, weight clipping and top culling, with top culling emerging as the better choice from the experiments.
 
+Compared to our own project, this is rather different, as the enhancement techniques are very specialized towards dynamic scripting, thus hard to use by themselves. But dynamic scripting itself is something that we can look into for our own future work, both for optimal game AI and difficulty scaling.
 
 # References
 

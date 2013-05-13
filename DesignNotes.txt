@@ -5,7 +5,7 @@ Møte
 Robin
 - Raskere konvergering (Maxjumpdistance)
 - Pyplot
-- Generelt parametere: Endre flere variabler enn HP for vanskelighetsgraden.
+- Generelt parametere: Endre flere variabler ennm HP for vanskelighetsgraden.
   - MapGeneration sjanse for høyre (Difficulty)
 - Rapport: Referanser
 
