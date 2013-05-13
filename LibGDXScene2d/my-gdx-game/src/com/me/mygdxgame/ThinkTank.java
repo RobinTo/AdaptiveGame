@@ -472,7 +472,7 @@ public class ThinkTank
 		else
 		{
 			double chance = random.nextDouble();
-			if(chance < 0.33)
+			if(chance < 0.5)
 			{
 				parameters.get("GlobalMonsterHP").value -= distance;
 				if (parameters.get("GlobalMonsterHP").value < 0.1f)
