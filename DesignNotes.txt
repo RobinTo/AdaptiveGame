@@ -13,3 +13,13 @@ JV
 - Voicing av effekter.
 - Tenk: Tilbakemelde brukeren generelt
 - Rapport: Discussion, conclusion, abstract
+
+Feedback
+- Not enough money
+- Effektikoner i gult vindu
+- Hotkeys
+- Wall cost ved ikonet
+- Markere på questions + OK knapp
+- Digger på tårn
+- Intuitiv tårngrafikk
+- Lydeffekt på salg, upgrade og bygg
