@@ -44,7 +44,6 @@ public class GameProcessor
 	boolean movesTowers = true;
 	boolean tempNudge = false;
 	
-	float nudgeChanceConstant = 0.2f;
 	float nudgeTimer = 0;
 	float nudgeRemainingTime = 0f;
 	float nudgeRandomizerTimer = 1.0f;

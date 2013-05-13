@@ -229,7 +229,7 @@ public class MyGdxGame implements ApplicationListener
 			hud.updateYellowBoxPosition();
 			checkWave(totalTime);
 				
-			gameProcessor.updateGame(totalTime, gameCamera, map, assetManager, stage, hud, gameProcessor.nudgeChanceConstant, assetManager.sounds.get("earthquake"));
+			gameProcessor.updateGame(totalTime, gameCamera, map, assetManager, stage, hud, thinkTank.thinkTankInfo.nudgeChanceInGame, assetManager.sounds.get("earthquake"));
 
 			if (gameProcessor.isGameLost())
 			{

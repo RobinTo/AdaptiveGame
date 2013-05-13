@@ -74,6 +74,7 @@ public class ThinkTank
 			parameters.put("DiggerChance", new Parameter("DiggerChance", 0.1f, 0.0f, 1.0f)); // Digger chance eats of the 0.5 set for Normal mob chance.
 			parameters.put("SuperChance", new Parameter("SuperChance", 0.1f, 0.0f, 1.0f)); // Set to 0 to disable super minions. Could add a seperate number for each type, if we desire.
 			parameters.put("EarthquakeChance", new Parameter("EarthquakeChance", 0.1f, 0.0f, 1.0f)); 
+			parameters.put("EarthquakeChanceInGame", new Parameter("EarthquakeChanceInGame", 0.2f, 0.1f, 0.9f)); 
 		}
 		
 		thinkTankInfo.initialize();
@@ -153,6 +154,9 @@ public class ThinkTank
 			
 			tempRelation = new Relation("SuperChance", parameters.get("SuperChance"));
 			relations.put("SuperChance", tempRelation);
+			
+			tempRelation = new Relation("EarthquakeChanceInGame", parameters.get("EarthquakeChanceInGame"));
+			relations.put("EarthquakeChanceInGame", tempRelation);
 			
 			tempRelation = new Relation("EarthquakeChance", parameters.get("EarthquakeChance"));
 			relations.put("EarthquakeChance", tempRelation);
@@ -356,6 +360,7 @@ public class ThinkTank
 		this.diggerChance = parameters.get("DiggerChance").value;
 		this.superEnemyChance = parameters.get("SuperChance").value;
 		this.nudgeChance = parameters.get("EarthquakeChance").value;
+		this.thinkTankInfo.nudgeChanceInGame = parameters.get("EarthquakeChanceInGame").value;
 		
 		Iterator<String> enemyStatsIterator = enemyInfo.keySet()
 				.iterator();	
@@ -499,7 +504,7 @@ public class ThinkTank
 			}
 		}
 		//Make sure jumps are smaller each jump
-		thinkTankInfo.maxJumpDistance -= 0.005f;
+		thinkTankInfo.maxJumpDistance -= thinkTankInfo.maxJumpDistance/5;
 		thinkTankInfo.maxJumpDistance = thinkTankInfo.maxJumpDistance < 0.05f ? 0.05f : thinkTankInfo.maxJumpDistance;
 	
 		calculateSpeedLevel();

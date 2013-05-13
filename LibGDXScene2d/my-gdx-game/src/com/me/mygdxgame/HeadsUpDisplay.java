@@ -225,7 +225,8 @@ public class HeadsUpDisplay
 				consoleStrings.add("Game Length Multiplier: " + thinkTankInfo.gameLengthMultiplier);
 				consoleStrings.add("Digger Chance: " + parameters.get("DiggerChance").value);
 				consoleStrings.add("Super Enemy Chance: " + parameters.get("SuperChance").value);
-				consoleStrings.add("Earthquake Chance: " + parameters.get("EarthquakeChance").value);
+				consoleStrings.add("Earthquake On Chance: " + parameters.get("EarthquakeChance").value);
+				consoleStrings.add("Earthquake Chance: " + parameters.get("EarthquakeChanceInGame").value);
 
 				consoleGroup.setVisible(true);
 				break;

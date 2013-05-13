@@ -6,7 +6,8 @@ public class ThinkTankInfo
 	float maxJumpDistance = 0.2f;
 	double gameLengthMultiplier = 1.0;
 	double playerLevel = 0;
-	
+
+	float nudgeChanceInGame = 0.2f;
 
 	int lastDifficulty = 0;
 	
@@ -17,7 +18,7 @@ public class ThinkTankInfo
 		lastMetric = 0;
 		currentMetric = 0;
 		challengerMetric = 0;
-		maxJumpDistance = 0.2f;
+		maxJumpDistance = 0.4f;
 		gameLengthMultiplier = 1.0;
 		playerLevel = 0;
 		totalGames = 0;
