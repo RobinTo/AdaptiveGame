@@ -497,7 +497,6 @@ public class MyGdxGame implements ApplicationListener
 							if (gameProcessor.towers.get(c).getX() == t.getX() && gameProcessor.towers.get(c).getY() == t.getY())
 								canBuild = false;
 						}
-						assetManager.sounds.get("buildTower").play();
 					}
 					else
 					{
@@ -505,7 +504,7 @@ public class MyGdxGame implements ApplicationListener
 					}
 					if (canBuild)
 					{
-
+						assetManager.sounds.get("buildTower").play();
 						gameProcessor.currentGold -= buildCost;
 						hud.goldButton.setText("        " + gameProcessor.currentGold);
 						stage.addActor(t);
@@ -515,6 +514,7 @@ public class MyGdxGame implements ApplicationListener
 					} else
 					{
 						t = null;
+						assetManager.sounds.get("maxedOut").play();
 					}
 				}
 			} else if (e.eventType.equals("sell"))

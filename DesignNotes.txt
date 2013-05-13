@@ -16,10 +16,10 @@ JV
 - Digger på tårn
 - Upgrade og sell cost ved ikonet
 - Bars: DiggerChance, Earthquake, SuperMob
-- Color working?
+- Earthquake-wall graphics
 
 Tentative
 - Hotkeys
 - Markere på questions + OK knapp
 - Intuitiv tårngrafikk
-
+- Color working on difficulty change?
