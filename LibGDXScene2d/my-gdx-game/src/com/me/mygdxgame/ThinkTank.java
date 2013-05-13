@@ -432,36 +432,34 @@ public class ThinkTank
 		float distance = (random.nextFloat() - 0.5f) * 2 * thinkTankInfo.maxJumpDistance;
 		
 		System.out.println("DIFF: "+thinkTankInfo.lastDifficulty);
+		float moveAbs = Math.abs(distance); // Abs to know if + or -
 		if(thinkTankInfo.lastDifficulty == 1)
 		{
+			parameters.get("GlobalMonsterHP").value += moveAbs;
+			if (parameters.get("GlobalMonsterHP").value > 10.0f)
+				parameters.get("GlobalMonsterHP").value = 10.0f;
 			double chance = random.nextDouble();
 			if(chance < 0.5)
 			{
-				parameters.get("GlobalMonsterHP").value += distance;
-				if (parameters.get("GlobalMonsterHP").value > 10.0f)
-					parameters.get("GlobalMonsterHP").value = 10.0f;
-			}
-			else if (chance < 0.75)
-			{
 				double chanceTwo = random.nextDouble();
 				if (chanceTwo < 0.25)
-					parameters.get("GlobalMonsterSpeed").value += distance;
+					parameters.get("GlobalMonsterSpeed").value += moveAbs;
 				else if (chanceTwo < 0.5)
-					parameters.get("GlobalTowerRange").value -= distance;
+					parameters.get("GlobalTowerRange").value -= moveAbs;
 				else if (chanceTwo < 0.75)
-					parameters.get("TEDamage").value -= distance;
+					parameters.get("TEDamage").value -= moveAbs;
 				else
-					parameters.get("GlobalMonsterGoldYield").value -= distance;
+					parameters.get("GlobalMonsterGoldYield").value -= moveAbs;
 			}
 			else
 			{
 				double chanceTwo = random.nextDouble();
 				if (chanceTwo < 0.33)
-					parameters.get("DiggerChance").value += distance;
+					parameters.get("DiggerChance").value += moveAbs;
 				else if (chanceTwo < 0.66)
-					parameters.get("SuperChance").value += distance;
+					parameters.get("SuperChance").value += moveAbs;
 				else
-					parameters.get("EarthquakeChance").value += distance;
+					parameters.get("EarthquakeChance").value += moveAbs;
 
 			}	
 		}
@@ -472,34 +470,30 @@ public class ThinkTank
 		else
 		{
 			double chance = random.nextDouble();
+			parameters.get("GlobalMonsterHP").value -= moveAbs;
+			if (parameters.get("GlobalMonsterHP").value < 0.1f)
+				parameters.get("GlobalMonsterHP").value = 0.1f;
 			if(chance < 0.5)
 			{
-				parameters.get("GlobalMonsterHP").value -= distance;
-				if (parameters.get("GlobalMonsterHP").value < 0.1f)
-					parameters.get("GlobalMonsterHP").value = 0.1f;
-			}
-			else if (chance < 0.75)
-			{
-
 				double chanceTwo = random.nextDouble();
 				if (chanceTwo < 0.25)
-					parameters.get("GlobalMonsterSpeed").value -= distance;
+					parameters.get("GlobalMonsterSpeed").value -= moveAbs;
 				else if (chanceTwo < 0.5)
-					parameters.get("GlobalTowerRange").value += distance;
+					parameters.get("GlobalTowerRange").value += moveAbs;
 				else if (chanceTwo < 0.75)
-					parameters.get("TEDamage").value += distance;
+					parameters.get("TEDamage").value += moveAbs;
 				else
-					parameters.get("GlobalMonsterGoldYield").value += distance;
+					parameters.get("GlobalMonsterGoldYield").value += moveAbs;
 			}
 			else
 			{
 				double chanceTwo = random.nextDouble();
 				if (chanceTwo < 0.33)
-					parameters.get("DiggerChance").value -= distance;
+					parameters.get("DiggerChance").value -= moveAbs;
 				else if (chanceTwo < 0.66)
-					parameters.get("SuperChance").value -= distance;
+					parameters.get("SuperChance").value -= moveAbs;
 				else
-					parameters.get("EarthquakeChance").value -= distance;
+					parameters.get("EarthquakeChance").value -= moveAbs;
 				
 			}
 		}
