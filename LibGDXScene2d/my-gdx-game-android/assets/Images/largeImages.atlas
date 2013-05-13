@@ -1,0 +1,12 @@
+
+largeImages.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+qBG
+  rotate: false
+  xy: 1, 1
+  size: 800, 460
+  orig: 800, 460
+  offset: 0, 0
+  index: -1

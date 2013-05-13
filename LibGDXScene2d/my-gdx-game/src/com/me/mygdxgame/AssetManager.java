@@ -23,6 +23,7 @@ public class AssetManager
 	TextureAtlas miscAtlas; // Various small stuff like bullets, health bar,
 							// sell and upgrade buttons
 	TextureAtlas towersAtlas; // Towers
+	TextureAtlas largeAtlas;
 	
 	public void initialize()
 	{
@@ -32,6 +33,7 @@ public class AssetManager
 		enemiesAtlas = new TextureAtlas(Gdx.files.internal("Images/enemies.atlas"));
 		miscAtlas = new TextureAtlas(Gdx.files.internal("Images/misc.atlas"));
 		towersAtlas = new TextureAtlas(Gdx.files.internal("Images/towers.atlas"));
+		largeAtlas = new TextureAtlas(Gdx.files.internal("Images/largeImages.atlas"));
 	}
 	public void loadSounds(HashMap<String,TowerStats> towerInfo)
 	{

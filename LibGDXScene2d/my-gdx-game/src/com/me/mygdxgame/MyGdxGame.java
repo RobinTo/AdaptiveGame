@@ -166,7 +166,7 @@ public class MyGdxGame implements ApplicationListener
 			e.printStackTrace();
 		}
 		
-		qBG = assetManager.miscAtlas.createSprite("qBG");
+		qBG = assetManager.largeAtlas.createSprite("qBG");
 
 		FileHandle parameterHandle = Gdx.files.external(parameterSavePath);
 		FileHandle relationsHandle = Gdx.files.external(relationsSavePath);
@@ -243,7 +243,7 @@ public class MyGdxGame implements ApplicationListener
 				}
 				if (!questionaireIsDisplayed)
 				{
-					questionaire = new Questionaire(qBG, assetManager.miscAtlas.createSprite("thumbUp"), assetManager.miscAtlas.createSprite("thumbDown"), assetManager.miscAtlas.createSprite("thumbSide"), stage, assetManager.font, buttonGenerator);
+					questionaire = new Questionaire(qBG, assetManager.miscAtlas.createSprite("heartFeedback"), assetManager.miscAtlas.createSprite("thumbUp"), assetManager.miscAtlas.createSprite("thumbDown"), assetManager.miscAtlas.createSprite("thumbSide"), stage, assetManager.font, buttonGenerator);
 					questionaireIsDisplayed = true;
 				}
 			}
@@ -259,7 +259,7 @@ public class MyGdxGame implements ApplicationListener
 				}
 				if (!questionaireIsDisplayed)
 				{
-					questionaire = new Questionaire(qBG, assetManager.miscAtlas.createSprite("thumbUp"), assetManager.miscAtlas.createSprite("thumbDown"), assetManager.miscAtlas.createSprite("thumbSide"), stage, assetManager.font, buttonGenerator);
+					questionaire = new Questionaire(qBG, assetManager.miscAtlas.createSprite("heartFeedback"), assetManager.miscAtlas.createSprite("thumbUp"), assetManager.miscAtlas.createSprite("thumbDown"), assetManager.miscAtlas.createSprite("thumbSide"), stage, assetManager.font, buttonGenerator);
 					questionaireIsDisplayed = true;
 				}
 			}

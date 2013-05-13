@@ -233,12 +233,12 @@ public class ThinkTank
 				: thinkTankInfo.playerLevel; //PlayerLevel not below 0.1				
 		
 		Random rand = new Random();
-		thinkTankInfo.challengerMetric = rand.nextDouble()*(happy+difficult)*thinkTankInfo.gameLengthMultiplier;
+		thinkTankInfo.challengerMetric = rand.nextDouble()*(happy)*thinkTankInfo.gameLengthMultiplier; // Removed difficult from this metric, as it is irrelevant.
 		thinkTankInfo.lastDifficulty = difficult;
 		thinkTankInfo.gameLengthMultiplier += 0.02;
 		thinkTankInfo.lastMetric = thinkTankInfo.currentMetric;
 		//Jump from variables if metric is higher than last one.
-		if (thinkTankInfo.challengerMetric > thinkTankInfo.currentMetric || (happy == 3 && difficult == 3))
+		if (thinkTankInfo.challengerMetric > thinkTankInfo.currentMetric || (happy == 3))
 		{
 			// Jump between specified interval
 			// So all variables are added a random value between

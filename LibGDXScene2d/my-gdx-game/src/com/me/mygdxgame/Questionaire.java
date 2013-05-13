@@ -22,13 +22,13 @@ public class Questionaire
 	
 	BitmapFont font;
 	
-	public Questionaire(Sprite bgSprite, Sprite thumbUpSprite, Sprite thumbDownSprite, Sprite thumbSideSprite, Stage stage, BitmapFont font, ButtonGenerator buttonGenerator)
+	public Questionaire(Sprite bgSprite, Sprite happySprite, Sprite thumbUpSprite, Sprite thumbDownSprite, Sprite thumbSideSprite, Stage stage, BitmapFont font, ButtonGenerator buttonGenerator)
 	{
-		this.font = font;
+		this.font = new BitmapFont();
 		backGroundSprite = new ExtendedActor(bgSprite);
 		backGroundSprite.setBounds(250, 150, 800, 460);
 		stage.addActor(backGroundSprite);
-		TextButton thumbDownButton = buttonGenerator.createButton(thumbDownSprite, font);
+		TextButton thumbDownButton = buttonGenerator.createButton(happySprite, font);
 		thumbDownButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -41,7 +41,7 @@ public class Questionaire
 		stage.addActor(thumbDownButton);
 		buttons.add(thumbDownButton);
 
-		TextButton thumbSideButton = buttonGenerator.createButton(thumbSideSprite, font);
+		TextButton thumbSideButton = buttonGenerator.createButton(happySprite, font);
 		thumbSideButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -54,7 +54,7 @@ public class Questionaire
 		stage.addActor(thumbSideButton);
 		buttons.add(thumbSideButton);
 
-		TextButton thumbUpButton = buttonGenerator.createButton(thumbUpSprite, font);
+		TextButton thumbUpButton = buttonGenerator.createButton(happySprite, font);
 		thumbUpButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -74,7 +74,7 @@ public class Questionaire
 				return true;
 			}
 		});
-		smiley1Button.setPosition(GameConstants.screenWidth/2 - thumbUpButton.getWidth()*1.5f, GameConstants.screenHeight/2 - 64);
+		smiley1Button.setPosition(GameConstants.screenWidth/2 - thumbUpButton.getWidth()*1.5f, GameConstants.screenHeight/2 - 2*64);
 		stage.addActor(smiley1Button);
 		buttons.add(smiley1Button);
 		
@@ -87,7 +87,7 @@ public class Questionaire
 				return true;
 			}
 		});
-		smiley2Button.setPosition(GameConstants.screenWidth/2 - thumbUpButton.getWidth()*0.5f, GameConstants.screenHeight/2 - 64);
+		smiley2Button.setPosition(GameConstants.screenWidth/2 - thumbUpButton.getWidth()*0.5f, GameConstants.screenHeight/2 - 2*64);
 		stage.addActor(smiley2Button);
 		buttons.add(smiley2Button);
 		
@@ -100,7 +100,7 @@ public class Questionaire
 				return true;
 			}
 		});
-		smiley3Button.setPosition(GameConstants.screenWidth/2 + thumbUpButton.getWidth()*0.5f, GameConstants.screenHeight/2 - 64);
+		smiley3Button.setPosition(GameConstants.screenWidth/2 + thumbUpButton.getWidth()*0.5f, GameConstants.screenHeight/2 - 2*64);
 		stage.addActor(smiley3Button);
 		buttons.add(smiley3Button);
 	}
@@ -108,8 +108,9 @@ public class Questionaire
 	public void draw(SpriteBatch spriteBatch)
 	{
 		font.setColor(Color.BLACK);
-		font.draw(spriteBatch, "How fun was this game, compared to last? Less/Equal/More", 260, 600);
-		font.draw(spriteBatch, "Difficulty level? Too easy / Ok / Too hard", 260, 300);
+		font.setScale(1.3f);
+		font.draw(spriteBatch, "How much fun did you have?", 420, 550);
+		font.draw(spriteBatch, "Difficulty level?", 420, 400);
 	}
 	
 	public void reset()

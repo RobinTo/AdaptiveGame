@@ -17,8 +17,8 @@ public class Main
 		cfg.height = GameConstants.screenHeight;
 
 		Settings settings = new Settings();
-		settings.maxWidth = 512;
-		settings.maxHeight = 512;
+		settings.maxWidth = 1024;
+		settings.maxHeight = 1024;
 
 		// This part regenerates texture atlases each time the desktop project is ran.
 		// Remove both for no recompiling of images.
@@ -41,6 +41,8 @@ public class Main
 		TexturePacker2.process(settings, path + "\\Towers", "Images", "towers");
 		TexturePacker2.process(settings, path + "\\MapTiles", "Images",
 				"mapTiles");
+		TexturePacker2.process(settings, path + "\\LargeImages", "Images",
+				"largeImages");
 		// ----------------------------------------------
 	}
 
@@ -56,7 +58,7 @@ public class Main
 			packed = true;
 		}
 		catch(Exception e)
-		{}
+		{System.out.println(e.getMessage());}
 		if(!packed)
 		{
 			path = "C:\\Users\\Robin\\github\\AdaptiveGame\\LibGDXScene2d\\my-gdx-game-android\\assets\\Images";
@@ -64,7 +66,7 @@ public class Main
 			{
 				packFiles(path, settings);
 			} catch (Exception e)
-			{
+			{System.out.println(e.getMessage());
 			}
 		}
 		
@@ -81,6 +83,8 @@ public class Main
 				.process(settings, path + "\\Towers", "../my-gdx-game-android/assets/Images", "towers");
 		TexturePacker2
 				.process(settings, path + "\\MapTiles", "../my-gdx-game-android/assets/Images", "mapTiles");
+		TexturePacker2
+			.process(settings, path + "\\LargeImages", "../my-gdx-game-android/assets/Images", "largeImages");
 
 		// Make copies in desktop project
 		TexturePacker2
@@ -91,5 +95,7 @@ public class Main
 				.process(settings, path + "\\Towers", "../my-gdx-game-desktop/bin/Images", "towers");
 		TexturePacker2
 				.process(settings, path + "\\MapTiles", "../my-gdx-game-desktop/bin/Images", "mapTiles");
+		TexturePacker2
+			.process(settings, path + "\\LargeImages", "../my-gdx-game-desktop/bin/Images", "largeImages");
 	}
 }
