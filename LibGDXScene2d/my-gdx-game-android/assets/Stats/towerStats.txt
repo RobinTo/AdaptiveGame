@@ -1,9 +1,9 @@
-type:Arrow1
+type:Arrow Tower Mk.I
 towerTexture:arrowTower
 missileTexture:blackBullet
 shootSound:arrowShoot.mp3
 impactSound:arrowImpact.mp3
-upgradesTo:Arrow2
+upgradesTo:Arrow Tower Mk.II
 sellPrice:3
 buildCost:5
 targeting:Single
@@ -11,24 +11,24 @@ reloadtime:0.5f
 range:250
 effect:edit:currentHealth:-1
 buildable:true
-description:Single target tower.
+description:Single target tower that shoots faster with each upgrade.
 endTower
-type:Arrow2
+type:Arrow Tower Mk.II
 towerTexture:arrowTower2
 missileTexture:blackBullet
 shootSound:arrowShoot.mp3
 impactSound:arrowImpact.mp3
-upgradesTo:Arrow3
+upgradesTo:Arrow Tower Mk.III
 sellPrice:5
 buildCost:8
 targeting:Single
 reloadtime:0.4f
 range:300
-effect:edit:currentHealth:-3
+effect:edit:currentHealth:-1
 buildable:false
-description:Single target tower.
+description:Single target tower that shoots faster with each upgrade.
 endTower
-type:Arrow3
+type:Arrow Tower Mk.III
 towerTexture:arrowTower3
 missileTexture:blackBullet
 shootSound:arrowShoot.mp3
@@ -39,16 +39,16 @@ buildCost:11
 targeting:Single
 reloadtime:0.3f
 range:350
-effect:edit:currentHealth:-5
+effect:edit:currentHealth:-1
 buildable:false
-description:Single target tower.
+description:Single target tower that shoots faster with each upgrade.
 endTower
-type:FrostArrow1
+type:Frost Tower Mk.I
 towerTexture:blueTower
 missileTexture:blueBullet
 shootSound:arrowShoot.mp3
 impactSound:arrowImpact.mp3
-upgradesTo:FrostArrow2
+upgradesTo:Frost Tower Mk.II
 sellPrice:7
 buildCost:10
 targeting:circle:10
@@ -59,12 +59,12 @@ effect:set:currentSlowDuration:2.0f
 buildable:true
 description:Slows enemies in an area on impact.
 endTower
-type:FrostArrow2
+type:Frost Tower Mk.II
 towerTexture:blueTower2
 missileTexture:blueBullet
 shootSound:arrowShoot.mp3
 impactSound:arrowImpact.mp3
-upgradesTo:FrostArrow3
+upgradesTo:Frost Tower Mk.III
 sellPrice:10
 buildCost:15
 targeting:circle:10
@@ -75,7 +75,7 @@ effect:set:currentSlowDuration:2.0f
 buildable:false
 description:Slows enemies in an area on impact.
 endTower
-type:FrostArrow3
+type:Frost Tower Mk.III
 towerTexture:blueTower3
 missileTexture:blueBullet
 shootSound:arrowShoot.mp3
@@ -91,11 +91,11 @@ effect:set:currentSlowDuration:2.0f
 buildable:false
 description:Slows enemies in an area on impact.
 endTower
-type:FlameCircle1
+type:Flame Tower Mk.I
 towerTexture:redTower
 missileTexture:AoEFlame
 shootSound:flameShoot.mp3
-upgradesTo:FlameCircle2
+upgradesTo:Flame Tower Mk.II
 sellPrice:10
 buildCost:15
 targeting:circleonself
@@ -105,11 +105,11 @@ effect:edit:currentHealth:-8
 buildable:true
 description:Deals damage in an area around itself.
 endTower
-type:FlameCircle2
+type:Flame Tower Mk.II
 towerTexture:redTower2
 missileTexture:AoEFlame
 shootSound:flameShoot.mp3
-upgradesTo:FlameCircle3
+upgradesTo:Flame Tower Mk.III
 sellPrice:18
 buildCost:25
 targeting:circleonself
@@ -119,7 +119,7 @@ effect:edit:currentHealth:-16
 buildable:false
 description:Deals damage in an area around itself.
 endTower
-type:FlameCircle3
+type:Flame Tower Mk.III
 towerTexture:redTower3
 missileTexture:AoEFlame
 shootSound:flameShoot.mp3
@@ -133,11 +133,11 @@ effect:edit:currentHealth:-25
 buildable:false
 description:Deals damage in an area around itself.
 endTower
-type:LineLaser
+type:Laser Tower Mk.I
 towerTexture:testTower
 missileTexture:laserBullet
 shootSound:laserShoot.mp3
-upgradesTo:LineLaser2
+upgradesTo:Laser Tower Mk.II
 sellPrice:20
 buildCost:30
 targeting:line
@@ -147,27 +147,13 @@ effect:edit:currentHealth:-10
 buildable:true
 description:Deals damage to enemies in a line.
 endTower
-type:LineLaser2
+type:Laser Tower Mk.II
 towerTexture:testTower2
 missileTexture:laserBullet
 shootSound:laserShoot.mp3
-upgradesTo:LineLaser3
-sellPrice:30
-buildCost:40
-targeting:line
-reloadtime:2.0f
-range:400
-effect:edit:currentHealth:-15
-buildable:false
-description:Deals damage to enemies in a line.
-endTower
-type:LineLaser3
-towerTexture:testTower3
-missileTexture:laserBullet
-shootSound:laserShoot.mp3
-upgradesTo:null
-sellPrice:35
-buildCost:50
+upgradesTo:Laser Tower Mk.III
+sellPrice:40
+buildCost:55
 targeting:line
 reloadtime:2.0f
 range:400
@@ -175,12 +161,26 @@ effect:edit:currentHealth:-20
 buildable:false
 description:Deals damage to enemies in a line.
 endTower
-type:DotTower
+type:Laser Tower Mk.III
+towerTexture:testTower3
+missileTexture:laserBullet
+shootSound:laserShoot.mp3
+upgradesTo:null
+sellPrice:60
+buildCost:80
+targeting:line
+reloadtime:2.0f
+range:400
+effect:edit:currentHealth:-30
+buildable:false
+description:Deals damage to enemies in a line.
+endTower
+type:Burning Tower Mk.I
 towerTexture:dotTower
 missileTexture:blackBullet
 shootSound:arrowShoot.mp3
 impactSound:arrowImpact.mp3
-upgradesTo:DotTower2
+upgradesTo:Burning Tower Mk.II
 sellPrice:7
 buildCost:10
 targeting:Single
@@ -193,14 +193,14 @@ effect:set:dotDurationBetweenTicks:1f
 buildable:true
 description:Deals damage over time to an enemy
 endTower
-type:DotTower2
+type:Burning Tower Mk.II
 towerTexture:dotTower2
 missileTexture:blackBullet
 shootSound:arrowShoot.mp3
 impactSound:arrowImpact.mp3
-upgradesTo:DotTower3
-sellPrice:10
-buildCost:15
+upgradesTo:Burning Tower Mk.III
+sellPrice:13
+buildCost:18
 targeting:Single
 reloadtime:1.5f
 range:200
@@ -211,19 +211,19 @@ effect:set:dotDurationBetweenTicks:1f
 buildable:false
 description:Deals damage over time to an enemy
 endTower
-type:DotTower3
+type:Burning Tower Mk.III
 towerTexture:dotTower3
 missileTexture:blackBullet
 shootSound:arrowShoot.mp3
 impactSound:arrowImpact.mp3
 upgradesTo:null
-sellPrice:16
-buildCost:20
+sellPrice:18
+buildCost:25
 targeting:Single
 reloadtime:1.5f
 range:200
 effect:set:dotTicksLeft:3
-effect:set:currentDotDamage:20
+effect:set:currentDotDamage:15
 effect:set:currentDotDurationBetweenTicks:0f
 effect:set:dotDurationBetweenTicks:1f
 buildable:false

@@ -25,14 +25,9 @@ Robin
 - Metrikk bruker samme terningkast på alle hjerter, men ulikt antall terninger.
 
 JV
-- Upgrade og sell cost ved ikonet
-- Bars: DiggerChance, Earthquake, SuperMob
-- Startgold avhengig av buildcost
-- Laser oppgradering prior må balanseres
 - Color working on difficulty change?
 - Earthquake-wall graphics (Og endre tekst)
 - Pausefunksjon
-- Spamupgrade (low money)
 - Lydeffekt på spis
 - Lyd på kan ikke bygge på vei
 - Super effekts: Fast, Tough, Immortal, Invis, 
@@ -40,9 +35,13 @@ JV
   - Sjeldnere at man får effekt, men kraftigere effekter
   - Flere effekter på én gang
 - Skrive på tårntekst over tårn
-- Rename tower types (Arrow Tower Mk.II)
 
 Tentative
 - MapGeneration sjanse for høyre (Difficulty)
 - Hotkeys
+- Rydde opp i ListenerGenerator vs. handleEvents. Nå er det blandet hvem som gjør hva.
+- Costlabel positions
+- Ikke la samme lydeffekt spilles oppå seg selv, men stopp den første først.
+- Bars: Earthquake, SuperMob
+- Tower Damage displayed i gult vindu
 

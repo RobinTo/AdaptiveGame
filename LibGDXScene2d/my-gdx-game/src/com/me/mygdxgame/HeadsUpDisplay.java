@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 public class HeadsUpDisplay
@@ -37,7 +36,7 @@ public class HeadsUpDisplay
 	
 	List<String> towerKeys = new ArrayList<String>();
 	List<Label> towerCostLabels = new ArrayList<Label>();
-	Label wallCostLabel;
+	Label wallCostLabel, sellPriceLabel, upgradeCostLabel;
 	Slider healthSlider, speedSlider, damageSlider;
 	
 	TextButton livesButton, goldButton;
@@ -49,7 +48,7 @@ public class HeadsUpDisplay
 		this.font = font;
 	}
 	
-	public void createUI(TextureAtlas miscAtlas, TextureAtlas towersAtlas, HashMap<String, TowerStats> towerInfo, Stage stage, ButtonGenerator buttonGenerator, ListenerGenerator listenerGenerator)
+	public void createUI(TextureAtlas miscAtlas, TextureAtlas towersAtlas, HashMap<String, TowerStats> towerInfo, Stage stage, ButtonGenerator buttonGenerator, ListenerGenerator listenerGenerator, int startGold)
 	{
 		yellowBoxGroup = new Group();
 		yellowBox = new ExtendedActor(miscAtlas.createSprite("YellowBox"));
@@ -89,19 +88,31 @@ public class HeadsUpDisplay
 		sellButton.setPosition(GameConstants.screenWidth - 3 * 64, GameConstants.screenHeight - 100);
 		stage.addActor(sellButton);
 
+		sellPriceLabel = new Label("", labelStyle);
+		sellPriceLabel.setVisible(true);
+		sellPriceLabel.setPosition(sellButton.getX(), sellButton.getY() - sellButton.getHeight()/9);
+		sellPriceLabel.setText("");
+		stage.addActor(sellPriceLabel);
+		
 		TextButton upgradeButton = buttonGenerator.createButton(miscAtlas.createSprite("upgradeTowerButton"), font);
 		upgradeButton.addListener(listenerGenerator.createUpgradeButtonListener());
 		upgradeButton.setPosition(GameConstants.screenWidth - 4 * 64, GameConstants.screenHeight - 100);
 		stage.addActor(upgradeButton);
 
+		upgradeCostLabel = new Label("", labelStyle);
+		upgradeCostLabel.setVisible(true);
+		upgradeCostLabel.setPosition(upgradeButton.getX(), upgradeButton.getY() - upgradeButton.getHeight()/9);
+		upgradeCostLabel.setText("");
+		stage.addActor(upgradeCostLabel);
+		
 		TextButton wallButton = buttonGenerator.createButton(miscAtlas.createSprite("wallButton"), font);
 		wallButton.addListener(listenerGenerator.createWallButtonListener());
 		wallButton.setPosition(GameConstants.screenWidth - 5 * 64, GameConstants.screenHeight - 100);
 		stage.addActor(wallButton);
 		
-		wallCostLabel = new Label("10", labelStyle);
+		wallCostLabel = new Label("", labelStyle);
 		wallCostLabel.setVisible(true);
-		wallCostLabel.setPosition(wallButton.getX() + wallButton.getWidth()*2/3, wallButton.getY() - wallButton.getHeight()/9);
+		wallCostLabel.setPosition(wallButton.getX(), wallButton.getY() - wallButton.getHeight()/9);
 		wallCostLabel.setText("");
 		stage.addActor(wallCostLabel);
 		
@@ -120,7 +131,7 @@ public class HeadsUpDisplay
 			eachTowerButton.setPosition(10 + 10 * i + 64 * i, GameConstants.screenHeight - 100);
 			stage.addActor(eachTowerButton);
 
-			Label towerCostLabel = new Label("10", labelStyle);
+			Label towerCostLabel = new Label("", labelStyle);
 			towerCostLabel.setText("" + towerInfo.get(towerKeys.get(i)).buildCost);
 			towerCostLabel.setVisible(true);
 			towerCostLabel.setPosition(55 + 10 * i + 64 * i, GameConstants.screenHeight - 125);
@@ -132,7 +143,7 @@ public class HeadsUpDisplay
 		livesButton.setPosition(10 * 64, GameConstants.screenHeight - 100);
 		stage.addActor(livesButton);
 
-		goldButton = buttonGenerator.createButton(miscAtlas.createSprite("gold"), font, "        " + GameConstants.startGold);
+		goldButton = buttonGenerator.createButton(miscAtlas.createSprite("gold"), font, "        " + startGold);
 		goldButton.setPosition(12 * 64, GameConstants.screenHeight - 100);
 		stage.addActor(goldButton);
 		
@@ -274,5 +285,25 @@ public class HeadsUpDisplay
 	{
 		targetYellowBoxActor = null;
 		yellowBoxGroup.setVisible(false);
+	}
+	public void updateCostLabels(String text)
+	{
+		wallCostLabel.setText("");
+		upgradeCostLabel.setText("");
+		sellPriceLabel.setText("");
+	}
+	public void updateCostLabels(Tower selectedTower)
+	{
+		if (selectedTower.wall)
+			wallCostLabel.setText("wall");
+		else
+			wallCostLabel.setText("" + selectedTower.towerStats.buildCost*2);
+		
+		if (selectedTower.towerStats.upgradesTo.equals("null"))
+			upgradeCostLabel.setText("max");
+		else
+			upgradeCostLabel.setText("" + selectedTower.towerStats.upgradeCost);
+			
+		sellPriceLabel.setText("" + selectedTower.towerStats.sellPrice);
 	}
 }
