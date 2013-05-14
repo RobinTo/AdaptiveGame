@@ -77,10 +77,6 @@ public class StatsFetcher {
 					{
 						buildCost = Integer.parseInt(split[1]);
 					}
-					else if(testString0.equals("upgradecost"))
-					{
-						upgradeCost = Integer.parseInt(split[1]);
-					}
 					else if(testString0.equals("effect"))
 					{
 						FloatingBoolean fb = new FloatingBoolean(split[1].toLowerCase().equals("set") ? true: false, Float.parseFloat(split[3]));

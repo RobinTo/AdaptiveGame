@@ -17,7 +17,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class GameProcessor
@@ -55,10 +54,10 @@ public class GameProcessor
 	float superEnemySpeedSizeScale = 0.8f; // Size scale for super enemies with speed bonus.
 	float superEnemyHealthSizeScale = 1.2f; // ^ for health super minions
 
-	public void initialize()
+	public void initialize(int startGold)
 	{
 		livesLeft = GameConstants.startLives;
-		currentGold = GameConstants.startGold;
+		currentGold = startGold;
 
 	}
 
@@ -151,9 +150,7 @@ public class GameProcessor
 				textForBox.add("Upgrade: MAX");
 			} else
 			{
-				int upgradeCost = towerInfo
-						.get(selectedTower.towerStats.upgradesTo).buildCost
-						- selectedTower.towerStats.buildCost;
+				int upgradeCost = selectedTower.towerStats.upgradeCost;
 				textForBox.add("Upgrade: " + upgradeCost);
 			}
 			textForBox.add("Sell: " + selectedTower.towerStats.sellPrice);
@@ -415,7 +412,7 @@ public class GameProcessor
 			return false;
 	}
 
-	public void resetGame(float nudgeChance)
+	public void resetGame(float nudgeChance, int startGold)
 	{
 		Random random = new Random();
 		if (random.nextFloat() < nudgeChance)
@@ -427,7 +424,7 @@ public class GameProcessor
 		enemies.clear();
 		enemyWave.clear();
 		waveTime.clear();
-		currentGold = GameConstants.startGold;
+		currentGold = startGold;
 		livesLeft = GameConstants.startLives;
 		diggerEnemies.clear();
 		lastMinionTime = 0;

@@ -17,5 +17,5 @@ type:digger
 enemyTexture:diggerEnemy
 health:250
 speed:0.5f
-goldYield:20
+goldYield:13
 endFile

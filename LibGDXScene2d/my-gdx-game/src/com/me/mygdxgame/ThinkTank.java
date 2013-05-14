@@ -361,6 +361,7 @@ public class ThinkTank
 		this.superEnemyChance = parameters.get("SuperChance").value;
 		this.nudgeChance = parameters.get("EarthquakeChance").value;
 		this.thinkTankInfo.nudgeChanceInGame = parameters.get("EarthquakeChanceInGame").value;
+		this.thinkTankInfo.startGold = (int)(100f * parameters.get("GlobalBuildCost").value);
 		
 		Iterator<String> enemyStatsIterator = enemyInfo.keySet()
 				.iterator();	
@@ -382,6 +383,7 @@ public class ThinkTank
 			towerInfo.get(key).reloadTime = defaultTowerInfo.get(key).reloadTime * parameters.get("GlobalReloadTime").value;
 			
 			towerInfo.get(key).sellPrice = (int) (defaultTowerInfo.get(key).sellPrice * parameters.get("GlobalBuildCost").value);//Linked parameter
+			
 			
 			HashMap<String, FloatingBoolean> effects = towerInfo.get(key).missileEffects.effects;
 			if (effects.containsKey("currentHealth"))
@@ -537,6 +539,29 @@ public class ThinkTank
 		{
 			String key = parameterIterator.next();
 			parameters.get(key).value = savedParameters.get(key).value;
+		}
+	}
+
+	public void initializeUpgradeCost()
+	{
+		Iterator<String> towerStatsIterator = towerInfo.keySet().iterator();
+		while (towerStatsIterator.hasNext())
+		{
+			TowerStats towerStats = towerInfo.get(towerStatsIterator.next());
+			if (towerStats.upgradesTo.equals("null"))
+				towerStats.upgradeCost = 9999;
+			else
+				towerStats.upgradeCost = towerInfo.get(towerStats.upgradesTo).buildCost - towerStats.buildCost;
+		}
+		
+		towerStatsIterator = defaultTowerInfo.keySet().iterator();
+		while (towerStatsIterator.hasNext())
+		{
+			TowerStats towerStats = defaultTowerInfo.get(towerStatsIterator.next());
+			if (towerStats.upgradesTo.equals("null"))
+				towerStats.upgradeCost = 9999;
+			else
+				towerStats.upgradeCost = defaultTowerInfo.get(towerStats.upgradesTo).buildCost - towerStats.buildCost;
 		}
 	}
 }
