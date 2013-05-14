@@ -446,7 +446,17 @@ public class GameProcessor
 		boolean digger = false;
 		if (type.equals("digger"))
 		{
-			for (int i = 0; i <= Map.mapWidth; i++)
+				directions = (List<Direction>) map.directions.clone();
+				List<Direction> removedDirections = (List<Direction>) map.directions.clone();
+				int randomNumber = rand.nextInt(directions.size());
+				
+				removedDirections =  removedDirections.subList(randomNumber, removedDirections.size());
+				directions = directions.subList(0, randomNumber);
+				for (Direction d : removedDirections)
+				{
+					if (d == Direction.Right)
+						directions.add(Direction.Right);
+				}
 				directions.add(Direction.Right);
 			digger = true;
 		} else

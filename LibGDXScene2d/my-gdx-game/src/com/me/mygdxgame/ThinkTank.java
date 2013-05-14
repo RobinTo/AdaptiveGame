@@ -433,6 +433,10 @@ public class ThinkTank
 		
 		System.out.println("DIFF: "+thinkTankInfo.lastDifficulty);
 		float moveAbs = Math.abs(distance); // Abs to know if + or -
+		
+		// Might want to not move certain chances by distance. Incrementing Earthquake chance may never make it go back down.
+		// Since earthquake chance can be changed even tho earthquakes are not enabled, making the change unperceivable. So you might get 
+		// earthquakes enables with almost constant earthquakes.
 		if(thinkTankInfo.lastDifficulty == 1)
 		{
 			parameters.get("GlobalMonsterHP").value += moveAbs;
