@@ -1,25 +1,48 @@
 Møte
-- Plotting - Pyplot?
-- OK Måte å teste på (Erfaring, fun, antall spill)
+
+
+OK
+- Plotting - Pyplot? MathPlotLib
+- OK Måte å teste på (Erfaring, fun, antall spill) . ja
 - Case testing - spillerprofiler (Parameters, vanskelig/lett)
-- Færre parametere å endre på:
-  - HP, Speed, Damage, ReloadTime, Earthquake, DiggerMob, SuperMob
 
 Robin
-- MaxDistance opp, 25% ned pr gang, helt til min jumpdistance.
-- Generelt parametere: Endre flere variabler enn HP for vanskelighetsgraden.
-  - MapGeneration sjanse for høyre (Difficulty)
 - Pyplot
-- OK Questionnaire
+- Markere på questions
+- Diggers angriper tårn
+  - Taktikker
+  - Digger aggressiveness bar
+- Fjerne gult vindu fra enemies
+- Skalere wave difficulty (Ta med som difficulty-parameter)
+- Earthquakes on/off midt underveis i spillet
+- Random diggerstart
+- Ikke digge før x tiles
+- Speed som fast difficulty parameter.
+- Sette opp maxJumpDistance på ett hjerte
+- Sette ned maxJumpDistance på tre hjerter
+- Sette opp gamelengthmultiplier
+- Metrikk bruke flyttall
+- Metrikk bruker samme terningkast på alle hjerter, men ulikt antall terninger.
 
 JV
-- Digger på tårn
 - Upgrade og sell cost ved ikonet
 - Bars: DiggerChance, Earthquake, SuperMob
-- Earthquake-wall graphics
+- Startgold avhengig av buildcost
+- Laser oppgradering prior må balanseres
+- Color working on difficulty change?
+- Earthquake-wall graphics (Og endre tekst)
+- Pausefunksjon
+- Spamupgrade (low money)
+- Lydeffekt på spis
+- Lyd på kan ikke bygge på vei
+- Super effekts: Fast, Tough, Immortal, Invis, 
+  - Immortal grafikk
+  - Sjeldnere at man får effekt, men kraftigere effekter
+  - Flere effekter på én gang
+- Skrive på tårntekst over tårn
+- Rename tower types (Arrow Tower Mk.II)
 
 Tentative
+- MapGeneration sjanse for høyre (Difficulty)
 - Hotkeys
-- Markere på questions + OK knapp
-- Intuitiv tårngrafikk
-- Color working on difficulty change?
+

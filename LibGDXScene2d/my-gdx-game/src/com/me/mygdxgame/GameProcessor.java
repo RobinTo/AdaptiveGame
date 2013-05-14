@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class GameProcessor
@@ -43,19 +44,17 @@ public class GameProcessor
 	boolean earthquakeEnabled = true;
 	boolean movesTowers = true;
 	boolean tempNudge = false;
-	
+
 	float nudgeTimer = 0;
 	float nudgeRemainingTime = 0f;
 	float nudgeRandomizerTimer = 1.0f;
 	float nudgeRandomizerInterval = 0.5f;
-	
-	
+
 	float superEnemyHealthMultiplier = 1.5f;
 	float superEnemySpeedMultiplierBonus = 0.5f; // If currentSpeedMultiplier for an enemy is 2.0, it will be 2.5 for super minions of that kind.
 	float superEnemySpeedSizeScale = 0.8f; // Size scale for super enemies with speed bonus.
 	float superEnemyHealthSizeScale = 1.2f; // ^ for health super minions
-	
-	
+
 	public void initialize()
 	{
 		livesLeft = GameConstants.startLives;
@@ -64,7 +63,8 @@ public class GameProcessor
 	}
 
 	public void generateNextEnemy(float statMultiplier, ThinkTank thinkTank,
-			Map map, TextureAtlas enemiesAtlas, TextureAtlas miscAtlas, float diggerChance, float superEnemyChance)
+			Map map, TextureAtlas enemiesAtlas, TextureAtlas miscAtlas,
+			float diggerChance, float superEnemyChance)
 	{
 		currentMinionDelay = rand.nextInt(30);
 		currentMinionDelay /= 10.0f;
@@ -73,24 +73,21 @@ public class GameProcessor
 		Enemy e = null;
 		double randValue = rand.nextDouble();
 
-		if(randValue <= diggerChance)
+		if (randValue <= diggerChance)
 		{
 			e = createEnemy("digger", thinkTank, map, enemiesAtlas, miscAtlas);
 			e.modifyOriginalHealth(statMultiplier);
 			e.modifyOriginalMoveSpeed(statMultiplier);
-		}
-		else if (randValue <= (1.0 - diggerChance)/3.0 + diggerChance)
+		} else if (randValue <= (1.0 - diggerChance) / 3.0 + diggerChance)
 		{
 			e = createEnemy("basic", thinkTank, map, enemiesAtlas, miscAtlas);
 			e.modifyOriginalHealth(statMultiplier);
 			e.modifyOriginalMoveSpeed(statMultiplier);
-		}
-		else if (randValue <= 2.0*(1.0 - diggerChance)/3.0 + diggerChance)
+		} else if (randValue <= 2.0 * (1.0 - diggerChance) / 3.0 + diggerChance)
 		{
 			e = createEnemy("fast", thinkTank, map, enemiesAtlas, miscAtlas);
 			e.modifyOriginalMoveSpeed(statMultiplier);
-		}
-		else
+		} else
 		{
 			e = createEnemy("tough", thinkTank, map, enemiesAtlas, miscAtlas);
 			e.modifyOriginalHealth(statMultiplier);
@@ -98,30 +95,31 @@ public class GameProcessor
 
 		if (!waveTime.contains(time))
 		{
-			float superMinionRand = (float)rand.nextDouble();
-			if(superMinionRand < superEnemyChance)
+			float superMinionRand = (float) rand.nextDouble();
+			if (superMinionRand < superEnemyChance)
 			{
 				e.superEnemy = true;
-				if(superMinionRand < superEnemyChance/2)
+				if (superMinionRand < superEnemyChance / 2)
 				{
 					e.modifyOriginalHealth(superEnemyHealthMultiplier);
 					e.setScale(superEnemyHealthSizeScale);
-					e.setColor(e.getColor().r+150, e.getColor().g, e.getColor().b, e.getColor().a);
-				}
-				else
+					e.setColor(e.getColor().r + 150, e.getColor().g, e
+							.getColor().b, e.getColor().a);
+				} else
 				{
-					e.modifyOriginalMoveSpeed(e.getStat("currentMoveSpeedMultiplier") + superEnemySpeedMultiplierBonus);
+					e.modifyOriginalMoveSpeed(e
+							.getStat("currentMoveSpeedMultiplier")
+							+ superEnemySpeedMultiplierBonus);
 					e.setScale(superEnemySpeedSizeScale);
-					e.setColor(e.getColor().r, e.getColor().g, e.getColor().b+150, e.getColor().a);
+					e.setColor(e.getColor().r, e.getColor().g, e.getColor().b + 150, e
+							.getColor().a);
 				}
 			}
 			waveTime.add(time);
 			enemyWave.put(time, e);
-		}
-		else
+		} else
 		{
-			generateNextEnemy(statMultiplier, thinkTank, map, enemiesAtlas,
-					miscAtlas, diggerChance, superEnemyChance);
+			generateNextEnemy(statMultiplier, thinkTank, map, enemiesAtlas, miscAtlas, diggerChance, superEnemyChance);
 		}
 	}
 
@@ -131,7 +129,8 @@ public class GameProcessor
 
 		textForBox.add(e.enemyStats.type);
 		textForBox.add("Health: " + Math.round(e.getStat("currentHealth")));
-		textForBox.add("Speed: " + Math.round(e.getStat("currentMoveSpeedMultiplier")));
+		textForBox.add("Speed: "
+				+ Math.round(e.getStat("currentMoveSpeedMultiplier")));
 		textForBox.add("Yields: " + Math.round(e.getStat("currentGoldYield")));
 		return textForBox;
 
@@ -150,8 +149,7 @@ public class GameProcessor
 			if (selectedTower.towerStats.upgradesTo.equals("null"))
 			{
 				textForBox.add("Upgrade: MAX");
-			}
-			else
+			} else
 			{
 				int upgradeCost = towerInfo
 						.get(selectedTower.towerStats.upgradesTo).buildCost
@@ -160,24 +158,27 @@ public class GameProcessor
 			}
 			textForBox.add("Sell: " + selectedTower.towerStats.sellPrice);
 			return textForBox;
-		}
-		else
+		} else
 		{
 			selectedTower = null;
 			return null;
 		}
 	}
+
 	// Eventually take a towerInfo id, and create appropriate.
-	public Tower createTower(String type, Vector2 tilePosition, TextureAtlas towersAtlas, TextureAtlas miscAtlas, HashMap<String, TowerStats> towerInfo)
+	public Tower createTower(String type, Vector2 tilePosition,
+			TextureAtlas towersAtlas, TextureAtlas miscAtlas,
+			HashMap<String, TowerStats> towerInfo)
 	{
-		Tower t = new Tower(
-				towerInfo.get(type),
-				towersAtlas.createSprite(towerInfo.get(type).towerTexture),
-				miscAtlas.createSprite(towerInfo.get(type).missileTexture), towersAtlas.createSprite("walls"));
+		Tower t = new Tower(towerInfo.get(type), towersAtlas
+				.createSprite(towerInfo.get(type).towerTexture), miscAtlas
+				.createSprite(towerInfo.get(type).missileTexture), towersAtlas
+				.createSprite("walls"));
 		t.setPosition(tilePosition.x * GameConstants.tileSize, tilePosition.y
 				* GameConstants.tileSize);
 		return t;
 	}
+
 	public void createWave(ThinkTank thinkTank, Map map,
 			TextureAtlas enemiesAtlas, TextureAtlas miscAtlas)
 	{
@@ -185,6 +186,7 @@ public class GameProcessor
 		addEnemyToWave(0.1f, e);
 		Collections.sort(waveTime);
 	}
+
 	public void updateGame(float totalTime, Camera gameCamera, Map map, AssetManager assetManager, Stage stage, HeadsUpDisplay hud, float nudgeChanceConstant, Sound earthquakeSound)
 	{
 		if (earthquakeEnabled && !isGameWon() && !isGameLost())
@@ -352,6 +354,21 @@ public class GameProcessor
 								enemyWave.get(enemyTimes).generateDirections(map.directions);
 						}
 					}
+					// Remove tower if in path
+					List<Tower> removeTowerList = new ArrayList<Tower>();
+					for (Tower t : towers)
+					{
+						if (t.getX() == diggerX * GameConstants.tileSize
+								&& t.getY() == diggerY * GameConstants.tileSize)
+						{
+							removeTowerList.add(t);
+						}
+					}
+					for (Tower tower : removeTowerList)
+					{
+						towers.remove(tower);
+						tower.remove();
+					}
 				}
 			}
 		}
@@ -369,7 +386,10 @@ public class GameProcessor
 			} else if (enemy.getActions().size == 0)
 			{
 				if(enemy.willDigg)
+				{
 					map.findStartPoint();
+					map.generateDirections();
+				}
 				enemies.remove(enemy);
 				enemy.remove();
 				livesLeft = livesLeft == 0 ? 0 : livesLeft - 1; 
@@ -378,6 +398,7 @@ public class GameProcessor
 			}
 		}
 	}
+
 	public boolean isGameWon()
 	{
 		if (enemies.size() <= 0 && enemyWave.size() <= 0)
@@ -385,6 +406,7 @@ public class GameProcessor
 		else
 			return false;
 	}
+
 	public boolean isGameLost()
 	{
 		if (livesLeft <= 0)
@@ -392,6 +414,7 @@ public class GameProcessor
 		else
 			return false;
 	}
+
 	public void resetGame(float nudgeChance)
 	{
 		Random random = new Random();
@@ -399,7 +422,7 @@ public class GameProcessor
 			earthquakeEnabled = true;
 		else
 			earthquakeEnabled = false;
-		
+
 		towers.clear();
 		enemies.clear();
 		enemyWave.clear();
@@ -409,34 +432,38 @@ public class GameProcessor
 		diggerEnemies.clear();
 		lastMinionTime = 0;
 	}
+
 	private void addEnemyToWave(float time, Enemy enemy)
 	{
 		enemyWave.put(time, enemy);
 		waveTime.add(time);
 	}
-	
+
 	private Enemy createEnemy(String type, ThinkTank thinkTank, Map map,
 			TextureAtlas enemiesAtlas, TextureAtlas miscAtlas)
 	{
 		List<Direction> directions = new ArrayList<Direction>();
 		boolean digger = false;
-		if(type.equals("digger"))
+		if (type.equals("digger"))
 		{
-			for(int i = 0; i<=Map.mapWidth; i++)
+			for (int i = 0; i <= Map.mapWidth; i++)
 				directions.add(Direction.Right);
 			digger = true;
-		}
-		else
+		} else
 			directions = map.directions;
-		
+
 		return new Enemy(thinkTank.enemyInfo.get(type), map.startPoint,
 				directions, enemiesAtlas.createSprite(thinkTank.enemyInfo
-						.get(type).enemyTexture),
-				miscAtlas.createSprite("healthBarRed"),
-				miscAtlas.createSprite("healthBarYellow"), miscAtlas.createSprite("super"), miscAtlas.createSprite("slowIcon"), miscAtlas.createSprite("DoTIcon"), digger);
+						.get(type).enemyTexture), miscAtlas
+						.createSprite("healthBarRed"), miscAtlas
+						.createSprite("healthBarYellow"), miscAtlas
+						.createSprite("super"), miscAtlas
+						.createSprite("slowIcon"), miscAtlas
+						.createSprite("DoTIcon"), digger);
 	}
-	
-	private void doEarthquake(Camera gameCamera, Map map, float nudgeChanceConstant, Sound earthquakeSound)
+
+	private void doEarthquake(Camera gameCamera, Map map,
+			float nudgeChanceConstant, Sound earthquakeSound)
 	{
 		// Earthquake functionality, can be moved wherever, just to test.
 		if (nudgeRemainingTime > 0)
@@ -447,10 +474,16 @@ public class GameProcessor
 			{
 				if (tempNudge)
 				{
-					gameCamera.position.set(rand.nextInt(40 - 20) + gameCamera.viewportWidth / 2, rand.nextInt(40 - 20) + gameCamera.viewportHeight / 2, 0);
+					gameCamera.position.set(rand.nextInt(40 - 20)
+							+ gameCamera.viewportWidth / 2, rand
+							.nextInt(40 - 20)
+							+ gameCamera.viewportHeight / 2, 0);
 				} else
 				{
-					gameCamera.position.set(rand.nextInt(40 - 20) + gameCamera.viewportWidth / 2, rand.nextInt(40 - 20) + gameCamera.viewportHeight / 2, 0);
+					gameCamera.position.set(rand.nextInt(40 - 20)
+							+ gameCamera.viewportWidth / 2, rand
+							.nextInt(40 - 20)
+							+ gameCamera.viewportHeight / 2, 0);
 				}
 				nudgeTimer = 0;
 				if (movesTowers)
@@ -460,52 +493,78 @@ public class GameProcessor
 						double d = rand.nextDouble();
 						if (d < 0.1)
 						{
-							if (d < 0.025 && map.canBuild((int) Math.round((t.getX()+GameConstants.tileSize) / GameConstants.tileSize), (int) Math.round(t.getY() / GameConstants.tileSize)))
+							if (d < 0.025
+									&& map.canBuild((int) Math
+											.round((t.getX() + GameConstants.tileSize)
+													/ GameConstants.tileSize), (int) Math
+											.round(t.getY()
+													/ GameConstants.tileSize)))
 							{
 								boolean canMove = true;
 								for (int c = 0; c < towers.size(); c++)
 								{
-									if (towers.get(c).getX() == t.getX()+GameConstants.tileSize && towers.get(c).getY() == t.getY())
+									if (towers.get(c).getX() == t.getX()
+											+ GameConstants.tileSize
+											&& towers.get(c).getY() == t.getY())
 										canMove = false;
 								}
-								if(canMove && !t.hasWall())
-									t.setPosition(t.getX() + GameConstants.tileSize, t.getY());
-							}
-							else if (d < 0.05 && map.canBuild((int) Math.round((t.getX()-GameConstants.tileSize) / GameConstants.tileSize), (int) Math.round(t.getY() / GameConstants.tileSize)))
+								if (canMove && !t.hasWall())
+									t.setPosition(t.getX()
+											+ GameConstants.tileSize, t.getY());
+							} else if (d < 0.05
+									&& map.canBuild((int) Math
+											.round((t.getX() - GameConstants.tileSize)
+													/ GameConstants.tileSize), (int) Math
+											.round(t.getY()
+													/ GameConstants.tileSize)))
 							{
 								boolean canMove = true;
 								for (int c = 0; c < towers.size(); c++)
 								{
-									if (towers.get(c).getX() == t.getX()-GameConstants.tileSize && towers.get(c).getY() == t.getY())
+									if (towers.get(c).getX() == t.getX()
+											- GameConstants.tileSize
+											&& towers.get(c).getY() == t.getY())
 										canMove = false;
 								}
-								if(canMove && !t.hasWall())
+								if (canMove && !t.hasWall())
 								{
-									t.setPosition(t.getX() - GameConstants.tileSize, t.getY());
+									t.setPosition(t.getX()
+											- GameConstants.tileSize, t.getY());
 								}
-							}
-							else if (d < 0.075 && map.canBuild((int) Math.round(t.getX() / GameConstants.tileSize), (int) Math.round((t.getY()+GameConstants.tileSize) / GameConstants.tileSize)))
+							} else if (d < 0.075
+									&& map.canBuild((int) Math.round(t.getX()
+											/ GameConstants.tileSize), (int) Math
+											.round((t.getY() + GameConstants.tileSize)
+													/ GameConstants.tileSize)))
 							{
 								boolean canMove = true;
 								for (int c = 0; c < towers.size(); c++)
 								{
-									if (towers.get(c).getX() == t.getX() && towers.get(c).getY() == t.getY()+GameConstants.tileSize)
+									if (towers.get(c).getX() == t.getX()
+											&& towers.get(c).getY() == t.getY()
+													+ GameConstants.tileSize)
 										canMove = false;
 								}
-								if(canMove && !t.hasWall())
-									t.setPosition(t.getX(), t.getY()+GameConstants.tileSize);
-							}
-							else if (map.canBuild((int) Math.round(t.getX() / GameConstants.tileSize), (int) Math.round((t.getY()-GameConstants.tileSize) / GameConstants.tileSize)))
+								if (canMove && !t.hasWall())
+									t.setPosition(t.getX(), t.getY()
+											+ GameConstants.tileSize);
+							} else if (map.canBuild((int) Math.round(t.getX()
+									/ GameConstants.tileSize), (int) Math
+									.round((t.getY() - GameConstants.tileSize)
+											/ GameConstants.tileSize)))
 							{
 								boolean canMove = true;
 								for (int c = 0; c < towers.size(); c++)
 								{
-									if (towers.get(c).getX() == t.getX() && towers.get(c).getY() == t.getY()-GameConstants.tileSize)
+									if (towers.get(c).getX() == t.getX()
+											&& towers.get(c).getY() == t.getY()
+													- GameConstants.tileSize)
 										canMove = false;
 								}
-								if(canMove && !t.hasWall())
-									t.setPosition(t.getX(), t.getY()-GameConstants.tileSize);
-									
+								if (canMove && !t.hasWall())
+									t.setPosition(t.getX(), t.getY()
+											- GameConstants.tileSize);
+
 							}
 						}
 					}
@@ -515,7 +574,8 @@ public class GameProcessor
 
 			if (nudgeRemainingTime <= 0)
 			{
-				gameCamera.position.set(gameCamera.viewportWidth / 2, gameCamera.viewportHeight / 2, 0);
+				gameCamera.position
+						.set(gameCamera.viewportWidth / 2, gameCamera.viewportHeight / 2, 0);
 			}
 
 			gameCamera.update();

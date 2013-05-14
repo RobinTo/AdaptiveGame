@@ -45,6 +45,8 @@ public class MyGdxGame implements ApplicationListener
 	boolean paused = true;
 	boolean resuming = true;
 
+	
+	
 	private float pauseTime = GameConstants.startTime;
 
 	private static final int VIRTUAL_WIDTH = 1280;
@@ -90,11 +92,11 @@ public class MyGdxGame implements ApplicationListener
 	
 	@Override
 	public void create()
-	{
+	{	
 		gameCamera = new OrthographicCamera(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
 		Gdx.graphics.setTitle("Adaptive Tower Defense v0.001");
 		spriteBatch = new SpriteBatch();
-
+		
 		assetManager = new AssetManager();
 		assetManager.initialize();
 
@@ -309,7 +311,7 @@ public class MyGdxGame implements ApplicationListener
 		uC++;
 		if (timer >= 1)
 		{
-			// System.out.println("FPS: " + uC);
+			System.out.println("FPS: " + uC);
 			uC = 0;
 			timer = 0;
 		}
@@ -322,11 +324,14 @@ public class MyGdxGame implements ApplicationListener
 			wasTab = false;
 		if (Gdx.input.isKeyPressed(Keys.X))
 		{
+			paused = true;
+			/*
 			gameProcessor.waveTime.clear();
 			gameProcessor.enemyWave.clear();
 			for (Enemy e : gameProcessor.enemies)
 				stage.getActors().removeValue(e, true);
 			gameProcessor.enemies.clear();
+			*/
 		}
 		
 		assetManager.checkMusic();
@@ -443,12 +448,11 @@ public class MyGdxGame implements ApplicationListener
 			colorValue = 1.0f - colorValue;
 		}
 		for (Actor actor : mapGroup.getChildren())
-		{
+		{ 
 			((MapTile) actor).setColor(colorValue,colorValue,colorValue, 1.0f);
 		}
 		
 		this.setSliderLevels();
-		
 		assetManager.playSong(thinkTank.speedLevel);
 	}
 
