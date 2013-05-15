@@ -243,6 +243,7 @@ public class HeadsUpDisplay
 		switch (consoleStates)
 		{
 			case 1:
+				consoleStrings.add("Somewhat Normalized Parameters");
 				consoleStrings.add("Global Monster HP Multiplier: " + parameters.get("GlobalMonsterHP").value);
 				consoleStrings.add("Global Reload Time Multiplier: " + parameters.get("GlobalReloadTime").value);
 				consoleStrings.add("Global Tower Range Multiplier: " + parameters.get("GlobalTowerRange").value);
@@ -254,7 +255,7 @@ public class HeadsUpDisplay
 				consoleStrings.add("TE Slow Percentage Multiplier: " + parameters.get("TESlowPercentage").value);
 				consoleStrings.add("Global Build Cost Multiplier: " + parameters.get("GlobalBuildCost").value);
 				consoleStrings.add("TE Dot Ticks Multiplier: " + parameters.get("TEDotTicks").value);
-				consoleStrings.add("Max Jump Distance: " + thinkTankInfo.maxJumpDistance);
+				consoleStrings.add("Super Enemy Chance (Norm.): " + parameters.get("SuperChance"));
 				consoleGroup.setVisible(true);
 				break;
 			case 2:
@@ -264,9 +265,10 @@ public class HeadsUpDisplay
 				consoleStrings.add("Challenger Metric: " + thinkTankInfo.challengerMetric);
 				consoleStrings.add("Game Length Multiplier: " + thinkTankInfo.gameLengthMultiplier);
 				consoleStrings.add("Digger Chance: " + parameters.get("DiggerChance").value);
-				consoleStrings.add("Super Enemy Chance: " + parameters.get("SuperChance").value);
+				consoleStrings.add("Super Enemy Chance: " + thinkTankInfo.superEnemyChance);
 				consoleStrings.add("Earthquake On Chance: " + parameters.get("EarthquakeChance").value);
 				consoleStrings.add("Earthquake Chance: " + parameters.get("EarthquakeChanceInGame").value);
+				consoleStrings.add("Max Jump Distance: " + thinkTankInfo.maxJumpDistance);
 
 				consoleGroup.setVisible(true);
 				break;

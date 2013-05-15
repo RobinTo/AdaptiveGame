@@ -67,6 +67,9 @@ public class Tower extends ExtendedActor {
 		{
 			for (Enemy candidateEnemy : enemies)
             {
+				if (candidateEnemy.currentlyInvisible)
+					continue;
+				
                 double deltaXCandidate = (candidateEnemy.getX() + candidateEnemy.getWidth()/2) - (this.getX() + this.getWidth()/2);
                 double deltaYCandidate = (candidateEnemy.getY() + candidateEnemy.getHeight()/2) - (this.getY() + this.getHeight()/2);
                 double distanceToCandidate = Math.sqrt(Math.pow(deltaXCandidate, 2) + Math.pow(deltaYCandidate, 2));

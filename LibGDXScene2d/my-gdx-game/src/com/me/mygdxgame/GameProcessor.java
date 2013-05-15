@@ -49,8 +49,8 @@ public class GameProcessor
 	float nudgeRandomizerTimer = 1.0f;
 	float nudgeRandomizerInterval = 0.5f;
 
-	float superEnemyHealthMultiplier = 1.5f;
-	float superEnemySpeedMultiplierBonus = 0.5f; // If currentSpeedMultiplier for an enemy is 2.0, it will be 2.5 for super minions of that kind.
+	float superEnemyHealthMultiplier = 4.0f;
+	float superEnemySpeedMultiplierBonus = 2.0f; // CHANGED: If currentMoveSpeedMultiplier was 2.0f, it will now be 4.0f (Multiplication).
 	float superEnemySpeedSizeScale = 0.8f; // Size scale for super enemies with speed bonus.
 	float superEnemyHealthSizeScale = 1.2f; // ^ for health super minions
 
@@ -97,26 +97,40 @@ public class GameProcessor
 			float superMinionRand = (float) rand.nextDouble();
 			if (superMinionRand < superEnemyChance)
 			{
-				e.superEnemy = true;
-				if (superMinionRand < superEnemyChance / 2)
+				superMinionRand = rand.nextFloat();
+				if (superMinionRand < 0.8f)
 				{
 					e.modifyOriginalHealth(superEnemyHealthMultiplier);
 					e.setScale(superEnemyHealthSizeScale);
-					e.setColor(e.getColor().r + 150, e.getColor().g, e
-							.getColor().b, e.getColor().a);
-				} else
+//					e.setColor(e.getColor().r + 150, e.getColor().g, e.getColor().b, e.getColor().a);
+					e.superToughEnemy = true;
+				}
+				superMinionRand = rand.nextFloat();
+				if (superMinionRand < 0.5f)
 				{
 					e.modifyOriginalMoveSpeed(e
 							.getStat("currentMoveSpeedMultiplier")
-							+ superEnemySpeedMultiplierBonus);
+							* superEnemySpeedMultiplierBonus);
 					e.setScale(superEnemySpeedSizeScale);
-					e.setColor(e.getColor().r, e.getColor().g, e.getColor().b + 150, e
-							.getColor().a);
+//					e.setColor(e.getColor().r, e.getColor().g, e.getColor().b + 150, e.getColor().a);
+					e.superFastEnemy = true;
+				}
+				superMinionRand = rand.nextFloat();
+				if (superMinionRand < 0.5f)
+				{
+					e.superInvisibleEnemy = true;
+				}
+				superMinionRand = rand.nextFloat();
+				if (superMinionRand < 0.5f)
+				{
+					e.setColor(0.1f, 0.1f, 0.1f, 1.0f);
+					e.superShieldedEnemy = true;
 				}
 			}
 			waveTime.add(time);
 			enemyWave.put(time, e);
-		} else
+		}
+		else
 		{
 			generateNextEnemy(statMultiplier, thinkTank, map, enemiesAtlas, miscAtlas, diggerChance, superEnemyChance);
 		}
@@ -218,7 +232,10 @@ public class GameProcessor
 				// If TargetStrategy.Single
 				if (missiles.get(i).effect.missileTarget.targetingStrategy == TargetingStrategy.Single)
 				{
+					assetManager.sounds.get(missiles.get(i).impactSound).play();
 					Enemy targEnemy = ((TargetSingle) (missiles.get(i).effect.missileTarget)).targetEnemy;
+					if (targEnemy.superShieldedEnemy)
+						continue;
 					Iterator<String> it = missiles.get(i).effect.effects.keySet().iterator();
 					while (it.hasNext())
 					{
@@ -226,12 +243,12 @@ public class GameProcessor
 						if (missiles.get(i).effect.effects.get(s).b)
 						{
 							targEnemy.setStat(s, missiles.get(i).effect.effects.get(s).f);
-						} else
+						}
+						else
 						{
 							targEnemy.editStat(s, missiles.get(i).effect.effects.get(s).f);
 						}
 					}
-					assetManager.sounds.get(missiles.get(i).impactSound).play();
 				}
 				// ----------------------
 				// If TargetStrategy.Circle
@@ -245,12 +262,16 @@ public class GameProcessor
 						String s = it.next();
 						for (int eT = 0; eT < enemiesInCircle.size(); eT++)
 						{
+							Enemy targetEnemy = enemiesInCircle.get(eT);
+							if (targetEnemy.superShieldedEnemy)
+								continue;
+							
 							if (missiles.get(i).effect.effects.get(s).b)
 							{
-								enemiesInCircle.get(eT).setStat(s, missiles.get(i).effect.effects.get(s).f);
+								targetEnemy.setStat(s, missiles.get(i).effect.effects.get(s).f);
 							} else
 							{
-								enemiesInCircle.get(eT).editStat(s, missiles.get(i).effect.effects.get(s).f);
+								targetEnemy.editStat(s, missiles.get(i).effect.effects.get(s).f);
 							}
 						}
 					}
@@ -282,12 +303,16 @@ public class GameProcessor
 						String s = it.next();
 						for (int eT = 0; eT < enemiesInCircle.size(); eT++)
 						{
+							Enemy targetEnemy = enemiesInCircle.get(eT);
+							if (targetEnemy.superShieldedEnemy)
+								continue;
+							
 							if (missiles.get(i).effect.effects.get(s).b)
 							{
-								enemiesInCircle.get(eT).setStat(s, missiles.get(i).effect.effects.get(s).f);
+								targetEnemy.setStat(s, missiles.get(i).effect.effects.get(s).f);
 							} else
 							{
-								enemiesInCircle.get(eT).editStat(s, missiles.get(i).effect.effects.get(s).f);
+								targetEnemy.editStat(s, missiles.get(i).effect.effects.get(s).f);
 							}
 						}
 					}
@@ -304,12 +329,17 @@ public class GameProcessor
 						String s = it.next();
 						for (int eT = 0; eT < enemiesInLine.size(); eT++)
 						{
+							Enemy targetEnemy = enemiesInLine.get(eT);
+							if (targetEnemy.superShieldedEnemy)
+								continue;
+						
 							if (missiles.get(i).effect.effects.get(s).b)
 							{
-								enemiesInLine.get(eT).setStat(s, missiles.get(i).effect.effects.get(s).f);
-							} else
+								targetEnemy.setStat(s, missiles.get(i).effect.effects.get(s).f);
+							}
+							else
 							{
-								enemiesInLine.get(eT).editStat(s, missiles.get(i).effect.effects.get(s).f);
+								targetEnemy.editStat(s, missiles.get(i).effect.effects.get(s).f);
 							}
 						}
 					}

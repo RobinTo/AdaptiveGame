@@ -22,7 +22,11 @@ public class Enemy extends ExtendedActor
 	float originalHealth = 1.0f;
 	boolean willDigg = false;
 	boolean offPath = false;
-	boolean superEnemy = false;
+	boolean superFastEnemy = false, superToughEnemy = false, superInvisibleEnemy = false, superShieldedEnemy = false;
+	boolean currentlyInvisible = false;
+	float invisibleLength = GameConstants.screenWidth / 5; //Measuring invisiblity and shield duration 
+	float shieldLength = GameConstants.screenWidth / 2;    //as length, since Monsters with 10x Speed can be hard to stop.
+	int invisibilitySwitchCounter = 0;
 	Vector2 lastChanged = new Vector2(0, 0);
 	Vector2 targetPosition;
 	Vector2 originalTargetPos;
@@ -124,7 +128,23 @@ public class Enemy extends ExtendedActor
 		this.editStat("distanceTravelled", (float) Math.abs(Math.sqrt(Math
 				.pow(x2 - x1, 2)
 				+ Math.pow(y2 - y1, 2))));
-
+		
+		if (superInvisibleEnemy && this.getStat("distanceTravelled") / invisibleLength >= invisibilitySwitchCounter)
+		{
+			invisibilitySwitchCounter ++;
+			currentlyInvisible = !currentlyInvisible;
+			if (currentlyInvisible)
+				this.setColor(this.getColor().r, this.getColor().g, this.getColor().b, 0.1f);
+			else
+				this.setColor(this.getColor().r, this.getColor().g, this.getColor().b, 1.0f);
+		}
+		
+		if (superShieldedEnemy && (int)this.getStat("distanceTravelled") / (int)shieldLength > 0)
+		{
+			superShieldedEnemy = false;
+			this.setColor(1f, 1f, 1f, 1.0f);
+		}
+		
 		if (floatingStats.get("currentMoveSpeedMultiplier") != originalMoveSpeedMultiplier)
 		{
 			editStat("currentSlowDuration", -gameTime);
@@ -164,7 +184,7 @@ public class Enemy extends ExtendedActor
 				.morphY(healthBarYellowRectangle.getY()
 						- GameConstants.tileSize), healthBarYellowRectangle
 				.getWidth(), healthBarYellowRectangle.getHeight());
-		if (superEnemy)
+		if (superFastEnemy || superToughEnemy)
 		{
 			batch.draw(sprites.get(3), super.getX(), super.getY(), super
 					.getOriginX(), super.getOriginY(), sprites.get(3)

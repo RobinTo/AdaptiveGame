@@ -27,7 +27,6 @@ public class ThinkTank
 	ThinkTankInfo thinkTankInfo;
 	
 	float nudgeChance; //Chance for nudges at all
-	float superEnemyChance; 
 	float diggerChance; 
 	
 	float difficultyLevel = 1; 
@@ -358,7 +357,7 @@ public class ThinkTank
 	{
 		// Changing of stats.
 		this.diggerChance = parameters.get("DiggerChance").value;
-		this.superEnemyChance = parameters.get("SuperChance").value;
+		this.thinkTankInfo.superEnemyChance = parameters.get("SuperChance").value / 5;
 		this.nudgeChance = parameters.get("EarthquakeChance").value;
 		this.thinkTankInfo.nudgeChanceInGame = parameters.get("EarthquakeChanceInGame").value;
 		this.thinkTankInfo.startGold = (int)(100f * parameters.get("GlobalBuildCost").value);
@@ -381,7 +380,6 @@ public class ThinkTank
 			towerInfo.get(key).buildCost = (int) (defaultTowerInfo.get(key).buildCost * parameters.get("GlobalBuildCost").value);
 			towerInfo.get(key).range = (int) (defaultTowerInfo.get(key).range * parameters.get("GlobalTowerRange").value);
 			towerInfo.get(key).reloadTime = defaultTowerInfo.get(key).reloadTime * parameters.get("GlobalReloadTime").value;
-			
 			towerInfo.get(key).sellPrice = (int) (defaultTowerInfo.get(key).sellPrice * parameters.get("GlobalBuildCost").value);//Linked parameter
 			
 			
@@ -415,6 +413,13 @@ public class ThinkTank
 						.get("currentDotDamage").b, effects.get("currentDotDamage").f * parameters.get("TEDotDamage").value));
 			}
 		}
+		
+		towerStatsIterator = towerInfo.keySet().iterator();
+		while (towerStatsIterator.hasNext())
+		{
+			String key = towerStatsIterator.next();
+			towerInfo.get(key).upgradeCost = findUpgradeCost(towerInfo.get(key), true);
+		}
 	}
 
 	private void jump(HashMap<String, Parameter> parameters)
@@ -422,14 +427,12 @@ public class ThinkTank
 		Random random = new Random();
 		//Change each parameter+
 		Iterator<String> relationsIterator = relations.keySet().iterator();
-		System.out.println(parameters.get("GlobalMonsterSpeed").value);
 		while (relationsIterator.hasNext())
 		{
 			Relation relation = relations.get(relationsIterator.next());
 			float distance = (float) ((random.nextDouble() - 0.5) * 2 * thinkTankInfo.maxJumpDistance);
 			relation.changeBalance(distance);
 		}
-		System.out.println(parameters.get("GlobalMonsterSpeed").value);
 		// Change difficulty
 		float distance = (random.nextFloat() - 0.5f) * 2 * thinkTankInfo.maxJumpDistance;
 		
@@ -552,20 +555,31 @@ public class ThinkTank
 		while (towerStatsIterator.hasNext())
 		{
 			TowerStats towerStats = towerInfo.get(towerStatsIterator.next());
-			if (towerStats.upgradesTo.equals("null"))
-				towerStats.upgradeCost = 9999;
-			else
-				towerStats.upgradeCost = towerInfo.get(towerStats.upgradesTo).buildCost - towerStats.buildCost;
+			towerStats.upgradeCost = findUpgradeCost(towerStats, true);
 		}
 		
 		towerStatsIterator = defaultTowerInfo.keySet().iterator();
 		while (towerStatsIterator.hasNext())
 		{
 			TowerStats towerStats = defaultTowerInfo.get(towerStatsIterator.next());
-			if (towerStats.upgradesTo.equals("null"))
-				towerStats.upgradeCost = 9999;
-			else
-				towerStats.upgradeCost = defaultTowerInfo.get(towerStats.upgradesTo).buildCost - towerStats.buildCost;
+			towerStats.upgradeCost = findUpgradeCost(towerStats, false);
 		}
+	}
+	private int findUpgradeCost(TowerStats towerStats, boolean useTowerInfo)
+	{
+		int upgradeCost;
+		if (towerStats.upgradesTo.equals("null"))
+			upgradeCost = 9999;
+		else
+		{
+			if (useTowerInfo)
+			{
+				upgradeCost = towerInfo.get(towerStats.upgradesTo).buildCost - towerStats.buildCost;
+				System.out.println("Type: " + towerStats.type + " BuildCost: " + towerStats.buildCost + " UpgradedTower Type: " + towerInfo.get(towerStats.upgradesTo).type + " UpgradedTowerBC: " + towerInfo.get(towerStats.upgradesTo).buildCost +  " UpgradeCost: " + upgradeCost);
+			}
+			else
+				upgradeCost = defaultTowerInfo.get(towerStats.upgradesTo).buildCost - towerStats.buildCost;
+		}
+		return upgradeCost;
 	}
 }

@@ -378,7 +378,7 @@ public class MyGdxGame implements ApplicationListener
 		uC++;
 		if (timer >= 1)
 		{
-			System.out.println("FPS: " + uC);
+			//System.out.println("FPS: " + uC);
 			uC = 0;
 			timer = 0;
 		}
@@ -504,7 +504,7 @@ public class MyGdxGame implements ApplicationListener
 			{
 				gameProcessor.generateNextEnemy(statMultiplier, thinkTank, map,
 						assetManager.enemiesAtlas, assetManager.miscAtlas,
-						thinkTank.diggerChance, thinkTank.superEnemyChance);
+						thinkTank.diggerChance, thinkTank.thinkTankInfo.superEnemyChance);
 			}
 			statMultiplier += 0.25f;
 			gameProcessor.lastMinionTime += gameProcessor.wavePartDelay;
@@ -548,7 +548,7 @@ public class MyGdxGame implements ApplicationListener
 					gameProcessor.diggerEnemies.add(addEnemy);
 					assetManager.sounds.get("diggerEnemy").play();
 				}
-				if (addEnemy.superEnemy)
+				if (addEnemy.superFastEnemy || addEnemy.superInvisibleEnemy || addEnemy.superShieldedEnemy || addEnemy.superToughEnemy)
 					assetManager.sounds.get("superEnemy").play();
 				stage.addActor(addEnemy);
 				gameProcessor.enemies.add(gameProcessor.enemyWave

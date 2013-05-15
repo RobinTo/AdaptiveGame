@@ -10,7 +10,8 @@ public class ThinkTankInfo
 	float nudgeChanceInGame = 0.2f;
 
 	int lastDifficulty = 0;
-	
+
+	float superEnemyChance = 0; 
 	int totalGames = 0;
 	int startGold = 0;
 	
