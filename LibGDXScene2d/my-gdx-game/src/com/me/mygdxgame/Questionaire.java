@@ -7,10 +7,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class Questionaire
 {
@@ -22,17 +24,28 @@ public class Questionaire
 	
 	BitmapFont font;
 	
-	public Questionaire(Sprite bgSprite, Sprite happySprite, Sprite thumbUpSprite, Sprite thumbDownSprite, Sprite thumbSideSprite, Stage stage, BitmapFont font, ButtonGenerator buttonGenerator)
+	public Questionaire(Sprite bgSprite, Sprite happySprite, Sprite happyNoSprite, Sprite thumbUpSprite, Sprite thumbDownSprite, Sprite thumbSideSprite, Stage stage, BitmapFont font, ButtonGenerator buttonGenerator)
 	{
 		this.font = new BitmapFont();
 		backGroundSprite = new ExtendedActor(bgSprite);
 		backGroundSprite.setBounds(250, 150, 800, 460);
 		stage.addActor(backGroundSprite);
-		TextButton thumbDownButton = buttonGenerator.createButton(happySprite, font);
+		final TextureRegion clicked = new TextureRegion(happyNoSprite);
+		final TextureRegion notClicked = new TextureRegion(happySprite);
+		final TextButton thumbDownButton = buttonGenerator.createButton(happySprite, font);
+		final TextButton thumbSideButton = buttonGenerator.createButton(happySprite, font);
+		final TextButton thumbUpButton = buttonGenerator.createButton(happySprite, font);
+		
+		
 		thumbDownButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
-
+				thumbDownButton.getStyle().up =  new TextureRegionDrawable(clicked);
+				thumbSideButton.getStyle().up =  new TextureRegionDrawable(notClicked);
+				thumbUpButton.getStyle().up =  new TextureRegionDrawable(notClicked);
+				thumbDownButton.getStyle().down =  new TextureRegionDrawable(clicked);
+				thumbSideButton.getStyle().down =  new TextureRegionDrawable(notClicked);
+				thumbUpButton.getStyle().down =  new TextureRegionDrawable(notClicked);
 				happy = 1;
 				return true;
 			}
@@ -41,11 +54,16 @@ public class Questionaire
 		stage.addActor(thumbDownButton);
 		buttons.add(thumbDownButton);
 
-		TextButton thumbSideButton = buttonGenerator.createButton(happySprite, font);
 		thumbSideButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
 
+				thumbDownButton.getStyle().up =  new TextureRegionDrawable(clicked);
+				thumbSideButton.getStyle().up =  new TextureRegionDrawable(clicked);
+				thumbUpButton.getStyle().up =  new TextureRegionDrawable(notClicked);
+				thumbDownButton.getStyle().down =  new TextureRegionDrawable(clicked);
+				thumbSideButton.getStyle().down =  new TextureRegionDrawable(clicked);
+				thumbUpButton.getStyle().down =  new TextureRegionDrawable(notClicked);
 				happy = 2;
 				return true;
 			}
@@ -54,10 +72,15 @@ public class Questionaire
 		stage.addActor(thumbSideButton);
 		buttons.add(thumbSideButton);
 
-		TextButton thumbUpButton = buttonGenerator.createButton(happySprite, font);
 		thumbUpButton.addListener(new InputListener() {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
+				thumbDownButton.getStyle().up =  new TextureRegionDrawable(clicked);
+				thumbSideButton.getStyle().up =  new TextureRegionDrawable(clicked);
+				thumbUpButton.getStyle().up =  new TextureRegionDrawable(clicked);
+				thumbDownButton.getStyle().down =  new TextureRegionDrawable(clicked);
+				thumbSideButton.getStyle().down =  new TextureRegionDrawable(clicked);
+				thumbUpButton.getStyle().down =  new TextureRegionDrawable(clicked);
 				happy = 3;
 				return true;
 			}

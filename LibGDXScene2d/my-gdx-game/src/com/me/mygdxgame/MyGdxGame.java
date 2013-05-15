@@ -58,6 +58,7 @@ public class MyGdxGame implements ApplicationListener
 	Map map;
 
 	Sprite qBG;
+	Sprite heartNoSprite;
 
 	SpriteBatch spriteBatch;
 
@@ -258,7 +259,8 @@ public class MyGdxGame implements ApplicationListener
 				{
 					questionaire = new Questionaire(qBG,
 							assetManager.miscAtlas
-									.createSprite("heartFeedback"),
+									.createSprite("heartFeedbackNo"),
+									assetManager.miscAtlas.createSprite("heartFeedback"),
 							assetManager.miscAtlas.createSprite("thumbUp"),
 							assetManager.miscAtlas.createSprite("thumbDown"),
 							assetManager.miscAtlas.createSprite("thumbSide"),
@@ -282,7 +284,8 @@ public class MyGdxGame implements ApplicationListener
 				{
 					questionaire = new Questionaire(qBG,
 							assetManager.miscAtlas
-									.createSprite("heartFeedback"),
+									.createSprite("heartFeedbackNo"),
+									assetManager.miscAtlas.createSprite("heartFeedback"),
 							assetManager.miscAtlas.createSprite("thumbUp"),
 							assetManager.miscAtlas.createSprite("thumbDown"),
 							assetManager.miscAtlas.createSprite("thumbSide"),

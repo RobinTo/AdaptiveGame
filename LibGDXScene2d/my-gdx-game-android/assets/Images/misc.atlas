@@ -5,203 +5,210 @@ filter: Nearest,Nearest
 repeat: none
 YellowBox
   rotate: false
-  xy: 1, 51
+  xy: 1, 55
   size: 125, 200
   orig: 125, 200
   offset: 0, 0
   index: -1
 sliderBar
   rotate: false
-  xy: 128, 241
+  xy: 128, 245
   size: 200, 10
   orig: 200, 10
   offset: 0, 0
   index: -1
 thumbDown
   rotate: false
-  xy: 128, 129
+  xy: 128, 133
   size: 82, 110
   orig: 82, 110
   offset: 0, 0
   index: -1
 thumbSide
   rotate: false
-  xy: 212, 129
+  xy: 212, 133
   size: 82, 110
   orig: 82, 110
   offset: 0, 0
   index: -1
 heartFeedback
   rotate: false
-  xy: 128, 40
+  xy: 128, 44
+  size: 82, 87
+  orig: 82, 87
+  offset: 0, 0
+  index: -1
+heartFeedbackNo
+  rotate: false
+  xy: 212, 44
   size: 82, 87
   orig: 82, 87
   offset: 0, 0
   index: -1
 thumbUp
   rotate: false
-  xy: 212, 17
+  xy: 296, 133
   size: 82, 110
   orig: 82, 110
   offset: 0, 0
   index: -1
 AoEFlame
   rotate: false
-  xy: 296, 175
+  xy: 296, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 gold
   rotate: false
-  xy: 296, 109
+  xy: 296, 1
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 heart
   rotate: false
-  xy: 296, 43
+  xy: 380, 191
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 starButton
   rotate: false
-  xy: 296, 43
+  xy: 380, 191
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 rangeHighlight
   rotate: false
-  xy: 362, 187
+  xy: 446, 191
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 sellTowerButton
   rotate: false
-  xy: 362, 121
+  xy: 512, 191
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 settingsButton
   rotate: false
-  xy: 428, 187
+  xy: 578, 191
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 tinkerButton
   rotate: false
-  xy: 362, 55
+  xy: 644, 191
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 upgradeTowerButton
   rotate: false
-  xy: 428, 121
+  xy: 710, 191
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 wallButton
   rotate: false
-  xy: 428, 55
+  xy: 776, 191
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 damageKnob
   rotate: false
-  xy: 1, 1
+  xy: 1, 5
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 healthKnob
   rotate: false
-  xy: 51, 17
+  xy: 380, 157
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 speedKnob
   rotate: false
-  xy: 85, 17
+  xy: 842, 223
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 super
   rotate: false
-  xy: 296, 17
+  xy: 51, 29
   size: 32, 24
   orig: 32, 24
   offset: 0, 0
   index: -1
 DoTIcon
   rotate: false
-  xy: 494, 235
+  xy: 362, 115
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 slowIcon
   rotate: false
-  xy: 330, 25
+  xy: 380, 139
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 blackBullet
   rotate: false
-  xy: 330, 246
+  xy: 330, 250
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 redBullet
   rotate: false
-  xy: 362, 48
+  xy: 414, 184
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 blueBullet
   rotate: false
-  xy: 51, 11
+  xy: 842, 217
   size: 4, 4
   orig: 4, 4
   offset: 0, 0
   index: -1
 laserBullet
   rotate: false
-  xy: 119, 45
+  xy: 876, 251
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+qBG
+  rotate: false
+  xy: 85, 49
   size: 4, 4
   orig: 4, 4
   offset: 0, 0
   index: -1
 healthBarRed
   rotate: false
-  xy: 125, 44
+  xy: 51, 22
   size: 1, 5
   orig: 1, 5
   offset: 0, 0
   index: -1
-qBG
-  rotate: false
-  xy: 119, 39
-  size: 4, 4
-  orig: 4, 4
-  offset: 0, 0
-  index: -1
 healthBarYellow
   rotate: false
-  xy: 125, 37
+  xy: 362, 108
   size: 1, 5
   orig: 1, 5
   offset: 0, 0
