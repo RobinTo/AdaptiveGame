@@ -51,7 +51,7 @@ impactSound:arrowImpact.mp3
 upgradesTo:Frost Tower Mk.II
 sellPrice:7
 buildCost:10
-targeting:circle:10
+targeting:single
 reloadtime:1.0f
 range:300
 effect:set:currentMoveSpeedMultiplier:0.7f
@@ -67,7 +67,7 @@ impactSound:arrowImpact.mp3
 upgradesTo:Frost Tower Mk.III
 sellPrice:10
 buildCost:15
-targeting:circle:10
+targeting:single
 reloadtime:1.0f
 range:300
 effect:set:currentMoveSpeedMultiplier:0.5f
@@ -83,7 +83,7 @@ impactSound:arrowImpact.mp3
 upgradesTo:null
 sellPrice:15
 buildCost:20
-targeting:circle:10
+targeting:single
 reloadtime:1.0f
 range:300
 effect:set:currentMoveSpeedMultiplier:0.3f

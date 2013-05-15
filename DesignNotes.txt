@@ -25,16 +25,21 @@ Robin
 - Metrikk bruker samme terningkast på alle hjerter, men ulikt antall terninger.
 
 JV
-- Color working on difficulty change?
-- Earthquake-wall graphics (Og endre tekst)
-- Pausefunksjon
-- Lydeffekt på spis
-- Lyd på kan ikke bygge på vei
 - Super effekts: Fast, Tough, Immortal, Invis, 
   - Immortal grafikk
   - Sjeldnere at man får effekt, men kraftigere effekter
   - Flere effekter på én gang
 - Skrive på tårntekst over tårn
+
+
+Done
+- Color working on difficulty change?
+- Lydeffekt på spis
+- Endret frosttower til singletarget.
+- Tok vekk APM fra playerlevel
+- Pausefunksjon
+- Lyd på kan ikke bygge på vei
+
 
 Tentative
 - MapGeneration sjanse for høyre (Difficulty)
@@ -44,4 +49,9 @@ Tentative
 - Ikke la samme lydeffekt spilles oppå seg selv, men stopp den første først.
 - Bars: Earthquake, SuperMob
 - Tower Damage displayed i gult vindu
-
+- Text above buttons (Tower choices or something)
+- Move Resetbutton away from the rest.
+- Lage Bombetårn
+- Rydde opp i thinktank - calculatenewparameters (apm etc)
+- Knapp til pause for android
+- Liste over hotkeys

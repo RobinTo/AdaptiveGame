@@ -17,13 +17,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class MyGdxGame implements ApplicationListener
 {
 	Group mapGroup;
-	boolean wasTab = false;
+	boolean wasTab = false, wasSpace = false;
 
 	boolean fullScreen = false; // Full screen yes or no.
 	boolean printDebug = true; // Print debug, add or remove writes in end of
@@ -47,21 +45,20 @@ public class MyGdxGame implements ApplicationListener
 	boolean paused = true;
 	boolean resuming = true;
 
-	
-	
-	private float pauseTime = GameConstants.startTime;
+	private float startPauseTime = GameConstants.startTime;
 
 	private static final int VIRTUAL_WIDTH = 1280;
 	private static final int VIRTUAL_HEIGHT = 768;
-	private static final float ASPECT_RATIO = (float) VIRTUAL_WIDTH / (float) VIRTUAL_HEIGHT;
+	private static final float ASPECT_RATIO = (float) VIRTUAL_WIDTH
+			/ (float) VIRTUAL_HEIGHT;
 	private Rectangle viewport;
 
 	Stage stage;
 
 	Map map;
-	
+
 	Sprite qBG;
-	
+
 	SpriteBatch spriteBatch;
 
 	boolean building = false, wasTouched = false, won = false, lost = false;
@@ -75,7 +72,7 @@ public class MyGdxGame implements ApplicationListener
 
 	String buildingTower = "", towerName = "Tower";
 	Sprite buildingTowerSprite = null;
-	
+
 	Camera gameCamera;
 
 	ExtendedActor temporaryTowerActor = null;
@@ -91,38 +88,42 @@ public class MyGdxGame implements ApplicationListener
 	GameProcessor gameProcessor;
 	AssetManager assetManager;
 	StatsFetcher statsFetcher;
-	
+
+	int lastKeyPressed = -10;
+
 	@Override
 	public void create()
-	{	
+	{
 		gameCamera = new OrthographicCamera(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
 		Gdx.graphics.setTitle("Adaptive Tower Defense v0.001");
 		spriteBatch = new SpriteBatch();
-		
+
 		assetManager = new AssetManager();
 		assetManager.initialize();
 
 		stage = new Stage();
 		stage.setCamera(gameCamera);
 		Gdx.input.setInputProcessor(stage);
-		
+
 		map = new Map(assetManager.mapTilesAtlas);
 		FileHandle handle = Gdx.files.internal("Maps/map.txt");
 		mapGroup = map.loadMap(handle);
 		stage.addActor(mapGroup);
 
 		thinkTank = new ThinkTank();
-		
+
 		statsFetcher = new StatsFetcher();
 		FileHandle towerHandle = Gdx.files.internal("Stats/towerStats.txt");
 		try
 		{
 			thinkTank.towerInfo = statsFetcher.loadTowerStats(towerHandle);
-		} catch (NumberFormatException e)
+		}
+		catch (NumberFormatException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (ParseException e)
+		}
+		catch (ParseException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -130,15 +131,18 @@ public class MyGdxGame implements ApplicationListener
 		FileHandle enemyHandle = Gdx.files.internal("Stats/enemyStats.txt");
 		thinkTank.enemyInfo = statsFetcher.generateEnemyInfo(enemyHandle);
 
-		//gameProcessor.createWave(thinkTank, map, assetManager.enemiesAtlas, assetManager.miscAtlas);
+		// gameProcessor.createWave(thinkTank, map, assetManager.enemiesAtlas,
+		// assetManager.miscAtlas);
 
 		listenerGenerator = new ListenerGenerator(this);
 		buttonGenerator = new ButtonGenerator();
-		
+
 		// UI Creation
 		System.out.println("Generating UI");
 		hud = new HeadsUpDisplay(assetManager.font);
-		hud.createUI(assetManager.miscAtlas, assetManager.towersAtlas, thinkTank.towerInfo, stage, buttonGenerator, listenerGenerator, thinkTank.thinkTankInfo.startGold);
+		hud.createUI(assetManager.miscAtlas, assetManager.towersAtlas,
+				thinkTank.towerInfo, stage, buttonGenerator, listenerGenerator,
+				thinkTank.thinkTankInfo.startGold);
 		// -----------
 
 		if (useReplay)
@@ -147,26 +151,31 @@ public class MyGdxGame implements ApplicationListener
 			replayHandler.loadReplay(replayHandle);
 		}
 
-		Gdx.gl.glClearColor(Color.GRAY.r, Color.GRAY.g, Color.GRAY.b, Color.GRAY.a);
+		Gdx.gl.glClearColor(Color.GRAY.r, Color.GRAY.g, Color.GRAY.b,
+				Color.GRAY.a);
 
 		System.out.println("Loading sounds");
 		assetManager.loadSounds(thinkTank.towerInfo);
 		System.out.println("Loading music");
 		assetManager.loadMusic();
-		thinkTank.defaultEnemyInfo = statsFetcher.generateEnemyInfo(enemyHandle);
+		thinkTank.defaultEnemyInfo = statsFetcher
+				.generateEnemyInfo(enemyHandle);
 		try
 		{
-			thinkTank.defaultTowerInfo = statsFetcher.loadTowerStats(towerHandle);
-		} catch (NumberFormatException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e)
+			thinkTank.defaultTowerInfo = statsFetcher
+					.loadTowerStats(towerHandle);
+		}
+		catch (NumberFormatException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		catch (ParseException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		qBG = assetManager.largeAtlas.createSprite("qBG");
 
 		FileHandle parameterHandle = Gdx.files.external(parameterSavePath);
@@ -175,13 +184,12 @@ public class MyGdxGame implements ApplicationListener
 		thinkTank.initializeParameters(parameterHandle);
 		thinkTank.initializeRelations(relationsHandle);
 
-
 		gameProcessor = new GameProcessor();
 		gameProcessor.initialize(thinkTank.thinkTankInfo.startGold);
-		
+
 		resetGame();
 	}
-	
+
 	@Override
 	public void dispose()
 	{
@@ -195,9 +203,11 @@ public class MyGdxGame implements ApplicationListener
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		if (won || lost)
 		{
-			if (questionaire != null && questionaire.happy > 0 && questionaire.difficult > 0)
+			if (questionaire != null && questionaire.happy > 0
+					&& questionaire.difficult > 0)
 			{
-				thinkTank.calculateVariables(questionaire.happy, questionaire.difficult, gameProcessor.livesLeft);
+				thinkTank.calculateVariables(questionaire.happy,
+						questionaire.difficult, gameProcessor.livesLeft);
 				resetGame();
 			}
 		}
@@ -208,7 +218,8 @@ public class MyGdxGame implements ApplicationListener
 			{
 				handleInput();
 				eventHandler.update();
-			} else
+			}
+			else
 			{
 				eventHandler.events = replayHandler.playReplay(totalTime);
 			}
@@ -225,8 +236,11 @@ public class MyGdxGame implements ApplicationListener
 			handleEvents();
 			hud.updateYellowBoxPosition();
 			checkWave(totalTime);
-				
-			gameProcessor.updateGame(totalTime, gameCamera, map, assetManager, stage, hud, thinkTank.thinkTankInfo.nudgeChanceInGame, assetManager.sounds.get("earthquake"));
+
+			gameProcessor.updateGame(totalTime, gameCamera, map, assetManager,
+					stage, hud, thinkTank.thinkTankInfo.nudgeChanceInGame,
+					assetManager.sounds.get("earthquake"),
+					assetManager.sounds.get("towerDestroyed"));
 
 			if (gameProcessor.isGameLost())
 			{
@@ -234,13 +248,21 @@ public class MyGdxGame implements ApplicationListener
 				if (!savedParametersAndRelations)
 				{
 					thinkTank.writeLogToDisk(Gdx.files.external(logSavePath));
-					thinkTank.writeParametersToDisk(Gdx.files.external(parameterSavePath));
-					thinkTank.writeRelationsToDisk(Gdx.files.external(relationsSavePath));
+					thinkTank.writeParametersToDisk(Gdx.files
+							.external(parameterSavePath));
+					thinkTank.writeRelationsToDisk(Gdx.files
+							.external(relationsSavePath));
 					savedParametersAndRelations = true;
 				}
 				if (!questionaireIsDisplayed)
 				{
-					questionaire = new Questionaire(qBG, assetManager.miscAtlas.createSprite("heartFeedback"), assetManager.miscAtlas.createSprite("thumbUp"), assetManager.miscAtlas.createSprite("thumbDown"), assetManager.miscAtlas.createSprite("thumbSide"), stage, assetManager.font, buttonGenerator);
+					questionaire = new Questionaire(qBG,
+							assetManager.miscAtlas
+									.createSprite("heartFeedback"),
+							assetManager.miscAtlas.createSprite("thumbUp"),
+							assetManager.miscAtlas.createSprite("thumbDown"),
+							assetManager.miscAtlas.createSprite("thumbSide"),
+							stage, assetManager.font, buttonGenerator);
 					questionaireIsDisplayed = true;
 				}
 			}
@@ -250,20 +272,29 @@ public class MyGdxGame implements ApplicationListener
 				if (!savedParametersAndRelations)
 				{
 					thinkTank.writeLogToDisk(Gdx.files.external(logSavePath));
-					thinkTank.writeParametersToDisk(Gdx.files.external(parameterSavePath));
-					thinkTank.writeRelationsToDisk(Gdx.files.external(relationsSavePath));
+					thinkTank.writeParametersToDisk(Gdx.files
+							.external(parameterSavePath));
+					thinkTank.writeRelationsToDisk(Gdx.files
+							.external(relationsSavePath));
 					savedParametersAndRelations = true;
 				}
 				if (!questionaireIsDisplayed)
 				{
-					questionaire = new Questionaire(qBG, assetManager.miscAtlas.createSprite("heartFeedback"), assetManager.miscAtlas.createSprite("thumbUp"), assetManager.miscAtlas.createSprite("thumbDown"), assetManager.miscAtlas.createSprite("thumbSide"), stage, assetManager.font, buttonGenerator);
+					questionaire = new Questionaire(qBG,
+							assetManager.miscAtlas
+									.createSprite("heartFeedback"),
+							assetManager.miscAtlas.createSprite("thumbUp"),
+							assetManager.miscAtlas.createSprite("thumbDown"),
+							assetManager.miscAtlas.createSprite("thumbSide"),
+							stage, assetManager.font, buttonGenerator);
 					questionaireIsDisplayed = true;
 				}
 			}
-			
+
 			// Draws game
 			stage.draw();
-		} else if (resuming && !won && !lost)
+		}
+		else if (resuming && !won && !lost)
 		{
 			totalTime += Gdx.graphics.getDeltaTime();
 
@@ -271,7 +302,8 @@ public class MyGdxGame implements ApplicationListener
 			{
 				handleInput();
 				eventHandler.update();
-			} else
+			}
+			else
 			{
 				eventHandler.events = replayHandler.playReplay(totalTime);
 			}
@@ -279,23 +311,60 @@ public class MyGdxGame implements ApplicationListener
 			{
 				replayHandler.addEvents(totalTime, eventHandler);
 			}
-			thinkTank.calculateNewParameters(0, gameProcessor.currentGold, gameProcessor.livesLeft, gameProcessor.towers, eventHandler.events);
+			thinkTank.calculateNewParameters(0, gameProcessor.currentGold,
+					gameProcessor.livesLeft, gameProcessor.towers,
+					eventHandler.events);
 			handleEvents();
 			hud.updateYellowBoxPosition();
 			// Draws game
 			stage.draw();
 
-			pauseTime -= Gdx.graphics.getDeltaTime();
+			startPauseTime -= Gdx.graphics.getDeltaTime();
 			spriteBatch.begin();
 			assetManager.font.setScale(10);
-			if (!Integer.toString((int) Math.ceil(pauseTime)).equals("0"))
-				assetManager.font.draw(spriteBatch, Integer.toString((int) Math.ceil(pauseTime)), GameConstants.screenWidth / 2 - 32, GameConstants.screenHeight / 2);
+			if (!Integer.toString((int) Math.ceil(startPauseTime)).equals("0"))
+				assetManager.font.draw(spriteBatch,
+						Integer.toString((int) Math.ceil(startPauseTime)),
+						GameConstants.screenWidth / 2 - 32,
+						GameConstants.screenHeight / 2);
 			assetManager.font.setScale(1);
 			spriteBatch.end();
-			if (pauseTime <= 0)
+			if (startPauseTime <= 0)
+			{
 				paused = false;
+				resuming = false;
+			}
 		}
-		if(questionaire != null)
+		else if (paused)
+		{
+			if (!useReplay)
+			{
+				handleInput();
+				eventHandler.update();
+			}
+//			ReplayFunksjon
+//			else
+//			{
+//				eventHandler.events = replayHandler.playReplay(totalTime);
+//			}
+//			if (saveReplay)
+//			{
+//				replayHandler.addEvents(totalTime, eventHandler);
+//			}
+			handleEvents();
+			hud.updateYellowBoxPosition();
+
+			stage.draw();
+			spriteBatch.begin();
+			assetManager.font.setScale(2);
+			assetManager.font.draw(spriteBatch, "Press SPACE to continue",
+					GameConstants.screenWidth * 2/3,
+					GameConstants.screenHeight / 10);
+			assetManager.font.setScale(1);
+			spriteBatch.end();
+		}
+
+		if (questionaire != null)
 		{
 			spriteBatch.begin();
 			questionaire.draw(spriteBatch);
@@ -311,25 +380,8 @@ public class MyGdxGame implements ApplicationListener
 			timer = 0;
 		}
 
-		if (Gdx.input.isKeyPressed(Keys.TAB) && !wasTab)
-		{
-			hud.updateConsoleState(true, thinkTank.parameters, thinkTank.thinkTankInfo);
-			wasTab = true;
-		} else if (!Gdx.input.isKeyPressed(Keys.TAB))
-			wasTab = false;
-		if (Gdx.input.isKeyPressed(Keys.X))
-		{
-			gameProcessor.waveTime.clear();
-			gameProcessor.enemyWave.clear();
-			for (Enemy e : gameProcessor.enemies)
-				stage.getActors().removeValue(e, true);
-			gameProcessor.enemies.clear();
-			
-		}
-		if (Gdx.input.isKeyPressed(Keys.SPACE))
-		{
-			paused = true;
-		}
+		handleHotKeys();
+
 		assetManager.checkMusic();
 	}
 
@@ -345,11 +397,13 @@ public class MyGdxGame implements ApplicationListener
 		{
 			scale = (float) height / (float) VIRTUAL_HEIGHT;
 			crop.x = (width - VIRTUAL_WIDTH * scale) / 2f;
-		} else if (aspectRatio < ASPECT_RATIO)
+		}
+		else if (aspectRatio < ASPECT_RATIO)
 		{
 			scale = (float) width / (float) VIRTUAL_WIDTH;
 			crop.y = (height - VIRTUAL_HEIGHT * scale) / 2f;
-		} else
+		}
+		else
 		{
 			scale = (float) width / (float) VIRTUAL_WIDTH;
 		}
@@ -361,9 +415,11 @@ public class MyGdxGame implements ApplicationListener
 
 		viewport = new Rectangle(crop.x, crop.y, w, h);
 
-		Gdx.gl.glViewport((int) viewport.x, (int) viewport.y, (int) viewport.width, (int) viewport.height);
+		Gdx.gl.glViewport((int) viewport.x, (int) viewport.y,
+				(int) viewport.width, (int) viewport.height);
 
-		gameCamera.position.set(gameCamera.viewportWidth / 2, gameCamera.viewportHeight / 2, 0);
+		gameCamera.position.set(gameCamera.viewportWidth / 2,
+				gameCamera.viewportHeight / 2, 0);
 
 		gameCamera.update();
 		gameCamera.apply(Gdx.gl10);
@@ -388,15 +444,19 @@ public class MyGdxGame implements ApplicationListener
 
 		stage.getActors().clear();
 
-		gameProcessor.resetGame(thinkTank.nudgeChance, thinkTank.thinkTankInfo.startGold); 
+		gameProcessor.resetGame(thinkTank.nudgeChance,
+				thinkTank.thinkTankInfo.startGold);
 		hud.towerKeys.clear();
 		totalTime = 0;
 
 		mapGroup = map.regenerateMap();
-		//FileHandle handle = Gdx.files.internal("Maps/map.txt");
+		// FileHandle handle = Gdx.files.internal("Maps/map.txt");
 		stage.addActor(mapGroup);
-		//gameProcessor.createWave(thinkTank, map, assetManager.enemiesAtlas, assetManager.miscAtlas);
-		hud.createUI(assetManager.miscAtlas, assetManager.towersAtlas, thinkTank.towerInfo, stage, buttonGenerator, listenerGenerator, thinkTank.thinkTankInfo.startGold);
+		// gameProcessor.createWave(thinkTank, map, assetManager.enemiesAtlas,
+		// assetManager.miscAtlas);
+		hud.createUI(assetManager.miscAtlas, assetManager.towersAtlas,
+				thinkTank.towerInfo, stage, buttonGenerator, listenerGenerator,
+				thinkTank.thinkTankInfo.startGold);
 
 		hud.goldButton.setText("        " + gameProcessor.currentGold);
 		hud.livesButton.setText("" + gameProcessor.livesLeft);
@@ -406,7 +466,7 @@ public class MyGdxGame implements ApplicationListener
 
 		thinkTank.clear();
 
-		pauseTime = GameConstants.startTime;
+		startPauseTime = GameConstants.startTime;
 		paused = true;
 		resuming = true;
 
@@ -417,37 +477,57 @@ public class MyGdxGame implements ApplicationListener
 			questionaire = null;
 			questionaireIsDisplayed = false;
 		}
-		// Not sure what we  thought, we need some Min max values, or to multiply with something? E.g. 0.2* chance with diggers, 0.5* chance with nudge, etc.
-		//thinkTank.diggerChance = (float)((thinkTank.thinkTankInfo.totalHappinessDiggersOn/(3*thinkTank.thinkTankInfo.totalGames))/(thinkTank.thinkTankInfo.totalHappinessDiggersOff/(3*thinkTank.thinkTankInfo.totalGames) + thinkTank.thinkTankInfo.totalHappinessDiggersOn/(3*thinkTank.thinkTankInfo.totalGames)));
-		//thinkTank.nudgeChance = (float)((thinkTank.thinkTankInfo.totalHappinessSuperMobsOn/(3*thinkTank.thinkTankInfo.totalGames))/(thinkTank.thinkTankInfo.totalHappinessSuperMobsOff/(3*thinkTank.thinkTankInfo.totalGames) + thinkTank.thinkTankInfo.totalHappinessSuperMobsOn/(3*thinkTank.thinkTankInfo.totalGames)));
-		//thinkTank.superEnemyChance = (float)((thinkTank.thinkTankInfo.totalHappinessSuperMobsOn/(3*thinkTank.thinkTankInfo.totalGames))/(thinkTank.thinkTankInfo.totalHappinessSuperMobsOff/(3*thinkTank.thinkTankInfo.totalGames) + thinkTank.thinkTankInfo.totalHappinessSuperMobsOn/(3*thinkTank.thinkTankInfo.totalGames)));
-		
+		// Not sure what we thought, we need some Min max values, or to multiply
+		// with something? E.g. 0.2* chance with diggers, 0.5* chance with
+		// nudge, etc.
+		// thinkTank.diggerChance =
+		// (float)((thinkTank.thinkTankInfo.totalHappinessDiggersOn/(3*thinkTank.thinkTankInfo.totalGames))/(thinkTank.thinkTankInfo.totalHappinessDiggersOff/(3*thinkTank.thinkTankInfo.totalGames)
+		// +
+		// thinkTank.thinkTankInfo.totalHappinessDiggersOn/(3*thinkTank.thinkTankInfo.totalGames)));
+		// thinkTank.nudgeChance =
+		// (float)((thinkTank.thinkTankInfo.totalHappinessSuperMobsOn/(3*thinkTank.thinkTankInfo.totalGames))/(thinkTank.thinkTankInfo.totalHappinessSuperMobsOff/(3*thinkTank.thinkTankInfo.totalGames)
+		// +
+		// thinkTank.thinkTankInfo.totalHappinessSuperMobsOn/(3*thinkTank.thinkTankInfo.totalGames)));
+		// thinkTank.superEnemyChance =
+		// (float)((thinkTank.thinkTankInfo.totalHappinessSuperMobsOn/(3*thinkTank.thinkTankInfo.totalGames))/(thinkTank.thinkTankInfo.totalHappinessSuperMobsOff/(3*thinkTank.thinkTankInfo.totalGames)
+		// +
+		// thinkTank.thinkTankInfo.totalHappinessSuperMobsOn/(3*thinkTank.thinkTankInfo.totalGames)));
+
 		float statMultiplier = 1.0f;
 		for (int t = 0; t < gameProcessor.waveParts; t++)
 		{
-			for (int i = 0; i < gameProcessor.waveSize + (t * gameProcessor.waveIncrements); i++)
+			for (int i = 0; i < gameProcessor.waveSize
+					+ (t * gameProcessor.waveIncrements); i++)
 			{
-				gameProcessor.generateNextEnemy(statMultiplier, thinkTank, map, assetManager.enemiesAtlas, assetManager.miscAtlas, thinkTank.diggerChance, thinkTank.superEnemyChance);
+				gameProcessor.generateNextEnemy(statMultiplier, thinkTank, map,
+						assetManager.enemiesAtlas, assetManager.miscAtlas,
+						thinkTank.diggerChance, thinkTank.superEnemyChance);
 			}
 			statMultiplier += 0.25f;
 			gameProcessor.lastMinionTime += gameProcessor.wavePartDelay;
 		}
-		hud.updateConsoleState(false, thinkTank.parameters, thinkTank.thinkTankInfo);
+		hud.updateConsoleState(false, thinkTank.parameters,
+				thinkTank.thinkTankInfo);
 		savedParametersAndRelations = false;
 
 		float colorValue;
 		if (thinkTank.parameters.get("GlobalMonsterHP").value <= 1.0f)
 			colorValue = 1.0f;
-		else
+		else if (thinkTank.parameters.get("GlobalMonsterHP").value < 2.7f)
 		{
-			colorValue = thinkTank.parameters.get("GlobalMonsterHP").value / 10.0f;
+			colorValue = thinkTank.parameters.get("GlobalMonsterHP").value / 3.0f;
 			colorValue = 1.0f - colorValue;
 		}
-		for (Actor actor : mapGroup.getChildren())
-		{ 
-			((MapTile) actor).setColor(colorValue,colorValue,colorValue, 1.0f);
+		else
+		{
+			colorValue = 0.1f;
 		}
-		
+		for (Actor actor : mapGroup.getChildren())
+		{
+			((MapTile) actor)
+					.setColor(colorValue, colorValue, colorValue, 1.0f);
+		}
+
 		this.setSliderLevels();
 		assetManager.playSong(thinkTank.speedLevel);
 	}
@@ -458,8 +538,9 @@ public class MyGdxGame implements ApplicationListener
 		{
 			if (gameProcessor.waveTime.get(0) <= totalTime)
 			{
-				Enemy addEnemy = gameProcessor.enemyWave.get(gameProcessor.waveTime.get(0));
-				if(addEnemy.willDigg)
+				Enemy addEnemy = gameProcessor.enemyWave
+						.get(gameProcessor.waveTime.get(0));
+				if (addEnemy.willDigg)
 				{
 					gameProcessor.diggerEnemies.add(addEnemy);
 					assetManager.sounds.get("diggerEnemy").play();
@@ -467,14 +548,15 @@ public class MyGdxGame implements ApplicationListener
 				if (addEnemy.superEnemy)
 					assetManager.sounds.get("superEnemy").play();
 				stage.addActor(addEnemy);
-				gameProcessor.enemies.add(gameProcessor.enemyWave.get(gameProcessor.waveTime.get(0)));
+				gameProcessor.enemies.add(gameProcessor.enemyWave
+						.get(gameProcessor.waveTime.get(0)));
 				gameProcessor.enemyWave.remove(gameProcessor.waveTime.get(0));
 				gameProcessor.waveTime.remove(0);
 				// generateNextEnemy();
 			}
 		}
 	}
-	
+
 	private void handleEvents()
 	{
 		for (int i = 0; i < eventHandler.events.size(); i++)
@@ -485,73 +567,102 @@ public class MyGdxGame implements ApplicationListener
 				if (map.canBuild((int) e.x, (int) e.y))
 				{
 
-					Tower tower = gameProcessor.createTower(e.tower, new Vector2(e.x, e.y), assetManager.towersAtlas, assetManager.miscAtlas, thinkTank.towerInfo);
+					Tower tower = gameProcessor.createTower(e.tower,
+							new Vector2(e.x, e.y), assetManager.towersAtlas,
+							assetManager.miscAtlas, thinkTank.towerInfo);
 					int buildCost = thinkTank.towerInfo.get(e.tower).buildCost;
-					boolean canAfford = gameProcessor.currentGold >= buildCost ? true : false;
+					boolean canAfford = gameProcessor.currentGold >= buildCost ? true
+							: false;
 
 					boolean canBuild = canAfford;
 					if (canAfford)
 					{
 						for (int c = 0; c < gameProcessor.towers.size(); c++)
 						{
-							if (gameProcessor.towers.get(c).getX() == tower.getX() && gameProcessor.towers.get(c).getY() == tower.getY())
+							if (gameProcessor.towers.get(c).getX() == tower
+									.getX()
+									&& gameProcessor.towers.get(c).getY() == tower
+											.getY())
 								canBuild = false;
 						}
+						
+						if (canBuild)
+						{
+							assetManager.sounds.get("buildTower").play();
+							gameProcessor.currentGold -= buildCost;
+							hud.goldButton.setText("        "
+									+ gameProcessor.currentGold);
+							stage.addActor(tower);
+							gameProcessor.towers.add(tower);
+							hud.fadeInYellowBox(tower, gameProcessor.selectTower(
+									tower, thinkTank.towerInfo));
+							hud.updateCostLabels(tower);
+						}
+						else
+						{
+							tower = null;
+							assetManager.sounds.get("maxedOut").play();
+						}
+						
 					}
 					else
 					{
 						assetManager.sounds.get("notEnoughMoney").play();
 					}
-					if (canBuild)
-					{
-						assetManager.sounds.get("buildTower").play();
-						gameProcessor.currentGold -= buildCost;
-						hud.goldButton.setText("        " + gameProcessor.currentGold);
-						stage.addActor(tower);
-						gameProcessor.towers.add(tower);
-						hud.fadeInYellowBox(tower, gameProcessor.selectTower(tower, thinkTank.towerInfo));
-						hud.updateCostLabels(tower);
-					} else
-					{
-						tower = null;
-						assetManager.sounds.get("maxedOut").play();
-					}
 				}
-			} else if (e.eventType.equals("sell"))
+				else
+					assetManager.sounds.get("maxedOut").play();
+			}
+			else if (e.eventType.equals("sell"))
 			{
-// 				Done in ListenerGenerator for Button. Is a mess.
+				// Done in ListenerGenerator for Button. Is a mess.
 			}
 			else if (e.eventType.equals("upgrade"))
 			{
 				for (int u = 0; u < gameProcessor.towers.size(); u++)
 				{
 					Tower tower = gameProcessor.towers.get(u);
-					if (e.x == (int) (tower.getX() / GameConstants.tileSize) && e.y == (int) (tower.getY() / GameConstants.tileSize))
+					if (e.x == (int) (tower.getX() / GameConstants.tileSize)
+							&& e.y == (int) (tower.getY() / GameConstants.tileSize))
 					{
 						if (tower.towerStats.upgradesTo.equals("null"))
 						{
 							assetManager.sounds.get("maxedOut").play();
-							hud.fadeInYellowBox(tower, gameProcessor.selectTower(tower, thinkTank.towerInfo));
+							hud.fadeInYellowBox(tower, gameProcessor
+									.selectTower(tower, thinkTank.towerInfo));
 							hud.updateCostLabels(tower);
 						}
 						else
 						{
 							int upgradeCost = tower.towerStats.upgradeCost;
-							boolean canAfford = gameProcessor.currentGold >= upgradeCost ? true : false;
+							boolean canAfford = gameProcessor.currentGold >= upgradeCost ? true
+									: false;
 							if (canAfford)
 							{
 								assetManager.sounds.get("upgradeTower").play();
-								TowerStats newTowerStats = thinkTank.towerInfo.get(tower.towerStats.upgradesTo);
-								tower.upgrade(newTowerStats, assetManager.towersAtlas.createSprite(newTowerStats.towerTexture), assetManager.miscAtlas.createSprite(newTowerStats.missileTexture));
+								TowerStats newTowerStats = thinkTank.towerInfo
+										.get(tower.towerStats.upgradesTo);
+								tower.upgrade(
+										newTowerStats,
+										assetManager.towersAtlas
+												.createSprite(newTowerStats.towerTexture),
+										assetManager.miscAtlas
+												.createSprite(newTowerStats.missileTexture));
 								gameProcessor.currentGold -= upgradeCost;
-								hud.goldButton.setText("        " + gameProcessor.currentGold);
-								hud.fadeInYellowBox(tower, gameProcessor.selectTower(tower, thinkTank.towerInfo));
+								hud.goldButton.setText("        "
+										+ gameProcessor.currentGold);
+								hud.fadeInYellowBox(tower,
+										gameProcessor.selectTower(tower,
+												thinkTank.towerInfo));
 								hud.updateCostLabels(tower);
 							}
 							else
 							{
-								assetManager.sounds.get("notEnoughMoney").play();
-								hud.fadeInYellowBox(tower, gameProcessor.selectTower(tower, thinkTank.towerInfo));
+								assetManager.sounds.get("notEnoughMoney")
+										.play();
+								hud.fadeInYellowBox(tower,
+										gameProcessor.selectTower(tower,
+												thinkTank.towerInfo));
 								hud.updateCostLabels(tower);
 							}
 						}
@@ -563,32 +674,41 @@ public class MyGdxGame implements ApplicationListener
 				for (int u = 0; u < gameProcessor.towers.size(); u++)
 				{
 					Tower tower = gameProcessor.towers.get(u);
-					if (e.x == (int) (tower.getX() / GameConstants.tileSize) && e.y == (int) (tower.getY() / GameConstants.tileSize))
+					if (e.x == (int) (tower.getX() / GameConstants.tileSize)
+							&& e.y == (int) (tower.getY() / GameConstants.tileSize))
 					{
 						int wallCost = tower.towerStats.buildCost * 2;
-						boolean canAfford = gameProcessor.currentGold >= wallCost ? true : false;
+						boolean canAfford = gameProcessor.currentGold >= wallCost ? true
+								: false;
 						if (!tower.wall)
 						{
 							if (canAfford)
 							{
 								gameProcessor.currentGold -= wallCost;
-								hud.goldButton.setText("        " + gameProcessor.currentGold);
+								hud.goldButton.setText("        "
+										+ gameProcessor.currentGold);
 								tower.wall = true;
 								assetManager.sounds.get("upgradeTower").play();
-								hud.fadeInYellowBox(tower, gameProcessor.selectTower(tower, thinkTank.towerInfo));
+								hud.fadeInYellowBox(tower,
+										gameProcessor.selectTower(tower,
+												thinkTank.towerInfo));
 								hud.updateCostLabels(tower);
 							}
 							else
 							{
-								assetManager.sounds.get("notEnoughMoney").play();
-								hud.fadeInYellowBox(tower, gameProcessor.selectTower(tower, thinkTank.towerInfo));
+								assetManager.sounds.get("notEnoughMoney")
+										.play();
+								hud.fadeInYellowBox(tower,
+										gameProcessor.selectTower(tower,
+												thinkTank.towerInfo));
 								hud.updateCostLabels(tower);
 							}
 						}
 						else
 						{
 							assetManager.sounds.get("maxedOut").play();
-							hud.fadeInYellowBox(tower, gameProcessor.selectTower(tower, thinkTank.towerInfo));
+							hud.fadeInYellowBox(tower, gameProcessor
+									.selectTower(tower, thinkTank.towerInfo));
 							hud.updateCostLabels(tower);
 						}
 					}
@@ -604,14 +724,21 @@ public class MyGdxGame implements ApplicationListener
 		Actor a = stage.hit(input.x, input.y, true);
 		if (a != null && a.getClass() == MapTile.class)
 		{
-			touchedTile = new Vector2((float) Math.floor(a.getX() / GameConstants.tileSize), (float) Math.floor(a.getY() / GameConstants.tileSize));
+			touchedTile = new Vector2((float) Math.floor(a.getX()
+					/ GameConstants.tileSize), (float) Math.floor(a.getY()
+					/ GameConstants.tileSize));
 		}
 		if (wasTouched && !Gdx.input.isTouched())
 		{
-			if (building && temporaryTowerActor != null) //Kanskje flytte dette også
+			if (building && temporaryTowerActor != null) // Kanskje flytte dette
+															// også
 			{
-				if (touchedTile.x <= Map.mapWidth && touchedTile.y <= Map.mapHeight  && a != null && a.getClass() == MapTile.class)
-					eventHandler.queueEvent(new Event("build", (int) touchedTile.x, (int) touchedTile.y, buildingTower));
+				if (touchedTile.x <= Map.mapWidth
+						&& touchedTile.y <= Map.mapHeight && a != null
+						&& a.getClass() == MapTile.class)
+					eventHandler.queueEvent(new Event("build",
+							(int) touchedTile.x, (int) touchedTile.y,
+							buildingTower));
 				building = false;
 				temporaryTowerActor.remove();
 				temporaryTowerActor = null;
@@ -625,14 +752,17 @@ public class MyGdxGame implements ApplicationListener
 				temporaryTowerActor.setPosition(a.getX(), a.getY());
 			}
 			wasTouched = true;
-			Actor hit = stage.hit(Gdx.input.getX(), GameConstants.screenHeight - Gdx.input.getY(), false);
+			Actor hit = stage.hit(Gdx.input.getX(), GameConstants.screenHeight
+					- Gdx.input.getY(), false);
 			if (hit != null && hit.getClass() == Tower.class)
 			{
 				Tower tower = (Tower) hit;
-				hud.fadeInYellowBox(tower, gameProcessor.selectTower(tower, thinkTank.towerInfo));
+				hud.fadeInYellowBox(tower,
+						gameProcessor.selectTower(tower, thinkTank.towerInfo));
 				hud.updateCostLabels(tower);
-				
-			} else if (hit != null && hit.getClass() == Enemy.class)
+
+			}
+			else if (hit != null && hit.getClass() == Enemy.class)
 			{
 				Enemy e = (Enemy) hit;
 				hud.fadeInYellowBox(e, gameProcessor.selectEnemy(e));
@@ -643,12 +773,14 @@ public class MyGdxGame implements ApplicationListener
 				hud.updateCostLabels("");
 				gameProcessor.selectedTower = null;
 			}
-		} else if (temporaryTowerActor != null)
+		}
+		else if (temporaryTowerActor != null)
 		{
 			temporaryTowerActor.remove();
 			temporaryTowerActor = null;
 		}
 	}
+
 	private void setSliderLevels()
 	{
 		float healthValue = thinkTank.parameters.get("GlobalMonsterHP").value;
@@ -672,10 +804,9 @@ public class MyGdxGame implements ApplicationListener
 			hud.healthSlider.setValue(9);
 		else
 			hud.healthSlider.setValue(10);
-		
-		
+
 		hud.speedSlider.setValue(thinkTank.speedLevel);
-		
+
 		float damageValue = thinkTank.parameters.get("TEDamage").value;
 		if (damageValue < 0.10f)
 			hud.damageSlider.setValue(1);
@@ -698,8 +829,41 @@ public class MyGdxGame implements ApplicationListener
 		else
 			hud.damageSlider.setValue(10);
 	}
-	
-	
+
+	private void handleHotKeys()
+	{
+		if (Gdx.input.isKeyPressed(Keys.TAB) && !wasTab)
+		{
+			hud.updateConsoleState(true, thinkTank.parameters,
+					thinkTank.thinkTankInfo);
+			wasTab = true;
+		}
+		else if (!Gdx.input.isKeyPressed(Keys.TAB))
+			wasTab = false;
+		if (!won && !lost)
+		{
+			if (Gdx.input.isKeyPressed(Keys.X))
+			{
+				gameProcessor.waveTime.clear();
+				gameProcessor.enemyWave.clear();
+				for (Enemy e : gameProcessor.enemies)
+					stage.getActors().removeValue(e, true);
+				gameProcessor.enemies.clear();
+
+			}
+			if (!resuming)
+			{
+				if (Gdx.input.isKeyPressed(Keys.SPACE) && !wasSpace)
+				{
+					paused = !paused;
+					wasSpace = true;
+				}
+				else if (!Gdx.input.isKeyPressed(Keys.SPACE))
+					wasSpace = false;
+			}
+		}
+	}
+
 	@Override
 	public void pause()
 	{

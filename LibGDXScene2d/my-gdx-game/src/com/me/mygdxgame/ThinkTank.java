@@ -230,7 +230,7 @@ public class ThinkTank
 		averageAPM /= measurements.size();
 
 		thinkTankInfo.playerLevel = ((double) livesLeft
-				/ (double) GameConstants.startLives + 0.05 * averageAPM + 0.2 * maxVariety);
+				/ (double) GameConstants.startLives + 0.2 * maxVariety);
 		thinkTankInfo.playerLevel = (thinkTankInfo.playerLevel > 1.1) ? 1.1
 				: thinkTankInfo.playerLevel; //PlayerLevel not above 1.1
 		thinkTankInfo.playerLevel = (thinkTankInfo.playerLevel < 0.1) ? 0.1

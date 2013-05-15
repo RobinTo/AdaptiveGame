@@ -184,7 +184,7 @@ public class GameProcessor
 		Collections.sort(waveTime);
 	}
 
-	public void updateGame(float totalTime, Camera gameCamera, Map map, AssetManager assetManager, Stage stage, HeadsUpDisplay hud, float nudgeChanceConstant, Sound earthquakeSound)
+	public void updateGame(float totalTime, Camera gameCamera, Map map, AssetManager assetManager, Stage stage, HeadsUpDisplay hud, float nudgeChanceConstant, Sound earthquakeSound, Sound towerDestroyedSound)
 	{
 		if (earthquakeEnabled && !isGameWon() && !isGameLost())
 		{
@@ -363,6 +363,7 @@ public class GameProcessor
 					}
 					for (Tower tower : removeTowerList)
 					{
+						towerDestroyedSound.play();
 						towers.remove(tower);
 						tower.remove();
 					}

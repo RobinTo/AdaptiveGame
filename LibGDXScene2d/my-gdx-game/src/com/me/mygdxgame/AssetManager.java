@@ -53,6 +53,7 @@ public class AssetManager
 		sounds.put("buildTower", Gdx.audio.newSound(Gdx.files.internal("sounds/buildTower.mp3")));
 		sounds.put("sellTower", Gdx.audio.newSound(Gdx.files.internal("sounds/sellTower.mp3")));
 		sounds.put("upgradeTower", Gdx.audio.newSound(Gdx.files.internal("sounds/upgradeTower.mp3")));
+		sounds.put("towerDestroyed", Gdx.audio.newSound(Gdx.files.internal("sounds/towerDestroyed.mp3")));
 		sounds.put("maxedOut", Gdx.audio.newSound(Gdx.files.internal("sounds/maxedOut.mp3")));
 	}
 	public void loadMusic()
