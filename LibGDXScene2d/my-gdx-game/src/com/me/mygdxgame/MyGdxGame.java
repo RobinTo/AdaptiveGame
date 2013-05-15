@@ -765,11 +765,6 @@ public class MyGdxGame implements ApplicationListener
 				hud.updateCostLabels(tower);
 
 			}
-			else if (hit != null && hit.getClass() == Enemy.class)
-			{
-				Enemy e = (Enemy) hit;
-				hud.fadeInYellowBox(e, gameProcessor.selectEnemy(e));
-			}
 			else if (Gdx.input.justTouched())
 			{
 				hud.fadeOutYellowBox();

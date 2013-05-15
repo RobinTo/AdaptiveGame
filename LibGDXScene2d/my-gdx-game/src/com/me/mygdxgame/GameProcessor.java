@@ -122,6 +122,7 @@ public class GameProcessor
 		}
 	}
 
+	// Kept function in case we want to display information somewhere else later. Currently not in use.
 	public List<String> selectEnemy(Enemy e)
 	{
 		List<String> textForBox = new ArrayList<String>();
@@ -442,8 +443,12 @@ public class GameProcessor
 	{
 		List<Direction> directions = new ArrayList<Direction>();
 		boolean digger = false;
+		
+		Vector2 startPoint = map.startPoint.cpy();
 		if (type.equals("digger"))
 		{
+			if (rand.nextDouble() < 0.5)
+			{
 				directions = (List<Direction>) map.directions.clone();
 				List<Direction> removedDirections = (List<Direction>) map.directions.clone();
 				int randomNumber = rand.nextInt(directions.size());
@@ -456,11 +461,18 @@ public class GameProcessor
 						directions.add(Direction.Right);
 				}
 				directions.add(Direction.Right);
+			}
+			else
+			{
+				startPoint.y = rand.nextInt(map.mapHeight-1);
+				for(int i = 0; i < map.mapWidth; i++)
+					directions.add(Direction.Right);
+			}
 			digger = true;
 		} else
 			directions = map.directions;
 
-		return new Enemy(thinkTank.enemyInfo.get(type), map.startPoint,
+		return new Enemy(thinkTank.enemyInfo.get(type), startPoint,
 				directions, enemiesAtlas.createSprite(thinkTank.enemyInfo
 						.get(type).enemyTexture), miscAtlas
 						.createSprite("healthBarRed"), miscAtlas
