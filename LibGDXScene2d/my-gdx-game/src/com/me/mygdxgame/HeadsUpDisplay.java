@@ -255,7 +255,7 @@ public class HeadsUpDisplay
 				consoleStrings.add("TE Slow Percentage Multiplier: " + parameters.get("TESlowPercentage").value);
 				consoleStrings.add("Global Build Cost Multiplier: " + parameters.get("GlobalBuildCost").value);
 				consoleStrings.add("TE Dot Ticks Multiplier: " + parameters.get("TEDotTicks").value);
-				consoleStrings.add("Super Enemy Chance (Norm.): " + parameters.get("SuperChance"));
+				consoleStrings.add("Super Enemy Chance (Norm.): " + parameters.get("SuperChance").value);
 				consoleGroup.setVisible(true);
 				break;
 			case 2:
