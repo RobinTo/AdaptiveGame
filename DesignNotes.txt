@@ -29,6 +29,8 @@ JV
 - Costlabel positions
 - Ikke la samme lydeffekt spilles oppå seg selv, men stopp den første først.
 - Text above buttons (Tower choices or something)
+- Slow description
+
 
 Done
 - Hotkeys
@@ -46,3 +48,6 @@ Tentative
 - Normalizere parametere, og lagre dem "unormaliserte" i ThinkTankInfo.
 - Better SuperShieldGraphics (Maybe with a timer)
 - Skrive på tårntekst over tårn / Gult vindu på UI-valgte tårn
+- Roe ned diggers fra start.
+- Egen plass for gult vindu
+- Select Tower Visuell markering rundt tile.
