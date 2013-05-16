@@ -92,6 +92,9 @@ public class ListenerGenerator
 		{
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
 			{
+				myGdxGame.eventHandler.queueEvent(new Event("selectTower", 0, 0, currentKey));
+				return true;
+				/*
 				myGdxGame.building = true;
 				myGdxGame.buildingTower = myGdxGame.thinkTank.towerInfo.get(currentKey).type;
 				myGdxGame.buildingTowerSprite = myGdxGame.assetManager.towersAtlas.createSprite(myGdxGame.thinkTank.towerInfo.get(currentKey).towerTexture);
@@ -100,6 +103,7 @@ public class ListenerGenerator
 				myGdxGame.stage.addActor(myGdxGame.temporaryTowerActor);
 				myGdxGame.hud.yellowBoxLabel.setText(myGdxGame.towerName);
 				return true;
+				*/
 			}
 		};
 	}

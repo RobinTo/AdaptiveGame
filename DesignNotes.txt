@@ -25,20 +25,19 @@ Robin
 - Metrikk bruker samme terningkast på alle hjerter, men ulikt antall terninger.
 
 JV
+- Move Resetbutton away from the rest.
+- Costlabel positions
+- Ikke la samme lydeffekt spilles oppå seg selv, men stopp den første først.
+- Text above buttons (Tower choices or something)
 
 Done
-- Super effects
+- Hotkeys
 
 Tentative
 - MapGeneration sjanse for høyre (Difficulty)
-- Hotkeys
 - Rydde opp i ListenerGenerator vs. handleEvents. Nå er det blandet hvem som gjør hva.
-- Costlabel positions
-- Ikke la samme lydeffekt spilles oppå seg selv, men stopp den første først.
 - Bars: Earthquake, SuperMob
 - Tower Damage displayed i gult vindu
-- Text above buttons (Tower choices or something)
-- Move Resetbutton away from the rest.
 - Lage Bombetårn
 - Rydde opp i thinktank - calculatenewparameters (apm etc)
 - Knapp til pause for android

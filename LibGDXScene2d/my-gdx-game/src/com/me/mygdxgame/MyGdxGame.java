@@ -21,7 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 public class MyGdxGame implements ApplicationListener
 {
 	Group mapGroup;
-	boolean wasTab = false, wasSpace = false;
+	boolean wasTab = false, wasSpace = false, wasHotKey = false;
 
 	boolean fullScreen = false; // Full screen yes or no.
 	boolean printDebug = true; // Print debug, add or remove writes in end of
@@ -717,6 +717,16 @@ public class MyGdxGame implements ApplicationListener
 					}
 				}
 			}
+			else if (e.eventType.equals("selectTower"))
+			{
+				building = true;
+				buildingTower = thinkTank.towerInfo.get(e.tower).type;
+				buildingTowerSprite = assetManager.towersAtlas.createSprite(thinkTank.towerInfo.get(e.tower).towerTexture);
+				towerName = e.tower;
+				temporaryTowerActor = new MapTile(assetManager.towersAtlas.createSprite(thinkTank.towerInfo.get(towerName).towerTexture), -64, 0);
+				stage.addActor(temporaryTowerActor);
+				hud.yellowBoxLabel.setText(towerName);
+			}
 		}
 	}
 
@@ -748,12 +758,15 @@ public class MyGdxGame implements ApplicationListener
 			}
 			wasTouched = false;
 		}
-		if (Gdx.input.isTouched())
+		if (building)
 		{
 			if (temporaryTowerActor != null && a != null)
 			{
 				temporaryTowerActor.setPosition(a.getX(), a.getY());
 			}
+		}
+		if (Gdx.input.isTouched())
+		{
 			wasTouched = true;
 			Actor hit = stage.hit(Gdx.input.getX(), GameConstants.screenHeight
 					- Gdx.input.getY(), false);
@@ -772,7 +785,7 @@ public class MyGdxGame implements ApplicationListener
 				gameProcessor.selectedTower = null;
 			}
 		}
-		else if (temporaryTowerActor != null)
+		else if (temporaryTowerActor != null && !building)
 		{
 			temporaryTowerActor.remove();
 			temporaryTowerActor = null;
@@ -838,7 +851,7 @@ public class MyGdxGame implements ApplicationListener
 		}
 		else if (!Gdx.input.isKeyPressed(Keys.TAB))
 			wasTab = false;
-		if (!won && !lost)
+		if (!won && !lost) // Keys in here cannot be pressed if game is over
 		{
 			if (Gdx.input.isKeyPressed(Keys.X))
 			{
@@ -849,7 +862,61 @@ public class MyGdxGame implements ApplicationListener
 				gameProcessor.enemies.clear();
 
 			}
-			if (!resuming)
+			if (Gdx.input.isKeyPressed(Keys.NUM_1) && !wasHotKey)
+			{
+				if (temporaryTowerActor != null)
+				{
+					temporaryTowerActor.remove();
+					temporaryTowerActor = null;
+				}
+				eventHandler.queueEvent(new Event("selectTower", 0,0,hud.towerKeys.get(0)));
+				wasHotKey = true;
+			}
+			else if (Gdx.input.isKeyPressed(Keys.NUM_2) &&!wasHotKey)
+			{
+				if (temporaryTowerActor != null)
+				{
+					temporaryTowerActor.remove();
+					temporaryTowerActor = null;
+				}
+				eventHandler.queueEvent(new Event("selectTower", 0,0,hud.towerKeys.get(1)));
+				wasHotKey = true;
+			}
+			else if (Gdx.input.isKeyPressed(Keys.NUM_3) &&!wasHotKey)
+			{
+				if (temporaryTowerActor != null)
+				{
+					temporaryTowerActor.remove();
+					temporaryTowerActor = null;
+				}
+				eventHandler.queueEvent(new Event("selectTower", 0,0,hud.towerKeys.get(2)));
+				wasHotKey = true;
+			}
+			else if (Gdx.input.isKeyPressed(Keys.NUM_4) &&!wasHotKey)
+			{
+				if (temporaryTowerActor != null)
+				{
+					temporaryTowerActor.remove();
+					temporaryTowerActor = null;
+				}
+				eventHandler.queueEvent(new Event("selectTower", 0,0,hud.towerKeys.get(3)));
+				wasHotKey = true;
+			}
+			else if (Gdx.input.isKeyPressed(Keys.NUM_4) &&!wasHotKey)
+			{
+				if (temporaryTowerActor != null)
+				{
+					temporaryTowerActor.remove();
+					temporaryTowerActor = null;
+				}
+				eventHandler.queueEvent(new Event("selectTower", 0,0,hud.towerKeys.get(3)));
+				wasHotKey = true;
+			}
+			else if (!Gdx.input.isKeyPressed(Keys.ANY_KEY))
+			{
+				wasHotKey = false;
+			}
+			if (!resuming) // Keys in here cannot be pressed during countdown
 			{
 				if (Gdx.input.isKeyPressed(Keys.SPACE) && !wasSpace)
 				{
