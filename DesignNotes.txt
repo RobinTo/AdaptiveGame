@@ -34,6 +34,8 @@ JV
 Done
 
 Tentative
+- Save between games: gameLengthMultiplier, lastMetric, maxJumpDistance, and perhaps more.
+
 - MapGeneration sjanse for høyre (Difficulty)
 - Bars: Earthquake, SuperMob
 - Tower Damage displayed i gult vindu

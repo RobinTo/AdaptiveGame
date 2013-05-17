@@ -2862,6 +2862,7 @@ Removing invalidated units
 Finding entry point classes
 Public resources found in...
 Translatable source found in...
+<<<<<<< HEAD
 Found 0 cached/archived units.  Used 0 / 2729 units from cache.
 Compiling...
    30% complete (ETR: 14 seconds)
@@ -2876,24 +2877,53 @@ Compiling...
    90% complete (ETR: 2 seconds)
    100% complete (ETR: 0 seconds)
    Compilation completed in 33,91 seconds
+=======
+Found 0 cached/archived units.  Used 0 / 2728 units from cache.
+Compiling...
+   50% complete (ETR: 5 seconds)
+   50% complete (ETR: 5 seconds)
+   50% complete (ETR: 4 seconds)
+   50% complete (ETR: 4 seconds)
+   50% complete (ETR: 4 seconds)
+   50% complete (ETR: 4 seconds)
+   60% complete (ETR: 4 seconds)
+   70% complete (ETR: 3 seconds)
+   80% complete (ETR: 2 seconds)
+   90% complete (ETR: 1 seconds)
+   100% complete (ETR: 0 seconds)
+   Compilation completed in 11.57 seconds
+>>>>>>> Various tasks. Fixed metric, added speed to constant difficulty, etc.
 Removing invalidated units
 Finding entry point classes
 Public resources found in...
 Translatable source found in...
+<<<<<<< HEAD
 Found 2729 cached/archived units.  Used 2729 / 2729 units from cache.
 Compiling...
    Compilation completed in 0,00 seconds
+=======
+Found 2728 cached/archived units.  Used 2728 / 2728 units from cache.
+Compiling...
+   Compilation completed in 0.00 seconds
+>>>>>>> Various tasks. Fixed metric, added speed to constant difficulty, etc.
 Removing invalidated units
 Finding entry point classes
 Public resources found in...
 Translatable source found in...
+<<<<<<< HEAD
 Found 2729 cached/archived units.  Used 2729 / 2729 units from cache.
 Compiling...
    Compilation completed in 0,00 seconds
+=======
+Found 2728 cached/archived units.  Used 2728 / 2728 units from cache.
+Compiling...
+   Compilation completed in 0.00 seconds
+>>>>>>> Various tasks. Fixed metric, added speed to constant difficulty, etc.
 Removing invalidated units
 Finding entry point classes
 Public resources found in...
 Translatable source found in...
+<<<<<<< HEAD
 Found 0 cached/archived units.  Used 0 / 2729 units from cache.
 Compiling...
    30% complete (ETR: 10 seconds)
@@ -2908,17 +2938,40 @@ Compiling...
    90% complete (ETR: 2 seconds)
    100% complete (ETR: 0 seconds)
    Compilation completed in 40,10 seconds
+=======
+Found 0 cached/archived units.  Used 0 / 2728 units from cache.
+Compiling...
+   60% complete (ETR: 3 seconds)
+   60% complete (ETR: 3 seconds)
+   60% complete (ETR: 3 seconds)
+   60% complete (ETR: 3 seconds)
+   60% complete (ETR: 3 seconds)
+   60% complete (ETR: 3 seconds)
+   60% complete (ETR: 3 seconds)
+   70% complete (ETR: 2 seconds)
+   80% complete (ETR: 1 seconds)
+   90% complete (ETR: 1 seconds)
+   100% complete (ETR: 0 seconds)
+   Compilation completed in 9.54 seconds
+>>>>>>> Various tasks. Fixed metric, added speed to constant difficulty, etc.
 Removing invalidated units
 Finding entry point classes
 Public resources found in...
 Translatable source found in...
+<<<<<<< HEAD
 Found 2729 cached/archived units.  Used 2729 / 2729 units from cache.
 Compiling...
    Compilation completed in 0,00 seconds
+=======
+Found 2728 cached/archived units.  Used 2728 / 2728 units from cache.
+Compiling...
+   Compilation completed in 0.00 seconds
+>>>>>>> Various tasks. Fixed metric, added speed to constant difficulty, etc.
 Removing invalidated units
 Finding entry point classes
 Public resources found in...
 Translatable source found in...
+<<<<<<< HEAD
 Found 2729 cached/archived units.  Used 2729 / 2729 units from cache.
 Compiling...
    Compilation completed in 0,00 seconds
@@ -2954,5 +3007,10 @@ Translatable source found in...
 Found 2729 cached/archived units.  Used 2729 / 2729 units from cache.
 Compiling...
    Compilation completed in 0,00 seconds
+=======
+Found 2728 cached/archived units.  Used 2728 / 2728 units from cache.
+Compiling...
+   Compilation completed in 0.00 seconds
+>>>>>>> Various tasks. Fixed metric, added speed to constant difficulty, etc.
 Removing invalidated units
 Finding entry point classes

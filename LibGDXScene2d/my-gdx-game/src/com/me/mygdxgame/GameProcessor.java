@@ -47,6 +47,7 @@ public class GameProcessor
 	float nudgeRemainingTime = 0f;
 	float nudgeRandomizerTimer = 1.0f;
 	float nudgeRandomizerInterval = 0.5f;
+	int nudges = 0; // Counter to check for on off nudges every 5 seconds.
 
 	float superEnemyHealthMultiplier = 4.0f;
 	float superEnemySpeedMultiplierBonus = 2.0f; // CHANGED: If currentMoveSpeedMultiplier was 2.0f, it will now be 4.0f (Multiplication).
@@ -631,6 +632,15 @@ public class GameProcessor
 
 		} else
 		{
+			nudges++;
+			if(rand.nextDouble() < nudgeChanceConstant)
+			{
+				earthquakeEnabled = true;
+			}
+			else
+			{
+				earthquakeEnabled = false;
+			}
 			nudgeRandomizerTimer -= Gdx.graphics.getDeltaTime();
 			if (nudgeRandomizerTimer <= 0)
 			{

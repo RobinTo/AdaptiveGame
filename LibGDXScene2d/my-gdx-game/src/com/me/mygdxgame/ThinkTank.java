@@ -228,6 +228,15 @@ public class ThinkTank
 		//averageLives /= measurements.size();
 		averageAPM /= measurements.size();
 
+		
+		if(happy == 1)
+			thinkTankInfo.maxJumpDistance = thinkTankInfo.maxJumpDistanceConst;
+		else if(happy == 3)
+		{
+			thinkTankInfo.maxJumpDistance -= thinkTankInfo.maxJumpDistance/5;
+			thinkTankInfo.maxJumpDistance = thinkTankInfo.maxJumpDistance < 0.05f ? 0.05f : thinkTankInfo.maxJumpDistance;
+		}
+		
 		thinkTankInfo.playerLevel = ((double) livesLeft
 				/ (double) GameConstants.startLives + 0.2 * maxVariety);
 		thinkTankInfo.playerLevel = (thinkTankInfo.playerLevel > 1.1) ? 1.1
@@ -236,12 +245,23 @@ public class ThinkTank
 				: thinkTankInfo.playerLevel; //PlayerLevel not below 0.1				
 		
 		Random rand = new Random();
-		thinkTankInfo.challengerMetric = rand.nextDouble()*(happy)*thinkTankInfo.gameLengthMultiplier; // Removed difficult from this metric, as it is irrelevant.
+		
+		thinkTankInfo.challengerMetric = 0;
+		// Rolls from 1 to 10 one time per happy. Perhaps make rolls happy*2 for more chance of new happy.
+		for(int i = 0; i<happy; i++)
+		{
+			int metricRoll = rand.nextInt(10);
+			thinkTankInfo.challengerMetric = metricRoll > thinkTankInfo.challengerMetric ? metricRoll : thinkTankInfo.challengerMetric;
+		}
+		
+		// Multiply in how many games have been played. Game 5 counts more than metric from game 1.
+		thinkTankInfo.challengerMetric *= thinkTankInfo.gameLengthMultiplier; // Removed difficult from this metric, as it is irrelevant.
+		
 		thinkTankInfo.lastDifficulty = difficult;
-		thinkTankInfo.gameLengthMultiplier += 0.02;
+		thinkTankInfo.gameLengthMultiplier += 0.2;
 		thinkTankInfo.lastMetric = thinkTankInfo.currentMetric;
 		//Jump from variables if metric is higher than last one.
-		if (thinkTankInfo.challengerMetric > thinkTankInfo.currentMetric || (happy == 3))
+		if (thinkTankInfo.challengerMetric >= thinkTankInfo.currentMetric || (happy == 3))
 		{
 			// Jump between specified interval
 			// So all variables are added a random value between
@@ -447,15 +467,15 @@ public class ThinkTank
 			parameters.get("GlobalMonsterHP").value += moveAbs;
 			if (parameters.get("GlobalMonsterHP").value > 10.0f)
 				parameters.get("GlobalMonsterHP").value = 10.0f;
+			
+			parameters.get("GlobalMonsterSpeed").value += moveAbs/2;
 			double chance = random.nextDouble();
 			if(chance < 0.5)
 			{
 				double chanceTwo = random.nextDouble();
-				if (chanceTwo < 0.25)
-					parameters.get("GlobalMonsterSpeed").value += moveAbs;
-				else if (chanceTwo < 0.5)
+				if (chanceTwo < 0.33)
 					parameters.get("GlobalTowerRange").value -= moveAbs;
-				else if (chanceTwo < 0.75)
+				else if (chanceTwo < 0.66)
 					parameters.get("TEDamage").value -= moveAbs;
 				else
 					parameters.get("GlobalMonsterGoldYield").value -= moveAbs;
@@ -482,14 +502,13 @@ public class ThinkTank
 			parameters.get("GlobalMonsterHP").value -= moveAbs;
 			if (parameters.get("GlobalMonsterHP").value < 0.1f)
 				parameters.get("GlobalMonsterHP").value = 0.1f;
+			parameters.get("GlobalMonsterSpeed").value -= moveAbs/2;
 			if(chance < 0.5)
 			{
 				double chanceTwo = random.nextDouble();
-				if (chanceTwo < 0.25)
-					parameters.get("GlobalMonsterSpeed").value -= moveAbs;
-				else if (chanceTwo < 0.5)
+				if (chanceTwo < 0.33)
 					parameters.get("GlobalTowerRange").value += moveAbs;
-				else if (chanceTwo < 0.75)
+				else if (chanceTwo < 0.66)
 					parameters.get("TEDamage").value += moveAbs;
 				else
 					parameters.get("GlobalMonsterGoldYield").value += moveAbs;
