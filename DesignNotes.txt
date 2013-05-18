@@ -8,21 +8,7 @@ OK
 
 Robin
 - Pyplot
-- Markere på questions
-- Diggers angriper tårn
-  - Taktikker
-  - Digger aggressiveness bar
-- Fjerne gult vindu fra enemies
 - Skalere wave difficulty (Ta med som difficulty-parameter)
-- Earthquakes on/off midt underveis i spillet
-- Random diggerstart
-- Ikke digge før x tiles
-- Speed som fast difficulty parameter.
-- Sette opp maxJumpDistance på ett hjerte
-- Sette ned maxJumpDistance på tre hjerter
-- Sette opp gamelengthmultiplier
-- Metrikk bruke flyttall
-- Metrikk bruker samme terningkast på alle hjerter, men ulikt antall terninger.
 
 JV
 - Rydde opp i ListenerGenerator vs. handleEvents. Nå er det blandet hvem som gjør hva.
