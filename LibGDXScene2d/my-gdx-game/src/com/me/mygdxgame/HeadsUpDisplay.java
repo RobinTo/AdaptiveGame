@@ -78,11 +78,15 @@ public class HeadsUpDisplay
 		consoleGroup.setTouchable(Touchable.disabled);
 		stage.addActor(yellowBoxGroup);
 
-		TextButton settingsButton = buttonGenerator.createButton(miscAtlas.createSprite("settingsButton"), font);
-		settingsButton.addListener(listenerGenerator.createCleanButtonListener());
-		settingsButton.setPosition(GameConstants.screenWidth - 2 * 64, GameConstants.screenHeight - 100);
-		stage.addActor(settingsButton);
+		TextButton resetButton = buttonGenerator.createButton(miscAtlas.createSprite("settingsButton"), font);
+		resetButton.addListener(listenerGenerator.createCleanButtonListener());
+		resetButton.setPosition(GameConstants.screenWidth - 1 * 64, GameConstants.screenHeight - 100);
+		stage.addActor(resetButton);
 
+		Label buttonInfoLabel = new Label("Tower choices", labelStyle);
+		buttonInfoLabel.setPosition(GameConstants.screenWidth - 5 * 64 + 32, GameConstants.screenHeight - 40);
+		stage.addActor(buttonInfoLabel);
+		
 		TextButton sellButton = buttonGenerator.createButton(miscAtlas.createSprite("sellTowerButton"), font);
 		sellButton.addListener(listenerGenerator.createSellButtonListener());
 		sellButton.setPosition(GameConstants.screenWidth - 3 * 64, GameConstants.screenHeight - 100);
@@ -90,7 +94,7 @@ public class HeadsUpDisplay
 
 		sellPriceLabel = new Label("", labelStyle);
 		sellPriceLabel.setVisible(true);
-		sellPriceLabel.setPosition(sellButton.getX(), sellButton.getY() - sellButton.getHeight()/9);
+		sellPriceLabel.setPosition(sellButton.getX(), sellButton.getY() - sellButton.getHeight()/5);
 		sellPriceLabel.setText("");
 		stage.addActor(sellPriceLabel);
 		
@@ -101,7 +105,7 @@ public class HeadsUpDisplay
 
 		upgradeCostLabel = new Label("", labelStyle);
 		upgradeCostLabel.setVisible(true);
-		upgradeCostLabel.setPosition(upgradeButton.getX(), upgradeButton.getY() - upgradeButton.getHeight()/9);
+		upgradeCostLabel.setPosition(upgradeButton.getX(), upgradeButton.getY() - upgradeButton.getHeight()/5);
 		upgradeCostLabel.setText("");
 		stage.addActor(upgradeCostLabel);
 		
@@ -112,7 +116,7 @@ public class HeadsUpDisplay
 		
 		wallCostLabel = new Label("", labelStyle);
 		wallCostLabel.setVisible(true);
-		wallCostLabel.setPosition(wallButton.getX(), wallButton.getY() - wallButton.getHeight()/9);
+		wallCostLabel.setPosition(wallButton.getX(), wallButton.getY() - wallButton.getHeight()/5);
 		wallCostLabel.setText("");
 		stage.addActor(wallCostLabel);
 		

@@ -13,7 +13,7 @@ public class AssetManager
 {
 	BitmapFont font;
 	
-	HashMap<String, Sound> sounds = new HashMap<String, Sound>();
+	private HashMap<String, Sound> sounds = new HashMap<String, Sound>();
 	HashMap<Integer, Music> allMusic = new HashMap<Integer, Music>();
 	Music currentSong;
 	int currentTrack, totalTracks;
@@ -90,5 +90,11 @@ public class AssetManager
 		currentSong = allMusic.get(number);
 		currentSong.setVolume(0.5f);
 		currentSong.play();
+	}
+	public void playSound(String soundName)
+	{
+		Sound sound = sounds.get(soundName);
+		sound.stop();
+		sound.play();
 	}
 }

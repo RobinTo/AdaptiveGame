@@ -45,86 +45,107 @@ blueTowerOld
   orig: 64, 64
   offset: 0, 0
   index: -1
-dotTower
+cannonTower
   rotate: false
   xy: 67, 1
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-dotTower2
+cannonTower2
   rotate: false
   xy: 133, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-dotTower3
+cannonTower3
   rotate: false
   xy: 199, 133
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-fastEnemy
+dotTower
   rotate: false
   xy: 133, 1
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-redTower
+dotTower2
   rotate: false
   xy: 199, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-redTower2
+dotTower3
   rotate: false
   xy: 265, 133
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-redTower3
+fastEnemy
   rotate: false
   xy: 199, 1
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-testTower
+redTower
   rotate: false
   xy: 265, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-testTower2
+redTower2
   rotate: false
   xy: 331, 133
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-testTower3
+redTower3
   rotate: false
   xy: 265, 1
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-walls
+testTower
   rotate: false
   xy: 331, 67
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
+testTower2
+  rotate: false
+  xy: 397, 133
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+testTower3
+  rotate: false
+  xy: 331, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+walls
+  rotate: false
+  xy: 397, 67
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
 blueTower2
   rotate: false
-  xy: 397, 134
+  xy: 397, 2
   size: 64, 63
   orig: 64, 63
   offset: 0, 0

@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -199,11 +198,11 @@ public class GameProcessor
 		Collections.sort(waveTime);
 	}
 
-	public void updateGame(float totalTime, Camera gameCamera, Map map, AssetManager assetManager, Stage stage, HeadsUpDisplay hud, float nudgeChanceConstant, Sound earthquakeSound, Sound towerDestroyedSound)
+	public void updateGame(float totalTime, Camera gameCamera, Map map, AssetManager assetManager, Stage stage, HeadsUpDisplay hud, float nudgeChanceConstant)
 	{
 		if (earthquakeEnabled && !isGameWon() && !isGameLost())
 		{
-			doEarthquake(gameCamera, map, nudgeChanceConstant, earthquakeSound);
+			doEarthquake(gameCamera, map, nudgeChanceConstant, assetManager);
 		}
 		
 		if (enemies.size() > 0)
@@ -216,7 +215,7 @@ public class GameProcessor
 					Missile m = towers.get(i).shoot();
 					if (m != null)
 					{
-						assetManager.sounds.get(towers.get(i).towerStats.shootSound).play();
+						assetManager.playSound(towers.get(i).towerStats.shootSound);
 						stage.addActor(m);
 						missiles.add(m);
 						m.setZIndex(towers.get(i).getZIndex() - 1);
@@ -232,7 +231,7 @@ public class GameProcessor
 				// If TargetStrategy.Single
 				if (missiles.get(i).effect.missileTarget.targetingStrategy == TargetingStrategy.Single)
 				{
-					assetManager.sounds.get(missiles.get(i).impactSound).play();
+					assetManager.playSound(missiles.get(i).impactSound);
 					Enemy targEnemy = ((TargetSingle) (missiles.get(i).effect.missileTarget)).targetEnemy;
 					if (targEnemy.superShieldedEnemy)
 						continue;
@@ -288,7 +287,7 @@ public class GameProcessor
 						}
 					})));
 					stage.addActor(visualEffectActor);
-					assetManager.sounds.get(missiles.get(i).impactSound).play();
+					assetManager.playSound(missiles.get(i).impactSound);
 
 				}
 				// ----------------------
@@ -394,7 +393,7 @@ public class GameProcessor
 					}
 					for (Tower tower : removeTowerList)
 					{
-						towerDestroyedSound.play();
+						assetManager.playSound("towerDestroyed");
 						towers.remove(tower);
 						tower.remove();
 					}
@@ -513,7 +512,7 @@ public class GameProcessor
 	}
 
 	private void doEarthquake(Camera gameCamera, Map map,
-			float nudgeChanceConstant, Sound earthquakeSound)
+			float nudgeChanceConstant, AssetManager assetManager)
 	{
 		// Earthquake functionality, can be moved wherever, just to test.
 		if (nudgeRemainingTime > 0)
@@ -638,7 +637,7 @@ public class GameProcessor
 				if (rand.nextDouble() < nudgeChanceConstant)
 				{
 					nudgeRemainingTime = 1.5f;
-					earthquakeSound.play();
+					assetManager.playSound("earthquake");
 				}
 				nudgeRandomizerTimer = nudgeRandomizerInterval;
 			}

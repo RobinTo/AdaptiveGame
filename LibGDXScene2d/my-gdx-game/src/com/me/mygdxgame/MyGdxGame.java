@@ -239,9 +239,7 @@ public class MyGdxGame implements ApplicationListener
 			checkWave(totalTime);
 
 			gameProcessor.updateGame(totalTime, gameCamera, map, assetManager,
-					stage, hud, thinkTank.thinkTankInfo.nudgeChanceInGame,
-					assetManager.sounds.get("earthquake"),
-					assetManager.sounds.get("towerDestroyed"));
+					stage, hud, thinkTank.thinkTankInfo.nudgeChanceInGame);
 
 			if (gameProcessor.isGameLost())
 			{
@@ -546,10 +544,10 @@ public class MyGdxGame implements ApplicationListener
 				if (addEnemy.willDigg)
 				{
 					gameProcessor.diggerEnemies.add(addEnemy);
-					assetManager.sounds.get("diggerEnemy").play();
+					assetManager.playSound("diggerEnemy");
 				}
 				if (addEnemy.superFastEnemy || addEnemy.superInvisibleEnemy || addEnemy.superShieldedEnemy || addEnemy.superToughEnemy)
-					assetManager.sounds.get("superEnemy").play();
+					assetManager.playSound("superEnemy");
 				stage.addActor(addEnemy);
 				gameProcessor.enemies.add(gameProcessor.enemyWave
 						.get(gameProcessor.waveTime.get(0)));
@@ -591,7 +589,7 @@ public class MyGdxGame implements ApplicationListener
 						
 						if (canBuild)
 						{
-							assetManager.sounds.get("buildTower").play();
+							assetManager.playSound("buildTower");
 							gameProcessor.currentGold -= buildCost;
 							hud.goldButton.setText("        "
 									+ gameProcessor.currentGold);
@@ -604,17 +602,17 @@ public class MyGdxGame implements ApplicationListener
 						else
 						{
 							tower = null;
-							assetManager.sounds.get("maxedOut").play();
+							assetManager.playSound("maxedOut");
 						}
 						
 					}
 					else
 					{
-						assetManager.sounds.get("notEnoughMoney").play();
+						assetManager.playSound("notEnoughMoney");
 					}
 				}
 				else
-					assetManager.sounds.get("maxedOut").play();
+					assetManager.playSound("maxedOut");
 			}
 			else if (e.eventType.equals("sell"))
 			{
@@ -630,7 +628,7 @@ public class MyGdxGame implements ApplicationListener
 					{
 						if (tower.towerStats.upgradesTo.equals("null"))
 						{
-							assetManager.sounds.get("maxedOut").play();
+							assetManager.playSound("maxedOut");
 							hud.fadeInYellowBox(tower, gameProcessor
 									.selectTower(tower, thinkTank.towerInfo));
 							hud.updateCostLabels(tower);
@@ -642,7 +640,7 @@ public class MyGdxGame implements ApplicationListener
 									: false;
 							if (canAfford)
 							{
-								assetManager.sounds.get("upgradeTower").play();
+								assetManager.playSound("upgradeTower");
 								TowerStats newTowerStats = thinkTank.towerInfo
 										.get(tower.towerStats.upgradesTo);
 								tower.upgrade(
@@ -661,8 +659,7 @@ public class MyGdxGame implements ApplicationListener
 							}
 							else
 							{
-								assetManager.sounds.get("notEnoughMoney")
-										.play();
+								assetManager.playSound("notEnoughMoney");
 								hud.fadeInYellowBox(tower,
 										gameProcessor.selectTower(tower,
 												thinkTank.towerInfo));
@@ -691,7 +688,7 @@ public class MyGdxGame implements ApplicationListener
 								hud.goldButton.setText("        "
 										+ gameProcessor.currentGold);
 								tower.wall = true;
-								assetManager.sounds.get("upgradeTower").play();
+								assetManager.playSound("upgradeTower");
 								hud.fadeInYellowBox(tower,
 										gameProcessor.selectTower(tower,
 												thinkTank.towerInfo));
@@ -699,8 +696,7 @@ public class MyGdxGame implements ApplicationListener
 							}
 							else
 							{
-								assetManager.sounds.get("notEnoughMoney")
-										.play();
+								assetManager.playSound("notEnoughMoney");
 								hud.fadeInYellowBox(tower,
 										gameProcessor.selectTower(tower,
 												thinkTank.towerInfo));
@@ -709,7 +705,7 @@ public class MyGdxGame implements ApplicationListener
 						}
 						else
 						{
-							assetManager.sounds.get("maxedOut").play();
+							assetManager.playSound("maxedOut");
 							hud.fadeInYellowBox(tower, gameProcessor
 									.selectTower(tower, thinkTank.towerInfo));
 							hud.updateCostLabels(tower);

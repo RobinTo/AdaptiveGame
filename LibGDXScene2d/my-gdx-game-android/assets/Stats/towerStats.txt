@@ -57,7 +57,7 @@ range:300
 effect:set:currentMoveSpeedMultiplier:0.7f
 effect:set:currentSlowDuration:2.0f
 buildable:true
-description:Slows enemies in an area on impact.
+description:Slows a single enemy significantly
 endTower
 type:Frost Tower Mk.II
 towerTexture:blueTower2
@@ -73,7 +73,7 @@ range:300
 effect:set:currentMoveSpeedMultiplier:0.5f
 effect:set:currentSlowDuration:2.0f
 buildable:false
-description:Slows enemies in an area on impact.
+description:Slows a single enemy significantly
 endTower
 type:Frost Tower Mk.III
 towerTexture:blueTower3
@@ -89,7 +89,7 @@ range:300
 effect:set:currentMoveSpeedMultiplier:0.3f
 effect:set:currentSlowDuration:2.0f
 buildable:false
-description:Slows enemies in an area on impact.
+description:Slows a single enemy significantly
 endTower
 type:Flame Tower Mk.I
 towerTexture:redTower
@@ -228,4 +228,49 @@ effect:set:currentDotDurationBetweenTicks:0f
 effect:set:dotDurationBetweenTicks:1f
 buildable:false
 description:Deals damage over time to an enemy
+endTower
+type:Cannon Tower Mk.I
+towerTexture:cannonTower
+missileTexture:cannonball
+shootSound:cannonShoot.mp3
+impactSound:cannonImpact.mp3
+upgradesTo:Cannon Tower Mk.II
+sellPrice:10
+buildCost:15
+targeting:circle:50
+reloadtime:2.5f
+range:200
+effect:edit:currentHealth:-7
+buildable:true
+description:Deals high damage to groups of enemies
+endTower
+type:Cannon Tower Mk.II
+towerTexture:cannonTower2
+missileTexture:cannonball
+shootSound:cannonShoot.mp3
+impactSound:cannonImpact.mp3
+upgradesTo:Cannon Tower Mk.III
+sellPrice:18
+buildCost:25
+targeting:circle:50
+reloadtime:2.5f
+range:200
+effect:edit:currentHealth:-14
+buildable:false
+description:Deals high damage to groups of enemies
+endTower
+type:Cannon Tower Mk.III
+towerTexture:cannonTower3
+missileTexture:cannonball
+shootSound:cannonShoot.mp3
+impactSound:cannonImpact.mp3
+upgradesTo:null
+sellPrice:24
+buildCost:35
+targeting:circle:50
+reloadtime:2.5f
+range:200
+effect:edit:currentHealth:-21
+buildable:false
+description:Deals high damage to groups of enemies
 endTower

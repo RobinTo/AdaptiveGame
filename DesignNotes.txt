@@ -25,29 +25,22 @@ Robin
 - Metrikk bruker samme terningkast på alle hjerter, men ulikt antall terninger.
 
 JV
-- Move Resetbutton away from the rest.
-- Costlabel positions
-- Ikke la samme lydeffekt spilles oppå seg selv, men stopp den første først.
-- Text above buttons (Tower choices or something)
-- Slow description
-
+- Rydde opp i ListenerGenerator vs. handleEvents. Nå er det blandet hvem som gjør hva.
+- Select Tower Visuell markering rundt tile.
+- Normalizere parametere, og lagre dem "unormaliserte" i ThinkTankInfo.
+- Rydde opp i thinktank - calculatenewparameters (apm etc)
+- Knapp til pause for android
 
 Done
-- Hotkeys
 
 Tentative
 - MapGeneration sjanse for høyre (Difficulty)
-- Rydde opp i ListenerGenerator vs. handleEvents. Nå er det blandet hvem som gjør hva.
 - Bars: Earthquake, SuperMob
 - Tower Damage displayed i gult vindu
-- Lage Bombetårn
-- Rydde opp i thinktank - calculatenewparameters (apm etc)
-- Knapp til pause for android
 - Liste over hotkeys
 - Kortere levels?
-- Normalizere parametere, og lagre dem "unormaliserte" i ThinkTankInfo.
 - Better SuperShieldGraphics (Maybe with a timer)
 - Skrive på tårntekst over tårn / Gult vindu på UI-valgte tårn
 - Roe ned diggers fra start.
 - Egen plass for gult vindu
-- Select Tower Visuell markering rundt tile.
+- Bug with circle targetting
