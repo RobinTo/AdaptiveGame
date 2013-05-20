@@ -18,7 +18,6 @@ JV
 - Knapp til pause for android
 - Balancing: Nerf Laser (pris ned også), færre diggers fra start.
 - Log: playerLevel, Metric, Hva brukeren trykket, Sjansen for diggers, earthquakes, superenemies, count diggers, count earthquakes, count each type of superenemies, 
-- Bug: Circle targetting
 - Select Tower Visuell markering rundt tile.
 
 Done

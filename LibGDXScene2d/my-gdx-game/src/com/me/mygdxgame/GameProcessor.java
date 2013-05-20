@@ -182,7 +182,7 @@ public class GameProcessor
 			TextureAtlas towersAtlas, TextureAtlas miscAtlas,
 			HashMap<String, TowerStats> towerInfo)
 	{
-		Tower t = new Tower(towerInfo.get(type), towersAtlas
+		Tower t = new Tower(copyStats(type, towerInfo), towersAtlas
 				.createSprite(towerInfo.get(type).towerTexture), miscAtlas
 				.createSprite(towerInfo.get(type).missileTexture), towersAtlas
 				.createSprite("walls"));
@@ -211,21 +211,49 @@ public class GameProcessor
 			for (int i = 0; i < towers.size(); i++)
 			{
 				towers.get(i).calculateTarget(Gdx.graphics.getDeltaTime(), enemies, null);
+				
 				if (towers.get(i).canShoot)
 				{
+//					System.out.println("Calc0 - Tower position: " + (int)towers.get(i).getX() + "," + (int)towers.get(i).getY() + " enemyPos: " + enemyX + "," + enemyY);
+//					System.out.println("Calc1 - Tower position: " + (int)towers.get(i).getX() + "," + (int)towers.get(i).getY() + " enemyPos: " + (int)towers.get(i).enemyX + "," + (int)towers.get(i).enemyY);
+
+					for (int j = 0; j < missiles.size(); j++)
+					{
+						System.out.println("Add10 - " + "Missile: " + j + " Tower: " + (i-1) + " Tower position: " + (missiles.get(j).startX-32) + "," + (missiles.get(j).startY-32) + " targetPosition: " + ((TargetCircle) missiles.get(j).effect.missileTarget).x1 + "," + ((TargetCircle) missiles.get(j).effect.missileTarget).y1);
+					}
 					Missile m = towers.get(i).shoot();
 					if (m != null)
 					{
+						for (int j = 0; j < missiles.size(); j++)
+						{
+							System.out.println("Add20 - " + "Missile: " + j + " Tower: " + i + " Tower position: " + (missiles.get(j).startX-32) + "," + (missiles.get(j).startY-32) + " targetPosition: " + ((TargetCircle) missiles.get(j).effect.missileTarget).x1 + "," + ((TargetCircle) missiles.get(j).effect.missileTarget).y1);
+						}
 						assetManager.playSound(towers.get(i).towerStats.shootSound);
 						stage.addActor(m);
 						missiles.add(m);
 						m.setZIndex(towers.get(i).getZIndex() - 1);
+//						for (int t = 0; t < missiles.size(); t++)
+//						{
+//							try
+//							{
+//							System.out.println("Ad20 - Tower position: " + (missiles.get(t).startX-32) + "," + (missiles.get(t).startY-32) + " targetPosition: " + ((TargetCircle) missiles.get(t).effect.missileTarget).x1 + "," + ((TargetCircle) missiles.get(t).effect.missileTarget).y1);
+//							}
+//							catch (IndexOutOfBoundsException e)
+//							{
+//								
+//							}
+//						}
+						for (int j = 0; j < missiles.size(); j++)
+						{
+							System.out.println("Add30 - " + "Missile: " + j + " Tower: " + i + "WRONG" + " Tower position: " + (missiles.get(j).startX-32) + "," + (missiles.get(j).startY-32) + " targetPosition: " + ((TargetCircle) missiles.get(j).effect.missileTarget).x1 + "," + ((TargetCircle) missiles.get(j).effect.missileTarget).y1);
+						}
 					}
 				}
 			}
 		}
 		for (int i = 0; i < missiles.size(); i++)
 		{
+//			System.out.println("Decr0 - " + "Missile: " + i + "Tower position: " + (missiles.get(i).startX-32) + "," + (missiles.get(i).startY-32) + " targetPosition: " + ((TargetCircle) missiles.get(i).effect.missileTarget).x1 + "," + ((TargetCircle) missiles.get(i).effect.missileTarget).y1);
 			missiles.get(i).timeToHitTarget -= Gdx.graphics.getDeltaTime();
 			if (missiles.get(i).timeToHitTarget <= 0)
 			{
@@ -254,9 +282,11 @@ public class GameProcessor
 				// If TargetStrategy.Circle
 				else if (missiles.get(i).effect.missileTarget.targetingStrategy == TargetingStrategy.Circle)
 				{
+//					System.out.println("Game0 - Tower position: " + (missiles.get(i).startX-32) + "," + (missiles.get(i).startY-32) + " targetPosition: " + ((TargetCircle) missiles.get(i).effect.missileTarget).x1 + "," + ((TargetCircle) missiles.get(i).effect.missileTarget).y1);
 					TargetCircle targetCircle = (TargetCircle) missiles.get(i).effect.missileTarget;
+//					System.out.println("Game1 - Tower position: " + (missiles.get(i).startX-32) + "," + (missiles.get(i).startY-32) + " targetPosition: " + targetCircle.x1 + "," + targetCircle.y1);
 					List<Enemy> enemiesInCircle = HitDetector.getEnemiesInCircle(enemies, targetCircle.x1, targetCircle.y1, targetCircle.radius);
-//					System.out.println("Tower position: " + missiles.get(i).startX + "," + missiles.get(i).startY + " targetPosition: " + targetCircle.x1 + "," + targetCircle.y1);
+//					System.out.println("Game2 - Tower position: " + (missiles.get(i).startX-32) + "," + (missiles.get(i).startY-32) + " targetPosition: " + targetCircle.x1 + "," + targetCircle.y1);
 					Iterator<String> it = missiles.get(i).effect.effects.keySet().iterator();
 					while (it.hasNext())
 					{
@@ -346,7 +376,7 @@ public class GameProcessor
 					}
 				}
 				// ----------------------
-
+//				System.out.println("Remo1 - Removing missile");
 				missiles.get(i).remove();
 				missiles.remove(i);
 				i--;
@@ -654,5 +684,36 @@ public class GameProcessor
 			}
 		}
 		// ---------------
+	}
+	private TowerStats copyStats(String type, HashMap<String, TowerStats> towerInfo)
+	{
+		TowerStats original = towerInfo.get(type);
+		
+		MissileEffect missileEffects;
+		TargetingStrategy targetStrategy = original.missileEffects.missileTarget.targetingStrategy;
+		if(targetStrategy == TargetingStrategy.Circle)
+		{
+			missileEffects = new MissileEffect(new TargetCircle(0, 0, original.radius), original.missileEffects.effects);
+		}
+		else if (targetStrategy == TargetingStrategy.Line)
+		{
+			missileEffects = new MissileEffect(new TargetLine(0, 0, 0, 0), original.missileEffects.effects);
+		}
+		else if(targetStrategy == TargetingStrategy.CircleOnSelf)
+		{
+			missileEffects = new MissileEffect(new TargetCircleOnSelf(original.range), original.missileEffects.effects);
+		}
+		else
+		{
+			missileEffects = new MissileEffect(new TargetSingle(null), original.missileEffects.effects);
+		}
+		
+		TowerStats copiedStats = new TowerStats(original.type, original.description, original.upgradesTo, original.towerTexture,
+				original.missileTexture, original.sellPrice, original.upgradeCost,
+				original.buildCost, missileEffects, original.reloadTime,
+				original.range, original.radius, original.buildable, original.shootSound,
+				original.impactSound);
+		
+		return copiedStats;
 	}
 }

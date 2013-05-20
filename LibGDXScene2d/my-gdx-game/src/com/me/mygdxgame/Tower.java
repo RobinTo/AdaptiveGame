@@ -130,7 +130,8 @@ public class Tower extends ExtendedActor {
 			{
 				((TargetCircle)effects.missileTarget).x1 = (int) enemyX;
 				((TargetCircle)effects.missileTarget).y1 = (int) enemyY;
-				m = new Missile(textures.get(3), towerStats.impactSound, new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(enemyX, enemyY), 0.2f, effects);
+				m = new Missile(textures.get(3), towerStats.impactSound, new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(enemyX, enemyY), 0.3f, effects);
+//				System.out.println("Shoot - Tower position: " + (int)this.getX() + "," + (int)this.getY() + " targetPosition: " + (int)enemyX + "," + (int)enemyY);
 			}
 			else if (effects.missileTarget.targetingStrategy == TargetingStrategy.Line)
 			{
@@ -162,6 +163,7 @@ public class Tower extends ExtendedActor {
 			}
 			currentReloadTimer = towerStats.reloadTime;
 			canShoot = false;
+//			System.out.println("Shoot - Tower position: " + (int)this.getX() + "," + (int)this.getY() + " targetPosition: " + (int)enemyX + "," + (int)enemyY);
 			return m;
 		}
 		else
