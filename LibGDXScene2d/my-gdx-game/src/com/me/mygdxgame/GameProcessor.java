@@ -256,6 +256,7 @@ public class GameProcessor
 				{
 					TargetCircle targetCircle = (TargetCircle) missiles.get(i).effect.missileTarget;
 					List<Enemy> enemiesInCircle = HitDetector.getEnemiesInCircle(enemies, targetCircle.x1, targetCircle.y1, targetCircle.radius);
+//					System.out.println("Tower position: " + missiles.get(i).startX + "," + missiles.get(i).startY + " targetPosition: " + targetCircle.x1 + "," + targetCircle.y1);
 					Iterator<String> it = missiles.get(i).effect.effects.keySet().iterator();
 					while (it.hasNext())
 					{

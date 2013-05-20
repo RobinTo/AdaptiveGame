@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class HitDetector {
 
-	public static synchronized List<Enemy> getEnemiesInCircle(List<Enemy> enemies, int originX, int originY, int radius)
+	public static List<Enemy> getEnemiesInCircle(List<Enemy> enemies, int originX, int originY, int radius)
 	{
 		List<Enemy> intersectingEnemies = new ArrayList<Enemy>();
 		Circle circle = new Circle(originX, originY, radius);
@@ -23,7 +23,7 @@ public class HitDetector {
 		return intersectingEnemies;
 	}
 	
-	public static synchronized List<Enemy> getEnemiesOnLine(List<Enemy> enemies, Vector2 startPoint, Vector2 endPoint)
+	public static List<Enemy> getEnemiesOnLine(List<Enemy> enemies, Vector2 startPoint, Vector2 endPoint)
 	{
 		List<Enemy> intersectingEnemies = new ArrayList<Enemy>();
 		for (Enemy enemy : enemies)

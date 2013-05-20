@@ -14,11 +14,15 @@ public class Missile extends ExtendedActor
 	MissileEffect effect;
 	float timeToHitTarget;
 	String impactSound;
+	int startX, startY;
+	
 
 	public Missile(Sprite sprite, String impactSound, Vector2 startPosition,
 			Vector2 targetPosition, float timeToHitTarget, MissileEffect effects)
 	{
 		super(sprite);
+		this.startX = (int)startPosition.x;
+		this.startY = (int)startPosition.y;
 		this.impactSound = impactSound;
 		this.timeToHitTarget = timeToHitTarget;
 		this.effect = effects;
