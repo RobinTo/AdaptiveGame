@@ -10,13 +10,16 @@ import com.badlogic.gdx.files.FileHandle;
 
 public class Logger
 {
-	int earthquakeCount, enemyCount, killCount, basicsCount, basicsKilled, fastCount, fastKilled, toughCount, toughKilled, diggerCount, diggersKilled, superCount, supersKilled, superFastCount, superFastKilled, superToughCount,
-	superToughKilled, superShieldCount, superShieldKilled, superInvisCount, superInvisKilled, shotsFired, towersBuilt, towersUpgraded, towersSold;
-	
+	int earthquakeCount, enemyCount, killCount, basicsCount, basicsKilled, fastCount, fastKilled, toughCount, toughKilled, diggerCount, diggersKilled,
+			superCount, supersKilled, superFastCount, superFastKilled, superToughCount, superToughKilled, superShieldCount, superShieldKilled, superInvisCount,
+			superInvisKilled, shotsFired, towersBuilt, towersUpgraded, towersSold, towersDestroyed, earthquakeProofs, lastHappy, lastDifficult, arrowTowers,
+			slowTowers, cannonTowers, laserTowers, burningTowers, flameTowers;
+
 	public Logger()
 	{
 		this.resetCounters();
 	}
+
 	public void resetCounters()
 	{
 		earthquakeCount = 0;
@@ -42,11 +45,23 @@ public class Logger
 		towersBuilt = 0;
 		towersSold = 0;
 		towersUpgraded = 0;
+		towersDestroyed = 0;
 		enemyCount = 0;
 		killCount = 0;
+		earthquakeProofs = 0;
+		lastHappy = 0;
+		lastDifficult = 0;
+		arrowTowers = 0;
+		slowTowers = 0;
+		cannonTowers = 0;
+		laserTowers = 0;
+		burningTowers = 0;
+		flameTowers = 0;
 	}
-	
-	public void writeLogToDisk(FileHandle fileHandle, HashMap<String, Parameter> parameters, boolean won, int successiveGameCounter, int livesLeft, int goldLeft)
+
+	public void writeLogToDisk(FileHandle fileHandle, HashMap<String, Parameter> parameters, boolean won, int successiveGameCounter, int livesLeft,
+			int goldLeft, int startGold, double currentMetric, double lastMetric, double challengerMetric, float maxJumpDistance, double playerLevel,
+			double gameLengthMultiplier)
 	{
 		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, new Locale("en", "EN"));
 		String formattedDate = df.format(new Date());
@@ -62,13 +77,35 @@ public class Logger
 		}
 
 		// Write some info
-		fileHandle.writeString("Lives left       : " + livesLeft + "/" + GameConstants.startLives + "\r\n", true);
-		fileHandle.writeString("Gold left        : " + goldLeft + "\r\n", true);
-		fileHandle.writeString("Earthquake count : " + earthquakeCount + "\r\n", true);
-		fileHandle.writeString("Shots fired      : " + shotsFired + "\r\n", true);
-		fileHandle.writeString("Towers built     : " + towersBuilt + "\r\n", true);
-		fileHandle.writeString("Towers upgraded  : " + towersUpgraded + "\r\n", true);
-		fileHandle.writeString("Towers sold      : " + towersSold + "\r\n", true);
+		fileHandle.writeString("Lives left        : " + livesLeft + "/" + GameConstants.startLives + "\r\n", true);
+		fileHandle.writeString("Gold left         : " + goldLeft + "/" + startGold + "\r\n", true);
+		fileHandle.writeString("Earthquake count  : " + earthquakeCount + "\r\n", true);
+		fileHandle.writeString("Shots fired       : " + shotsFired + "\r\n", true);
+		
+		// Tower info
+		fileHandle.writeString("Towers built      : " + towersBuilt + "\r\n", true);
+		fileHandle.writeString("Towers upgraded   : " + towersUpgraded + "\r\n", true);
+		fileHandle.writeString("Towers sold       : " + towersSold + "\r\n", true);
+		fileHandle.writeString("Towers destroyed  : " + towersDestroyed + "\r\n", true);
+		fileHandle.writeString("Earthquake proofs : " + earthquakeProofs + "\r\n", true);
+		fileHandle.writeString("Arrow towers      : " + arrowTowers + "\r\n", true);
+		fileHandle.writeString("Slow towers       : " + slowTowers + "\r\n", true);
+		fileHandle.writeString("Cannon towers     : " + cannonTowers + "\r\n", true);
+		fileHandle.writeString("Flame towers      : " + flameTowers + "\r\n", true);
+		fileHandle.writeString("Laser towers      : " + laserTowers + "\r\n", true);
+		fileHandle.writeString("Burning towers    : " + burningTowers + "\r\n", true);
+		
+
+		// Write metric and jump info
+		fileHandle.writeString("---Metric and jump information---" + "\r\n", true);
+		fileHandle.writeString("Hearts feedback        : " + lastHappy + "\r\n", true);
+		fileHandle.writeString("Difficulty feedback    : " + lastDifficult + "\r\n", true);
+		fileHandle.writeString("Current metric         : " + currentMetric + "\r\n", true);
+		fileHandle.writeString("Last metric            : " + lastMetric + "\r\n", true);
+		fileHandle.writeString("Challenger metric      : " + challengerMetric + "\r\n", true);
+		fileHandle.writeString("Max jump distance      : " + maxJumpDistance + "\r\n", true);
+		fileHandle.writeString("Player Level           : " + playerLevel + "\r\n", true);
+		fileHandle.writeString("Game length multiplier : " + gameLengthMultiplier + "\r\n", true);
 
 		// Write enemies short version
 		fileHandle.writeString("---Enemies - short version---" + "\r\n", true);

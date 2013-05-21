@@ -217,12 +217,12 @@ public class GameProcessor
 		Collections.sort(waveTime);
 	}
 
-	public void updateGame(float totalTime, Camera gameCamera, Map map, AssetManager assetManager, Stage stage, HeadsUpDisplay hud, float nudgeChance, float nudgeChanceConstant)
+	public void updateGame(float totalTime, Camera gameCamera, Map map, AssetManager assetManager, Stage stage, HeadsUpDisplay hud, float nudgeChance, float nudgeChanceInGame)
 	{
 		earthquakeToggleTimer -= Gdx.graphics.getDeltaTime();
 		if (earthquakeEnabled && !isGameWon() && !isGameLost())
 		{
-			doEarthquake(gameCamera, map, nudgeChanceConstant, assetManager);
+			doEarthquake(gameCamera, map, nudgeChanceInGame, assetManager);
 		}
 		
 		if (nudgeRemainingTime <= 0 && earthquakeToggleTimer <= 0)
@@ -435,6 +435,7 @@ public class GameProcessor
 						assetManager.playSound("towerDestroyed");
 						towers.remove(tower);
 						tower.remove();
+						logger.towersDestroyed++;
 					}
 				}
 			}
@@ -576,7 +577,7 @@ public class GameProcessor
 				miscAtlas.createSprite("slowIcon"), miscAtlas.createSprite("DoTIcon"), digger);
 	}
 
-	private void doEarthquake(Camera gameCamera, Map map, float nudgeChanceConstant, AssetManager assetManager)
+	private void doEarthquake(Camera gameCamera, Map map, float nudgeChanceInGame, AssetManager assetManager)
 	{
 		// Earthquake functionality
 		if (nudgeRemainingTime > 0)
@@ -674,7 +675,7 @@ public class GameProcessor
 			nudgeRandomizerTimer -= Gdx.graphics.getDeltaTime();
 			if (nudgeRandomizerTimer <= 0)
 			{
-				if (rand.nextDouble() < nudgeChanceConstant)
+				if (rand.nextDouble() < nudgeChanceInGame)
 				{
 					nudgeRemainingTime = 1.5f;
 					assetManager.playSound("earthquake");

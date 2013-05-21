@@ -67,8 +67,8 @@ public class ThinkTank
 			parameters.put("GlobalTowerRange", new Parameter("GlobalTowerRange", 1.0f, 0.1f, 10.0f));
 			parameters.put("DiggerChance", new Parameter("DiggerChance", 0.01f, 0.0f, 1.0f)); // Digger chance eats of the 0.5 set for Normal mob chance.
 			parameters.put("SuperChance", new Parameter("SuperChance", 0.02f, 0.0f, 1.0f)); // Set to 0 to disable super minions. Could add a seperate number for each type, if we desire.
-			parameters.put("EarthquakeChance", new Parameter("EarthquakeChance", 0.9f, 0.0f, 1.0f)); 
-			parameters.put("EarthquakeChanceInGame", new Parameter("EarthquakeChanceInGame", 0.8f, 0.1f, 0.9f)); 
+			parameters.put("EarthquakeChance", new Parameter("EarthquakeChance", 0.2f, 0.0f, 1.0f)); //Earthquake enabled or not (Changing every 5th second)
+			parameters.put("EarthquakeChanceInGame", new Parameter("EarthquakeChanceInGame", 0.2f, 0.1f, 0.9f)); //Earthquake chance for every second when earthquake is enabled.
 		}
 		
 		thinkTankInfo.initialize();

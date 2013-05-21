@@ -14,7 +14,6 @@ public class ThinkTankInfo
 	int lastDifficulty = 0;
 
 	float superEnemyChance = 0; 
-	int totalGames = 0;
 	int startGold = 0;
 	
 	public void initialize()
@@ -26,7 +25,6 @@ public class ThinkTankInfo
 		maxJumpDistance = 0.4f;
 		gameLengthMultiplier = 1.0;
 		playerLevel = 0;
-		totalGames = 0;
 		startGold = 100;
 	}
 }

@@ -138,12 +138,12 @@ towerTexture:testTower
 missileTexture:laserBullet
 shootSound:laserShoot.mp3
 upgradesTo:Laser Tower Mk.II
-sellPrice:20
-buildCost:30
+sellPrice:15
+buildCost:20
 targeting:line
-reloadtime:2.0f
+reloadtime:1.5f
 range:400
-effect:edit:currentHealth:-10
+effect:edit:currentHealth:-7
 buildable:true
 description:Deals damage to enemies in a line.
 endTower
@@ -152,12 +152,12 @@ towerTexture:testTower2
 missileTexture:laserBullet
 shootSound:laserShoot.mp3
 upgradesTo:Laser Tower Mk.III
-sellPrice:40
-buildCost:55
+sellPrice:24
+buildCost:35
 targeting:line
 reloadtime:2.0f
 range:400
-effect:edit:currentHealth:-20
+effect:edit:currentHealth:-14
 buildable:false
 description:Deals damage to enemies in a line.
 endTower
@@ -166,12 +166,12 @@ towerTexture:testTower3
 missileTexture:laserBullet
 shootSound:laserShoot.mp3
 upgradesTo:null
-sellPrice:60
-buildCost:80
+sellPrice:50
+buildCost:35
 targeting:line
 reloadtime:2.0f
 range:400
-effect:edit:currentHealth:-30
+effect:edit:currentHealth:-21
 buildable:false
 description:Deals damage to enemies in a line.
 endTower

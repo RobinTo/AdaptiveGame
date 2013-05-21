@@ -212,6 +212,8 @@ public class MyGdxGame implements ApplicationListener
 			{
 				thinkTank.calculateVariables(questionaire.happy,
 						questionaire.difficult, gameProcessor.livesLeft);
+				logger.lastHappy = questionaire.happy;
+				logger.lastDifficult = questionaire.difficult;
 				resetGame();
 			}
 		}
@@ -244,41 +246,22 @@ public class MyGdxGame implements ApplicationListener
 			gameProcessor.updateGame(totalTime, gameCamera, map, assetManager,
 					stage, hud, thinkTank.thinkTankInfo.nudgeChance, thinkTank.thinkTankInfo.nudgeChanceInGame);
 
+			
 			if (gameProcessor.isGameLost())
 			{
 				lost = true;
-				if (!savedParametersAndRelations)
-				{
-					thinkTank.successiveGameCounter ++;
-					logger.writeLogToDisk(Gdx.files.external(logSavePath), thinkTank.parameters, false, thinkTank.successiveGameCounter, gameProcessor.livesLeft, gameProcessor.currentGold);
-					thinkTank.writeParametersToDisk(Gdx.files
-							.external(parameterSavePath));
-					thinkTank.writeRelationsToDisk(Gdx.files
-							.external(relationsSavePath));
-					savedParametersAndRelations = true;
-				}
-				if (!questionaireIsDisplayed)
-				{
-					hud.setAllButtonsTouchable(Touchable.disabled);
-					paused = true;
-					questionaire = new Questionaire(qBG,
-							assetManager.miscAtlas
-									.createSprite("heartFeedbackNo"),
-									assetManager.miscAtlas.createSprite("heartFeedback"),
-							assetManager.miscAtlas.createSprite("thumbUp"),
-							assetManager.miscAtlas.createSprite("thumbDown"),
-							assetManager.miscAtlas.createSprite("thumbSide"),
-							stage, assetManager.font, buttonGenerator);
-					questionaireIsDisplayed = true;
-				}
 			}
 			else if (gameProcessor.isGameWon())
 			{
 				won = true;
+			}
+			if (gameProcessor.isGameLost() || gameProcessor.isGameWon())
+			{				
 				if (!savedParametersAndRelations)
 				{
-					thinkTank.successiveGameCounter ++;
-					logger.writeLogToDisk(Gdx.files.external(logSavePath), thinkTank.parameters, true, thinkTank.successiveGameCounter, gameProcessor.livesLeft, gameProcessor.currentGold);
+					thinkTank.successiveGameCounter++;
+					logger.writeLogToDisk(Gdx.files.external(logSavePath), thinkTank.parameters, won, thinkTank.successiveGameCounter,
+							gameProcessor.livesLeft, gameProcessor.currentGold, thinkTank.thinkTankInfo.startGold, thinkTank.thinkTankInfo.currentMetric, thinkTank.thinkTankInfo.lastMetric, thinkTank.thinkTankInfo.challengerMetric, thinkTank.thinkTankInfo.maxJumpDistance, thinkTank.thinkTankInfo.playerLevel, thinkTank.thinkTankInfo.gameLengthMultiplier);
 					thinkTank.writeParametersToDisk(Gdx.files
 							.external(parameterSavePath));
 					thinkTank.writeRelationsToDisk(Gdx.files
@@ -289,14 +272,10 @@ public class MyGdxGame implements ApplicationListener
 				{
 					hud.setAllButtonsTouchable(Touchable.disabled);
 					paused = true;
-					questionaire = new Questionaire(qBG,
-							assetManager.miscAtlas
-									.createSprite("heartFeedbackNo"),
-									assetManager.miscAtlas.createSprite("heartFeedback"),
-							assetManager.miscAtlas.createSprite("thumbUp"),
-							assetManager.miscAtlas.createSprite("thumbDown"),
-							assetManager.miscAtlas.createSprite("thumbSide"),
-							stage, assetManager.font, buttonGenerator);
+					questionaire = new Questionaire(qBG, assetManager.miscAtlas.createSprite("heartFeedbackNo"),
+							assetManager.miscAtlas.createSprite("heartFeedback"), assetManager.miscAtlas.createSprite("thumbUp"),
+							assetManager.miscAtlas.createSprite("thumbDown"), assetManager.miscAtlas.createSprite("thumbSide"), stage, assetManager.font,
+							buttonGenerator);
 					questionaireIsDisplayed = true;
 				}
 			}
@@ -483,7 +462,6 @@ public class MyGdxGame implements ApplicationListener
 
 		if (questionaire != null)
 		{
-			thinkTank.thinkTankInfo.totalGames++;
 			questionaire.reset();
 			questionaire = null;
 			questionaireIsDisplayed = false;
@@ -596,6 +574,8 @@ public class MyGdxGame implements ApplicationListener
 									tower, thinkTank.towerInfo));
 							hud.updateCostLabels(tower);
 							gameProcessor.logger.towersBuilt++;
+//							if (tower.towerStats.type) JON V
+//							gameProcessor.logger.arrowTowers++;
 						}
 						else
 						{
@@ -901,14 +881,24 @@ public class MyGdxGame implements ApplicationListener
 				eventHandler.queueEvent(new Event("selectTower", 0,0,hud.towerKeys.get(3)));
 				wasHotKey = true;
 			}
-			else if (Gdx.input.isKeyPressed(Keys.NUM_4) &&!wasHotKey)
+			else if (Gdx.input.isKeyPressed(Keys.NUM_5) &&!wasHotKey)
 			{
 				if (temporaryTowerActor != null)
 				{
 					temporaryTowerActor.remove();
 					temporaryTowerActor = null;
 				}
-				eventHandler.queueEvent(new Event("selectTower", 0,0,hud.towerKeys.get(3)));
+				eventHandler.queueEvent(new Event("selectTower", 0,0,hud.towerKeys.get(4)));
+				wasHotKey = true;
+			}
+			else if (Gdx.input.isKeyPressed(Keys.NUM_6) &&!wasHotKey)
+			{
+				if (temporaryTowerActor != null)
+				{
+					temporaryTowerActor.remove();
+					temporaryTowerActor = null;
+				}
+				eventHandler.queueEvent(new Event("selectTower", 0,0,hud.towerKeys.get(5)));
 				wasHotKey = true;
 			}
 			else if (!Gdx.input.isKeyPressed(Keys.ANY_KEY))
