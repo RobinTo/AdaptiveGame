@@ -418,7 +418,7 @@ public class GameProcessor
 						for (float enemyTimes : waveTime)
 						{
 							if (!enemyWave.get(enemyTimes).willDigg)
-								enemyWave.get(enemyTimes).generateDirections(map.directions);
+								enemyWave.get(enemyTimes).generateDirections(map.directions, map.startPoint);
 						}
 					}
 					// Remove tower if in path
@@ -572,7 +572,7 @@ public class GameProcessor
 		else
 			directions = map.directions;
 
-		return new Enemy(thinkTank.enemyInfo.get(type), startPoint, directions, enemiesAtlas.createSprite(thinkTank.enemyInfo.get(type).enemyTexture),
+		return new Enemy(thinkTank.enemyInfo.get(type), startPoint.cpy(), directions, enemiesAtlas.createSprite(thinkTank.enemyInfo.get(type).enemyTexture),
 				miscAtlas.createSprite("healthBarRed"), miscAtlas.createSprite("healthBarYellow"), miscAtlas.createSprite("super"),
 				miscAtlas.createSprite("slowIcon"), miscAtlas.createSprite("DoTIcon"), digger);
 	}

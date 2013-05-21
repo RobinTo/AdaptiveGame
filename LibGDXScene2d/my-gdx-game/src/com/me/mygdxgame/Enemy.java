@@ -81,12 +81,18 @@ public class Enemy extends ExtendedActor
 		sprites.put(5, dotSprite);
 		this.setPosition(targetPosition.x, targetPosition.y);
 
-		generateDirections(directions);
+		generateDirections(directions, startPosition);
 	}
 
-	public void generateDirections(List<Direction> directions)
+	public void generateDirections(List<Direction> directions, Vector2 startPosition)
 	{
+		targetPosition = new Vector2(startPosition.x * GameConstants.tileSize,
+				startPosition.y * GameConstants.tileSize);
+		originalTargetPos = new Vector2(startPosition.x
+				* GameConstants.tileSize, startPosition.y
+				* GameConstants.tileSize);
 		targetPosition = originalTargetPos.cpy();
+		this.setPosition(targetPosition.x, targetPosition.y);
 		this.clearActions();
 		SequenceAction seqAct = new SequenceAction();
 		for (int i = 0; i < directions.size(); i++)

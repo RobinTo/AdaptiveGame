@@ -48,7 +48,14 @@ public class ThinkTank
 			{
 				String line = fileContent.get(counter);
 				String[] split = line.split(":");
-				parameters.put(split[0], new Parameter(split[0], Float.valueOf(split[1]), Float.valueOf(split[2]), Float.valueOf(split[3])));
+				if(split[0].equals("gameLengthMultiplier"))
+					thinkTankInfo.gameLengthMultiplier = Float.valueOf(split[1]);
+				else if(split[0].equals("currentMetric"))
+					thinkTankInfo.currentMetric = Float.valueOf(split[1]);
+				else if(split[0].equals("maxJumpDistance"))
+					thinkTankInfo.maxJumpDistance = Float.valueOf(split[1]);
+			    else
+			    	parameters.put(split[0], new Parameter(split[0], Float.valueOf(split[1]), Float.valueOf(split[2]), Float.valueOf(split[3])));
 			}
 		}
 		else
@@ -65,7 +72,7 @@ public class ThinkTank
 			parameters.put("GlobalMonsterSpeed", new Parameter("GlobalMonsterSpeed", 1.0f, 0.1f, 10.0f));
 			parameters.put("GlobalMonsterGoldYield", new Parameter("GlobalMonsterGoldYield", 1.0f));
 			parameters.put("GlobalTowerRange", new Parameter("GlobalTowerRange", 1.0f, 0.1f, 10.0f));
-			parameters.put("DiggerChance", new Parameter("DiggerChance", 0.01f, 0.0f, 1.0f)); // Digger chance eats of the 0.5 set for Normal mob chance.
+			parameters.put("DiggerChance", new Parameter("DiggerChance", 0.2f, 0.0f, 1.0f)); // Digger chance eats of the 0.5 set for Normal mob chance.
 			parameters.put("SuperChance", new Parameter("SuperChance", 0.02f, 0.0f, 1.0f)); // Set to 0 to disable super minions. Could add a seperate number for each type, if we desire.
 			parameters.put("EarthquakeChance", new Parameter("EarthquakeChance", 0.2f, 0.0f, 1.0f)); //Earthquake enabled or not (Changing every 5th second)
 			parameters.put("EarthquakeChanceInGame", new Parameter("EarthquakeChanceInGame", 0.2f, 0.1f, 0.9f)); //Earthquake chance for every second when earthquake is enabled.
@@ -287,6 +294,9 @@ public class ThinkTank
 	public void writeParametersToDisk(FileHandle fileHandle)
 	{
 		fileHandle.writeString("", false);
+		fileHandle.writeString("gameLengthMultiplier:"+thinkTankInfo.gameLengthMultiplier, true);
+		fileHandle.writeString("currentMetric:"+thinkTankInfo.currentMetric, true);
+		fileHandle.writeString("maxJumpDistance:"+thinkTankInfo.maxJumpDistance, true);
 		Iterator<String> parameterIterator = parameters.keySet()
 				.iterator();
 		while (parameterIterator.hasNext())

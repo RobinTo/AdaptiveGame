@@ -62,23 +62,18 @@ public class Map
 		textures.put(id, sprite);
 	}
 
-	public void findStartPoint()
+	public List<Integer> findStartPoint()
 	{
 		mapDone = false;
+		List<Integer> startY = new ArrayList<Integer>();
 		for (int y = 0; y < mapHeight; y++)
 		{
 			if (pathTiles.contains(map[0][y]))
 			{
-				startPoint.y = y;
+				startY.add(y);
 			}
 		}
-		for (int y = 0; y < mapHeight; y++)
-		{
-			if (pathTiles.contains(map[mapWidth - 1][y]))
-			{
-				endPoint.y = y;
-			}
-		}
+		return startY;
 	}
 
 	List<List<Direction>> directionsLister = new ArrayList<List<Direction>>();
@@ -121,6 +116,8 @@ public class Map
 
 	public void generateDirections()
 	{
+		List<Integer> startY = findStartPoint();
+		System.out.println("StartY size: " + startY.size() + " : " + startY.get(0));
 		directions.clear();
 		List<Vector2> possibleSteps = new ArrayList<Vector2>();
 		MapNode[][] mapNodes = new MapNode[mapWidth][mapHeight];
@@ -139,14 +136,36 @@ public class Map
 
 		List<Vector2> visitedTiles = new ArrayList<Vector2>();
 		boolean done = false;
-		Vector2 currentPoint = startPoint.cpy();
 		int counter = 0;
 		System.out.println("Calculating directions modified A*");
+		
+		int randY = rand.nextInt(startY.size());
+		startPoint.y = startY.get(randY);
+		System.out.println("Calculating using startY: " + startPoint.y);
+		Vector2 currentPoint = startPoint.cpy();
 		while (!done)
 		{
 			if (currentPoint.x >= mapWidth - 1)
 				done = true;
+			else if(visitedTiles.size() >= possibleSteps.size())
+			{
+				System.out.println("Map_PathFinding: Did the reset due to bad starting point.");
+				randY = rand.nextInt(startY.size());
+				startPoint.y = startY.get(randY);
+				System.out.println("Start Reset: " + startPoint.x + "," + startPoint.y);
+				visitedTiles.clear();
+				currentPoint = startPoint.cpy();
+			}
 			List<Vector2> neighbouringTiles = neighbouringSteps(possibleSteps, currentPoint);
+			if(neighbouringTiles.size() <= 0)
+			{
+				System.out.println("Map_PathFinding: Did the reset due to bad starting point.");
+				randY = rand.nextInt(startY.size());
+				startPoint.y = startY.get(randY);
+				System.out.println("Start Reset: " + startPoint.x + "," + startPoint.y);
+				visitedTiles.clear();
+				currentPoint = startPoint.cpy();
+			}
 			float currentF = 0;
 			Vector2 lowestF = new Vector2(0, 0);
 			boolean setTile = false;
@@ -178,9 +197,15 @@ public class Map
 				directions.remove(directions.size() - 1);
 			}
 			else if(!setTile && directions.size() == 0)
-			{
+			{	
+				System.out.println("Map_PathFinding: Did the reset due to bad starting point.");
+				randY = rand.nextInt(startY.size());
+				startPoint.y = startY.get(randY);
+				System.out.println("Start Reset: " + startPoint.x + "," + startPoint.y);
 				visitedTiles.clear();
-				currentPoint = startPoint;
+				currentPoint = startPoint.cpy();
+				visitedTiles.clear();
+				currentPoint = startPoint.cpy();
 			}
 			else
 			{
