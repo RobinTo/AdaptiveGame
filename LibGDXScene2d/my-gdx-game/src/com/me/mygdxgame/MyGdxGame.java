@@ -17,6 +17,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 public class MyGdxGame implements ApplicationListener
 {
@@ -89,12 +90,14 @@ public class MyGdxGame implements ApplicationListener
 	GameProcessor gameProcessor;
 	AssetManager assetManager;
 	StatsFetcher statsFetcher;
+	Logger logger;
 
 	int lastKeyPressed = -10;
 
 	@Override
 	public void create()
 	{
+		logger = new Logger();
 		gameCamera = new OrthographicCamera(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
 		Gdx.graphics.setTitle("Adaptive Tower Defense v0.001");
 		spriteBatch = new SpriteBatch();
@@ -186,7 +189,7 @@ public class MyGdxGame implements ApplicationListener
 		thinkTank.initializeRelations(relationsHandle);
 
 		gameProcessor = new GameProcessor();
-		gameProcessor.initialize(thinkTank.thinkTankInfo.startGold);
+		gameProcessor.initialize(thinkTank.thinkTankInfo.startGold, logger);
 
 		resetGame();
 	}
@@ -246,7 +249,8 @@ public class MyGdxGame implements ApplicationListener
 				lost = true;
 				if (!savedParametersAndRelations)
 				{
-					thinkTank.writeLogToDisk(Gdx.files.external(logSavePath));
+					thinkTank.successiveGameCounter ++;
+					logger.writeLogToDisk(Gdx.files.external(logSavePath), thinkTank.parameters, false, thinkTank.successiveGameCounter, gameProcessor.livesLeft, gameProcessor.currentGold);
 					thinkTank.writeParametersToDisk(Gdx.files
 							.external(parameterSavePath));
 					thinkTank.writeRelationsToDisk(Gdx.files
@@ -255,6 +259,8 @@ public class MyGdxGame implements ApplicationListener
 				}
 				if (!questionaireIsDisplayed)
 				{
+					hud.setAllButtonsTouchable(Touchable.disabled);
+					paused = true;
 					questionaire = new Questionaire(qBG,
 							assetManager.miscAtlas
 									.createSprite("heartFeedbackNo"),
@@ -271,7 +277,8 @@ public class MyGdxGame implements ApplicationListener
 				won = true;
 				if (!savedParametersAndRelations)
 				{
-					thinkTank.writeLogToDisk(Gdx.files.external(logSavePath));
+					thinkTank.successiveGameCounter ++;
+					logger.writeLogToDisk(Gdx.files.external(logSavePath), thinkTank.parameters, true, thinkTank.successiveGameCounter, gameProcessor.livesLeft, gameProcessor.currentGold);
 					thinkTank.writeParametersToDisk(Gdx.files
 							.external(parameterSavePath));
 					thinkTank.writeRelationsToDisk(Gdx.files
@@ -280,6 +287,8 @@ public class MyGdxGame implements ApplicationListener
 				}
 				if (!questionaireIsDisplayed)
 				{
+					hud.setAllButtonsTouchable(Touchable.disabled);
+					paused = true;
 					questionaire = new Questionaire(qBG,
 							assetManager.miscAtlas
 									.createSprite("heartFeedbackNo"),
@@ -464,6 +473,7 @@ public class MyGdxGame implements ApplicationListener
 
 		won = false;
 		lost = false;
+		logger.resetCounters();
 
 		thinkTank.clear();
 
@@ -478,22 +488,9 @@ public class MyGdxGame implements ApplicationListener
 			questionaire = null;
 			questionaireIsDisplayed = false;
 		}
-		// Not sure what we thought, we need some Min max values, or to multiply
-		// with something? E.g. 0.2* chance with diggers, 0.5* chance with
-		// nudge, etc.
-		// thinkTank.diggerChance =
-		// (float)((thinkTank.thinkTankInfo.totalHappinessDiggersOn/(3*thinkTank.thinkTankInfo.totalGames))/(thinkTank.thinkTankInfo.totalHappinessDiggersOff/(3*thinkTank.thinkTankInfo.totalGames)
-		// +
-		// thinkTank.thinkTankInfo.totalHappinessDiggersOn/(3*thinkTank.thinkTankInfo.totalGames)));
-		// thinkTank.nudgeChance =
-		// (float)((thinkTank.thinkTankInfo.totalHappinessSuperMobsOn/(3*thinkTank.thinkTankInfo.totalGames))/(thinkTank.thinkTankInfo.totalHappinessSuperMobsOff/(3*thinkTank.thinkTankInfo.totalGames)
-		// +
-		// thinkTank.thinkTankInfo.totalHappinessSuperMobsOn/(3*thinkTank.thinkTankInfo.totalGames)));
-		// thinkTank.superEnemyChance =
-		// (float)((thinkTank.thinkTankInfo.totalHappinessSuperMobsOn/(3*thinkTank.thinkTankInfo.totalGames))/(thinkTank.thinkTankInfo.totalHappinessSuperMobsOff/(3*thinkTank.thinkTankInfo.totalGames)
-		// +
-		// thinkTank.thinkTankInfo.totalHappinessSuperMobsOn/(3*thinkTank.thinkTankInfo.totalGames)));
-
+		hud.setAllButtonsTouchable(Touchable.enabled);
+		building = false;
+		
 		float statMultiplier = 1.0f;
 		for (int t = 0; t < gameProcessor.waveParts; t++)
 		{
@@ -598,6 +595,7 @@ public class MyGdxGame implements ApplicationListener
 							hud.fadeInYellowBox(tower, gameProcessor.selectTower(
 									tower, thinkTank.towerInfo));
 							hud.updateCostLabels(tower);
+							gameProcessor.logger.towersBuilt++;
 						}
 						else
 						{
@@ -656,6 +654,7 @@ public class MyGdxGame implements ApplicationListener
 										gameProcessor.selectTower(tower,
 												thinkTank.towerInfo));
 								hud.updateCostLabels(tower);
+								gameProcessor.logger.towersUpgraded++;
 							}
 							else
 							{
@@ -728,6 +727,8 @@ public class MyGdxGame implements ApplicationListener
 
 	private void handleInput()
 	{
+		if (won || lost)
+			return;
 		Vector2 input = new Vector2(Gdx.input.getX(), Gdx.input.getY());
 		input = stage.screenToStageCoordinates(input);
 		Actor a = stage.hit(input.x, input.y, true);
@@ -839,6 +840,8 @@ public class MyGdxGame implements ApplicationListener
 
 	private void handleHotKeys()
 	{
+		if (won || lost)
+			return;
 		if (Gdx.input.isKeyPressed(Keys.TAB) && !wasTab)
 		{
 			hud.updateConsoleState(true, thinkTank.parameters,

@@ -14,11 +14,12 @@ Robin
 - Mer random tid mellom når enemies spawner. 
 
 JV
+- Log: playerLevel, Metric, Hva brukeren trykket, Sjansen for diggers, earthquakes, towersDestroyed, tilesDug, typesoftowers, 
+- Balancing: Nerf Laser (pris ned også)
 - Normalizere parametere, og lagre dem "unormaliserte" i ThinkTankInfo.
 - Knapp til pause for android
-- Balancing: Nerf Laser (pris ned også), færre diggers fra start.
-- Log: playerLevel, Metric, Hva brukeren trykket, Sjansen for diggers, earthquakes, superenemies, count diggers, count earthquakes, count each type of superenemies, 
 - Select Tower Visuell markering rundt tile.
+- Rydde rundt i ThinkTankInfo vs ThinkTank
 
 Done
 
@@ -32,3 +33,4 @@ Tentative
 - Egen plass for gult vindu
 - Rydde opp i thinktank - calculatenewparameters (apm etc)
 - Rydde opp i ListenerGenerator vs. handleEvents. Nå er det blandet hvem som gjør hva.
+- Bug: Spillet henger seg. Mulig det har med Pathfinding inf loop? Flere paths til mål?

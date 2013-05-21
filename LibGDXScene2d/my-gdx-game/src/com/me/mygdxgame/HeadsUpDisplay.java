@@ -39,7 +39,7 @@ public class HeadsUpDisplay
 	Label wallCostLabel, sellPriceLabel, upgradeCostLabel;
 	Slider healthSlider, speedSlider, damageSlider;
 	
-	TextButton livesButton, goldButton;
+	TextButton livesButton, goldButton, resetButton, sellButton, upgradeButton, wallButton;
 	
 	BitmapFont font;
 	
@@ -78,7 +78,7 @@ public class HeadsUpDisplay
 		consoleGroup.setTouchable(Touchable.disabled);
 		stage.addActor(yellowBoxGroup);
 
-		TextButton resetButton = buttonGenerator.createButton(miscAtlas.createSprite("settingsButton"), font);
+		resetButton = buttonGenerator.createButton(miscAtlas.createSprite("settingsButton"), font);
 		resetButton.addListener(listenerGenerator.createCleanButtonListener());
 		resetButton.setPosition(GameConstants.screenWidth - 1 * 64, GameConstants.screenHeight - 100);
 		stage.addActor(resetButton);
@@ -87,7 +87,7 @@ public class HeadsUpDisplay
 		buttonInfoLabel.setPosition(GameConstants.screenWidth - 5 * 64 + 32, GameConstants.screenHeight - 40);
 		stage.addActor(buttonInfoLabel);
 		
-		TextButton sellButton = buttonGenerator.createButton(miscAtlas.createSprite("sellTowerButton"), font);
+		sellButton = buttonGenerator.createButton(miscAtlas.createSprite("sellTowerButton"), font);
 		sellButton.addListener(listenerGenerator.createSellButtonListener());
 		sellButton.setPosition(GameConstants.screenWidth - 3 * 64, GameConstants.screenHeight - 100);
 		stage.addActor(sellButton);
@@ -98,7 +98,7 @@ public class HeadsUpDisplay
 		sellPriceLabel.setText("");
 		stage.addActor(sellPriceLabel);
 		
-		TextButton upgradeButton = buttonGenerator.createButton(miscAtlas.createSprite("upgradeTowerButton"), font);
+		upgradeButton = buttonGenerator.createButton(miscAtlas.createSprite("upgradeTowerButton"), font);
 		upgradeButton.addListener(listenerGenerator.createUpgradeButtonListener());
 		upgradeButton.setPosition(GameConstants.screenWidth - 4 * 64, GameConstants.screenHeight - 100);
 		stage.addActor(upgradeButton);
@@ -109,7 +109,7 @@ public class HeadsUpDisplay
 		upgradeCostLabel.setText("");
 		stage.addActor(upgradeCostLabel);
 		
-		TextButton wallButton = buttonGenerator.createButton(miscAtlas.createSprite("wallButton"), font);
+		wallButton = buttonGenerator.createButton(miscAtlas.createSprite("wallButton"), font);
 		wallButton.addListener(listenerGenerator.createWallButtonListener());
 		wallButton.setPosition(GameConstants.screenWidth - 5 * 64, GameConstants.screenHeight - 100);
 		stage.addActor(wallButton);
@@ -311,5 +311,14 @@ public class HeadsUpDisplay
 			upgradeCostLabel.setText("" + selectedTower.towerStats.upgradeCost);
 			
 		sellPriceLabel.setText("" + selectedTower.towerStats.sellPrice);
+	}
+	public void setAllButtonsTouchable(Touchable touchable)
+	{
+		livesButton.setTouchable(touchable);
+		goldButton.setTouchable(touchable);
+		resetButton.setTouchable(touchable);
+		sellButton.setTouchable(touchable);
+		upgradeButton.setTouchable(touchable);
+		wallButton.setTouchable(touchable);
 	}
 }

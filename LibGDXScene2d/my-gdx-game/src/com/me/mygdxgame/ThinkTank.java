@@ -1,12 +1,9 @@
 package com.me.mygdxgame;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
@@ -29,7 +26,6 @@ public class ThinkTank
 	float nudgeChance; //Chance for nudges at all
 	float diggerChance; 
 	
-	float difficultyLevel = 1; 
 	int speedLevel;
 	
 	int successiveGameCounter = 0;
@@ -70,8 +66,8 @@ public class ThinkTank
 			parameters.put("GlobalMonsterSpeed", new Parameter("GlobalMonsterSpeed", 1.0f, 0.1f, 10.0f));
 			parameters.put("GlobalMonsterGoldYield", new Parameter("GlobalMonsterGoldYield", 1.0f));
 			parameters.put("GlobalTowerRange", new Parameter("GlobalTowerRange", 1.0f, 0.1f, 10.0f));
-			parameters.put("DiggerChance", new Parameter("DiggerChance", 0.1f, 0.0f, 1.0f)); // Digger chance eats of the 0.5 set for Normal mob chance.
-			parameters.put("SuperChance", new Parameter("SuperChance", 0.1f, 0.0f, 1.0f)); // Set to 0 to disable super minions. Could add a seperate number for each type, if we desire.
+			parameters.put("DiggerChance", new Parameter("DiggerChance", 0.01f, 0.0f, 1.0f)); // Digger chance eats of the 0.5 set for Normal mob chance.
+			parameters.put("SuperChance", new Parameter("SuperChance", 0.02f, 0.0f, 1.0f)); // Set to 0 to disable super minions. Could add a seperate number for each type, if we desire.
 			parameters.put("EarthquakeChance", new Parameter("EarthquakeChance", 0.1f, 0.0f, 1.0f)); 
 			parameters.put("EarthquakeChanceInGame", new Parameter("EarthquakeChanceInGame", 0.2f, 0.1f, 0.9f)); 
 		}
@@ -289,46 +285,6 @@ public class ThinkTank
 
 		setNewStats();
 	}
-	public void writeLogToDisk(FileHandle fileHandle)
-	{
-		successiveGameCounter ++;
-		DateFormat df = DateFormat.getDateTimeInstance (DateFormat.MEDIUM, DateFormat.MEDIUM, new Locale ("en", "EN"));
-		String formattedDate = df.format (new Date ());
-		fileHandle.writeString("Game number " + successiveGameCounter + " - at " + formattedDate + "\r\n", true);
-		Iterator<String> parameterIterator = parameters.keySet()
-				.iterator();
-		while (parameterIterator.hasNext())
-		{
-			String key = parameterIterator.next();
-			Parameter parameter = parameters.get(key);
-			
-			//Add padding to make document look good
-			//First padding
-			int paddingCount = 24 - parameter.name.length();
-			String paddingString = "";
-			for (int counter = 0; counter < paddingCount; counter++)
-			{
-				 paddingString = paddingString.concat(" ");
-			}
-			//Second padding
-			paddingCount = 12 - ("" + parameter.value).length();
-			String paddingString2 = "";
-			for (int counter = 0; counter < paddingCount; counter++)
-			{
-				 paddingString2 = paddingString2.concat(" ");
-			}
-			//Third padding
-			paddingCount = 6 - ("" + parameter.minValue).length();
-			String paddingString3 = "";
-			for (int counter = 0; counter < paddingCount; counter++)
-			{
-				paddingString3 = paddingString3.concat(" ");
-			}
-			
-			fileHandle.writeString(parameter.name + ":" + paddingString + parameter.value + paddingString2 + "Min: " + parameter.minValue + paddingString3 + "Max: " + parameter.maxValue + "\r\n", true);
-		}
-		fileHandle.writeString("\r\n", true);
-	}
 	public void writeParametersToDisk(FileHandle fileHandle)
 	{
 		fileHandle.writeString("", false);
@@ -371,6 +327,7 @@ public class ThinkTank
 		this.initializeParameters(Gdx.files.external(parameterSavePath));
 		Gdx.files.external(relationsSavePath).delete();
 		this.initializeRelations(Gdx.files.external(relationsSavePath));
+		successiveGameCounter = 0;
 	}
 
 	private void setNewStats()

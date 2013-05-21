@@ -42,6 +42,7 @@ public class ListenerGenerator
 					myGdxGame.hud.yellowBoxLabel.setText("");
 					myGdxGame.hud.fadeOutYellowBox();
 					myGdxGame.assetManager.playSound("sellTower");
+					myGdxGame.gameProcessor.logger.towersSold++;
 				}
 				return true;
 			}
