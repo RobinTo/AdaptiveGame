@@ -50,14 +50,15 @@ public class GameProcessor
 	float nudgeRandomizerTimer = 1.0f;
 	float nudgeRandomizerInterval = 0.5f;
 
-	float superEnemyHealthMultiplier = 4.0f;
+	float superEnemyHealthMultiplier = 2.5f;
 	float superEnemySpeedMultiplierBonus = 2.0f; // CHANGED: If
 													// currentMoveSpeedMultiplier
 													// was 2.0f, it will now be
 													// 4.0f (Multiplication).
-	float superEnemySpeedSizeScale = 0.8f; // Size scale for super enemies with
+	float superEnemyGoldMultiplier = 1.5f;
+	float superEnemySpeedSizeScale = 0.7f; // Size scale for super enemies with
 											// speed bonus.
-	float superEnemyHealthSizeScale = 1.2f; // ^ for health super minions
+	float superEnemyHealthSizeScale = 1.4f; // ^ for health super minions
 	
 	Logger logger;
 
@@ -119,6 +120,7 @@ public class GameProcessor
 					// e.getColor().b, e.getColor().a);
 					e.superToughEnemy = true;
 					logger.superToughCount ++;
+					e.modifyGoldYield(superEnemyGoldMultiplier);
 				}
 				superMinionRand = rand.nextFloat();
 				if (superMinionRand < 0.5f)

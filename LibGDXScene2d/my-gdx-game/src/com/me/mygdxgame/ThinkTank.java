@@ -22,18 +22,18 @@ public class ThinkTank
 	int actionCounter = 0;
 	int timeBetweenMeasurements = 1;
 	ThinkTankInfo thinkTankInfo;
-	
-	float diggerChance; 
-	
+
+	float diggerChance;
+
 	int speedLevel;
-	
+
 	int successiveGameCounter = 0;
-	
+
 	public ThinkTank()
 	{
 		thinkTankInfo = new ThinkTankInfo();
 	}
-	
+
 	public void initializeParameters(FileHandle fileHandle)
 	{
 		parameters = new HashMap<String, Parameter>();
@@ -41,13 +41,13 @@ public class ThinkTank
 		if (fileHandle.exists())
 		{
 			// Fetch parameters from disk
-			List<String> fileContent = GameConstants
-					.readRawTextFile(fileHandle);
+			List<String> fileContent = GameConstants.readRawTextFile(fileHandle);
 
 			for (int counter = 0; counter < fileContent.size(); counter++)
 			{
 				String line = fileContent.get(counter);
 				String[] split = line.split(":");
+
 				if(split[0].equals("gameLengthMultiplier"))
 					thinkTankInfo.gameLengthMultiplier = Float.valueOf(split[1]);
 				else if(split[0].equals("currentMetric"))
@@ -57,8 +57,7 @@ public class ThinkTank
 			    else
 			    	parameters.put(split[0], new Parameter(split[0], Float.valueOf(split[1]), Float.valueOf(split[2]), Float.valueOf(split[3])));
 			}
-		}
-		else
+		} else
 		{
 			// Create new default parameters
 			parameters.put("GlobalMonsterHP", new Parameter("GlobalMonsterHP", 1.0f));
@@ -77,20 +76,19 @@ public class ThinkTank
 			parameters.put("EarthquakeChance", new Parameter("EarthquakeChance", 0.2f, 0.0f, 1.0f)); //Earthquake enabled or not (Changing every 5th second)
 			parameters.put("EarthquakeChanceInGame", new Parameter("EarthquakeChanceInGame", 0.2f, 0.1f, 0.9f)); //Earthquake chance for every second when earthquake is enabled.
 		}
-		
+
 		thinkTankInfo.initialize();
 		calculateSpeedLevel();
-		
+
 		setNewStats();
 	}
-	
+
 	public void initializeRelations(FileHandle fileHandle)
 	{
 		if (fileHandle.exists())
 		{
 			// Fetch relations from disk
-			List<String> fileContent = GameConstants
-					.readRawTextFile(fileHandle);
+			List<String> fileContent = GameConstants.readRawTextFile(fileHandle);
 			List<String> lines = new ArrayList<String>();
 			for (int lineCounter = 0; lineCounter < fileContent.size(); lineCounter++)
 			{
@@ -98,79 +96,75 @@ public class ThinkTank
 				if (line.equalsIgnoreCase("endRelation"))
 				{
 					Relation newRelation = new Relation(lines.get(0), parameters.get(lines.get(1)));
-					for (int counter = 2; counter < lines.size(); counter ++)
+					for (int counter = 2; counter < lines.size(); counter++)
 					{
 						String[] split = lines.get(counter).split(":");
 						newRelation.addRelatedParameter(parameters.get(split[0]), Float.valueOf(split[1]));
 					}
 					relations.put(newRelation.name, newRelation);
 					lines.clear();
-				}
-				else
+				} else
 				{
 					lines.add(line);
 				}
 			}
-		}
-		else
+		} else
 		{
 			//Create new gameplay relations
 			Relation tempRelation;
-			
+
 			tempRelation = new Relation("GlobalMonsterHP_TEDamage_GlobalMonsterSpeed", parameters.get("GlobalMonsterHP"));
 			tempRelation.addRelatedParameter(parameters.get("TEDamage"), 0.5f);
 			tempRelation.addRelatedParameter(parameters.get("GlobalMonsterSpeed"), -0.5f);
 			relations.put("GlobalMonsterHP_TEDamage_GlobalMonsterSpeed", tempRelation);
-			
+
 			tempRelation = new Relation("GlobalMonsterHP_GlobalMonsterSpeed", parameters.get("GlobalMonsterHP"));
 			tempRelation.addRelatedParameter(parameters.get("GlobalMonsterSpeed"), -1.0f);
 			relations.put("GlobalMonsterHP_GlobalMonsterSpeed", tempRelation);
-			
+
 			tempRelation = new Relation("GlobalMonsterSpeed_GlobalTowerRange", parameters.get("GlobalMonsterSpeed"));
 			tempRelation.addRelatedParameter(parameters.get("GlobalTowerRange"), 1.0f);
 			relations.put("GlobalMonsterSpeed_GlobalTowerRange", tempRelation);
-			
+
 			tempRelation = new Relation("GlobalMonsterSpeed_GlobalReloadTime", parameters.get("GlobalMonsterSpeed"));
 			tempRelation.addRelatedParameter(parameters.get("GlobalReloadTime"), -1.0f);
 			relations.put("GlobalMonsterSpeed_GlobalReloadTime", tempRelation);
-			
+
 			tempRelation = new Relation("GlobalBuildCost_GlobalMonsterGoldYield", parameters.get("GlobalBuildCost"));
 			tempRelation.addRelatedParameter(parameters.get("GlobalMonsterGoldYield"), 1.0f);
 			relations.put("GlobalBuildCost_GlobalMonsterGoldYield", tempRelation);
-			
+
 			tempRelation = new Relation("GlobalReloadTime_TEDamage", parameters.get("GlobalReloadTime"));
 			tempRelation.addRelatedParameter(parameters.get("TEDamage"), 1.0f);
 			relations.put("GlobalReloadTime_TEDamage", tempRelation);
-			
+
 			tempRelation = new Relation("TESlowPercentage_TESlowDuration", parameters.get("TESlowPercentage"));
 			tempRelation.addRelatedParameter(parameters.get("TESlowDuration"), -1.0f);
 			relations.put("TESlowPercentage_TESlowDuration", tempRelation);
-			
+
 			tempRelation = new Relation("TEDotTicks_TEDotDamage", parameters.get("TEDotTicks"));
 			tempRelation.addRelatedParameter(parameters.get("TEDotDamage"), -1.0f);
 			relations.put("TEDotTicks_TEDotDamage", tempRelation);
 
 			tempRelation = new Relation("DiggerChance", parameters.get("DiggerChance"));
 			relations.put("DiggerChance", tempRelation);
-			
+
 			tempRelation = new Relation("SuperChance", parameters.get("SuperChance"));
 			relations.put("SuperChance", tempRelation);
-			
+
 			tempRelation = new Relation("EarthquakeChanceInGame", parameters.get("EarthquakeChanceInGame"));
 			relations.put("EarthquakeChanceInGame", tempRelation);
-			
+
 			tempRelation = new Relation("EarthquakeChance", parameters.get("EarthquakeChance"));
 			relations.put("EarthquakeChance", tempRelation);
-			
+
 		}
 	}
 
-	public void calculateNewParameters(float totalTime, int gold, int lives,
-			List<Tower> towers, List<Event> events)
+	public void calculateNewParameters(float totalTime, int gold, int lives, List<Tower> towers, List<Event> events)
 	{
 		actionCounter += events.size();
-		if (Math.floor(totalTime) % timeBetweenMeasurements == 0
-				&& !measurements.containsKey((int) Math.floor(totalTime)))
+		if (Math.floor(totalTime) % timeBetweenMeasurements == 0 && !measurements.containsKey((int) Math.floor(totalTime)))
 		{
 			/*
 			 * parameters = new HashMap<String, Float>();
@@ -230,35 +224,31 @@ public class ThinkTank
 		//averageLives /= measurements.size();
 		averageAPM /= measurements.size();
 
-		
-		if(happy == 1)
+		if (happy == 1)
 			thinkTankInfo.maxJumpDistance = thinkTankInfo.maxJumpDistanceConst;
-		else if(happy == 3)
+		else if (happy == 3)
 		{
-			thinkTankInfo.maxJumpDistance -= thinkTankInfo.maxJumpDistance/5;
+			thinkTankInfo.maxJumpDistance -= thinkTankInfo.maxJumpDistance / 5;
 			thinkTankInfo.maxJumpDistance = thinkTankInfo.maxJumpDistance < 0.05f ? 0.05f : thinkTankInfo.maxJumpDistance;
 		}
-		
-		thinkTankInfo.playerLevel = ((double) livesLeft
-				/ (double) GameConstants.startLives + 0.2 * maxVariety);
-		thinkTankInfo.playerLevel = (thinkTankInfo.playerLevel > 1.1) ? 1.1
-				: thinkTankInfo.playerLevel; //PlayerLevel not above 1.1
-		thinkTankInfo.playerLevel = (thinkTankInfo.playerLevel < 0.1) ? 0.1
-				: thinkTankInfo.playerLevel; //PlayerLevel not below 0.1				
-		
+
+		thinkTankInfo.playerLevel = ((double) livesLeft / (double) GameConstants.startLives + 0.2 * maxVariety);
+		thinkTankInfo.playerLevel = (thinkTankInfo.playerLevel > 1.1) ? 1.1 : thinkTankInfo.playerLevel; //PlayerLevel not above 1.1
+		thinkTankInfo.playerLevel = (thinkTankInfo.playerLevel < 0.1) ? 0.1 : thinkTankInfo.playerLevel; //PlayerLevel not below 0.1				
+
 		Random rand = new Random();
-		
+
 		thinkTankInfo.challengerMetric = 0;
 		// Rolls from 1 to 10 one time per happy. Perhaps make rolls happy*2 for more chance of new happy.
-		for(int i = 0; i<happy; i++)
+		for (int i = 0; i < happy; i++)
 		{
 			int metricRoll = rand.nextInt(10);
 			thinkTankInfo.challengerMetric = metricRoll > thinkTankInfo.challengerMetric ? metricRoll : thinkTankInfo.challengerMetric;
 		}
-		
+
 		// Multiply in how many games have been played. Game 5 counts more than metric from game 1.
 		thinkTankInfo.challengerMetric *= thinkTankInfo.gameLengthMultiplier; // Removed difficult from this metric, as it is irrelevant.
-		
+
 		thinkTankInfo.lastDifficulty = difficult;
 		thinkTankInfo.gameLengthMultiplier += 0.2;
 		thinkTankInfo.lastMetric = thinkTankInfo.currentMetric;
@@ -271,26 +261,27 @@ public class ThinkTank
 			oldParameters = this.deepCopyParameters(parameters);
 			thinkTankInfo.currentMetric = thinkTankInfo.challengerMetric;
 			jump(parameters);
-			
+
 		} else
 		// Jump from oldVariables if metric is lower or equal to the last one.
 		{
 			// Jump between specified interval
 			// So all variables are added a random value between -maxJumpDistance and +maxJumpDistance
-			
+
 			// Keep hp, difficulty is irrelevant to happiness.
 			float hpMultiplier = 0;
 			hpMultiplier += parameters.get("GlobalMonsterHP").value;
-			
+
 			this.restoreCopiedParameters(parameters, oldParameters);
-			
-			parameters.get("GlobalMonsterHP").value = 0+hpMultiplier;
-			
+
+			parameters.get("GlobalMonsterHP").value = 0 + hpMultiplier;
+
 			jump(parameters);
 		}
 
 		setNewStats();
 	}
+
 	public void writeParametersToDisk(FileHandle fileHandle)
 	{
 		fileHandle.writeString("", false);
@@ -299,13 +290,16 @@ public class ThinkTank
 		fileHandle.writeString("maxJumpDistance:"+thinkTankInfo.maxJumpDistance, true);
 		Iterator<String> parameterIterator = parameters.keySet()
 				.iterator();
+
 		while (parameterIterator.hasNext())
 		{
 			String key = parameterIterator.next();
 			Parameter parameter = parameters.get(key);
-			fileHandle.writeString(parameter.name + ":" + parameter.value + ":" + parameter.minValue + ":" + parameter.maxValue + ":\r\n", true);
+			fileHandle
+					.writeString(parameter.name + ":" + parameter.value + ":" + parameter.minValue + ":" + parameter.maxValue + ":\r\n", true);
 		}
 	}
+
 	public void writeRelationsToDisk(FileHandle fileHandle)
 	{
 		fileHandle.writeString("", false);
@@ -319,7 +313,8 @@ public class ThinkTank
 			while (relatedParametersIterator.hasNext())
 			{
 				Parameter relatedParameter = relatedParametersIterator.next();
-				fileHandle.writeString(relatedParameter.name + ":" + relation.relatedParametersAndImpact.get(relatedParameter) + ":\r\n", true);
+				fileHandle
+						.writeString(relatedParameter.name + ":" + relation.relatedParametersAndImpact.get(relatedParameter) + ":\r\n", true);
 			}
 			fileHandle.writeString("endRelation" + "\r\n", true);
 		}
@@ -342,23 +337,23 @@ public class ThinkTank
 	private void setNewStats()
 	{
 		// Changing of stats.
-		this.diggerChance = parameters.get("DiggerChance").value;
+		float diggerChance = parameters.get("DiggerChance").value;
+		this.diggerChance = diggerChance * diggerChance * diggerChance;
 		this.thinkTankInfo.superEnemyChance = parameters.get("SuperChance").value / 5;
 		this.thinkTankInfo.nudgeChance = parameters.get("EarthquakeChance").value;
 		this.thinkTankInfo.nudgeChanceInGame = parameters.get("EarthquakeChanceInGame").value;
-		this.thinkTankInfo.startGold = (int)(100f * parameters.get("GlobalBuildCost").value);
-		
-		Iterator<String> enemyStatsIterator = enemyInfo.keySet()
-				.iterator();	
+		this.thinkTankInfo.startGold = (int) (100f * parameters.get("GlobalBuildCost").value);
+
+		Iterator<String> enemyStatsIterator = enemyInfo.keySet().iterator();
 		while (enemyStatsIterator.hasNext())
 		{
 			String key = enemyStatsIterator.next();
-			enemyInfo.get(key).goldYield = (int)(defaultEnemyInfo.get(key).goldYield * parameters.get("GlobalMonsterGoldYield").value);
-			enemyInfo.get(key).health = (int)(defaultEnemyInfo.get(key).health * parameters.get("GlobalMonsterHP").value);
+			enemyInfo.get(key).goldYield = (int) (defaultEnemyInfo.get(key).goldYield * parameters.get("GlobalMonsterGoldYield").value);
+			enemyInfo.get(key).health = (int) (defaultEnemyInfo.get(key).health * parameters.get("GlobalMonsterHP").value);
 			enemyInfo.get(key).speed = defaultEnemyInfo.get(key).speed * parameters.get("GlobalMonsterSpeed").value;
-			
+
 		}
-		
+
 		Iterator<String> towerStatsIterator = towerInfo.keySet().iterator();
 		while (towerStatsIterator.hasNext())
 		{
@@ -367,39 +362,40 @@ public class ThinkTank
 			towerInfo.get(key).range = (int) (defaultTowerInfo.get(key).range * parameters.get("GlobalTowerRange").value);
 			towerInfo.get(key).reloadTime = defaultTowerInfo.get(key).reloadTime * parameters.get("GlobalReloadTime").value;
 			towerInfo.get(key).sellPrice = (int) (defaultTowerInfo.get(key).sellPrice * parameters.get("GlobalBuildCost").value);//Linked parameter
-			
-			
+
 			HashMap<String, FloatingBoolean> effects = towerInfo.get(key).missileEffects.effects;
 			if (effects.containsKey("currentHealth"))
 			{
-				effects.put("currentHealth", new FloatingBoolean(effects
-						.get("currentHealth").b, effects.get("currentHealth").f * parameters.get("TEDamage").value));
+				effects.put("currentHealth", new FloatingBoolean(effects.get("currentHealth").b, effects.get("currentHealth").f
+						* parameters.get("TEDamage").value));
 			}
 			if (effects.containsKey("currentMoveSpeedMultiplier"))
 			{
-				float newMoveSpeedMultiplier = 1.0f - (1.0f - effects.get("currentMoveSpeedMultiplier").f) * parameters.get("TESlowPercentage").value;
+				float newMoveSpeedMultiplier = 1.0f - (1.0f - effects.get("currentMoveSpeedMultiplier").f)
+						* parameters.get("TESlowPercentage").value;
 				newMoveSpeedMultiplier = (newMoveSpeedMultiplier < 0) ? 0 : newMoveSpeedMultiplier;
-				effects.put("currentMoveSpeedMultiplier", new FloatingBoolean(effects
-						.get("currentMoveSpeedMultiplier").b, newMoveSpeedMultiplier));
-				
+				effects.put("currentMoveSpeedMultiplier", new FloatingBoolean(effects.get("currentMoveSpeedMultiplier").b,
+						newMoveSpeedMultiplier));
+
 			}
 			if (effects.containsKey("currentSlowDuration"))
 			{
-				effects.put("currentSlowDuration", new FloatingBoolean(effects
-						.get("currentSlowDuration").b, effects.get("currentSlowDuration").f * parameters.get("TESlowDuration").value));
+				effects.put("currentSlowDuration", new FloatingBoolean(effects.get("currentSlowDuration").b, effects
+						.get("currentSlowDuration").f
+						* parameters.get("TESlowDuration").value));
 			}
 			if (effects.containsKey("dotTicksLeft"))
 			{
-				effects.put("dotTicksLeft", new FloatingBoolean(effects
-						.get("dotTicksLeft").b, effects.get("dotTicksLeft").f * parameters.get("TEDotTicks").value));
+				effects.put("dotTicksLeft", new FloatingBoolean(effects.get("dotTicksLeft").b, effects.get("dotTicksLeft").f
+						* parameters.get("TEDotTicks").value));
 			}
 			if (effects.containsKey("currentDotDamage"))
 			{
-				effects.put("currentDotDamage", new FloatingBoolean(effects
-						.get("currentDotDamage").b, effects.get("currentDotDamage").f * parameters.get("TEDotDamage").value));
+				effects.put("currentDotDamage", new FloatingBoolean(effects.get("currentDotDamage").b, effects.get("currentDotDamage").f
+						* parameters.get("TEDotDamage").value));
 			}
 		}
-		
+
 		towerStatsIterator = towerInfo.keySet().iterator();
 		while (towerStatsIterator.hasNext())
 		{
@@ -421,98 +417,120 @@ public class ThinkTank
 		}
 		// Change difficulty
 		float distance = (random.nextFloat() - 0.5f) * 2 * thinkTankInfo.maxJumpDistance;
-		
-		System.out.println("DIFF: "+thinkTankInfo.lastDifficulty);
+
+		System.out.println("DIFF: " + thinkTankInfo.lastDifficulty);
 		float moveAbs = Math.abs(distance); // Abs to know if + or -
-		
+
 		// Might want to not move certain chances by distance. Incrementing Earthquake chance may never make it go back down.
 		// Since earthquake chance can be changed even tho earthquakes are not enabled, making the change unperceivable. So you might get 
 		// earthquakes enables with almost constant earthquakes.
-		if(thinkTankInfo.lastDifficulty == 1)
+		if (thinkTankInfo.lastDifficulty == 1)
 		{
 			parameters.get("GlobalMonsterHP").value += moveAbs;
 			if (parameters.get("GlobalMonsterHP").value > 10.0f)
 				parameters.get("GlobalMonsterHP").value = 10.0f;
-			
-			parameters.get("GlobalMonsterSpeed").value += moveAbs/2;
-			double chance = random.nextDouble();
-			if(chance < 0.5)
-			{
-				double chanceTwo = random.nextDouble();
-				if (chanceTwo < 0.33)
-					parameters.get("GlobalTowerRange").value -= moveAbs;
-				else if (chanceTwo < 0.66)
-					parameters.get("TEDamage").value -= moveAbs;
-				else
-					parameters.get("GlobalMonsterGoldYield").value -= moveAbs;
-			}
-			else
-			{
-				double chanceTwo = random.nextDouble();
-				if (chanceTwo < 0.33)
-					parameters.get("DiggerChance").value += moveAbs;
-				else if (chanceTwo < 0.66)
-					parameters.get("SuperChance").value += moveAbs;
-				else
-					parameters.get("EarthquakeChance").value += moveAbs;
 
-			}	
-		}
-		else if(thinkTankInfo.lastDifficulty == 2)
+			parameters.get("GlobalMonsterSpeed").value += moveAbs / 2;
+			double chance = random.nextDouble();
+			if (chance < 0.5)
+			{
+				double chanceTwo = random.nextDouble();
+				if (chanceTwo < 0.33)
+					parameters.get("GlobalTowerRange").value = (parameters.get("GlobalTowerRange").value - moveAbs < parameters.get("GlobalTowerRange").minValue) ? parameters
+							.get("GlobalTowerRange").minValue
+							: parameters.get("GlobalTowerRange").value - moveAbs;
+				else if (chanceTwo < 0.66)
+					parameters.get("TEDamage").value = (parameters.get("TEDamage").value - moveAbs < parameters.get("TEDamage").minValue) ? parameters
+							.get("TEDamage").minValue
+							: parameters.get("TEDamage").value - moveAbs;
+				else
+					parameters.get("GlobalMonsterGoldYield").value = (parameters.get("GlobalMonsterGoldYield").value - moveAbs < parameters.get("GlobalMonsterGoldYield").minValue) ? parameters
+							.get("GlobalMonsterGoldYield").minValue
+							: parameters.get("GlobalMonsterGoldYield").value - moveAbs;
+			} else
+			{
+				double chanceTwo = random.nextDouble();
+				if (chanceTwo < 0.33)
+					parameters.get("DiggerChance").value = (parameters.get("DiggerChance").value + moveAbs > parameters.get("DiggerChance").maxValue) ? parameters
+							.get("DiggerChance").maxValue
+							: parameters.get("DiggerChance").value + moveAbs;
+				else if (chanceTwo < 0.66)
+					parameters.get("SuperChance").value = (parameters.get("SuperChance").value + moveAbs > parameters.get("SuperChance").maxValue) ? parameters
+							.get("SuperChance").maxValue
+							: parameters.get("SuperChance").value + moveAbs;
+				else
+					parameters.get("EarthquakeChance").value = (parameters.get("EarthquakeChance").value + moveAbs > parameters.get("EarthquakeChance").maxValue) ? parameters
+							.get("EarthquakeChance").maxValue
+							: parameters.get("EarthquakeChance").value + moveAbs;
+
+			}
+		} else if (thinkTankInfo.lastDifficulty == 2)
 		{
 			// Do something minor?
-		}
-		else
+		} else
 		{
 			double chance = random.nextDouble();
 			parameters.get("GlobalMonsterHP").value -= moveAbs;
 			if (parameters.get("GlobalMonsterHP").value < 0.1f)
 				parameters.get("GlobalMonsterHP").value = 0.1f;
-			parameters.get("GlobalMonsterSpeed").value -= moveAbs/2;
-			if(chance < 0.5)
+			parameters.get("GlobalMonsterSpeed").value -= moveAbs / 2;
+			if (chance < 0.5)
 			{
 				double chanceTwo = random.nextDouble();
 				if (chanceTwo < 0.33)
-					parameters.get("GlobalTowerRange").value += moveAbs;
+					parameters.get("GlobalTowerRange").value = (parameters.get("GlobalTowerRange").value + moveAbs > parameters.get("GlobalTowerRange").maxValue) ? parameters
+							.get("GlobalTowerRange").maxValue
+							: parameters.get("GlobalTowerRange").value + moveAbs;
 				else if (chanceTwo < 0.66)
-					parameters.get("TEDamage").value += moveAbs;
+					parameters.get("TEDamage").value = (parameters.get("TEDamage").value + moveAbs > parameters.get("TEDamage").maxValue) ? parameters
+							.get("TEDamage").maxValue
+							: parameters.get("TEDamage").value + moveAbs;
 				else
-					parameters.get("GlobalMonsterGoldYield").value += moveAbs;
-			}
-			else
+					parameters.get("GlobalMonsterGoldYield").value = (parameters.get("GlobalMonsterGoldYield").value + moveAbs > parameters.get("GlobalMonsterGoldYield").maxValue) ? parameters
+							.get("GlobalMonsterGoldYield").maxValue
+							: parameters.get("GlobalMonsterGoldYield").value + moveAbs;
+			} else
 			{
 				double chanceTwo = random.nextDouble();
 				if (chanceTwo < 0.33)
-					parameters.get("DiggerChance").value -= moveAbs;
+					parameters.get("DiggerChance").value = (parameters.get("DiggerChance").value - moveAbs < parameters.get("DiggerChance").minValue) ? parameters
+							.get("DiggerChance").minValue
+							: parameters.get("DiggerChance").value - moveAbs;
 				else if (chanceTwo < 0.66)
-					parameters.get("SuperChance").value -= moveAbs;
+					parameters.get("SuperChance").value = (parameters.get("SuperChance").value - moveAbs < parameters.get("SuperChance").minValue) ? parameters
+							.get("SuperChance").minValue
+							: parameters.get("SuperChance").value - moveAbs;
 				else
-					parameters.get("EarthquakeChance").value -= moveAbs;
-				
+					parameters.get("EarthquakeChance").value = (parameters.get("EarthquakeChance").value - moveAbs < parameters.get("EarthquakeChance").minValue) ? parameters
+							.get("EarthquakeChance").minValue
+							: parameters.get("EarthquakeChance").value - moveAbs;
+
 			}
 		}
 		//Make sure jumps are smaller each jump
-		thinkTankInfo.maxJumpDistance -= thinkTankInfo.maxJumpDistance/5;
+		thinkTankInfo.maxJumpDistance -= thinkTankInfo.maxJumpDistance / 5;
 		thinkTankInfo.maxJumpDistance = thinkTankInfo.maxJumpDistance < 0.05f ? 0.05f : thinkTankInfo.maxJumpDistance;
-	
+
 		calculateSpeedLevel();
 	}
+
 	private void calculateSpeedLevel()
 	{
 		float speedMultiplier = parameters.get("GlobalMonsterSpeed").value;
 		if (speedMultiplier < 0.5f)
-			speedLevel = 1; 
+			speedLevel = 1;
 		else if (speedMultiplier < 0.9f)
-			speedLevel = 2; 
+			speedLevel = 2;
 		else if (speedMultiplier < 1.1f)
-			speedLevel = 3; 
+			speedLevel = 3;
 		else if (speedMultiplier < 1.4f)
-			speedLevel = 4; 
+			speedLevel = 4;
 		else if (speedMultiplier < 1.7f)
-			speedLevel = 5; 
+			speedLevel = 5;
 		else
 			speedLevel = 6;
 	}
+
 	private HashMap<String, Parameter> deepCopyParameters(HashMap<String, Parameter> originalParameters)
 	{
 		HashMap<String, Parameter> newParameters = new HashMap<String, Parameter>();
@@ -524,6 +542,7 @@ public class ThinkTank
 		}
 		return newParameters;
 	}
+
 	private void restoreCopiedParameters(HashMap<String, Parameter> parameters, HashMap<String, Parameter> savedParameters)
 	{
 		Iterator<String> parameterIterator = savedParameters.keySet().iterator();
@@ -542,7 +561,7 @@ public class ThinkTank
 			TowerStats towerStats = towerInfo.get(towerStatsIterator.next());
 			towerStats.upgradeCost = findUpgradeCost(towerStats, true);
 		}
-		
+
 		towerStatsIterator = defaultTowerInfo.keySet().iterator();
 		while (towerStatsIterator.hasNext())
 		{
@@ -550,6 +569,7 @@ public class ThinkTank
 			towerStats.upgradeCost = findUpgradeCost(towerStats, false);
 		}
 	}
+
 	private int findUpgradeCost(TowerStats towerStats, boolean useTowerInfo)
 	{
 		int upgradeCost;
@@ -560,9 +580,10 @@ public class ThinkTank
 			if (useTowerInfo)
 			{
 				upgradeCost = towerInfo.get(towerStats.upgradesTo).buildCost - towerStats.buildCost;
-				System.out.println("Type: " + towerStats.type + " BuildCost: " + towerStats.buildCost + " UpgradedTower Type: " + towerInfo.get(towerStats.upgradesTo).type + " UpgradedTowerBC: " + towerInfo.get(towerStats.upgradesTo).buildCost +  " UpgradeCost: " + upgradeCost);
-			}
-			else
+				System.out.println("Type: " + towerStats.type + " BuildCost: " + towerStats.buildCost + " UpgradedTower Type: "
+						+ towerInfo.get(towerStats.upgradesTo).type + " UpgradedTowerBC: " + towerInfo.get(towerStats.upgradesTo).buildCost
+						+ " UpgradeCost: " + upgradeCost);
+			} else
 				upgradeCost = defaultTowerInfo.get(towerStats.upgradesTo).buildCost - towerStats.buildCost;
 		}
 		return upgradeCost;

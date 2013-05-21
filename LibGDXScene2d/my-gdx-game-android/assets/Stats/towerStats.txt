@@ -166,8 +166,8 @@ towerTexture:testTower3
 missileTexture:laserBullet
 shootSound:laserShoot.mp3
 upgradesTo:null
-sellPrice:50
-buildCost:35
+sellPrice:35
+buildCost:50
 targeting:line
 reloadtime:2.0f
 range:400

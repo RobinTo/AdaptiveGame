@@ -574,8 +574,18 @@ public class MyGdxGame implements ApplicationListener
 									tower, thinkTank.towerInfo));
 							hud.updateCostLabels(tower);
 							gameProcessor.logger.towersBuilt++;
-//							if (tower.towerStats.type) JON V
-//							gameProcessor.logger.arrowTowers++;
+							if (tower.towerStats.type.startsWith("Arrow"))
+								gameProcessor.logger.arrowTowers++;
+							else if (tower.towerStats.type.startsWith("Frost"))
+								gameProcessor.logger.frostTowers++;
+							else if (tower.towerStats.type.startsWith("Cannon"))
+								gameProcessor.logger.cannonTowers++;
+							else if (tower.towerStats.type.startsWith("Flame"))
+								gameProcessor.logger.flameTowers++;
+							else if (tower.towerStats.type.startsWith("Burning"))
+								gameProcessor.logger.burningTowers++;
+							else
+								gameProcessor.logger.laserTowers++;
 						}
 						else
 						{
@@ -634,7 +644,7 @@ public class MyGdxGame implements ApplicationListener
 										gameProcessor.selectTower(tower,
 												thinkTank.towerInfo));
 								hud.updateCostLabels(tower);
-								gameProcessor.logger.towersUpgraded++;
+								gameProcessor.logger.upgradesBought++;
 							}
 							else
 							{

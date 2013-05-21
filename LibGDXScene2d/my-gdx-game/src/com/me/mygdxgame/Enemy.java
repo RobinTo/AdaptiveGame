@@ -25,7 +25,7 @@ public class Enemy extends ExtendedActor
 	boolean superFastEnemy = false, superToughEnemy = false, superInvisibleEnemy = false, superShieldedEnemy = false;
 	boolean currentlyInvisible = false;
 	float invisibleLength = GameConstants.screenWidth / 5; //Measuring invisiblity and shield duration 
-	float shieldLength = GameConstants.screenWidth / 2;    //as length, since Monsters with 10x Speed can be hard to stop.
+	float shieldLength = GameConstants.screenWidth / 2; //as length, since Monsters with 10x Speed can be hard to stop.
 	int invisibilitySwitchCounter = 0;
 	Vector2 lastChanged = new Vector2(0, 0);
 	Vector2 targetPosition;
@@ -39,16 +39,19 @@ public class Enemy extends ExtendedActor
 
 	public void modifyOriginalHealth(float f)
 	{
-		this.setStat("currentHealth", (float) Math.floor(this
-				.getStat("currentHealth")
-				* f));
+		this.setStat("currentHealth", (float) Math.floor(this.getStat("currentHealth") * f));
 		originalHealth = this.getStat("currentHealth");
 	}
 
-	public Enemy(EnemyStats enemyStats, Vector2 startPosition,
-			List<Direction> directions, Sprite enemySprite,
-			Sprite redHealthBarSprite, Sprite yellowHealthBarSprite,
-			Sprite superSprite, Sprite slowedSprite, Sprite dotSprite, boolean willDigg)
+	public void modifyGoldYield(float multiplier)
+	{
+		this.setStat("currentGoldYield", (float) Math.floor(this
+				.getStat("currentGoldYield")
+				* multiplier));
+	}
+
+	public Enemy(EnemyStats enemyStats, Vector2 startPosition, List<Direction> directions, Sprite enemySprite, Sprite redHealthBarSprite,
+			Sprite yellowHealthBarSprite, Sprite superSprite, Sprite slowedSprite, Sprite dotSprite, boolean willDigg)
 	{
 		super(enemySprite);
 		this.willDigg = willDigg;
@@ -67,11 +70,8 @@ public class Enemy extends ExtendedActor
 
 		setSize(enemySprite.getWidth(), enemySprite.getHeight());
 
-		targetPosition = new Vector2(startPosition.x * GameConstants.tileSize,
-				startPosition.y * GameConstants.tileSize);
-		originalTargetPos = new Vector2(startPosition.x
-				* GameConstants.tileSize, startPosition.y
-				* GameConstants.tileSize);
+		targetPosition = new Vector2(startPosition.x * GameConstants.tileSize, startPosition.y * GameConstants.tileSize);
+		originalTargetPos = new Vector2(startPosition.x * GameConstants.tileSize, startPosition.y * GameConstants.tileSize);
 		this.sprites = new HashMap<Integer, Sprite>();
 		sprites.put(0, enemySprite);
 		sprites.put(1, redHealthBarSprite);
@@ -114,8 +114,7 @@ public class Enemy extends ExtendedActor
 				default:
 					break;
 			}
-			seqAct.addAction(Actions
-					.moveTo(targetPosition.x, targetPosition.y, 1.0f / enemyStats.speed));
+			seqAct.addAction(Actions.moveTo(targetPosition.x, targetPosition.y, 1.0f / enemyStats.speed));
 			//this.queueAction(Actions.moveTo(targetPosition.x, targetPosition.y, 0.4f));
 		}
 		addAction(seqAct);
@@ -131,26 +130,24 @@ public class Enemy extends ExtendedActor
 		float x2 = this.getX();
 		float y2 = this.getY();
 
-		this.editStat("distanceTravelled", (float) Math.abs(Math.sqrt(Math
-				.pow(x2 - x1, 2)
-				+ Math.pow(y2 - y1, 2))));
-		
+		this.editStat("distanceTravelled", (float) Math.abs(Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2))));
+
 		if (superInvisibleEnemy && this.getStat("distanceTravelled") / invisibleLength >= invisibilitySwitchCounter)
 		{
-			invisibilitySwitchCounter ++;
+			invisibilitySwitchCounter++;
 			currentlyInvisible = !currentlyInvisible;
 			if (currentlyInvisible)
 				this.setColor(this.getColor().r, this.getColor().g, this.getColor().b, 0.1f);
 			else
 				this.setColor(this.getColor().r, this.getColor().g, this.getColor().b, 1.0f);
 		}
-		
-		if (superShieldedEnemy && (int)this.getStat("distanceTravelled") / (int)shieldLength > 0)
+
+		if (superShieldedEnemy && (int) this.getStat("distanceTravelled") / (int) shieldLength > 0)
 		{
 			superShieldedEnemy = false;
 			this.setColor(1f, 1f, 1f, 1.0f);
 		}
-		
+
 		if (floatingStats.get("currentMoveSpeedMultiplier") != originalMoveSpeedMultiplier)
 		{
 			editStat("currentSlowDuration", -gameTime);
@@ -169,13 +166,10 @@ public class Enemy extends ExtendedActor
 				editStat("dotTicksLeft", -1f);
 			}
 		}
-		healthBarRedRectangle = new Rectangle((int) getX(),
-				GameConstants.screenHeight - GameConstants.tileSize
-						- (int) getY() - 10, this.getWidth(), 5);
-		healthBarYellowRectangle = new Rectangle((int) getX(),
-				GameConstants.screenHeight - GameConstants.tileSize
-						- (int) getY() - 10, (int) ((float) this.getWidth()
-						* (float) getStat("currentHealth") / originalHealth), 5);
+		healthBarRedRectangle = new Rectangle((int) getX(), GameConstants.screenHeight - GameConstants.tileSize - (int) getY() - 10, this
+				.getWidth(), 5);
+		healthBarYellowRectangle = new Rectangle((int) getX(), GameConstants.screenHeight - GameConstants.tileSize - (int) getY() - 10,
+				(int) ((float) this.getWidth() * (float) getStat("currentHealth") / originalHealth), 5);
 
 	}
 
@@ -184,32 +178,24 @@ public class Enemy extends ExtendedActor
 	{
 		super.draw(batch, parentAlpha);
 		batch.draw(sprites.get(1), healthBarRedRectangle.getX(), GameConstants
-				.morphY(healthBarRedRectangle.getY() - GameConstants.tileSize), healthBarRedRectangle
-				.getWidth(), healthBarRedRectangle.getHeight());
-		batch.draw(sprites.get(2), healthBarYellowRectangle.getX(), GameConstants
-				.morphY(healthBarYellowRectangle.getY()
-						- GameConstants.tileSize), healthBarYellowRectangle
-				.getWidth(), healthBarYellowRectangle.getHeight());
+				.morphY(healthBarRedRectangle.getY() - GameConstants.tileSize), healthBarRedRectangle.getWidth(), healthBarRedRectangle
+				.getHeight());
+		batch.draw(sprites.get(2), healthBarYellowRectangle.getX(), GameConstants.morphY(healthBarYellowRectangle.getY()
+				- GameConstants.tileSize), healthBarYellowRectangle.getWidth(), healthBarYellowRectangle.getHeight());
 		if (superFastEnemy || superToughEnemy)
 		{
-			batch.draw(sprites.get(3), super.getX(), super.getY(), super
-					.getOriginX(), super.getOriginY(), sprites.get(3)
-					.getWidth(), sprites.get(3).getHeight(), 1, 1, super
-					.getRotation());
+			batch.draw(sprites.get(3), super.getX(), super.getY(), super.getOriginX(), super.getOriginY(), sprites.get(3).getWidth(), sprites
+					.get(3).getHeight(), 1, 1, super.getRotation());
 		}
 		if (getStat("currentSlowDuration") > 0)
 		{
-			batch.draw(sprites.get(4), super.getX()+sprites.get(3).getWidth(), super.getY(), super
-					.getOriginX(), super.getOriginY(), sprites.get(4)
-					.getWidth(), sprites.get(4).getHeight(), 1, 1, super
-					.getRotation());
+			batch.draw(sprites.get(4), super.getX() + sprites.get(3).getWidth(), super.getY(), super.getOriginX(), super.getOriginY(), sprites
+					.get(4).getWidth(), sprites.get(4).getHeight(), 1, 1, super.getRotation());
 		}
 		if (getStat("dotTicksLeft") > 0)
 		{
-			batch.draw(sprites.get(5), super.getX()+sprites.get(3).getWidth()+sprites.get(4).getWidth(), super.getY(), super
-					.getOriginX(), super.getOriginY(), sprites.get(5)
-					.getWidth(), sprites.get(5).getHeight(), 1, 1, super
-					.getRotation());
+			batch.draw(sprites.get(5), super.getX() + sprites.get(3).getWidth() + sprites.get(4).getWidth(), super.getY(), super
+					.getOriginX(), super.getOriginY(), sprites.get(5).getWidth(), sprites.get(5).getHeight(), 1, 1, super.getRotation());
 		}
 	}
 

@@ -18,16 +18,11 @@ Robin
 - Sende mail med logfil
 
 JV
-- Log: typesoftowers
 - Normalizere parametere, og lagre dem "unormaliserte" i ThinkTankInfo.
-- Scale ned supers
-- Mer penger for supers.
-- Mer forsiktige diggerhopp (Normalisere, evt se på endringer)
 - Se på rapport.
 - Balansere
 - Ta ut parametere, som med HP.
 - Bug: Circletargetrest ved nytt spill (Missile ikke cleared?)
-- Bug: Diggerchance (og mer) kan gå ut over max/min.
 
 Tentative
 - MapGeneration sjanse for høyre (Difficulty)

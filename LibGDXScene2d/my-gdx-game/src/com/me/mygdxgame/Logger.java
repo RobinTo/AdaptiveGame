@@ -12,8 +12,8 @@ public class Logger
 {
 	int earthquakeCount, enemyCount, killCount, basicsCount, basicsKilled, fastCount, fastKilled, toughCount, toughKilled, diggerCount, diggersKilled,
 			superCount, supersKilled, superFastCount, superFastKilled, superToughCount, superToughKilled, superShieldCount, superShieldKilled, superInvisCount,
-			superInvisKilled, shotsFired, towersBuilt, towersUpgraded, towersSold, towersDestroyed, earthquakeProofs, lastHappy, lastDifficult, arrowTowers,
-			slowTowers, cannonTowers, laserTowers, burningTowers, flameTowers;
+			superInvisKilled, shotsFired, towersBuilt, upgradesBought, towersSold, towersDestroyed, earthquakeProofs, lastHappy, lastDifficult, arrowTowers,
+			frostTowers, cannonTowers, laserTowers, burningTowers, flameTowers;
 
 	public Logger()
 	{
@@ -44,7 +44,7 @@ public class Logger
 		shotsFired = 0;
 		towersBuilt = 0;
 		towersSold = 0;
-		towersUpgraded = 0;
+		upgradesBought = 0;
 		towersDestroyed = 0;
 		enemyCount = 0;
 		killCount = 0;
@@ -52,7 +52,7 @@ public class Logger
 		lastHappy = 0;
 		lastDifficult = 0;
 		arrowTowers = 0;
-		slowTowers = 0;
+		frostTowers = 0;
 		cannonTowers = 0;
 		laserTowers = 0;
 		burningTowers = 0;
@@ -83,18 +83,18 @@ public class Logger
 		fileHandle.writeString("Shots fired       : " + shotsFired + "\r\n", true);
 		
 		// Tower info
+		fileHandle.writeString("---Tower information---" + "\r\n", true);
 		fileHandle.writeString("Towers built      : " + towersBuilt + "\r\n", true);
-		fileHandle.writeString("Towers upgraded   : " + towersUpgraded + "\r\n", true);
+		fileHandle.writeString("Upgrades bought   : " + upgradesBought + "\r\n", true);
 		fileHandle.writeString("Towers sold       : " + towersSold + "\r\n", true);
 		fileHandle.writeString("Towers destroyed  : " + towersDestroyed + "\r\n", true);
 		fileHandle.writeString("Earthquake proofs : " + earthquakeProofs + "\r\n", true);
 		fileHandle.writeString("Arrow towers      : " + arrowTowers + "\r\n", true);
-		fileHandle.writeString("Slow towers       : " + slowTowers + "\r\n", true);
+		fileHandle.writeString("Frost towers      : " + frostTowers + "\r\n", true);
 		fileHandle.writeString("Cannon towers     : " + cannonTowers + "\r\n", true);
 		fileHandle.writeString("Flame towers      : " + flameTowers + "\r\n", true);
 		fileHandle.writeString("Laser towers      : " + laserTowers + "\r\n", true);
 		fileHandle.writeString("Burning towers    : " + burningTowers + "\r\n", true);
-		
 
 		// Write metric and jump info
 		fileHandle.writeString("---Metric and jump information---" + "\r\n", true);
@@ -107,14 +107,8 @@ public class Logger
 		fileHandle.writeString("Player Level           : " + playerLevel + "\r\n", true);
 		fileHandle.writeString("Game length multiplier : " + gameLengthMultiplier + "\r\n", true);
 
-		// Write enemies short version
-		fileHandle.writeString("---Enemies - short version---" + "\r\n", true);
-		fileHandle.writeString("Total enemies killed : " + killCount + "/" + enemyCount + "\r\n", true);
-		fileHandle.writeString("Diggers killed       : " + diggersKilled + "/" + diggerCount + "\r\n", true);
-		fileHandle.writeString("Supers killed        : " + supersKilled + "/" + superCount + "\r\n", true);
-
-		// Write enemies long version
-		fileHandle.writeString("---Enemies - long version---" + "\r\n", true);
+		// Write enemies
+		fileHandle.writeString("---Enemy information---" + "\r\n", true);
 		fileHandle.writeString("Total enemies killed : " + killCount + "/" + enemyCount + "\r\n", true);
 		fileHandle.writeString("Basic enemies killed : " + basicsKilled + "/" + basicsCount + "\r\n", true);
 		fileHandle.writeString("Fast enemies killed  : " + fastKilled + "/" + fastCount + "\r\n", true);
