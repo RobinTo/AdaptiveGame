@@ -270,8 +270,8 @@ public class HeadsUpDisplay
 				consoleStrings.add("Game Length Multiplier: " + thinkTankInfo.gameLengthMultiplier);
 				consoleStrings.add("Digger Chance: " + parameters.get("DiggerChance").value);
 				consoleStrings.add("Super Enemy Chance: " + thinkTankInfo.superEnemyChance);
-				consoleStrings.add("Earthquake On Chance: " + parameters.get("EarthquakeChance").value);
-				consoleStrings.add("Earthquake Chance: " + parameters.get("EarthquakeChanceInGame").value);
+				consoleStrings.add("Earthquake On Chance (Every 5sec): " + thinkTankInfo.nudgeChance);
+				consoleStrings.add("Earthquake Chance (When on): " + thinkTankInfo.nudgeChanceInGame);
 				consoleStrings.add("Max Jump Distance: " + thinkTankInfo.maxJumpDistance);
 
 				consoleGroup.setVisible(true);

@@ -242,7 +242,7 @@ public class MyGdxGame implements ApplicationListener
 			checkWave(totalTime);
 
 			gameProcessor.updateGame(totalTime, gameCamera, map, assetManager,
-					stage, hud, thinkTank.thinkTankInfo.nudgeChanceInGame);
+					stage, hud, thinkTank.thinkTankInfo.nudgeChance, thinkTank.thinkTankInfo.nudgeChanceInGame);
 
 			if (gameProcessor.isGameLost())
 			{
@@ -454,7 +454,7 @@ public class MyGdxGame implements ApplicationListener
 
 		stage.getActors().clear();
 
-		gameProcessor.resetGame(thinkTank.nudgeChance,
+		gameProcessor.resetGame(thinkTank.thinkTankInfo.nudgeChance,
 				thinkTank.thinkTankInfo.startGold);
 		hud.towerKeys.clear();
 		totalTime = 0;

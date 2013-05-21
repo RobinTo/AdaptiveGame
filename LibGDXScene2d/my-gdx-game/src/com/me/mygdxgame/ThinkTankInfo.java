@@ -8,6 +8,7 @@ public class ThinkTankInfo
 	double gameLengthMultiplier = 1.0;
 	double playerLevel = 0;
 
+	float nudgeChance;
 	float nudgeChanceInGame = 0.2f;
 
 	int lastDifficulty = 0;
@@ -18,6 +19,7 @@ public class ThinkTankInfo
 	
 	public void initialize()
 	{
+		nudgeChance = 0;
 		lastMetric = 0;
 		currentMetric = 0;
 		challengerMetric = 0;

@@ -44,11 +44,11 @@ public class GameProcessor
 	boolean movesTowers = true;
 	boolean tempNudge = false;
 
+	float earthquakeToggleTimer = 5f;
 	float nudgeTimer = 0;
 	float nudgeRemainingTime = 0f;
 	float nudgeRandomizerTimer = 1.0f;
 	float nudgeRandomizerInterval = 0.5f;
-	int nudges = 0; // Counter to check for on off nudges every 5 seconds.
 
 	float superEnemyHealthMultiplier = 4.0f;
 	float superEnemySpeedMultiplierBonus = 2.0f; // CHANGED: If
@@ -217,17 +217,33 @@ public class GameProcessor
 		Collections.sort(waveTime);
 	}
 
-	public void updateGame(float totalTime, Camera gameCamera, Map map, AssetManager assetManager, Stage stage, HeadsUpDisplay hud, float nudgeChanceConstant)
+	public void updateGame(float totalTime, Camera gameCamera, Map map, AssetManager assetManager, Stage stage, HeadsUpDisplay hud, float nudgeChance, float nudgeChanceConstant)
 	{
+		earthquakeToggleTimer -= Gdx.graphics.getDeltaTime();
 		if (earthquakeEnabled && !isGameWon() && !isGameLost())
 		{
 			doEarthquake(gameCamera, map, nudgeChanceConstant, assetManager);
 		}
+		
+		if (nudgeRemainingTime <= 0 && earthquakeToggleTimer <= 0)
+		{
+			earthquakeToggleTimer = 5f;
+			if (rand.nextDouble() < nudgeChance)
+			{
+				earthquakeEnabled = true;
+			}
+			else
+			{
+				earthquakeEnabled = false;
+			}
+		}
+
 		if (enemies.size() > 0)
 		{
 			for (int i = 0; i < towers.size(); i++)
 			{
-				towers.get(i).calculateTarget(Gdx.graphics.getDeltaTime(), enemies, null);
+				towers.get(i)
+						.calculateTarget(Gdx.graphics.getDeltaTime(), enemies, null);
 
 				if (towers.get(i).canShoot)
 				{
@@ -655,15 +671,6 @@ public class GameProcessor
 		}
 		else
 		{
-			nudges++;
-			if (rand.nextDouble() < nudgeChanceConstant)
-			{
-				earthquakeEnabled = true;
-			}
-			else
-			{
-				earthquakeEnabled = false;
-			}
 			nudgeRandomizerTimer -= Gdx.graphics.getDeltaTime();
 			if (nudgeRandomizerTimer <= 0)
 			{

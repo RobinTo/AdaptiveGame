@@ -9,28 +9,37 @@ OK
 Robin
 - Pyplot
 - Skalere wave difficulty (Ta med som difficulty-parameter)
-- Bug: Pathfinding(Startpunkt endres)
+- Bug: Pathfinding(Startpunkt endres) 
+  - Bug: Spillet henger seg. Mulig det har med Pathfinding inf loop? Flere paths til mål?
 - Save between games: gameLengthMultiplier, lastMetric, maxJumpDistance, and perhaps more.
 - Mer random tid mellom når enemies spawner. 
+- Splashscreen
+- Teste på Android
+- Sende mail med logfil
 
 JV
-- Log: playerLevel, Metric, Hva brukeren trykket, Sjansen for diggers, earthquakes, towersDestroyed, tilesDug, typesoftowers, 
+- Log: playerLevel, Metric, Hva brukeren trykket, Sjansen for diggers, earthquakes, towersDestroyed, tilesDug, typesoftowers, walls, startgold
+- Hotkeys på 5,6
 - Balancing: Nerf Laser (pris ned også)
+- Circletargetbug ved nytt spill
 - Normalizere parametere, og lagre dem "unormaliserte" i ThinkTankInfo.
-- Knapp til pause for android
-- Select Tower Visuell markering rundt tile.
-- Rydde rundt i ThinkTankInfo vs ThinkTank
-
-Done
+- Scale ned supers
+- Mer forsiktige diggerhopp (Normalisere, evt se på endringer)
+- Mer penger for supers.
+- Se på rapport.
+- Balansere
+- Ta ut parametere, som med HP.
 
 Tentative
-
 - MapGeneration sjanse for høyre (Difficulty)
 - Tower Damage displayed i gult vindu
+- Knapp til pause for android
 - Liste over hotkeys
 - Better SuperShieldGraphics (Maybe with a timer)
 - Skrive på tårntekst over tårn / Gult vindu på UI-valgte tårn
 - Egen plass for gult vindu
+- Stats list for player
 - Rydde opp i thinktank - calculatenewparameters (apm etc)
 - Rydde opp i ListenerGenerator vs. handleEvents. Nå er det blandet hvem som gjør hva.
-- Bug: Spillet henger seg. Mulig det har med Pathfinding inf loop? Flere paths til mål?
+- Rydde rundt i ThinkTankInfo vs ThinkTank
+- Select Tower Visuell markering rundt tile.

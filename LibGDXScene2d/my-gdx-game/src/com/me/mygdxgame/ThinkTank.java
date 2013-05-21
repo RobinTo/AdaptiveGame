@@ -23,7 +23,6 @@ public class ThinkTank
 	int timeBetweenMeasurements = 1;
 	ThinkTankInfo thinkTankInfo;
 	
-	float nudgeChance; //Chance for nudges at all
 	float diggerChance; 
 	
 	int speedLevel;
@@ -68,8 +67,8 @@ public class ThinkTank
 			parameters.put("GlobalTowerRange", new Parameter("GlobalTowerRange", 1.0f, 0.1f, 10.0f));
 			parameters.put("DiggerChance", new Parameter("DiggerChance", 0.01f, 0.0f, 1.0f)); // Digger chance eats of the 0.5 set for Normal mob chance.
 			parameters.put("SuperChance", new Parameter("SuperChance", 0.02f, 0.0f, 1.0f)); // Set to 0 to disable super minions. Could add a seperate number for each type, if we desire.
-			parameters.put("EarthquakeChance", new Parameter("EarthquakeChance", 0.1f, 0.0f, 1.0f)); 
-			parameters.put("EarthquakeChanceInGame", new Parameter("EarthquakeChanceInGame", 0.2f, 0.1f, 0.9f)); 
+			parameters.put("EarthquakeChance", new Parameter("EarthquakeChance", 0.9f, 0.0f, 1.0f)); 
+			parameters.put("EarthquakeChanceInGame", new Parameter("EarthquakeChanceInGame", 0.8f, 0.1f, 0.9f)); 
 		}
 		
 		thinkTankInfo.initialize();
@@ -335,7 +334,7 @@ public class ThinkTank
 		// Changing of stats.
 		this.diggerChance = parameters.get("DiggerChance").value;
 		this.thinkTankInfo.superEnemyChance = parameters.get("SuperChance").value / 5;
-		this.nudgeChance = parameters.get("EarthquakeChance").value;
+		this.thinkTankInfo.nudgeChance = parameters.get("EarthquakeChance").value;
 		this.thinkTankInfo.nudgeChanceInGame = parameters.get("EarthquakeChanceInGame").value;
 		this.thinkTankInfo.startGold = (int)(100f * parameters.get("GlobalBuildCost").value);
 		
