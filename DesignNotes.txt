@@ -18,11 +18,12 @@ Robin
 - Sende mail med logfil
 
 JV
-- Normalizere parametere, og lagre dem "unormaliserte" i ThinkTankInfo.
+- Balansere, sjekke om det blir for mye earthquakes og diggers
+  - Ta ut parametere, som med HP.
 - Se på rapport.
-- Balansere
-- Ta ut parametere, som med HP.
-- Bug: Circletargetrest ved nytt spill (Missile ikke cleared?)
+
+Done
+- Bug missile (clear), Bug formatting writetostring, cleaning,
 
 Tentative
 - MapGeneration sjanse for høyre (Difficulty)
@@ -33,7 +34,4 @@ Tentative
 - Skrive på tårntekst over tårn / Gult vindu på UI-valgte tårn
 - Egen plass for gult vindu
 - Stats list for player
-- Rydde opp i thinktank - calculatenewparameters (apm etc)
-- Rydde opp i ListenerGenerator vs. handleEvents. Nå er det blandet hvem som gjør hva.
-- Rydde rundt i ThinkTankInfo vs ThinkTank
 - Select Tower Visuell markering rundt tile.

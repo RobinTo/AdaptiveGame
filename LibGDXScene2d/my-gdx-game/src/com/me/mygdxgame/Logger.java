@@ -100,7 +100,7 @@ public class Logger
 		fileHandle.writeString("---Metric and jump information---" + "\r\n", true);
 		fileHandle.writeString("Hearts feedback        : " + lastHappy + "\r\n", true);
 		fileHandle.writeString("Difficulty feedback    : " + lastDifficult + "\r\n", true);
-		fileHandle.writeString("Current metric         : " + currentMetric + "\r\n", true);
+//		fileHandle.writeString("Current metric         : " + currentMetric + "\r\n", true); Unnecessary
 		fileHandle.writeString("Last metric            : " + lastMetric + "\r\n", true);
 		fileHandle.writeString("Challenger metric      : " + challengerMetric + "\r\n", true);
 		fileHandle.writeString("Max jump distance      : " + maxJumpDistance + "\r\n", true);

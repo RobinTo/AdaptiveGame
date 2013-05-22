@@ -16,6 +16,12 @@ public class ThinkTankInfo
 	float superEnemyChance = 0; 
 	int startGold = 0;
 	
+	float diggerChance;
+
+	int speedLevel;
+
+	int successiveGameCounter = 0;
+	
 	public void initialize()
 	{
 		nudgeChance = 0;

@@ -25,17 +25,12 @@ public class MyGdxGame implements ApplicationListener
 	boolean wasTab = false, wasSpace = false, wasHotKey = false;
 
 	boolean fullScreen = false; // Full screen yes or no.
-	boolean printDebug = true; // Print debug, add or remove writes in end of
-								// render.
+	boolean printDebug = true; // Print debug, add or remove writes in end of render.
 
 	ReplayHandler replayHandler = new ReplayHandler();
 	boolean saveReplay = false;
 	boolean useReplay = false;
-	String replayPath = "/AdaptiveTD/Replays/testReplay.txt"; // Must be
-																// external,
-																// relative to
-																// user
-																// directory.
+	String replayPath = "/AdaptiveTD/Replays/testReplay.txt"; // Must be external, relative to user directory.
 	String replaySavePath = "/AdaptiveTD/Replays/testReplay.txt";
 
 	boolean savedParametersAndRelations = false;
@@ -79,8 +74,7 @@ public class MyGdxGame implements ApplicationListener
 
 	ExtendedActor temporaryTowerActor = null;
 
-	EventHandler eventHandler = new EventHandler();
-
+	EventHandler eventHandler;
 	ListenerGenerator listenerGenerator;
 	ButtonGenerator buttonGenerator;
 	ThinkTank thinkTank;
@@ -97,6 +91,7 @@ public class MyGdxGame implements ApplicationListener
 	@Override
 	public void create()
 	{
+		eventHandler = new EventHandler();
 		logger = new Logger();
 		gameCamera = new OrthographicCamera(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
 		Gdx.graphics.setTitle("Adaptive Tower Defense v0.001");
@@ -116,6 +111,9 @@ public class MyGdxGame implements ApplicationListener
 
 		thinkTank = new ThinkTank();
 
+		gameProcessor = new GameProcessor();
+		gameProcessor.initialize(thinkTank.thinkTankInfo.startGold, logger);
+		
 		statsFetcher = new StatsFetcher();
 		FileHandle towerHandle = Gdx.files.internal("Stats/towerStats.txt");
 		try
@@ -124,21 +122,16 @@ public class MyGdxGame implements ApplicationListener
 		}
 		catch (NumberFormatException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		catch (ParseException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		FileHandle enemyHandle = Gdx.files.internal("Stats/enemyStats.txt");
 		thinkTank.enemyInfo = statsFetcher.generateEnemyInfo(enemyHandle);
 
-		// gameProcessor.createWave(thinkTank, map, assetManager.enemiesAtlas,
-		// assetManager.miscAtlas);
-
-		listenerGenerator = new ListenerGenerator(this);
+		listenerGenerator = new ListenerGenerator(eventHandler, gameProcessor, thinkTank);
 		buttonGenerator = new ButtonGenerator();
 
 		// UI Creation
@@ -171,12 +164,10 @@ public class MyGdxGame implements ApplicationListener
 		}
 		catch (NumberFormatException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		catch (ParseException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -188,8 +179,6 @@ public class MyGdxGame implements ApplicationListener
 		thinkTank.initializeParameters(parameterHandle);
 		thinkTank.initializeRelations(relationsHandle);
 
-		gameProcessor = new GameProcessor();
-		gameProcessor.initialize(thinkTank.thinkTankInfo.startGold, logger);
 
 		resetGame();
 	}
@@ -235,9 +224,7 @@ public class MyGdxGame implements ApplicationListener
 			}
 			if (!won && !lost)
 			{
-				thinkTank.calculateNewParameters(totalTime,
-						gameProcessor.currentGold, gameProcessor.livesLeft,
-						gameProcessor.towers, eventHandler.events);
+				thinkTank.calculateVariety(totalTime, gameProcessor.towers);
 			}
 			handleEvents();
 			hud.updateYellowBoxPosition();
@@ -246,7 +233,6 @@ public class MyGdxGame implements ApplicationListener
 			gameProcessor.updateGame(totalTime, gameCamera, map, assetManager,
 					stage, hud, thinkTank.thinkTankInfo.nudgeChance, thinkTank.thinkTankInfo.nudgeChanceInGame);
 
-			
 			if (gameProcessor.isGameLost())
 			{
 				lost = true;
@@ -259,8 +245,8 @@ public class MyGdxGame implements ApplicationListener
 			{				
 				if (!savedParametersAndRelations)
 				{
-					thinkTank.successiveGameCounter++;
-					logger.writeLogToDisk(Gdx.files.external(logSavePath), thinkTank.parameters, won, thinkTank.successiveGameCounter,
+					thinkTank.thinkTankInfo.successiveGameCounter++;
+					logger.writeLogToDisk(Gdx.files.external(logSavePath), thinkTank.parameters, won, thinkTank.thinkTankInfo.successiveGameCounter,
 							gameProcessor.livesLeft, gameProcessor.currentGold, thinkTank.thinkTankInfo.startGold, thinkTank.thinkTankInfo.currentMetric, thinkTank.thinkTankInfo.lastMetric, thinkTank.thinkTankInfo.challengerMetric, thinkTank.thinkTankInfo.maxJumpDistance, thinkTank.thinkTankInfo.playerLevel, thinkTank.thinkTankInfo.gameLengthMultiplier);
 					thinkTank.writeParametersToDisk(Gdx.files
 							.external(parameterSavePath));
@@ -300,9 +286,7 @@ public class MyGdxGame implements ApplicationListener
 			{
 				replayHandler.addEvents(totalTime, eventHandler);
 			}
-			thinkTank.calculateNewParameters(0, gameProcessor.currentGold,
-					gameProcessor.livesLeft, gameProcessor.towers,
-					eventHandler.events);
+			thinkTank.calculateVariety(0, gameProcessor.towers);
 			handleEvents();
 			hud.updateYellowBoxPosition();
 			// Draws game
@@ -439,10 +423,7 @@ public class MyGdxGame implements ApplicationListener
 		totalTime = 0;
 
 		mapGroup = map.regenerateMap();
-		// FileHandle handle = Gdx.files.internal("Maps/map.txt");
 		stage.addActor(mapGroup);
-		// gameProcessor.createWave(thinkTank, map, assetManager.enemiesAtlas,
-		// assetManager.miscAtlas);
 		hud.createUI(assetManager.miscAtlas, assetManager.towersAtlas,
 				thinkTank.towerInfo, stage, buttonGenerator, listenerGenerator,
 				thinkTank.thinkTankInfo.startGold);
@@ -477,7 +458,7 @@ public class MyGdxGame implements ApplicationListener
 			{
 				gameProcessor.generateNextEnemy(statMultiplier, thinkTank, map,
 						assetManager.enemiesAtlas, assetManager.miscAtlas,
-						thinkTank.diggerChance, thinkTank.thinkTankInfo.superEnemyChance);
+						thinkTank.thinkTankInfo.diggerChance, thinkTank.thinkTankInfo.superEnemyChance);
 			}
 			statMultiplier += 0.25f;
 			gameProcessor.lastMinionTime += gameProcessor.wavePartDelay;
@@ -505,7 +486,7 @@ public class MyGdxGame implements ApplicationListener
 		}
 
 		this.setSliderLevels();
-		assetManager.playSong(thinkTank.speedLevel);
+		assetManager.playSong(thinkTank.thinkTankInfo.speedLevel);
 	}
 
 	private void checkWave(float totalTime)
@@ -528,7 +509,6 @@ public class MyGdxGame implements ApplicationListener
 						.get(gameProcessor.waveTime.get(0)));
 				gameProcessor.enemyWave.remove(gameProcessor.waveTime.get(0));
 				gameProcessor.waveTime.remove(0);
-				// generateNextEnemy();
 			}
 		}
 	}
@@ -604,7 +584,22 @@ public class MyGdxGame implements ApplicationListener
 			}
 			else if (e.eventType.equals("sell"))
 			{
-				// Done in ListenerGenerator for Button. Is a mess.
+				for (int u = 0; u < gameProcessor.towers.size(); u++)
+				{
+					Tower tower = gameProcessor.towers.get(u);
+					if (e.x == (int) (tower.getX() / GameConstants.tileSize) && e.y == (int) (tower.getY() / GameConstants.tileSize))
+					{
+						gameProcessor.currentGold += tower.towerStats.sellPrice;
+						hud.goldButton.setText("        " + gameProcessor.currentGold);
+						tower.remove();
+						gameProcessor.towers.remove(tower);
+						gameProcessor.selectTower(null, thinkTank.towerInfo);
+						hud.yellowBoxLabel.setText("");
+						hud.fadeOutYellowBox();
+						assetManager.playSound("sellTower");
+						gameProcessor.logger.towersSold++;
+					}
+				}
 			}
 			else if (e.eventType.equals("upgrade"))
 			{
@@ -712,6 +707,11 @@ public class MyGdxGame implements ApplicationListener
 				stage.addActor(temporaryTowerActor);
 				hud.yellowBoxLabel.setText(towerName);
 			}
+			else if (e.eventType.equals("clean"))
+			{
+				thinkTank.clean(parameterSavePath, relationsSavePath);
+				resetGame();
+			}
 		}
 	}
 
@@ -730,8 +730,7 @@ public class MyGdxGame implements ApplicationListener
 		}
 		if (wasTouched && !Gdx.input.isTouched())
 		{
-			if (building && temporaryTowerActor != null) // Kanskje flytte dette
-															// også
+			if (building && temporaryTowerActor != null)
 			{
 				if (touchedTile.x <= Map.mapWidth
 						&& touchedTile.y <= Map.mapHeight && a != null
@@ -782,28 +781,28 @@ public class MyGdxGame implements ApplicationListener
 	private void setSliderLevels()
 	{
 		float healthValue = thinkTank.parameters.get("GlobalMonsterHP").value;
-		if (healthValue < 0.10f)
+		if (healthValue < 0.2f)
 			hud.healthSlider.setValue(1);
 		else if (healthValue < 0.35f)
 			hud.healthSlider.setValue(2);
-		else if (healthValue < 0.60f)
+		else if (healthValue < 0.55f)
 			hud.healthSlider.setValue(3);
-		else if (healthValue < 0.85f)
+		else if (healthValue < 0.8f)
 			hud.healthSlider.setValue(4);
-		else if (healthValue < 1.10f)
+		else if (healthValue < 1.1f)
 			hud.healthSlider.setValue(5);
-		else if (healthValue < 1.35f)
+		else if (healthValue < 1.4f)
 			hud.healthSlider.setValue(6);
-		else if (healthValue < 1.60f)
+		else if (healthValue < 1.7f)
 			hud.healthSlider.setValue(7);
-		else if (healthValue < 1.85f)
+		else if (healthValue < 2.1)
 			hud.healthSlider.setValue(8);
-		else if (healthValue < 2.10f)
+		else if (healthValue < 2.5f)
 			hud.healthSlider.setValue(9);
 		else
 			hud.healthSlider.setValue(10);
 
-		hud.speedSlider.setValue(thinkTank.speedLevel);
+		hud.speedSlider.setValue(thinkTank.thinkTankInfo.speedLevel);
 
 		float damageValue = thinkTank.parameters.get("TEDamage").value;
 		if (damageValue < 0.10f)
