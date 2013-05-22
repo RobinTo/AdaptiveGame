@@ -11,11 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 public class Missile extends ExtendedActor
 {
 
-	MissileEffect effect;
+	MissileEffect missileEffect;
 	float timeToHitTarget;
 	String impactSound;
 	int startX, startY;
-	
+	Enemy targetEnemy;
 
 	public Missile(Sprite sprite, String impactSound, Vector2 startPosition,
 			Vector2 targetPosition, float timeToHitTarget, MissileEffect effects)
@@ -25,7 +25,7 @@ public class Missile extends ExtendedActor
 		this.startY = (int)startPosition.y;
 		this.impactSound = impactSound;
 		this.timeToHitTarget = timeToHitTarget;
-		this.effect = effects;
+		this.missileEffect = effects;
 		this.setTouchable(Touchable.disabled);
 		setPosition(startPosition.x, startPosition.y);
 		addAction(sequence(Actions.moveTo(targetPosition.x, targetPosition.y,

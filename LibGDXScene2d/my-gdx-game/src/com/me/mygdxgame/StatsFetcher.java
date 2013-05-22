@@ -134,7 +134,7 @@ public class StatsFetcher {
 			{
 				missileEffects = new MissileEffect(new TargetSingle(null), effectsForMissile);
 			}
-			System.out.println("Created tower: " + type + ":" + towerTexture + ":" + missileTexture + ":" + sellPrice + ":" + upgradeCost + ":" + buildCost + ":" + missileEffects.effects.size() + ":" + reloadTime + ":" + range);
+			System.out.println("Created tower: " + type + ":" + towerTexture + ":" + missileTexture + ":" + sellPrice + ":" + upgradeCost + ":" + buildCost + ":" + missileEffects.writtenEffects.size() + ":" + reloadTime + ":" + range);
 			towerInfo.put(type, new TowerStats(type, description, upgradesTo, towerTexture, missileTexture, sellPrice, upgradeCost, buildCost, missileEffects, reloadTime, range, radius, buildable, shootSound, impactSound));
 		}
 		return towerInfo;

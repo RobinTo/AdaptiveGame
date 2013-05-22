@@ -329,7 +329,7 @@ public class ThinkTank
 			towerInfo.get(key).sellPrice = ((int) (defaultTowerInfo.get(key).sellPrice * parameters.get("GlobalBuildCost").value) < 1) ? 1
 					: (int) (defaultTowerInfo.get(key).sellPrice * parameters.get("GlobalBuildCost").value); // Minimum 1;// Linked parameter
 
-			HashMap<String, FloatingBoolean> effects = towerInfo.get(key).missileEffects.effects;
+			HashMap<String, FloatingBoolean> effects = towerInfo.get(key).missileEffects.writtenEffects;
 			if (effects.containsKey("currentHealth"))
 			{
 				effects.put("currentHealth", new FloatingBoolean(effects.get("currentHealth").b, effects.get("currentHealth").f

@@ -157,8 +157,10 @@ public class Tower extends ExtendedActor {
 			}
 			else
 			{
-				((TargetSingle)effects.missileTarget).targetEnemy = targetEnemy;
+//				((TargetSingle)effects.missileTarget).targetEnemy = targetEnemy;
+				
 				m = new Missile(textures.get(3), towerStats.impactSound, new Vector2(getX()+getOriginX(), getY()+getOriginY()), new Vector2(enemyX, enemyY), 0.2f, effects);
+				m.targetEnemy = targetEnemy;
 			}
 			currentReloadTimer = towerStats.reloadTime;
 			canShoot = false;

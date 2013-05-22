@@ -268,33 +268,34 @@ public class GameProcessor
 			if (missile.timeToHitTarget <= 0)
 			{
 				// If TargetStrategy.Single
-				if (missile.effect.missileTarget.targetingStrategy == TargetingStrategy.Single)
+				if (missile.missileEffect.missileTarget.targetingStrategy == TargetingStrategy.Single)
 				{
 					assetManager.playSound(missile.impactSound);
-					Enemy targEnemy = ((TargetSingle) (missile.effect.missileTarget)).targetEnemy;
+					Enemy targEnemy = missile.targetEnemy;
+//					Enemy targEnemy = ((TargetSingle) (missile.missileEffect.missileTarget)).targetEnemy;
 					if (targEnemy.superShieldedEnemy)
 						continue;
-					Iterator<String> it = missile.effect.effects.keySet().iterator();
+					Iterator<String> it = missile.missileEffect.writtenEffects.keySet().iterator();
 					while (it.hasNext())
 					{
 						String s = it.next();
-						if (missile.effect.effects.get(s).b)
+						if (missile.missileEffect.writtenEffects.get(s).b)
 						{
-							targEnemy.setStat(s, missile.effect.effects.get(s).f);
+							targEnemy.setStat(s, missile.missileEffect.writtenEffects.get(s).f);
 						}
 						else
 						{
-							targEnemy.editStat(s, missile.effect.effects.get(s).f);
+							targEnemy.editStat(s, missile.missileEffect.writtenEffects.get(s).f);
 						}
 					}
 				}
 				// ----------------------
 				// If TargetStrategy.Circle
-				else if (missile.effect.missileTarget.targetingStrategy == TargetingStrategy.Circle)
+				else if (missile.missileEffect.missileTarget.targetingStrategy == TargetingStrategy.Circle)
 				{
-					TargetCircle targetCircle = (TargetCircle) missile.effect.missileTarget;
+					TargetCircle targetCircle = (TargetCircle) missile.missileEffect.missileTarget;
 					List<Enemy> enemiesInCircle = HitDetector.getEnemiesInCircle(enemies, targetCircle.x1, targetCircle.y1, targetCircle.radius);
-					Iterator<String> it = missile.effect.effects.keySet().iterator();
+					Iterator<String> it = missile.missileEffect.writtenEffects.keySet().iterator();
 					while (it.hasNext())
 					{
 						String s = it.next();
@@ -304,18 +305,18 @@ public class GameProcessor
 							if (targetEnemy.superShieldedEnemy)
 								continue;
 
-							if (missile.effect.effects.get(s).b)
+							if (missile.missileEffect.writtenEffects.get(s).b)
 							{
-								targetEnemy.setStat(s, missile.effect.effects.get(s).f);
+								targetEnemy.setStat(s, missile.missileEffect.writtenEffects.get(s).f);
 							}
 							else
 							{
-								targetEnemy.editStat(s, missile.effect.effects.get(s).f);
+								targetEnemy.editStat(s, missile.missileEffect.writtenEffects.get(s).f);
 							}
 						}
 					}
 					final ExtendedActor visualEffectActor = new ExtendedActor(missile.sprite);
-					TargetCircle tC = (TargetCircle) (missile.effect.missileTarget);
+					TargetCircle tC = (TargetCircle) (missile.missileEffect.missileTarget);
 					visualEffectActor.setPosition(tC.x1 - tC.radius, tC.y1 - tC.radius);
 					visualEffectActor.setWidth(tC.radius * 2);
 					visualEffectActor.setHeight(tC.radius * 2);
@@ -332,12 +333,12 @@ public class GameProcessor
 				}
 				// ----------------------
 				// If TargetStrategy.CircleOnSelf
-				else if (missile.effect.missileTarget.targetingStrategy == TargetingStrategy.CircleOnSelf)
+				else if (missile.missileEffect.missileTarget.targetingStrategy == TargetingStrategy.CircleOnSelf)
 				{
-					TargetCircleOnSelf targetCircle = (TargetCircleOnSelf) missile.effect.missileTarget;
+					TargetCircleOnSelf targetCircle = (TargetCircleOnSelf) missile.missileEffect.missileTarget;
 					List<Enemy> enemiesInCircle = HitDetector.getEnemiesInCircle(enemies, (int) (missile.getX() + missile.getWidth() / 2),
 							(int) (missile.getY() + missile.getHeight() / 2), targetCircle.radius);
-					Iterator<String> it = missile.effect.effects.keySet().iterator();
+					Iterator<String> it = missile.missileEffect.writtenEffects.keySet().iterator();
 					while (it.hasNext())
 					{
 						String s = it.next();
@@ -347,25 +348,25 @@ public class GameProcessor
 							if (targetEnemy.superShieldedEnemy)
 								continue;
 
-							if (missile.effect.effects.get(s).b)
+							if (missile.missileEffect.writtenEffects.get(s).b)
 							{
-								targetEnemy.setStat(s, missile.effect.effects.get(s).f);
+								targetEnemy.setStat(s, missile.missileEffect.writtenEffects.get(s).f);
 							}
 							else
 							{
-								targetEnemy.editStat(s, missile.effect.effects.get(s).f);
+								targetEnemy.editStat(s, missile.missileEffect.writtenEffects.get(s).f);
 							}
 						}
 					}
 				}
 				// ----------------------
 				// If TargetStrategy.Line
-				else if (missile.effect.missileTarget.targetingStrategy == TargetingStrategy.Line)
+				else if (missile.missileEffect.missileTarget.targetingStrategy == TargetingStrategy.Line)
 				{
-					TargetLine targetLine = (TargetLine) missile.effect.missileTarget;
+					TargetLine targetLine = (TargetLine) missile.missileEffect.missileTarget;
 					List<Enemy> enemiesInLine = HitDetector.getEnemiesOnLine(enemies, new Vector2(targetLine.x1, targetLine.y1), new Vector2(targetLine.x2,
 							targetLine.y2));
-					Iterator<String> it = missile.effect.effects.keySet().iterator();
+					Iterator<String> it = missile.missileEffect.writtenEffects.keySet().iterator();
 					while (it.hasNext())
 					{
 						String s = it.next();
@@ -375,19 +376,18 @@ public class GameProcessor
 							if (targetEnemy.superShieldedEnemy)
 								continue;
 
-							if (missile.effect.effects.get(s).b)
+							if (missile.missileEffect.writtenEffects.get(s).b)
 							{
-								targetEnemy.setStat(s, missile.effect.effects.get(s).f);
+								targetEnemy.setStat(s, missile.missileEffect.writtenEffects.get(s).f);
 							}
 							else
 							{
-								targetEnemy.editStat(s, missile.effect.effects.get(s).f);
+								targetEnemy.editStat(s, missile.missileEffect.writtenEffects.get(s).f);
 							}
 						}
 					}
 				}
 				// ----------------------
-				// System.out.println("Remo1 - Removing missile");
 				missile.remove();
 				missiles.remove(i);
 				i--;
@@ -699,19 +699,19 @@ public class GameProcessor
 		TargetingStrategy targetStrategy = original.missileEffects.missileTarget.targetingStrategy;
 		if (targetStrategy == TargetingStrategy.Circle)
 		{
-			missileEffects = new MissileEffect(new TargetCircle(0, 0, original.radius), original.missileEffects.effects);
+			missileEffects = new MissileEffect(new TargetCircle(0, 0, original.radius), original.missileEffects.writtenEffects);
 		}
 		else if (targetStrategy == TargetingStrategy.Line)
 		{
-			missileEffects = new MissileEffect(new TargetLine(0, 0, 0, 0), original.missileEffects.effects);
+			missileEffects = new MissileEffect(new TargetLine(0, 0, 0, 0), original.missileEffects.writtenEffects);
 		}
 		else if (targetStrategy == TargetingStrategy.CircleOnSelf)
 		{
-			missileEffects = new MissileEffect(new TargetCircleOnSelf(original.range), original.missileEffects.effects);
+			missileEffects = new MissileEffect(new TargetCircleOnSelf(original.range), original.missileEffects.writtenEffects);
 		}
 		else
 		{
-			missileEffects = new MissileEffect(new TargetSingle(null), original.missileEffects.effects);
+			missileEffects = new MissileEffect(new TargetSingle(null), original.missileEffects.writtenEffects);
 		}
 
 		TowerStats copiedStats = new TowerStats(original.type, original.description, original.upgradesTo, original.towerTexture, original.missileTexture,

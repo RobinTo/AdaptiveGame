@@ -5,12 +5,12 @@ import java.util.HashMap;
 public class MissileEffect {
 
 	MissileTarget missileTarget;
-	HashMap<String, FloatingBoolean> effects = new HashMap<String, FloatingBoolean>();
+	HashMap<String, FloatingBoolean> writtenEffects = new HashMap<String, FloatingBoolean>();
 	
 	public MissileEffect(MissileTarget missileTarget, HashMap<String, FloatingBoolean> effects)
 	{
 		this.missileTarget = missileTarget;
-		this.effects = effects;
+		this.writtenEffects = effects;
 		
 	}
 }
