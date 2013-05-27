@@ -6,7 +6,7 @@ $semester = Spring 2013
 $place = Grimstad
 $date = 7th of June
 $status = Final
-$keywords = Learning systems, "Random jump algorithm"
+$keywords = Learning systems, unsupervised online learning, stochastic hill climbing, tower defence, maximize fun, video games
 
 $abstract = Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
@@ -21,6 +21,7 @@ $ Table of contents | toc
 @figures
 
 # Table of tables
+@("Husk class='notoc'")
 
 @tables
 
@@ -29,31 +30,32 @@ $ Table of contents | toc
 Kanskje droppe dette kapittelet
 
 # Introduction
-
-Generelt om kapittelet introduksjon
+This chapter contains the background for why and where we believe that this project is relevant, as well as outlining a proposed solution @("Ikke ref, men kanskje annerledes wording?)
+@("Generelt spørsmål til Sondre: Er det ok å gjøre det slik, at toppoverskrifter har kun info om rapporten i seg selv, og la underoverskrifter ta seg av det mer konkrete?")
 
 ## Background
-Situasjonen rundt og hvorfor dette er viktig.
-Hvor vi plasserer oss henne/Liknende arbeid
-Spørsmål: Hva/Hvem skal vi sammenlikne oss med? Kjenner du til noen andre spill som gjør det samme? Jeg gjør nemlig ikke det, kun på et mer "scriptet" nivå.
-- Mange spill jeg vet om har et Random-generated gameplay, vi skiller oss ut fordi vi har et også adaptivt et?
+In the world of video games (henceforth: 'games'), the quality of a game is dependant on its entertainment value, or in layman's terms, the level of 'fun' perceived among its players. @("Referere til noe?") Since games appeal to a wide variety of players, the perceived level of fun may often vary among its players, due to personal preferences. In order to accomodote for such varying preferences, traditional games have often implemented several chosen levels of difficulty, as well as providing the player with several settings or options for how they want the game to behave. @("Referere til noe2?") When it comes to difficulty, other work has already been done on how to scale and adapt this to the level of player, in order to make even games @("Referere til vårt Research Seminar paper"), but in order to make a game fun, we believe that more than difficulty needs to adapt to individual preferences, thus more aspects of a game should be able to change on the fly. In this project we research whether such a game can be made. @("OK wording?")
 
 ## Problem Statement
-Problemet er at spill ikke tilpasser seg spilleren, og derfor blir spillet kjedelig. Vi ønsker å gjøre spillet mest mulig gøy.
+Our project is to undergo research towards whether it is possible to create a game, that uses an unsupervised online learning algorithm, which will adapt the game to the user's preferences based on minimal user feedback. @("is it in the problem to create a game itself, or is that just something we do to prove it?")
 
 ## Problem Solution
-Vi har tatt utgangspunkt i TD, fordi det er enkelt. Vi vil gjøre spillet tilpassende brukeren vha. noen inputs, som gir brukeren ulike spill, basert på input.
+We have chosen to create game using the tower defence genre, as this requires somewhat less work and graphics than many other genres, as well as having a lot of possible parameters that can be tweaked in order to adapt the contents of the game (henceforth: gameplay). The game uses a modified stochastic hill climbing algorithm together with some user feedback after each game, to adapt itself towards the individual player.
 
 # Game Description
+
+This chapter gives some pictures and a short description of our game, as well as some general information about the game genre, namely tower defence.
 
 ## Genre
 - Om TD generelt
 
 ## Our game
-- Same as TD, but differs:
-  - Adaptive gameplay and difficulty
-  - Adaptive, not scripted, progression
-  - Modular towers and enemies (Not pre-defined): Part of the adaptive focus, but could be used in a "Random-Generated-TD" as well, without adaption to user.
+Our game is very similar to classic tower defence games, in that the player has to stop different kinds of enemies from reaching the destination on their path, by using different kinds of towers. Our game differs from other tower defence games on the following:
+- There are no scripted or static levels, since each game is a step closer towards the player's 'ideal game', that is, the game that is perceived as the most fun.
+- Other than that the game learns after each level, the player has nothing that is carried over to the next game, such as tower access, special items or game progress in general. The player simply plays successive games until he or she quits.
+- Modular towers and enemies. This is not necessarily new to the tower defence genre, as not all tower defence games may have pre-defined enemies and towers, but this is something that can be used in order to adapt the game towards personal preferences. 
+- (Guided) Randomly generated maps. Not necessarily new to the genre either, but is another useful technology that can be used to adapt the game to the player. Note that our game did not use this for game adaption, only to make the game seem less static.
+
 
 # System
 

@@ -9,7 +9,7 @@
 <p style="text-align: center">By<br>
 <br>$authors
 </p>
--- Supervisors: $supervisors<br><br>
+-- Supervisor: $supervisors<br><br>
 
 -- <b>Project report for $course in $semester</b><br><br>
 

@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
 <title>Title</title>
@@ -28,7 +28,7 @@
 <p style="text-align: center">By<br>
 <br>Jon Vegard Jansen, Robin Tollisen
 </p>
-<p style='text-align: center'>Supervisors: Sondre Glimsdal<br><br></p>
+<p style='text-align: center'>Supervisor: Sondre Glimsdal<br><br></p>
 <p style='text-align: center'><b>Project report for IKT411 in Spring 2013</b><br><br></p>
 <p style="text-align: center">Faculty of Engineering and Science
 <br>University of Agder
@@ -36,7 +36,7 @@
 </p>
 
 <p style='text-align: center'>Status: Final</p>
-<p><b>Keywords:</b> Learning systems, "Random jump algorithm"<br></p>
+<p><b>Keywords:</b> Learning systems, unsupervised online learning, stochastic hill climbing, tower defence, maximize fun, video games<br></p>
 
 <p><b>Abstract:</b><br>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
@@ -44,9 +44,9 @@
 <h1 id='toc' class='notoc'>Table of contents</h1>
 
 <div>
-<a href='#table_of_figures' class='toc_1'>Table of figures</a><br>
-<a href='#table_of_tables' class='toc_1'>Table of tables</a><br>
-<a href='#preface' class='toc_1'>Preface</a><br>
+<a href='#table_of_figures' class='notoc'>Table of figures</a><br>
+<a href='#table_of_tables' class='notoc'>Table of tables</a><br>
+<a href='#preface' class='notoc'>Preface</a><br>
 <a href='#introduction' class='toc_1'>Introduction</a><br>
 <a href='#introduction_-_background' class='toc_2'>Background</a><br>
 <a href='#introduction_-_problem_statement' class='toc_2'>Problem Statement</a><br>
@@ -69,49 +69,51 @@
 </div>
 
 
-<h1 id='table_of_figures'>Table of figures</h1>
+<h1 class='notoc' id='table_of_figures'>Table of figures</h1>
 
 <div>
 </div>
 
 
-<h1 id='table_of_tables'>Table of tables</h1>
+<h1 class='notoc' id='table_of_tables'>Table of tables</h1>
+<a href='#reference_1' title='Husk class='notoc''>[1]</a>
 
 <div>
 </div>
 
 
-<h1 id='preface'>Preface</h1>
+<h1 class='notoc' id='preface'>Preface</h1>
 
 <p>
 Kanskje droppe dette kapittelet
 </p>
 
 <h1 id='introduction'>Introduction</h1>
-
 <p>
-Generelt om kapittelet introduksjon
+This chapter contains the background for why and where we believe that this project is relevant, as well as outlining a proposed solution @("Ikke ref, men kanskje annerledes wording?)
 </p>
+<a href='#reference_2' title='Generelt spørsmål til Sondre: Er det ok å gjøre det slik, at toppoverskrifter har kun info om rapporten i seg selv, og la underoverskrifter ta seg av det mer konkrete?'>[2]</a>
 
 <h2 id='introduction_-_background'>Background</h2>
 <p>
-Situasjonen rundt og hvorfor dette er viktig.<br>
-Hvor vi plasserer oss henne/Liknende arbeid<br>
-Spørsmål: Hva/Hvem skal vi sammenlikne oss med? Kjenner du til noen andre spill som gjør det samme? Jeg gjør nemlig ikke det, kun på et mer "scriptet" nivå.<br>
-- Mange spill jeg vet om har et Random-generated gameplay, vi skiller oss ut fordi vi har et også adaptivt et?
+In the world of video games (henceforth: 'games'), the quality of a game is dependant on its entertainment value, or in layman's terms, the level of 'fun' perceived among its players. <a href='#reference_3' title='Referere til noe?'>[3]</a> Since games appeal to a wide variety of players, the perceived level of fun may often vary among its players, due to personal preferences. In order to accomodote for such varying preferences, traditional games have often implemented several chosen levels of difficulty, as well as providing the player with several settings or options for how they want the game to behave. <a href='#reference_4' title='Referere til noe2?'>[4]</a> When it comes to difficulty, other work has already been done on how to scale and adapt this to the level of player, in order to make even games <a href='#reference_5' title='Referere til vårt Research Seminar paper'>[5]</a>, but in order to make a game fun, we believe that more than difficulty needs to adapt to individual preferences, thus more aspects of a game should be able to change on the fly. In this project we research whether such a game can be made. <a href='#reference_6' title='OK wording?'>[6]</a>
 </p>
 
 <h2 id='introduction_-_problem_statement'>Problem Statement</h2>
 <p>
-Problemet er at spill ikke tilpasser seg spilleren, og derfor blir spillet kjedelig. Vi ønsker å gjøre spillet mest mulig gøy.
+Our project is to undergo research towards whether it is possible to create a game, that uses an unsupervised online learning algorithm, which will adapt the game to the user's preferences based on minimal user feedback. <a href='#reference_7' title='is it in the problem to create a game itself, or is that just something we do to prove it?'>[7]</a>
 </p>
 
 <h2 id='introduction_-_problem_solution'>Problem Solution</h2>
 <p>
-Vi har tatt utgangspunkt i TD, fordi det er enkelt. Vi vil gjøre spillet tilpassende brukeren vha. noen inputs, som gir brukeren ulike spill, basert på input.
+We have chosen to create game using the tower defence genre, as this requires somewhat less work and graphics than many other genres, as well as having a lot of possible parameters that can be tweaked in order to adapt the contents of the game (henceforth: gameplay). The game uses a modified stochastic hill climbing algorithm together with some user feedback after each game, to adapt itself towards the individual player.
 </p>
 
 <h1 id='game_description'>Game Description</h1>
+
+<p>
+This chapter gives some pictures and a short description of our game, as well as some general information about the game genre, namely tower defence.
+</p>
 
 <h2 id='game_description_-_genre'>Genre</h2>
 <p>
@@ -120,11 +122,13 @@ Vi har tatt utgangspunkt i TD, fordi det er enkelt. Vi vil gjøre spillet tilpas
 
 <h2 id='game_description_-_our_game'>Our game</h2>
 <p>
-- Same as TD, but differs:<br>
-  - Adaptive gameplay and difficulty<br>
-  - Adaptive, not scripted, progression<br>
-  - Modular towers and enemies (Not pre-defined): Part of the adaptive focus, but could be used in a "Random-Generated-TD" as well, without adaption to user.
+Our game is very similar to classic tower defence games, in that the player has to stop different kinds of enemies from reaching the destination on their path, by using different kinds of towers. Our game differs from other tower defence games on the following:<br>
+- There are no scripted or static levels, since each game is a step closer towards the player's 'ideal game', that is, the game that is perceived as the most fun.<br>
+- Other than that the game learns after each level, the player has nothing that is carried over to the next game, such as tower access, special items or game progress in general. The player simply plays successive games until he or she quits.<br>
+- Modular towers and enemies. This is not necessarily new to the tower defence genre, as not all tower defence games may have pre-defined enemies and towers, but this is something that can be used in order to adapt the game towards personal preferences. <br>
+- (Guided) Randomly generated maps. Not necessarily new to the genre either, but is another useful technology that can be used to adapt the game to the player. Note that our game did not use this for game adaption, only to make the game seem less static.
 </p>
+
 
 <h1 id='system'>System</h1>
 
@@ -235,6 +239,13 @@ Dette kan bli bra i fremtiden, om vi kan ta det videre. Vi vil nok bruke det i e
 <h1 id='references'>References</h1>
 
 <div>
+<span id='reference_1'>[1] Husk class='notoc'</span><br>
+<span id='reference_2'>[2] Generelt spørsmål til Sondre: Er det ok å gjøre det slik, at toppoverskrifter har kun info om rapporten i seg selv, og la underoverskrifter ta seg av det mer konkrete?</span><br>
+<span id='reference_3'>[3] Referere til noe?</span><br>
+<span id='reference_4'>[4] Referere til noe2?</span><br>
+<span id='reference_5'>[5] Referere til vårt Research Seminar paper</span><br>
+<span id='reference_6'>[6] OK wording?</span><br>
+<span id='reference_7'>[7] is it in the problem to create a game itself, or is that just something we do to prove it?</span><br>
 </div>
 
 </body></html>

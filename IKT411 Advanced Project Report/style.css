@@ -32,6 +32,8 @@ div.appendix
 	}
 }
 
+
+
 h1, h2, h3
 {
 	page-break-after: avoid;
@@ -43,7 +45,11 @@ h1
 	counter-reset: h2 h3;
 	page-break-before: always;
 }
-
+h1.nonumber
+{
+  counter-increment: none;
+  counter-reset: none;
+}
 h2
 {
 	counter-increment: h2;
