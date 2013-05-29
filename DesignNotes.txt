@@ -1,5 +1,6 @@
 Møte
-
+- Case testing
+- abstract, 
 
 OK
 - Plotting - Pyplot? MathPlotLib
@@ -7,23 +8,13 @@ OK
 - Case testing - spillerprofiler (Parameters, vanskelig/lett)
 
 Robin
-- Pyplot
-- Skalere wave difficulty (Ta med som difficulty-parameter)
-- Bug: Pathfinding(Startpunkt endres) 
-  - Bug: Spillet henger seg. Mulig det har med Pathfinding inf loop? Flere paths til mål?
-- Save between games: gameLengthMultiplier, lastMetric, maxJumpDistance, and perhaps more.
-- Mer random tid mellom når enemies spawner. 
-- Splashscreen
-- Teste på Android
-- Sende mail med logfil
+- TD genre, algoritmen, Discussion - prior, conclusion and future work 
+- Case teste for Veldig vanskelig
 
 JV
-- Balansere, sjekke om det blir for mye earthquakes og diggers
-  - Ta ut parametere, som med HP.
-- Se på rapport.
+- Introduction, testing, Flytte Stochastic Hill Climbing, conclusion and future work notes
+- Case teste for veldig lett
 
-Done
-- Bug missile (clear), Bug formatting writetostring, cleaning,
 
 Tentative
 - MapGeneration sjanse for høyre (Difficulty)
