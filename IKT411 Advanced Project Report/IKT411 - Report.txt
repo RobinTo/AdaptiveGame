@@ -1,4 +1,4 @@
-﻿$title = Adaptive Game Difficulty
+$title = Adaptive Game Difficulty
 $authors = Jon Vegard Jansen, Robin Tollisen
 $supervisors = Sondre Glimsdal
 $course = IKT411
@@ -6,7 +6,7 @@ $semester = Spring 2013
 $place = Grimstad
 $date = 7th of June
 $status = Final
-$keywords = Learning systems, unsupervised online learning, stochastic hill climbing, tower defence, maximize fun, video games
+$keywords = E-learning, gamification, unsupervised online learning, stochastic hill climbing, maximize fun
 
 $abstract = Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
@@ -25,28 +25,61 @@ $ Table of contents | toc
 
 @tables
 
-# Preface
-
-Kanskje droppe dette kapittelet
-
 # Introduction
-This chapter contains the background for why and where we believe that this project is relevant, as well as outlining a proposed solution @("Ikke ref, men kanskje annerledes wording?)
-@("Generelt spørsmål til Sondre: Er det ok å gjøre det slik, at toppoverskrifter har kun info om rapporten i seg selv, og la underoverskrifter ta seg av det mer konkrete?")
+Today, there exists more commercial video and computer games (henceforth: games) than ever before, and the number of persons owning a smart-phone or personal computer is increasing. Many students and pupils neglect their studies in favor of watching television or playing games, maybe because they consider it more fun. We believe that through the use of E-learning and gamification, which enhances traditional learning methods with elements from games, it is possible to make any learning process more fun, resulting in more interested students and better grades.
 
-Motivasjon med en gang. nevne elæring, gamification.
+As each student is unique, we believe that they also have different learning methods that work best for them, which is why we have chosen to look into adaptive games. In this project we research whether a game can be made, such that it adapts to each player on the fly.
 
 ## Background
-In the world of video games (henceforth: 'games'), the quality of a game is dependant on its entertainment value, or in layman's terms, the level of 'fun' perceived among its players. @("Referere til noe?") Since games appeal to a wide variety of players, the perceived level of fun may often vary among its players, due to personal preferences. In order to accomodote for such varying preferences, traditional games have often implemented several chosen levels of difficulty, as well as providing the player with several settings or options for how they want the game to behave. @("Referere til noe2?") When it comes to difficulty, other work has already been done on how to scale and adapt this to the level of player, in order to make even games @("Referere til vårt Research Seminar paper"), but in order to make a game fun, we believe that more than difficulty needs to adapt to individual preferences, thus more aspects of a game should be able to change on the fly. In this project we research whether such a game can be made. @("OK wording?")
+A lot of research has already been done on the area of E-learning, and there exists multiple definitions. We have chosen to use the following one, because it emphasizes the individual student, which goes hand in hand with individual adaption of application.
+
+<i>"We will call e-Learning all forms of electronic supported learning and teaching, which ... aim to effect the construction of knowledge with reference to individual experience, practive and knowledge of the learner..."</i> @("Tavangarian, D., Leypold, M. E., Nölting, K., Röser, M., & Voigt, D. (2004). Is e-learning the Solution for Individual Learning. <i>Electronic Journal of E-learning</i>, 2(2), 273-280.").
+
+Gamification is a concept that has been around for a long time, and has increased with popularity since 2010. @("Marczewski, A. (2012). <i>Gamification: A Simple Introduction.</i> Andrzej Marczewski.") @("Zichermann, G., & Cunningham, C. (2011). <i>Gamification by design: Implementing game mechanics in web and mobile apps.</i> O'Reilly Media."). We present the two following definitions, as we think both of them show that gamification can be used well in conjunction with E-learning.
+ 
+<i>"The process of game-thinking and game mechanics to engage users and solve problems."</i> @("Zichermann, G., & Cunningham, C. (2011). <i>Gamification by design: Implementing game mechanics in web and mobile apps.</i> O'Reilly Media.").<br/>
+<br/>
+<i>"A process of enhancing a service with affordances for gameful experiences in order to support user's overall value creation."</i> @("Huotari, K., & Hamari, J. (2012, October). Defining gamification: a service marketing perspective. In <i>Proceeding of the 16th International Academic MindTrek Conference</i> (pp. 17-22). ACM.").
+
+The latter definition is directed towards service marketing, but if one reads 'service' as 'learning process' and 'user's overall value creation' as 'learning outcomes', we believe that gamification is something that could be used together with both tradition learning methods and E-learning.
+
+If one is to create a game that is meant for learning purposes, it is important to note that the game needs to be fun. @("Zichermann, G., & Cunningham, C. (2011). <i>Gamification by design: Implementing game mechanics in web and mobile apps.</i> O'Reilly Media."). If a game is not fun, it will not be able to educate either, because players lose interest in games the same way as students lose interest lectures, should they be boring. This is why it is important to figure out how it is possible to maximize the fun in any kind of game, thus keeping the interest of players. Since games appeal to a wide variety of players, the perceived level of fun may often vary among its players, due to personal preferences. In order to accomodote for such varying preferences, traditional games have often implemented several levels of difficulty the player may choose from, as well as providing the player with several settings or options for how they want the game to behave. When it comes to difficulty, other work has already been done on how to scale and adapt this to the level of player, in order to make even games, but in order to make a game fun, we believe that more than difficulty needs to adapt to individual preferences, thus more aspects of a game should be able to change on the fly. @("Spronck, P., Sprinkhuizen-Kuyper, I., & Postma, E. (2004). Difficulty scaling of game AI. In <i>Proceedings of the 5th International Conference on Intelligent Games and Simulation (GAME-ON 2004)</i> (pp. 33-37).").
 
 ## Problem Statement
-Our project is to undergo research towards whether it is possible to create a game, that uses an unsupervised online learning algorithm, which will adapt the game to the user's preferences based on minimal user feedback. @("is it in the problem to create a game itself, or is that just something we do to prove it?")
+Our project is to research whether it is possible to create a game, that uses an unsupervised online learning algorithm, which will adapt the game to the user's preferences based on limited user feedback.
 
 ## Problem Solution
-We have chosen to create game using the tower defence genre, as this requires somewhat less work and graphics than many other genres, as well as having a lot of possible parameters that can be tweaked in order to adapt the contents of the game (henceforth: gameplay). The game uses a modified stochastic hill climbing algorithm together with some user feedback after each game, to adapt itself towards the individual player.
+We have chosen to create a game using the tower defence genre, as this requires somewhat less work and graphics than many other genres, as well as having a lot of possible parameters that can be tweaked in order to adapt the contents of the game (henceforth: gameplay). The game uses a modified stochastic hill climbing algorithm together with some user feedback after each game, to adapt itself towards the individual player.
+
+# Stochastic hill climbing
+
+A hill climbing algorithm "is a mathematical optimization technique which belongs to the family of local search" @("http://en.wikipedia.org/wiki/Hill_climbing") ikke wiki
+It tries to maximize a function f(X), where X is a vector of parameters or values, and changes one, or in our case: all, of the mentioned parameters in a particular direction, checks if this is an improvement on f(X). If it is, then it keeps the current values, and repeats the process. If the new values are not an improvement of the old ones, the algorithm discards the new values, and fetches the old ones, before repeating the process. The process is repeated until no more improvements can be found, thus the algorithm has found a local maximum.
+
+One issue with this algorithm, is that it can become stuck on a local maximum, which may not be the global maximum. One way to reduce the probability of this to happen, is to allow the algorithm to jump larger distances each jump.
+
+There are several variants of hill climbing algorithms, and they have different ways of deciding where and when to jump. Two examples are the simple hill climbing algorithm and the steepest ascent hill climbing algorithm. The simple hill climbing algorithm examines new positions in a particular order, and jumps to the first one that is an improvement over the old one, while the steepest ascent algorithm first examines all possible positions, and then jumps to the best one. The stochastic hill climbing algorithm, on the other hand, chooses a position at random, then evaluates whether it is an improvement, and if it is, jumps to the new position.
+
+With stochastic hill climbing, it may be wise to set a specific maximum jump distance, and let this decrease over time. This allows the algorithm to converge or settle on a position after some time.
+
+## Stochastic hill climbing example
+
+Here is an example for how to use stochastic hill climbing for how to find the maximum value of the function <MATH>f(X) = 2 - x<sup>2</sup> </MATH>. which has a maximum value of 2. We initialize the maximum jump distance (in x-direction) to a value of 1.0, and let this decrease by 0.1 with each jump.
+
+Bilde bla bla, se her verdier
+start: 0, hopp til -1, nei, topp til 0.7, ja. hopp til 1.5, ja. hopp til 1.2, nei. ghopp til 1.8, ja. hopp til 1.9, ja. hopp til 1.5, nei. hopp til 2, ja. hopp til noe mer? Nei, men fortsetter likevel.
+
+As you can see, after some time, the algorithm should be able to land at a value close to 2. While it may be difficult to land exactly on 2, it may be acceptable that algorithm is able to land in an approximate area around 2.
 
 # Game Description
 
 This chapter gives some pictures and a short description of our game, as well as some general information about the game genre, namely tower defence.
+
+# Vår algoritme
+
+As you can 
+
+If else when then so do stuff and dont sit there.
 
 ## Genre
 - Om TD generelt
@@ -58,92 +91,19 @@ Our game is very similar to classic tower defence games, in that the player has 
 - Modular towers and enemies. This is not necessarily new to the tower defence genre, as not all tower defence games may have pre-defined enemies and towers, but this is something that can be used in order to adapt the game towards personal preferences. 
 - (Guided) Randomly generated maps. Not necessarily new to the genre either, but is another useful technology that can be used to adapt the game to the player. Note that our game did not use this for game adaption, only to make the game seem less static.
 
-
-# System
-
-Vi har følgende:
-- Sensors --> PlayerLevel
-- Feedback --> Metric for jump
-- Parameters: What changes the game
-- Relations: How parameters are changed i forhold til hverandre
-
-## Sensors
-Dette er våre sensorer
-- APS
-- Lives left
-- Variety
-
-Til sammen gir dette playerlevel som vi bruker til å endre vanskelighetsgrad.
-
-## Feedback
-Vi tar imot input fra brukeren slik. Se bildet.
-Happy og GoodDifficulty.
-Metrikk regnes ut slik og slik.
-
-## Parameters
-
-Vi endrer på parameterene våre i forhold til om de skal endre vanskelighetsgrad eller kun endre gameplay.
-- Difficulty: Global HP
-- Gameplay only: The rest.
-
-Dette er parameterene våre som vi endrer på, inkludert formler.
-- Global HP: Metrick.f+0das f+dsaf43o
-- Global Speed: 2x +54ifjd + gfd3
--
--
--
--
--
--
-- Etc
-
-## Relations
-
-Våre relasjoner er enten: Dvs. at om den ene endres, må den andre også endres.
-- Inverse proportional
-- Proportional
-
-De har også en impact factor, som bestemmer hvor mye de skal påvirke hverandre.
-
-Vi burde cappe (HUSK HUSK)
-
-Inverse
-Global HP - Global Speed
-Proportional
-Build cost - Sell value
-
-# Jumping
-
-This chapter describes the modified stochastic hill climbing algorithm, that we use for unsupervised online learning. First we present it in general, without modifications, for solving a more simple two-dimensional problem.
-
-## Stochastic hill climbing
-
-A hill climbing algorithm "is a mathematical optimization technique which belongs to the family of local search" @("http://en.wikipedia.org/wiki/Hill_climbing")
-It tries to maximize a function f(X), where X is a vector of parameters or values, and changes one, or in our case: all, of the mentioned parameters in a particular direction, checks if this is an improvement on f(X). If it is, then it keeps the current values, and repeats the process. If the new values are not an improvement of the old ones, the algorithm discards the new values, and fetches the old ones, before repeating the process. The process is repeated until no more improvements can be found, thus the algorithm has found a local maximum.
-
-One issue with this algorithm, is that it can become stuck on a local maximum, which may not be the global maximum. One way to reduce the probability of this to happen, is to allow the algorithm to jump larger distances each jump.
-
-There are several variants of hill climbing algorithms, and they have different ways of deciding where and when to jump. Two examples are the simple hill climbing algorithm and the steepest ascent hill climbing algorithm. The simple hill climbing algorithm examines new positions in a particular order, and jumps to the first one that is an improvement over the old one, while the steepest ascent algorithm first examines all possible positions, and then jumps to the best one. The stochastic hill climbing algorithm, on the other hand, chooses a position at random, then evaluates whether it is an improvement, and if it is, jumps to the new position.
-
-With stochastic hill climbing, it may be wise to set a specific maximum jump distance, and let this decrease over time. This allows the algorithm to converge or settle on a position after some time.
-
-### Stochastic hill climbing example
-
-Here is an example for how to use stochastic hill climbing for how to find the maximum value of the function <MATH>f(X) = 2 - x<sup>2</sup> </MATH>. which has a maximum value of 2. We initialize the maximum jump distance (in x-direction) to a value of 1.0, and let this decrease by 0.1 with each jump.
-
-Bilde bla bla, se her verdier
-start: 0, hopp til -1, nei, topp til 0.7, ja. hopp til 1.5, ja. hopp til 1.2, nei. ghopp til 1.8, ja. hopp til 1.9, ja. hopp til 1.5, nei. hopp til 2, ja. hopp til noe mer? Nei, men fortsetter likevel.
-
-As you can see, after some time, the algorithm should be able to land at a value close to 2. While it may be difficult to land exactly on 2, it may be acceptable that algorithm is able to land in an approximate area around 2.
-
-## Vår algoritme
-
-As you can 
-
-If else when then so do stuff and dont sit there.
-
 # Testing
-Vi testet spillet på 5 forskj. brukere som er ulike. Disse syntes spillet vårt var ca 1000 gøy, noe som er med på å bygge under at dette var en stor suksess. De nevnte en del mangler med spillet, men det er litt irrelevant, fordi det var ikke nettopp det vi har lagt vekt på i problem statement.
+Our testing is split into two parts. The first part contains two case tests of the algorithm, and the second part contains tests from our fellow students and friends.
+
+## Case tests
+This is how our algorithm performed.
+
+## Fun tests
+After we finished the game, it was mainly sent to friends at the university. They were told to test the game for as long as they wanted, and when they were finished, they sent us a logfile containing some information about their games. They were also asked to rate how fun they thought the game was in total.
+
+As you can see in the table, the game was rated on average. ....gfdlgdfg. Which is not exceptionally fun, but not boring either.
+
+
+
 
 # Discussion
 Gode ting er nettopp at det hele funket.
@@ -152,6 +112,16 @@ TD er kanskje ikke beste sjangeren.
 
 # Conclusion
 Dette kan bli bra i fremtiden, om vi kan ta det videre. Vi vil nok bruke det i en annen spillsjanger, hvor vi ser mer forskjell.
+
+
+
+JVs notes on future
+- e-learning with individual adaption
+- try it out on another game, in other genre
+- spillet: Gjøre noe med diggers, earthquakes.
+- Bedre grafikk i spillet, utvide content
+- Guide søket til algoritmen
+
 
 # References
 

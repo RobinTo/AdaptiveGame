@@ -1,28 +1,14 @@
-Møte
-- Case testing
-- abstract, 
-
-OK
-- Plotting - Pyplot? MathPlotLib
-- OK Måte å teste på (Erfaring, fun, antall spill) . ja
-- Case testing - spillerprofiler (Parameters, vanskelig/lett)
 
 Robin
 - TD genre, algoritmen, Discussion - prior, conclusion and future work 
 - Case teste for Veldig vanskelig
 
 JV
-- Introduction, testing, Flytte Stochastic Hill Climbing, conclusion and future work notes
+- testing, conclusion and future work notes
 - Case teste for veldig lett
 
 
-Tentative
-- MapGeneration sjanse for høyre (Difficulty)
-- Tower Damage displayed i gult vindu
-- Knapp til pause for android
-- Liste over hotkeys
-- Better SuperShieldGraphics (Maybe with a timer)
-- Skrive på tårntekst over tårn / Gult vindu på UI-valgte tårn
-- Egen plass for gult vindu
-- Stats list for player
-- Select Tower Visuell markering rundt tile.
+
+
+
+

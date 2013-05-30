@@ -36,7 +36,7 @@
 </p>
 
 <p style='text-align: center'>Status: Final</p>
-<p><b>Keywords:</b> Learning systems, unsupervised online learning, stochastic hill climbing, tower defence, maximize fun, video games<br></p>
+<p><b>Keywords:</b> E-learning, gamification, unsupervised online learning, stochastic hill climbing, maximize fun<br></p>
 
 <p><b>Abstract:</b><br>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
@@ -46,24 +46,19 @@
 <div>
 <a href='#table_of_figures' class='toc_1'>Table of figures</a><br>
 <a href='#table_of_tables' class='toc_1'>Table of tables</a><br>
-<a href='#preface' class='toc_1'>Preface</a><br>
 <a href='#introduction' class='toc_1'>Introduction</a><br>
 <a href='#introduction_-_background' class='toc_2'>Background</a><br>
 <a href='#introduction_-_problem_statement' class='toc_2'>Problem Statement</a><br>
 <a href='#introduction_-_problem_solution' class='toc_2'>Problem Solution</a><br>
+<a href='#stochastic_hill_climbing' class='toc_1'>Stochastic hill climbing</a><br>
+<a href='#stochastic_hill_climbing_-_stochastic_hill_climbing_example' class='toc_2'>Stochastic hill climbing example</a><br>
 <a href='#game_description' class='toc_1'>Game Description</a><br>
-<a href='#game_description_-_genre' class='toc_2'>Genre</a><br>
-<a href='#game_description_-_our_game' class='toc_2'>Our game</a><br>
-<a href='#system' class='toc_1'>System</a><br>
-<a href='#system_-_sensors' class='toc_2'>Sensors</a><br>
-<a href='#system_-_feedback' class='toc_2'>Feedback</a><br>
-<a href='#system_-_parameters' class='toc_2'>Parameters</a><br>
-<a href='#system_-_relations' class='toc_2'>Relations</a><br>
-<a href='#jumping' class='toc_1'>Jumping</a><br>
-<a href='#jumping_-_stochastic_hill_climbing' class='toc_2'>Stochastic hill climbing</a><br>
-<a href='#jumping_-_stochastic_hill_climbing_-_stochastic_hill_climbing_example' class='toc_3'>Stochastic hill climbing example</a><br>
-<a href='#jumping_-_v_r_algoritme' class='toc_2'>Vår algoritme</a><br>
+<a href='#v_r_algoritme' class='toc_1'>Vår algoritme</a><br>
+<a href='#v_r_algoritme_-_genre' class='toc_2'>Genre</a><br>
+<a href='#v_r_algoritme_-_our_game' class='toc_2'>Our game</a><br>
 <a href='#testing' class='toc_1'>Testing</a><br>
+<a href='#testing_-_case_tests' class='toc_2'>Case tests</a><br>
+<a href='#testing_-_fun_tests' class='toc_2'>Fun tests</a><br>
 <a href='#discussion' class='toc_1'>Discussion</a><br>
 <a href='#conclusion' class='toc_1'>Conclusion</a><br>
 <a href='#references' class='toc_1'>References</a><br>
@@ -83,139 +78,52 @@
 </div>
 
 
-<h1 id='preface'>Preface</h1>
-
-<p>
-Kanskje droppe dette kapittelet
-</p>
-
 <h1 id='introduction'>Introduction</h1>
 <p>
-This chapter contains the background for why and where we believe that this project is relevant, as well as outlining a proposed solution @("Ikke ref, men kanskje annerledes wording?)
+Today, there exists more commercial video and computer games (henceforth: games) than ever before, and the number of persons owning a smart-phone or personal computer is increasing. Many students and pupils neglect their studies in favor of watching television or playing games, maybe because they consider it more fun. We believe that through the use of E-learning and gamification, which enhances traditional learning methods with elements from games, it is possible to make any learning process more fun, resulting in more interested students and better grades.
 </p>
-<a href='#reference_2' title='Generelt spørsmål til Sondre: Er det ok å gjøre det slik, at toppoverskrifter har kun info om rapporten i seg selv, og la underoverskrifter ta seg av det mer konkrete?'>[2]</a>
+
+<p>
+As each student is unique, we believe that they also have different learning methods that work best for them, which is why we have chosen to look into adaptive games. In this project we research whether a game can be made, such that it adapts to each player on the fly.
+</p>
 
 <h2 id='introduction_-_background'>Background</h2>
 <p>
-In the world of video games (henceforth: 'games'), the quality of a game is dependant on its entertainment value, or in layman's terms, the level of 'fun' perceived among its players. <a href='#reference_3' title='Referere til noe?'>[3]</a> Since games appeal to a wide variety of players, the perceived level of fun may often vary among its players, due to personal preferences. In order to accomodote for such varying preferences, traditional games have often implemented several chosen levels of difficulty, as well as providing the player with several settings or options for how they want the game to behave. <a href='#reference_4' title='Referere til noe2?'>[4]</a> When it comes to difficulty, other work has already been done on how to scale and adapt this to the level of player, in order to make even games <a href='#reference_5' title='Referere til vårt Research Seminar paper'>[5]</a>, but in order to make a game fun, we believe that more than difficulty needs to adapt to individual preferences, thus more aspects of a game should be able to change on the fly. In this project we research whether such a game can be made. <a href='#reference_6' title='OK wording?'>[6]</a>
+A lot of research has already been done on the area of E-learning, and there exists multiple definitions. We have chosen to use the following one, because it emphasizes the individual student, which goes hand in hand with individual adaption of application.
+</p>
+
+<i>"We will call e-Learning all forms of electronic supported learning and teaching, which ... aim to effect the construction of knowledge with reference to individual experience, practive and knowledge of the learner..."</i> <a href='#reference_2' title='Tavangarian, D., Leypold, M. E., Nölting, K., Röser, M., & Voigt, D. (2004). Is e-learning the Solution for Individual Learning. <i>Electronic Journal of E-learning</i>, 2(2), 273-280.'>[2]</a>.
+
+<p>
+Gamification is a concept that has been around for a long time, and has increased with popularity since 2010. <a href='#reference_3' title='Marczewski, A. (2012). <i>Gamification: A Simple Introduction.</i> Andrzej Marczewski.'>[3]</a> <a href='#reference_4' title='Zichermann, G., & Cunningham, C. (2011). <i>Gamification by design: Implementing game mechanics in web and mobile apps.</i> O'Reilly Media.'>[4]</a>. We present the two following definitions, as we think both of them show that gamification can be used well in conjunction with E-learning.
+</p>
+ 
+<i>"The process of game-thinking and game mechanics to engage users and solve problems."</i> <a href='#reference_4' title='Zichermann, G., & Cunningham, C. (2011). <i>Gamification by design: Implementing game mechanics in web and mobile apps.</i> O'Reilly Media.'>[4]</a>.<br/>
+<br/>
+<i>"A process of enhancing a service with affordances for gameful experiences in order to support user's overall value creation."</i> <a href='#reference_5' title='Huotari, K., & Hamari, J. (2012, October). Defining gamification: a service marketing perspective. In <i>Proceeding of the 16th International Academic MindTrek Conference</i> (pp. 17-22). ACM.'>[5]</a>.
+
+<p>
+The latter definition is directed towards service marketing, but if one reads 'service' as 'learning process' and 'user's overall value creation' as 'learning outcomes', we believe that gamification is something that could be used together with both tradition learning methods and E-learning.
+</p>
+
+<p>
+If one is to create a game that is meant for learning purposes, it is important to note that the game needs to be fun. <a href='#reference_4' title='Zichermann, G., & Cunningham, C. (2011). <i>Gamification by design: Implementing game mechanics in web and mobile apps.</i> O'Reilly Media.'>[4]</a>. If a game is not fun, it will not be able to educate either, because players lose interest in games the same way as students lose interest lectures, should they be boring. This is why it is important to figure out how it is possible to maximize the fun in any kind of game, thus keeping the interest of players. Since games appeal to a wide variety of players, the perceived level of fun may often vary among its players, due to personal preferences. In order to accomodote for such varying preferences, traditional games have often implemented several levels of difficulty the player may choose from, as well as providing the player with several settings or options for how they want the game to behave. When it comes to difficulty, other work has already been done on how to scale and adapt this to the level of player, in order to make even games, but in order to make a game fun, we believe that more than difficulty needs to adapt to individual preferences, thus more aspects of a game should be able to change on the fly. <a href='#reference_6' title='Spronck, P., Sprinkhuizen-Kuyper, I., & Postma, E. (2004). Difficulty scaling of game AI. In <i>Proceedings of the 5th International Conference on Intelligent Games and Simulation (GAME-ON 2004)</i> (pp. 33-37).'>[6]</a>.
 </p>
 
 <h2 id='introduction_-_problem_statement'>Problem Statement</h2>
 <p>
-Our project is to undergo research towards whether it is possible to create a game, that uses an unsupervised online learning algorithm, which will adapt the game to the user's preferences based on minimal user feedback. <a href='#reference_7' title='is it in the problem to create a game itself, or is that just something we do to prove it?'>[7]</a>
+Our project is to research whether it is possible to create a game, that uses an unsupervised online learning algorithm, which will adapt the game to the user's preferences based on limited user feedback.
 </p>
 
 <h2 id='introduction_-_problem_solution'>Problem Solution</h2>
 <p>
-We have chosen to create game using the tower defence genre, as this requires somewhat less work and graphics than many other genres, as well as having a lot of possible parameters that can be tweaked in order to adapt the contents of the game (henceforth: gameplay). The game uses a modified stochastic hill climbing algorithm together with some user feedback after each game, to adapt itself towards the individual player.
+We have chosen to create a game using the tower defence genre, as this requires somewhat less work and graphics than many other genres, as well as having a lot of possible parameters that can be tweaked in order to adapt the contents of the game (henceforth: gameplay). The game uses a modified stochastic hill climbing algorithm together with some user feedback after each game, to adapt itself towards the individual player.
 </p>
 
-<h1 id='game_description'>Game Description</h1>
+<h1 id='stochastic_hill_climbing'>Stochastic hill climbing</h1>
 
 <p>
-This chapter gives some pictures and a short description of our game, as well as some general information about the game genre, namely tower defence.
-</p>
-
-<h2 id='game_description_-_genre'>Genre</h2>
-<p>
-- Om TD generelt
-</p>
-
-<h2 id='game_description_-_our_game'>Our game</h2>
-<p>
-Our game is very similar to classic tower defence games, in that the player has to stop different kinds of enemies from reaching the destination on their path, by using different kinds of towers. Our game differs from other tower defence games on the following:<br>
-- There are no scripted or static levels, since each game is a step closer towards the player's 'ideal game', that is, the game that is perceived as the most fun.<br>
-- Other than that the game learns after each level, the player has nothing that is carried over to the next game, such as tower access, special items or game progress in general. The player simply plays successive games until he or she quits.<br>
-- Modular towers and enemies. This is not necessarily new to the tower defence genre, as not all tower defence games may have pre-defined enemies and towers, but this is something that can be used in order to adapt the game towards personal preferences. <br>
-- (Guided) Randomly generated maps. Not necessarily new to the genre either, but is another useful technology that can be used to adapt the game to the player. Note that our game did not use this for game adaption, only to make the game seem less static.
-</p>
-
-
-<h1 id='system'>System</h1>
-
-<p>
-Vi har følgende:<br>
-- Sensors --> PlayerLevel<br>
-- Feedback --> Metric for jump<br>
-- Parameters: What changes the game<br>
-- Relations: How parameters are changed i forhold til hverandre
-</p>
-
-<h2 id='system_-_sensors'>Sensors</h2>
-<p>
-Dette er våre sensorer<br>
-- APS<br>
-- Lives left<br>
-- Variety
-</p>
-
-<p>
-Til sammen gir dette playerlevel som vi bruker til å endre vanskelighetsgrad.
-</p>
-
-<h2 id='system_-_feedback'>Feedback</h2>
-<p>
-Vi tar imot input fra brukeren slik. Se bildet.<br>
-Happy og GoodDifficulty.<br>
-Metrikk regnes ut slik og slik.
-</p>
-
-<h2 id='system_-_parameters'>Parameters</h2>
-
-<p>
-Vi endrer på parameterene våre i forhold til om de skal endre vanskelighetsgrad eller kun endre gameplay.<br>
-- Difficulty: Global HP<br>
-- Gameplay only: The rest.
-</p>
-
-<p>
-Dette er parameterene våre som vi endrer på, inkludert formler.<br>
-- Global HP: Metrick.f+0das f+dsaf43o<br>
-- Global Speed: 2x +54ifjd + gfd3
-</p>
--
--
--
--
--
--
-<p>
-- Etc
-</p>
-
-<h2 id='system_-_relations'>Relations</h2>
-
-<p>
-Våre relasjoner er enten: Dvs. at om den ene endres, må den andre også endres.<br>
-- Inverse proportional<br>
-- Proportional
-</p>
-
-<p>
-De har også en impact factor, som bestemmer hvor mye de skal påvirke hverandre.
-</p>
-
-<p>
-Vi burde cappe (HUSK HUSK)
-</p>
-
-<p>
-Inverse<br>
-Global HP - Global Speed<br>
-Proportional<br>
-Build cost - Sell value
-</p>
-
-<h1 id='jumping'>Jumping</h1>
-
-<p>
-This chapter describes the modified stochastic hill climbing algorithm, that we use for unsupervised online learning. First we present it in general, without modifications, for solving a more simple two-dimensional problem.
-</p>
-
-<h2 id='jumping_-_stochastic_hill_climbing'>Stochastic hill climbing</h2>
-
-<p>
-A hill climbing algorithm "is a mathematical optimization technique which belongs to the family of local search" <a href="http://en.wikipedia.org/wiki/Hill_climbing">[8]</a><br>
+A hill climbing algorithm "is a mathematical optimization technique which belongs to the family of local search" <a href="http://en.wikipedia.org/wiki/Hill_climbing">[7]</a> ikke wiki<br>
 It tries to maximize a function f(X), where X is a vector of parameters or values, and changes one, or in our case: all, of the mentioned parameters in a particular direction, checks if this is an improvement on f(X). If it is, then it keeps the current values, and repeats the process. If the new values are not an improvement of the old ones, the algorithm discards the new values, and fetches the old ones, before repeating the process. The process is repeated until no more improvements can be found, thus the algorithm has found a local maximum.
 </p>
 
@@ -231,7 +139,7 @@ There are several variants of hill climbing algorithms, and they have different 
 With stochastic hill climbing, it may be wise to set a specific maximum jump distance, and let this decrease over time. This allows the algorithm to converge or settle on a position after some time.
 </p>
 
-<h3 id='jumping_-_stochastic_hill_climbing_-_stochastic_hill_climbing_example'>Stochastic hill climbing example</h3>
+<h2 id='stochastic_hill_climbing_-_stochastic_hill_climbing_example'>Stochastic hill climbing example</h2>
 
 <p>
 Here is an example for how to use stochastic hill climbing for how to find the maximum value of the function <MATH>f(X) = 2 - x<sup>2</sup> </MATH>. which has a maximum value of 2. We initialize the maximum jump distance (in x-direction) to a value of 1.0, and let this decrease by 0.1 with each jump.
@@ -246,24 +154,57 @@ start: 0, hopp til -1, nei, topp til 0.7, ja. hopp til 1.5, ja. hopp til 1.2, ne
 As you can see, after some time, the algorithm should be able to land at a value close to 2. While it may be difficult to land exactly on 2, it may be acceptable that algorithm is able to land in an approximate area around 2.
 </p>
 
-<h2 id='jumping_-_v_r_algoritme'>Vår algoritme</h2>
+<h1 id='game_description'>Game Description</h1>
+
+<p>
+This chapter gives some pictures and a short description of our game, as well as some general information about the game genre, namely tower defence.
+</p>
+
+<h1 id='v_r_algoritme'>Vår algoritme</h1>
 
 <p>
 As you can 
 </p>
 
-<MATH>&int;<SUB>a</SUB><SUP>b</SUP><BOX>f(x)<ABOVE>1+x</BOX> dx</MATH>
-
-
-
 <p>
 If else when then so do stuff and dont sit there.
 </p>
 
+<h2 id='v_r_algoritme_-_genre'>Genre</h2>
+<p>
+- Om TD generelt
+</p>
+
+<h2 id='v_r_algoritme_-_our_game'>Our game</h2>
+<p>
+Our game is very similar to classic tower defence games, in that the player has to stop different kinds of enemies from reaching the destination on their path, by using different kinds of towers. Our game differs from other tower defence games on the following:<br>
+- There are no scripted or static levels, since each game is a step closer towards the player's 'ideal game', that is, the game that is perceived as the most fun.<br>
+- Other than that the game learns after each level, the player has nothing that is carried over to the next game, such as tower access, special items or game progress in general. The player simply plays successive games until he or she quits.<br>
+- Modular towers and enemies. This is not necessarily new to the tower defence genre, as not all tower defence games may have pre-defined enemies and towers, but this is something that can be used in order to adapt the game towards personal preferences. <br>
+- (Guided) Randomly generated maps. Not necessarily new to the genre either, but is another useful technology that can be used to adapt the game to the player. Note that our game did not use this for game adaption, only to make the game seem less static.
+</p>
+
 <h1 id='testing'>Testing</h1>
 <p>
-Vi testet spillet på 5 forskj. brukere som er ulike. Disse syntes spillet vårt var ca 1000 gøy, noe som er med på å bygge under at dette var en stor suksess. De nevnte en del mangler med spillet, men det er litt irrelevant, fordi det var ikke nettopp det vi har lagt vekt på i problem statement.
+Our testing is split into two parts. The first part contains two case tests of the algorithm, and the second part contains tests from our fellow students and friends.
 </p>
+
+<h2 id='testing_-_case_tests'>Case tests</h2>
+<p>
+This is how our algorithm performed.
+</p>
+
+<h2 id='testing_-_fun_tests'>Fun tests</h2>
+<p>
+After we finished the game, it was mainly sent to friends at the university. They were told to test the game for as long as they wanted, and when they were finished, they sent us a logfile containing some information about their games. They were also asked to rate how fun they thought the game was in total.
+</p>
+
+<p>
+As you can see in the table, the game was rated on average. ....gfdlgdfg. Which is not exceptionally fun, but not boring either.
+</p>
+
+
+
 
 <h1 id='discussion'>Discussion</h1>
 <p>
@@ -277,17 +218,32 @@ TD er kanskje ikke beste sjangeren.
 Dette kan bli bra i fremtiden, om vi kan ta det videre. Vi vil nok bruke det i en annen spillsjanger, hvor vi ser mer forskjell.
 </p>
 
+
+
+<p>
+JVs notes on future<br>
+- e-learning with individual adaption<br>
+- try it out on another game, in other genre<br>
+- spillet: Gjøre noe med diggers, earthquakes.<br>
+- Bedre grafikk i spillet, utvide content<br>
+- Guide søket til algoritmen
+</p>
+
+
 <h1 id='references'>References</h1>
+
+<p>
+IEEE, ACM, Springer
+</p>
 
 <div>
 <span id='reference_1'>[1] Husk class='notoc'</span><br>
-<span id='reference_2'>[2] Generelt spørsmål til Sondre: Er det ok å gjøre det slik, at toppoverskrifter har kun info om rapporten i seg selv, og la underoverskrifter ta seg av det mer konkrete?</span><br>
-<span id='reference_3'>[3] Referere til noe?</span><br>
-<span id='reference_4'>[4] Referere til noe2?</span><br>
-<span id='reference_5'>[5] Referere til vårt Research Seminar paper</span><br>
-<span id='reference_6'>[6] OK wording?</span><br>
-<span id='reference_7'>[7] is it in the problem to create a game itself, or is that just something we do to prove it?</span><br>
-<a id='reference_8' href="http://en.wikipedia.org/wiki/Hill_climbing">[8] http://en.wikipedia.org/wiki/Hill_climbing</a><br>
+<span id='reference_2'>[2] Tavangarian, D., Leypold, M. E., Nölting, K., Röser, M., & Voigt, D. (2004). Is e-learning the Solution for Individual Learning. <i>Electronic Journal of E-learning</i>, 2(2), 273-280.</span><br>
+<span id='reference_3'>[3] Marczewski, A. (2012). <i>Gamification: A Simple Introduction.</i> Andrzej Marczewski.</span><br>
+<span id='reference_4'>[4] Zichermann, G., & Cunningham, C. (2011). <i>Gamification by design: Implementing game mechanics in web and mobile apps.</i> O'Reilly Media.</span><br>
+<span id='reference_5'>[5] Huotari, K., & Hamari, J. (2012, October). Defining gamification: a service marketing perspective. In <i>Proceeding of the 16th International Academic MindTrek Conference</i> (pp. 17-22). ACM.</span><br>
+<span id='reference_6'>[6] Spronck, P., Sprinkhuizen-Kuyper, I., & Postma, E. (2004). Difficulty scaling of game AI. In <i>Proceedings of the 5th International Conference on Intelligent Games and Simulation (GAME-ON 2004)</i> (pp. 33-37).</span><br>
+<a id='reference_7' href="http://en.wikipedia.org/wiki/Hill_climbing">[7] http://en.wikipedia.org/wiki/Hill_climbing</a><br>
 </div>
 
 </body></html>
