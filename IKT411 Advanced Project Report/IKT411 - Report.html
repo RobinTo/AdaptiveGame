@@ -68,6 +68,9 @@
 <h1 id='table_of_figures'>Table of figures</h1>
 
 <div>
+<a href='#hclocalmaximum' class='figtoc'>A function that has a local maximum</a><br>
+<a href='#hcflat' class='figtoc'>A function that is too flat to search on</a><br>
+<a href='#hcsteep' class='figtoc'>A function that is very steep</a><br>
 </div>
 
 
@@ -123,26 +126,25 @@ We have chosen to create a game using the tower defence genre, as this requires 
 <h1 id='stochastic_hill_climbing'>Stochastic hill climbing</h1>
 
 <p>
-A hill climbing algorithm "is a mathematical optimization technique which belongs to the family of local search" <a href="http://en.wikipedia.org/wiki/Hill_climbing">[7]</a> ikke wiki<br>
-It tries to maximize a function f(X), where X is a vector of parameters or values, and changes one, or in our case: all, of the mentioned parameters in a particular direction, checks if this is an improvement on f(X). If it is, then it keeps the current values, and repeats the process. If the new values are not an improvement of the old ones, the algorithm discards the new values, and fetches the old ones, before repeating the process. The process is repeated until no more improvements can be found, thus the algorithm has found a local maximum.
+A hill climbing algorithm is an iterative improvement algorithm, searching for a local maximum. It tries to maximize a function f(X), where X could be a node, state, position or, in our case, a vector of parameters. It compares neighboring nodes to the one it is standing on, and checks if they are an improvement on f(X). If one of the other nodes is improving the situation, then the algorithm moves to the new node, commonly the best node, and repeats the process. The process is repeated until no more improvements can be found, thus the algorithm has found a local maximum. <a href='#reference_7' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[7]</a>
+</p>
+
+<div id='hclocalmaximum' class='figure'><img src='Hill_Climbing_Local_Maximum.png' alt='A function that has a local maximum' title='A function that has a local maximum'><div class='caption'>A function that has a local maximum</div></div>
+<div id='hcflat' class='figure'><img src='Hill_Climbing_Flat.png' alt='A function that is too flat to search on' title='A function that is too flat to search on'><div class='caption'>A function that is too flat to search on</div></div>
+<div id='hcsteep' class='figure'><img src='Hill_Climbing_Steep.png' alt='A function that is very steep' title='A function that is very steep'><div class='caption'>A function that is very steep</div></div>
+
+<p>
+One issue with this algorithm, is that it can become stuck on a local maximum, which may not be the global maximum, as in <a href='#hclocalmaximum' class='figref'>this figure</a>. One way to reduce the probability of this to happen, is to allow the algorithm to jump larger distances each jump, or to make sure that the landscape is convex. Another issue shown by <a href='#hcflat' class='figref'>this figure</a> is that the search area may be flat, that is, each node is as good as all its neighbors. In this case, any jump will not bring any improvement. A third issue in <a href='#hcsteep' class='figref'>this figure</a> is that a node may be lying on a very steep ridge, that is, the 'area' of parameters that give a good node is very small, and can thus be hard to find. <a href='#reference_7' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[7]</a>
 </p>
 
 <p>
-One issue with this algorithm, is that it can become stuck on a local maximum, which may not be the global maximum. One way to reduce the probability of this to happen, is to allow the algorithm to jump larger distances each jump.
-</p>
-
-<p>
-There are several variants of hill climbing algorithms, and they have different ways of deciding where and when to jump. Two examples are the simple hill climbing algorithm and the steepest ascent hill climbing algorithm. The simple hill climbing algorithm examines new positions in a particular order, and jumps to the first one that is an improvement over the old one, while the steepest ascent algorithm first examines all possible positions, and then jumps to the best one. The stochastic hill climbing algorithm, on the other hand, chooses a position at random, then evaluates whether it is an improvement, and if it is, jumps to the new position.
-</p>
-
-<p>
-With stochastic hill climbing, it may be wise to set a specific maximum jump distance, and let this decrease over time. This allows the algorithm to converge or settle on a position after some time.
+There are different variants of hill climbing algorithms, with different ways of deciding where and when to jump. The stochastic hill climbing algorithm, closely resembling simulated annealing, chooses a position at random, then evaluates whether it is an improvement, and if it is, jumps to the new position. If the new position is not an improvement, it will go back to the last one. With stochastic hill climbing, it may be wise to set a specific maximum jump distance, and let this decrease over time. This allows the algorithm to converge or settle on a position after some time. <a href='#reference_7' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[7]</a>
 </p>
 
 <h2 id='stochastic_hill_climbing_-_stochastic_hill_climbing_example'>Stochastic hill climbing example</h2>
 
 <p>
-Here is an example for how to use stochastic hill climbing for how to find the maximum value of the function <MATH>f(X) = 2 - x<sup>2</sup> </MATH>. which has a maximum value of 2. We initialize the maximum jump distance (in x-direction) to a value of 1.0, and let this decrease by 0.1 with each jump.
+Here is an example for how to use stochastic hill climbing for how to find the maximum value of the function <MATH>f(X) = 2 - x <sup>2</sup> </MATH>. which has a maximum value of 2. We initialize the maximum jump distance (in x-direction) to a value of 1.0, and let this decrease by 0.1 with each jump.
 </p>
 
 <p>
@@ -243,7 +245,7 @@ IEEE, ACM, Springer
 <span id='reference_4'>[4] Zichermann, G., & Cunningham, C. (2011). <i>Gamification by design: Implementing game mechanics in web and mobile apps.</i> O'Reilly Media.</span><br>
 <span id='reference_5'>[5] Huotari, K., & Hamari, J. (2012, October). Defining gamification: a service marketing perspective. In <i>Proceeding of the 16th International Academic MindTrek Conference</i> (pp. 17-22). ACM.</span><br>
 <span id='reference_6'>[6] Spronck, P., Sprinkhuizen-Kuyper, I., & Postma, E. (2004). Difficulty scaling of game AI. In <i>Proceedings of the 5th International Conference on Intelligent Games and Simulation (GAME-ON 2004)</i> (pp. 33-37).</span><br>
-<a id='reference_7' href="http://en.wikipedia.org/wiki/Hill_climbing">[7] http://en.wikipedia.org/wiki/Hill_climbing</a><br>
+<span id='reference_7'>[7] Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall</span><br>
 </div>
 
 </body></html>

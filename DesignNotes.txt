@@ -1,14 +1,15 @@
-
 Robin
 - TD genre, algoritmen, Discussion - prior, conclusion and future work 
 - Case teste for Veldig vanskelig
+- Testing: Algoritmen
+  - OK å dele testing inn i to: Algoritme, fun?
+- Spørre testere om å gi spillet karakter før og etter.
 
 JV
-- testing, conclusion and future work notes
-- Case teste for veldig lett
-
-
-
+- Stochastic hill climbing example
+- Images for stochastic hillclimbing
+- Testing: Fun tests
+- Spørre testere om å gi spillet karakter før og etter.
 
 
 
