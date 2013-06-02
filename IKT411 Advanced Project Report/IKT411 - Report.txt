@@ -1,4 +1,4 @@
-$title = Adaptive Game Difficulty
+﻿$title = Adaptive Game Difficulty
 $authors = Jon Vegard Jansen, Robin Tollisen
 $supervisors = Sondre Glimsdal
 $course = IKT411
@@ -78,12 +78,16 @@ This chapter gives some pictures and a short description of our game, as well as
 
 # Vår algoritme
 
+Our algorithm works with a set of parameters which affects the game, these parameters are listed in @("Some Chapter"). We have done some testing and found some values for these which we think make an ok game for most people. After each game there is a questionnaire which asks "How fun was this game?" and "How difficult was this game?", which is then saved and used to create the next game. We save the value we receive in "How fun was this game?" as a metric, and use it to determine wether to jump from the current or the last game.
+
+We scale the difficulty based on certain paramteres, and "fun" based on other parameters. The parameters which fall into the category of scaling fun are related in pairs of a "positive" and a "negative parameter such that if one jumps, the other one jumps equally as much, such as to keep difficulty even. By positive parameter we mean one which when scaled up would make the game easier for the player, and a negative would make it harder for the player when scaled up.
+
 As you can 
 
 If else when then so do stuff and dont sit there.
 
 ## Genre
-- Om TD generelt
+The game we created to demonstrate our algorithm is a real-time strategy game, more precisely it would be refered to as a Tower Defense game. The goal of the game is to build tower tactically accross a map to prevent computer controlled enemies from reaching the other side.
 
 ## Our game
 Our game is very similar to classic tower defence games, in that the player has to stop different kinds of enemies from reaching the destination on their path, by using different kinds of towers. Our game differs from other tower defence games on the following:
@@ -102,18 +106,36 @@ This is how our algorithm performed.
 After we finished the game, it was mainly sent to friends at the university. They were told to test the game for as long as they wanted, and when they were finished, they sent us a logfile containing some information about their games. They were also asked to rate how fun they thought the game was in total.
 
 As you can see in the table, the game was rated on average. ....gfdlgdfg. Which is not exceptionally fun, but not boring either.
-
+f
 
 
 
 # Discussion
+
+One of the main issues with our process has been that it is hard to measure fun, it is also possible that our game in itself was not a 10/10 in fun, which can influence the results and not tell us much about the algorithm.  While our game is entertaining for a short while, it is certainly not an industry grade game. Our main feedback for how well the game worked is the ratings we get from players, and from that we are satisfied with how fun the game was perceived to be.
+
+Another problem with using the algorithm in a game is that the changes may be to subtle for a player to notice when jump distance shortens. The algortithm requires positive feedback when it goes in a direction the player likes, but if the change is not noticable the player may give it the same score and thus have a decent chance of ending up jumping from his old game.
+
+The algorithm needs to be more refined, and would work much better if we could create more specialized sensors, and do more testing as to what different results indicate about the player. If we could do stochastic hillclimbing based on metrics created by how the player is playing, on few parameters for each part of the algorithm, we believe we could get much better results. However, as this has been the first venture as far as we know into creating games which adapt based on fun, we are quite happy with our result.
+
 Gode ting er nettopp at det hele funket.
 Dårlige ting er at vi ikke kunne lage et godt nok spill, som kanskje kan ha noe å si, ettersom vår research bit er kun én del av hva som gjør et spill gøy.
 TD er kanskje ikke beste sjangeren.
 
 # Conclusion
+
+With a more refined algorithm we believe this could be highly useful in a game, however there needs to be more sensors to detect which parameters the players were satisfied with, and which he was not. There are also interesting applications for this sort of algorithm in e-learning, if we can detect how to make an e-learning game fun for a player and also scale the difficulty to their ability we may create an effective game for learning.
+
+For this initial test of such an algorithm in games we would also probably have gotten a better result choosing a simpler game than tower defense, when the game uses a stochastic hillclimbing algorithm on too many parameters it is unlikely that all will go in the direction the optimal game resides at once. Which is why as we mentioned that we should create more a more specialized algorithm which can look at very few stats and detect feedback automatically through how a player plays, rather than requiring a questionnaire at the end.
+
+
 Dette kan bli bra i fremtiden, om vi kan ta det videre. Vi vil nok bruke det i en annen spillsjanger, hvor vi ser mer forskjell.
 
+# Future Work
+
+The algorithm works ok, but it needs to be more refined. We believe that with some work refining the algorithm, and doing more testing with different sensors to see if certain feedback can be interprented to liking certain things in the game, we can create a great algorithm to maximize fun even in games with many parameters.
+
+We would like to try to implement this sort of algorithm in a game related to e-learning. Currently one of the problems with e-learning games is that they feel to much like learning and to little like games. If we could be able to create a game which can maximize the fun a player has, while also scaling the difficulty appropriately we believe we could create an effective learning tools for many skills.
 
 
 JVs notes on future
