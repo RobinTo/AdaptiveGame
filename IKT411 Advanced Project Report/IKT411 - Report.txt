@@ -1,4 +1,4 @@
-$title = Adaptive Game Difficulty
+﻿$title = Adaptive Game Difficulty
 $authors = Jon Vegard Jansen, Robin Tollisen
 $supervisors = Sondre Glimsdal
 $course = IKT411
@@ -91,11 +91,11 @@ This chapter gives some pictures and a short description of our game, as well as
 The game we created to demonstrate our algorithm is a real-time strategy game, more precisely it would be refered to as a Tower Defense game. The goal of the game is to build tower tactically accross a map to prevent computer controlled enemies from reaching the other side.
 
 ## Our game
-Our game is very similar to classic tower defence games, in that the player has to stop different kinds of enemies from reaching the destination on their path, by using different kinds of towers. Our game differs from other tower defence games on the following:
-- There are no scripted or static levels, since each game is a step closer towards the player's 'ideal game', that is, the game that is perceived as the most fun.
-- Other than that the game learns after each level, the player has nothing that is carried over to the next game, such as tower access, special items or game progress in general. The player simply plays successive games until he or she quits.
-- Modular towers and enemies. This is not necessarily new to the tower defence genre, as not all tower defence games may have pre-defined enemies and towers, but this is something that can be used in order to adapt the game towards personal preferences. 
-- (Guided) Randomly generated maps. Not necessarily new to the genre either, but is another useful technology that can be used to adapt the game to the player. Note that our game did not use this for game adaption, only to make the game seem less static.
+Our game is very similar to classic tower defence games, in that the player has to stop different kinds of enemies from reaching the destination on their path, by using different kinds of towers. Our game differs slightly from other tower defence games on several points.
+
+There are no scripted or static levels, since each game is a step closer towards the player's 'ideal game', that is, the game that is perceived as the most fun. Other than that the game learns after each level, the player has nothing that is carried over to the next game, such as tower access, special items or game progress in general. The player simply plays successive games until he or she quits.
+
+The game has modular towers and enemies. This is not necessarily new to the tower defence genre, as not all tower defence games may have pre-defined enemies and towers, but this is something that can be used in order to adapt the game towards personal preferences. (Guided) Randomly generated maps. Not necessarily new to the genre either, but is another useful technology that can be used to adapt the game to the player. Note that our game did not use this for game adaption, only to make the game seem less static.
 
 # Testing
 Our testing is split into two parts. The first part contains two case tests of the algorithm, and the second part contains tests from our fellow students and friends.
@@ -152,3 +152,136 @@ JVs notes on future
 IEEE, ACM, Springer
 
 @references
+
+
+# Appendix I - Parameters
+
+Following is a list of the parameters the game changes, and their function.
+
+<ul>
+<li>GlobalMonsterHP - Affects the HP of all enemies.</li>
+<li>TEDotDamage - Affects the damage of each tick for the damage over time tower.</li>
+<li>TEDotTicks - Affects how many ticks of damage the damage of time tower does.</li>
+<li>TESlowPercentage - Affects the amount of slow the frost tower causes to an enemy.</li>
+<li>TESlowDuration - Affects the duration of the slow from the frost tower.</li>
+<li>GlobalReloadTime - Affects reload time for all towers.</li>
+<li>TEDamage - Affects damage for all towers.</li>
+<li>GlobalBuildCost - Affects cost to build each tower.</li>
+<li>GlobalMonsterSpeed - Affects the speed of all enemies.</li>
+<li>GlobalMonsterGoldYield - Affects how much gold each enemy yields.</li>
+<li>GlobalTowerRange - Affects how far towers can shoot.</li>
+<li>DiggerChance - Affects how often an enemy will be a digger.</li>
+<li>SuperChance - Affects how often an enemy will have one or more super effects.</li>
+<li>EarthquakeChance - Affects how often earthquakes are enabled and disabled.</li>
+<li>EarthquakeChanceInGame - Affects how often there is an earthquake when enabled.</li>
+</ul>
+
+# Appendix II - Example Logfile
+
+This is an example log file as generated when someone plays the game.
+
+Game number 1 - at May 23, 2013 12:33:20 PM - Game WON
+Lives left        : 10/10
+Gold left         : 90/100
+Earthquake count  : 9
+Shots fired       : 607
+---Tower information---
+Towers built      : 12
+Upgrades bought   : 0
+Towers sold       : 0
+Towers destroyed  : 0
+Earthquake proofs : 0
+Arrow towers      : 1
+Frost towers      : 2
+Cannon towers     : 2
+Flame towers      : 0
+Laser towers      : 4
+Burning towers    : 3
+---Metric and jump information---
+Hearts feedback        : 0
+Difficulty feedback    : 0
+Last metric            : 0.0
+Challenger metric      : 0.0
+Max jump distance      : 0.4
+Player Level           : 0.0
+Game length multiplier : 1.0
+---Enemy information---
+Total enemies killed : 45/45
+Basic enemies killed : 14/15
+Fast enemies killed  : 14/15
+Tough enemies killed : 17/18
+Diggers killed       : 0/0
+Total supers killed  : 0/0
+Super fast   killed  : 0/0
+Super tough  killed  : 0/0
+Super shield killed  : 0/0
+Super invis  killed  : 0/0
+---Parameters---
+TEDotDamage:             1.0         Min: 0.1   Max: 3.0
+TEDamage:                1.0         Min: 0.01  Max: 10.0
+DiggerChance:            0.2         Min: 0.0   Max: 1.0
+EarthquakeChance:        0.2         Min: 0.0   Max: 1.0
+GlobalMonsterHP:         1.0         Min: 0.1   Max: 3.0
+SuperChance:             0.2         Min: 0.0   Max: 1.0
+TESlowDuration:          1.0         Min: 0.1   Max: 3.0
+EarthquakeChanceInGame:  0.2         Min: 0.1   Max: 0.9
+GlobalReloadTime:        1.0         Min: 0.1   Max: 3.0
+GlobalTowerRange:        1.0         Min: 0.1   Max: 10.0
+GlobalMonsterGoldYield:  1.0         Min: 0.1   Max: 3.0
+GlobalMonsterSpeed:      1.0         Min: 0.1   Max: 10.0
+TESlowPercentage:        1.0         Min: 0.1   Max: 1.4
+GlobalBuildCost:         1.0         Min: 0.1   Max: 3.0
+TEDotTicks:              1.0         Min: 0.1   Max: 3.0
+
+Game number 2 - at May 23, 2013 12:34:49 PM - Game LOST
+Lives left        : 0/10
+Gold left         : 21/110
+Earthquake count  : 0
+Shots fired       : 324
+---Tower information---
+Towers built      : 11
+Upgrades bought   : 0
+Towers sold       : 0
+Towers destroyed  : 3
+Earthquake proofs : 0
+Arrow towers      : 2
+Frost towers      : 1
+Cannon towers     : 2
+Flame towers      : 1
+Laser towers      : 3
+Burning towers    : 2
+---Metric and jump information---
+Hearts feedback        : 0
+Difficulty feedback    : 0
+Last metric            : 0.0
+Challenger metric      : 5.0
+Max jump distance      : 0.25599998
+Player Level           : 1.0
+Game length multiplier : 1.2
+---Enemy information---
+Total enemies killed : 22/45
+Basic enemies killed : 8/12
+Fast enemies killed  : 9/21
+Tough enemies killed : 5/11
+Diggers killed       : 0/3
+Total supers killed  : 0/3
+Super fast   killed  : 0/2
+Super tough  killed  : 0/3
+Super shield killed  : 0/1
+Super invis  killed  : 0/1
+---Parameters---
+TEDotDamage:             1.0799435   Min: 0.1   Max: 3.0
+TEDamage:                0.95508564  Min: 0.01  Max: 10.0
+DiggerChance:            0.4         Min: 0.0   Max: 1.0
+EarthquakeChance:        0.3330284   Min: 0.0   Max: 1.0
+GlobalMonsterHP:         1.1467683   Min: 0.1   Max: 3.0
+SuperChance:             0.4         Min: 0.0   Max: 1.0
+TESlowDuration:          1.2593029   Min: 0.1   Max: 3.0
+EarthquakeChanceInGame:  0.3         Min: 0.1   Max: 0.9
+GlobalReloadTime:        1.1283836   Min: 0.1   Max: 3.0
+GlobalTowerRange:        1.1272081   Min: 0.1   Max: 10.0
+GlobalMonsterGoldYield:  1.1011007   Min: 0.1   Max: 3.0
+GlobalMonsterSpeed:      0.8071418   Min: 0.1   Max: 10.0
+TESlowPercentage:        0.74069715  Min: 0.1   Max: 1.4
+GlobalBuildCost:         1.1011007   Min: 0.1   Max: 3.0
+TEDotTicks:              0.92005646  Min: 0.1   Max: 3.0
