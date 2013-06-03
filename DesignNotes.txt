@@ -1,12 +1,14 @@
 Robin
-- TD genre, algoritmen, Discussion - prior, conclusion and future work 
-- Case teste for Veldig vanskelig
-- Testing: Algoritmen
-  - OK å dele testing inn i to: Algoritme, fun?
-- Spørre testere om å gi spillet karakter før og etter.
+Our algorithm
+
 
 JV
 - Testing: Fun tests
+- Discussion
+- Conclusion
+- Future Work
 
-
-
+Pending
+Abstract
+Our game - bilde (Ikke '-')
+Case tests
