@@ -6,10 +6,7 @@ Robin
 - Spørre testere om å gi spillet karakter før og etter.
 
 JV
-- Stochastic hill climbing example
-- Images for stochastic hillclimbing
 - Testing: Fun tests
-- Spørre testere om å gi spillet karakter før og etter.
 
 
 

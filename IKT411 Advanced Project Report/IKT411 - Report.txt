@@ -65,12 +65,17 @@ There are different variants of hill climbing algorithms, with different ways of
 
 ## Stochastic hill climbing example
 
-Here is an example for how to use stochastic hill climbing for how to find the maximum value of the function <MATH>f(X) = 2 - x <sup>2</sup> </MATH>. which has a maximum value of 2. We initialize the maximum jump distance (in x-direction) to a value of 1.0, and let this decrease by 0.1 with each jump.
+Here is an example for how to use stochastic hill climbing for how to find the maximum value of the function f(X) = 2 - X<sup>2</sup>. which has a maximum value of 2. We initialize the maximum jump distance (in x-direction) to a value of 1.0, and let this decrease by 0.1 with each jump.
 
-Bilde bla bla, se her verdier
-start: 0, hopp til -1, nei, topp til 0.7, ja. hopp til 1.5, ja. hopp til 1.2, nei. ghopp til 1.8, ja. hopp til 1.9, ja. hopp til 1.5, nei. hopp til 2, ja. hopp til noe mer? Nei, men fortsetter likevel.
+@figure(hcex1, Hill_Climbing_Example_1.png, The startpoint for the search)
+@figure(hcex2, Hill_Climbing_Example_2.png, The first jump)
+@figure(hcex3, Hill_Climbing_Example_3.png, An attempted jump)
+@figure(hcex4, Hill_Climbing_Example_4.png, Achieving global maximum)
+@figure(hcex5, Hill_Climbing_Example_5.png, Further jumps are discarded)
 
-As you can see, after some time, the algorithm should be able to land at a value close to 2. While it may be difficult to land exactly on 2, it may be acceptable that algorithm is able to land in an approximate area around 2.
+This is a short example of how stochastic hill climbing will eventually find the local, or global, maximum on a graph. This example is very short, compared to how many jumps it would normally take, but this is actually possible.
+
+With a starting maximum jump distance of 1.0, decreasing by 0.1 with each jump, the algorithm will have converged after ten jumps, hopefully at an acceptable position. In a game setting, it may be wise to let the maximum jump distance never decrease to zero, because it can make the game feel more lively.
 
 # Game Description
 
