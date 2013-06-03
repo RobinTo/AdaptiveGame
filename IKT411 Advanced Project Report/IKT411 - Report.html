@@ -42,13 +42,16 @@
 
 
 <h1 id='toc' class='notoc'>Table of contents</h1>
+<p>
+"Husk class='notoc'"
+</p>
 
 <div>
-<a href='#introduction' class='toc_1'>Introduction</a><br>
-<a href='#introduction_-_background' class='toc_2'>Background</a><br>
+<a href='#intro' class='toc_1'>Introduction</a><br>
+<a href='#background' class='toc_2'>Background</a><br>
 <a href='#introduction_-_problem_statement' class='toc_2'>Problem Statement</a><br>
 <a href='#introduction_-_problem_solution' class='toc_2'>Problem Solution</a><br>
-<a href='#stochastic_hill_climbing' class='toc_1'>Stochastic hill climbing</a><br>
+<a href='#shc' class='toc_1'>Stochastic hill climbing</a><br>
 <a href='#stochastic_hill_climbing_-_stochastic_hill_climbing_example' class='toc_2'>Stochastic hill climbing example</a><br>
 <a href='#our_algorithm' class='toc_1'>Our algorithm</a><br>
 <a href='#game_description' class='toc_1'>Game Description</a><br>
@@ -58,6 +61,9 @@
 <a href='#testing_-_difficulty_testing' class='toc_2'>Difficulty testing</a><br>
 <a href='#fun_testing' class='toc_2'>Fun testing</a><br>
 <a href='#discussion' class='toc_1'>Discussion</a><br>
+<a href='#discfun' class='toc_2'>Discussing the fun testing</a><br>
+<a href='#discussion_-_discussing_the_difficulty_testing' class='toc_2'>Discussing the difficulty testing</a><br>
+<a href='#observations' class='toc_2'>Other observations</a><br>
 <a href='#conclusion' class='toc_1'>Conclusion</a><br>
 <a href='#future_work' class='toc_1'>Future Work</a><br>
 <a href='#references' class='toc_1'>References</a><br>
@@ -65,6 +71,9 @@
 
 
 <h1 id='table_of_figures' class='notoc'>Table of figures</h1>
+<p>
+"Husk class='notoc'"
+</p>
 
 <div>
 <a href='#hclocalmaximum' class='figtoc'>A function that has a local maximum</a><br>
@@ -79,6 +88,9 @@
 
 
 <h1 id='table_of_tables' class='notoc'>Table of tables</h1>
+<p>
+"Husk class='notoc'"
+</p>
 
 <div>
 <a href='#testing' class='tabletoc'>Test results for fun testing</a><br>
@@ -86,7 +98,7 @@
 </div>
 
 
-<h1 id='introduction'>Introduction</h1>
+<h1 id='intro'>Introduction</h1>
 <p>
 Today, there exists more commercial video and computer games (henceforth: games) than ever before, and the number of persons owning a smart-phone or personal computer is increasing. Many students and pupils neglect their studies in favor of watching television or playing games, maybe because they consider it more fun. We believe that through the use of E-learning and gamification, which enhances traditional learning methods with elements from games, it is possible to make any learning process more fun, resulting in more interested students and better grades.
 </p>
@@ -95,7 +107,7 @@ Today, there exists more commercial video and computer games (henceforth: games)
 As each student is unique, we believe that they also have different learning methods that work best for them, which is why we have chosen to look into adaptive games. In this project we research whether a game can be made, such that it adapts to each player on the fly.
 </p>
 
-<h2 id='introduction_-_background'>Background</h2>
+<h2 id='background'>Background</h2>
 <p>
 A lot of research has already been done on the area of E-learning, and there exists multiple definitions. We have chosen to use the following one, because it emphasizes the individual student, which goes hand in hand with individual adaption of application.
 </p>
@@ -125,10 +137,10 @@ Our project is to research whether it is possible to create a game, that uses an
 
 <h2 id='introduction_-_problem_solution'>Problem Solution</h2>
 <p>
-We have chosen to create a game using the tower defence genre, as this requires somewhat less work and graphics than many other genres, as well as having a lot of possible parameters that can be tweaked in order to adapt the contents of the game (henceforth: gameplay). The game uses a modified stochastic hill climbing algorithm together with some user feedback after each game, to adapt itself towards the individual player.
+We have chosen to create a game using the tower defense genre, as this requires somewhat less work and graphics than many other genres, as well as having a lot of possible parameters that can be tweaked in order to adapt the contents of the game (henceforth: gameplay). The game uses a modified stochastic hill climbing algorithm together with some user feedback after each game, to adapt itself towards the individual player.
 </p>
 
-<h1 id='stochastic_hill_climbing'>Stochastic hill climbing</h1>
+<h1 id='shc'>Stochastic hill climbing</h1>
 
 <p>
 A hill climbing algorithm is an iterative improvement algorithm, searching for a local maximum. It tries to maximize a function f(X), where X could be a node, state, position or, in our case, a vector of parameters. It compares neighboring nodes to the one it is standing on, and checks if they are an improvement on f(X). If one of the other nodes is improving the situation, then the algorithm moves to the new node, commonly the best node, and repeats the process. The process is repeated until no more improvements can be found, thus the algorithm has found a local maximum. <a href='#reference_6' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[6]</a>
@@ -177,23 +189,26 @@ We scale the difficulty based on certain paramteres, and "fun" based on other pa
 </p>
 
 <h1 id='game_description'>Game Description</h1>
-
 <p>
-This chapter gives some pictures and a short description of our game, as well as some general information about the game genre, namely tower defence.
+This chapter gives some pictures and a short description of our game, as well as some general information about the game genre, namely tower defense.
 </p>
 
 <h2 id='game_description_-_genre'>Genre</h2>
 <p>
-The game we created to demonstrate our algorithm is a real-time strategy game, more precisely it would be refered to as a Tower Defense game. The goal of the game is to build tower tactically accross a map to prevent computer controlled enemies from reaching the other side.
+The game we created to demonstrate our algorithm is a real-time strategy game, more precisely it would be refered to as a tower defense game. The goal of the game is to build tower tactically accross a map to prevent computer controlled enemies from reaching the other side.
 </p>
 
 <h2 id='game_description_-_our_game'>Our game</h2>
 <p>
-Our game is very similar to classic tower defence games, in that the player has to stop different kinds of enemies from reaching the destination on their path, by using different kinds of towers. Our game differs from other tower defence games on the following:<br>
-- There are no scripted or static levels, since each game is a step closer towards the player's 'ideal game', that is, the game that is perceived as the most fun.<br>
-- Other than that the game learns after each level, the player has nothing that is carried over to the next game, such as tower access, special items or game progress in general. The player simply plays successive games until he or she quits.<br>
-- Modular towers and enemies. This is not necessarily new to the tower defence genre, as not all tower defence games may have pre-defined enemies and towers, but this is something that can be used in order to adapt the game towards personal preferences. <br>
-- (Guided) Randomly generated maps. Not necessarily new to the genre either, but is another useful technology that can be used to adapt the game to the player. Note that our game did not use this for game adaption, only to make the game seem less static.
+Our game is very similar to classic tower defense games, in that the player has to stop different kinds of enemies from reaching the destination on their path, by using different kinds of towers. Our game differs slightly from other tower defense games on several points.
+</p>
+
+<p>
+There are no scripted or static levels, since each game is a step closer towards the player's 'ideal game', that is, the game that is perceived as the most fun. Other than that the game learns after each level, the player has nothing that is carried over to the next game, such as tower access, special items or game progress in general. The player simply plays successive games until he or she quits.
+</p>
+
+<p>
+The game has modular towers and enemies. This is not necessarily new to the tower defense genre, as not all tower defense games may have pre-defined enemies and towers, but this is something that can be used in order to adapt the game towards personal preferences. (Guided) Randomly generated maps. Not necessarily new to the genre either, but is another useful technology that can be used to adapt the game to the player. Note that our game did not use this for game adaption, only to make the game seem less static.
 </p>
 
 <h1 id='testing'>Testing</h1>
@@ -208,7 +223,7 @@ This is how our algorithm performed.
 
 <h2 id='fun_testing'>Fun testing</h2>
 <p>
-After we finished the game, it was mainly sent to friends at the university. They were told to test the game for as long as they wanted, and when they were finished, they sent us a logfile containing some information about their games. An example logfile is in REFERERE APPENDIX! They were also asked to rate how fun they thought the game was in total.
+After we finished the game, it was mainly sent to friends at the university. They were told to test the game for as long as they wanted, and when they were finished, they sent us a logfile containing some information about their games. An example logfile can be found in <a href='#app_2' class='chapref_1'>Appendix II - Example Logfile</a>. They were also asked to rate how fun they thought the game was in total.
 </p>
 
 <div id='testing' class='table'>
@@ -225,7 +240,11 @@ After we finished the game, it was mainly sent to friends at the university. The
 </div>
 
 <p>
-As you can see in <a href='#testing' class='tableref'>this table</a>, the game was played 8.17 times on average, given a rating of 7.17 on average. Four out of the six subjects were also asked to rate the game at the beginning and at the end, in order to say something about whether the game converged at a better position or not.
+As you can see in <a href='#testing' class='tableref'>this table</a>, the game was played 8.17 times on average, given a rating of 7.17 on average. This is quite high values, which is something we consider to be good test results for the game itself.
+</p>
+
+<p>
+Four out of the six subjects were also asked to rate the game at the beginning and at the end, in order to say something about whether the game converged at a better position or not.
 </p>
 
 <div id='testing2' class='table'>
@@ -240,49 +259,57 @@ As you can see in <a href='#testing' class='tableref'>this table</a>, the game w
 </div>
 
 <p>
-Three out of four rated the game better before the algorithm changed the game, than after, which is not actually very positive. However, as we note in the discussion chapter, we believe that small parts of the implementation may cause some parts of these tests to be somewhat flawed.
+Three out of four rated the game better before the algorithm changed the game, than after, which is not actually very positive. However, as we note in chapter 9, <a href='#discussion' class='chapref_1'>Discussion</a>, we believe that some of the parameters are having too big an impact on the game, resulting in poorer test results.
 </p>
 
 <h1 id='discussion'>Discussion</h1>
+
 <p>
-Case testing:
+In this chapter, we discuss three topics. First we discuss the results from the fun testing, then the results from the difficulty or case testing, and lastly we discuss some other observations noted during the development process.
+</p>
+
+<h2 id='discfun'>Discussing the fun testing</h2>
+<p>
+When looking at the fun testing results, we see that our game was generally rated fun, with an average of 7.17 our of 10. But since our testers were mainly friends and fellow students, we were expecting to receive rather high values, as they did not want to make us feel bad. But a 7.17 out of 10 is not actually bad for the game itself, as much of the game content, such as audio and graphics, was made without a budget. But a difficult aspect of this project, is that it is hard to measure whether something is fun or not. Our main feedback for how well the game worked is the ratings from players, and from that we are satisfied with how fun the game was perceived to be, but even if the game was characterized 10 out of 10, the test results could mostly reflect the game and its contents, and not tell us much about the algorithm itself.
 </p>
 
 <p>
-When looking at the fun testing results, we see that our game was generally rated rather fun, with an average og 7.17 our of 10. But since our testers were mainly friends and fellow students, we were expecting to receive rather high values, as they did not want to make us feel bad. But a 7.17 out of 10 is not actually bad for the game itself, as much of the game content, such as audio and graphics, was made without a budget. The second part of the fun testing results reveals that the subjects thought the game was actually becoming worse over time, instead of maximizing fun. As mentioned in <a href='#fun_testing' class='chapref_2'>Fun testing</a>, we believe that two of our parameters, named "SuperChance" and "DiggerChance" REFERERE APPENDIX!, are probably not normalized well enough, and has too big an impact on the game, causing the game to become unbeatable, due to the game creating too many difficult enemies to handle. To the best of our knowledge, this is a result of our modified algorithm, which we believe can be fixed by having multiple specialized algorithms, instead of a central one.
+The second part of the fun testing results tells us more about the algorithm itself. The results reveal that the subjects thought the game was actually becoming worse over time, instead of maximizing fun. As mentioned in <a href='#fun_testing' class='chapref_2'>Fun testing</a>, we believe that two of our parameters, named "SuperChance" and "DiggerChance", see <a href='#app_2' class='chapref_1'>Appendix II - Example Logfile</a>, should have been normalized. As of now, they have too big an impact on the game, because their values are varying too much each jump. To the best of our knowledge, this is a result of our modified algorithm, which we believe can be fixed by having multiple specialized algorithms, instead of a central one. Another solution could be to only alter a single parameter each jump, because the algorithm would then be more sure about what the player enjoyed after each jump. This latter solution would make the algorithm work more slowly, which is maybe a too valuable trade-off.
+</p>
+
+<h2 id='discussion_-_discussing_the_difficulty_testing'>Discussing the difficulty testing</h2>
+<p>
+The difficulty test results are good, in that the algorithm is able to change the difficulty based on the feedback it receives, relatively quickly. However, the algorithm we use for difficulty scaling is not the same as the one we use for maximizing fun. Since the difficulty can only be either too difficult, perfect or too easy, it is easier to scale difficulty, than to maximize fun.
+</p>
+
+<h2 id='observations'>Other observations</h2>
+<p>
+Another problem we have noticed during the development process, is that the jumps themselves may be too subtle for a player to notice when jump distance shortens. The algorithm requires positive feedback when it goes in a direction the player likes, but if the change is not noticable the player may give it the same score, thus have a decent chance of ending up jumping from his old game each jump. This issue is similar to the one in chapter 5, <a href='#shc' class='chapref_1'>Stochastic hill climbing</a>, <a href='#hcflat' class='figref'>this figure</a>.
 </p>
 
 <p>
-One of the main issues with our process has been that it is hard to measure fun, it is also possible that our game in itself was not a 10/10 in fun, which can influence the results and not tell us much about the algorithm.  While our game is entertaining for a short while, it is certainly not an industry grade game. Our main feedback for how well the game worked is the ratings we get from players, and from that we are satisfied with how fun the game was perceived to be.
-</p>
-
-<p>
-Another problem with using the algorithm in a game is that the changes may be to subtle for a player to notice when jump distance shortens. The algortithm requires positive feedback when it goes in a direction the player likes, but if the change is not noticable the player may give it the same score and thus have a decent chance of ending up jumping from his old game.
-</p>
-
-<p>
-The algorithm needs to be more refined, and would work much better if we could create more specialized sensors, and do more testing as to what different results indicate about the player. If we could do stochastic hillclimbing based on metrics created by how the player is playing, on few parameters for each part of the algorithm, we believe we could get much better results. However, as this has been the first venture as far as we know into creating games which adapt based on fun, we are quite happy with our result.
-</p>
-
-<p>
-Gode ting er nettopp at det hele funket.<br>
-Dårlige ting er at vi ikke kunne lage et godt nok spill, som kanskje kan ha noe å si, ettersom vår research bit er kun én del av hva som gjør et spill gøy.<br>
-TD er kanskje ikke beste sjangeren.
+Lastly, we also noticed that the tower defense genre may not be well suited for creating an adaptive game. This is mainly because of the three following reasons. Firstly, the core game elements are rather static, which makes it difficult to make the game look and feel adaptive to the player. A different genre, such as the platformer, with game a example like Super Mario Bros. <a href="http://mario.nintendo.com/">[8]</a>. Secondly, the parameters in a tower defense game are very tightly knit together, in order to keep the game difficulty in balance. It is difficult to map how they all fit together, which makes it difficult for our algorithm to jump randomly to a new position, while still maintaining mentioned balance. Thirdly, the fun factor in a tower defense game is often related to the feeling of accomplishment. For instance, this feeling may occur when the player has lost a couple of games at the same challenge, and finally is able to beat the game. Since the game adapts itself to the player, thus is never the same, some would feel that their accomplishment is diminished.
 </p>
 
 <h1 id='conclusion'>Conclusion</h1>
-
 <p>
-With a more refined algorithm we believe this could be highly useful in a game, however there needs to be more sensors to detect which parameters the players were satisfied with, and which he was not. There are also interesting applications for this sort of algorithm in e-learning, if we can detect how to make an e-learning game fun for a player and also scale the difficulty to their ability we may create an effective game for learning.
+Although some of the test results came out negative, we still believe that the concept of adapting a game to an individual is something that can be done, in order to maximize fun. The game itself was considered fun, and we believe that some of the reason lays in the variety of the game, caused by its adaptivity. But in order to be able to maximize fun, the algorithm needs to become more refined, and could work much better if we fetch specialized information, indicating what the player really enjoyed. This information could then be used to let the algorithm do a more guided search to find out where to jump next, and not do a completely random jump. On the other hand, the difficulty scaling, works very well, and is something that we can re-use in later projects, such as for E-learning purposes.
 </p>
 
 <p>
-For this initial test of such an algorithm in games we would also probably have gotten a better result choosing a simpler game than tower defense, when the game uses a stochastic hillclimbing algorithm on too many parameters it is unlikely that all will go in the direction the optimal game resides at once. Which is why as we mentioned that we should create more a more specialized algorithm which can look at very few stats and detect feedback automatically through how a player plays, rather than requiring a questionnaire at the end.
+As noted in <a href='#observations' class='chapref_2'>Other observations</a>, the 'flat-issue' that can be experienced with hill-climbing in general, also occurred at some point during our own development process. In order to combat this, an adaptive game itself needs to have much and varied game content, so the different games is felt different by the player. The player can then give better feedback to how the game was, and whether the algorithm should jump from a new location or not.
 </p>
 
+<p>
+We would also probably have gotten a better result by choosing a different game genre than tower defense. When the game uses a stochastic hill climbing algorithm relying on too many parameters, it is unlikely that all will go in an optimal direction at once. As mentioned in the second part of <a href='#discfun' class='chapref_2'>Discussing the fun testing</a>, we believe that if the game had used multiple specialized algorithms, which examines fewer parameters at a time, the total algorithm could have been more precise in its jumps. If specialized enough, one of the algorithms could also automatically detect feedback through how a player plays, rather than requiring a questionnaire at the end.
+</p>
 
 <p>
-Dette kan bli bra i fremtiden, om vi kan ta det videre. Vi vil nok bruke det i en annen spillsjanger, hvor vi ser mer forskjell.
+If we do stochastic hill climbing based on metrics created based on how the player is playing, on few parameters for each part of the algorithm, we believe that we could get much better results. However, as this has been, to the best of our knowledge, the first venture into creating games which adapt based on fun, we are quite happy with our result. 
+</p>
+
+<p>
+SPØRRE ROBIN
 </p>
 
 <h1 id='future_work'>Future Work</h1>
@@ -295,15 +322,10 @@ The algorithm works ok, but it needs to be more refined. We believe that with so
 We would like to try to implement this sort of algorithm in a game related to e-learning. Currently one of the problems with e-learning games is that they feel to much like learning and to little like games. If we could be able to create a game which can maximize the fun a player has, while also scaling the difficulty appropriately we believe we could create an effective learning tools for many skills.
 </p>
 
-
 <p>
-JVs notes on future<br>
-- e-learning with individual adaption<br>
-- try it out on another game, in other genre<br>
-- spillet: Gjøre noe med diggers, earthquakes.<br>
-- Bedre grafikk i spillet, utvide content<br>
-- Guide søket til algoritmen
+With a more refined algorithm we believe this could be highly useful in a game, however it needs more sensors or ways to detect which parameters the players are satisfied with and not. There are also interesting applications for this sort of algorithm in E-learning, if we can detect how to make an e-learning game fun for a player and also scale the difficulty to their ability we may create an effective game for learning.
 </p>
+
 
 
 <h1 id='references'>References</h1>
@@ -320,6 +342,163 @@ IEEE, ACM, Springer
 <span id='reference_5'>[5] Spronck, P., Sprinkhuizen-Kuyper, I., & Postma, E. (2004). Difficulty scaling of game AI. In <i>Proceedings of the 5th International Conference on Intelligent Games and Simulation (GAME-ON 2004)</i> (pp. 33-37).</span><br>
 <span id='reference_6'>[6] Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall</span><br>
 <span id='reference_7'>[7] Some Chapter</span><br>
+<a id='reference_8' href="http://mario.nintendo.com/">[8] http://mario.nintendo.com/</a><br>
 </div>
 
+
+<h1 id='app_1' class='notoc'>Appendix I - Parameters</h1>
+
+<p>
+Following is a list of the parameters the game changes, and their function.
+</p>
+
+<ul>
+<li>GlobalMonsterHP - Affects the HP of all enemies.</li>
+<li>TEDotDamage - Affects the damage of each tick for the damage over time tower.</li>
+<li>TEDotTicks - Affects how many ticks of damage the damage of time tower does.</li>
+<li>TESlowPercentage - Affects the amount of slow the frost tower causes to an enemy.</li>
+<li>TESlowDuration - Affects the duration of the slow from the frost tower.</li>
+<li>GlobalReloadTime - Affects reload time for all towers.</li>
+<li>TEDamage - Affects damage for all towers.</li>
+<li>GlobalBuildCost - Affects cost to build each tower.</li>
+<li>GlobalMonsterSpeed - Affects the speed of all enemies.</li>
+<li>GlobalMonsterGoldYield - Affects how much gold each enemy yields.</li>
+<li>GlobalTowerRange - Affects how far towers can shoot.</li>
+<li>DiggerChance - Affects how often an enemy will be a digger.</li>
+<li>SuperChance - Affects how often an enemy will have one or more super effects.</li>
+<li>EarthquakeChance - Affects how often earthquakes are enabled and disabled.</li>
+<li>EarthquakeChanceInGame - Affects how often there is an earthquake when enabled.</li>
+</ul>
+
+<h1 id='app_2' class='notoc'>Appendix II - Example Logfile</h1>
+
+<p>
+This is an example log file as generated when someone plays the game.
+</p>
+
+<p>
+Game number 1 - at May 23, 2013 12:33:20 PM - Game WON<br>
+Lives left        : 10/10<br>
+Gold left         : 90/100<br>
+Earthquake count  : 9<br>
+Shots fired       : 607
+</p>
+<p style='text-align: center'>-Tower information---</p>
+<p>
+Towers built      : 12<br>
+Upgrades bought   : 0<br>
+Towers sold       : 0<br>
+Towers destroyed  : 0<br>
+Earthquake proofs : 0<br>
+Arrow towers      : 1<br>
+Frost towers      : 2<br>
+Cannon towers     : 2<br>
+Flame towers      : 0<br>
+Laser towers      : 4<br>
+Burning towers    : 3
+</p>
+<p style='text-align: center'>-Metric and jump information---</p>
+<p>
+Hearts feedback        : 0<br>
+Difficulty feedback    : 0<br>
+Last metric            : 0.0<br>
+Challenger metric      : 0.0<br>
+Max jump distance      : 0.4<br>
+Player Level           : 0.0<br>
+Game length multiplier : 1.0
+</p>
+<p style='text-align: center'>-Enemy information---</p>
+<p>
+Total enemies killed : 45/45<br>
+Basic enemies killed : 14/15<br>
+Fast enemies killed  : 14/15<br>
+Tough enemies killed : 17/18<br>
+Diggers killed       : 0/0<br>
+Total supers killed  : 0/0<br>
+Super fast   killed  : 0/0<br>
+Super tough  killed  : 0/0<br>
+Super shield killed  : 0/0<br>
+Super invis  killed  : 0/0
+</p>
+<p style='text-align: center'>-Parameters---</p>
+<p>
+TEDotDamage:             1.0         Min: 0.1   Max: 3.0<br>
+TEDamage:                1.0         Min: 0.01  Max: 10.0<br>
+DiggerChance:            0.2         Min: 0.0   Max: 1.0<br>
+EarthquakeChance:        0.2         Min: 0.0   Max: 1.0<br>
+GlobalMonsterHP:         1.0         Min: 0.1   Max: 3.0<br>
+SuperChance:             0.2         Min: 0.0   Max: 1.0<br>
+TESlowDuration:          1.0         Min: 0.1   Max: 3.0<br>
+EarthquakeChanceInGame:  0.2         Min: 0.1   Max: 0.9<br>
+GlobalReloadTime:        1.0         Min: 0.1   Max: 3.0<br>
+GlobalTowerRange:        1.0         Min: 0.1   Max: 10.0<br>
+GlobalMonsterGoldYield:  1.0         Min: 0.1   Max: 3.0<br>
+GlobalMonsterSpeed:      1.0         Min: 0.1   Max: 10.0<br>
+TESlowPercentage:        1.0         Min: 0.1   Max: 1.4<br>
+GlobalBuildCost:         1.0         Min: 0.1   Max: 3.0<br>
+TEDotTicks:              1.0         Min: 0.1   Max: 3.0
+</p>
+
+<p>
+Game number 2 - at May 23, 2013 12:34:49 PM - Game LOST<br>
+Lives left        : 0/10<br>
+Gold left         : 21/110<br>
+Earthquake count  : 0<br>
+Shots fired       : 324
+</p>
+<p style='text-align: center'>-Tower information---</p>
+<p>
+Towers built      : 11<br>
+Upgrades bought   : 0<br>
+Towers sold       : 0<br>
+Towers destroyed  : 3<br>
+Earthquake proofs : 0<br>
+Arrow towers      : 2<br>
+Frost towers      : 1<br>
+Cannon towers     : 2<br>
+Flame towers      : 1<br>
+Laser towers      : 3<br>
+Burning towers    : 2
+</p>
+<p style='text-align: center'>-Metric and jump information---</p>
+<p>
+Hearts feedback        : 0<br>
+Difficulty feedback    : 0<br>
+Last metric            : 0.0<br>
+Challenger metric      : 5.0<br>
+Max jump distance      : 0.25599998<br>
+Player Level           : 1.0<br>
+Game length multiplier : 1.2
+</p>
+<p style='text-align: center'>-Enemy information---</p>
+<p>
+Total enemies killed : 22/45<br>
+Basic enemies killed : 8/12<br>
+Fast enemies killed  : 9/21<br>
+Tough enemies killed : 5/11<br>
+Diggers killed       : 0/3<br>
+Total supers killed  : 0/3<br>
+Super fast   killed  : 0/2<br>
+Super tough  killed  : 0/3<br>
+Super shield killed  : 0/1<br>
+Super invis  killed  : 0/1
+</p>
+<p style='text-align: center'>-Parameters---</p>
+<p>
+TEDotDamage:             1.0799435   Min: 0.1   Max: 3.0<br>
+TEDamage:                0.95508564  Min: 0.01  Max: 10.0<br>
+DiggerChance:            0.4         Min: 0.0   Max: 1.0<br>
+EarthquakeChance:        0.3330284   Min: 0.0   Max: 1.0<br>
+GlobalMonsterHP:         1.1467683   Min: 0.1   Max: 3.0<br>
+SuperChance:             0.4         Min: 0.0   Max: 1.0<br>
+TESlowDuration:          1.2593029   Min: 0.1   Max: 3.0<br>
+EarthquakeChanceInGame:  0.3         Min: 0.1   Max: 0.9<br>
+GlobalReloadTime:        1.1283836   Min: 0.1   Max: 3.0<br>
+GlobalTowerRange:        1.1272081   Min: 0.1   Max: 10.0<br>
+GlobalMonsterGoldYield:  1.1011007   Min: 0.1   Max: 3.0<br>
+GlobalMonsterSpeed:      0.8071418   Min: 0.1   Max: 10.0<br>
+TESlowPercentage:        0.74069715  Min: 0.1   Max: 1.4<br>
+GlobalBuildCost:         1.1011007   Min: 0.1   Max: 3.0<br>
+TEDotTicks:              0.92005646  Min: 0.1   Max: 3.0
+</p>
 </body></html>
