@@ -44,8 +44,6 @@
 <h1 id='toc' class='notoc'>Table of contents</h1>
 
 <div>
-<a href='#table_of_figures' class='toc_1'>Table of figures</a><br>
-<a href='#table_of_tables' class='toc_1'>Table of tables</a><br>
 <a href='#introduction' class='toc_1'>Introduction</a><br>
 <a href='#introduction_-_background' class='toc_2'>Background</a><br>
 <a href='#introduction_-_problem_statement' class='toc_2'>Problem Statement</a><br>
@@ -57,8 +55,8 @@
 <a href='#game_description_-_genre' class='toc_2'>Genre</a><br>
 <a href='#game_description_-_our_game' class='toc_2'>Our game</a><br>
 <a href='#testing' class='toc_1'>Testing</a><br>
-<a href='#testing_-_case_tests' class='toc_2'>Case tests</a><br>
-<a href='#testing_-_fun_tests' class='toc_2'>Fun tests</a><br>
+<a href='#testing_-_difficulty_testing' class='toc_2'>Difficulty testing</a><br>
+<a href='#fun_testing' class='toc_2'>Fun testing</a><br>
 <a href='#discussion' class='toc_1'>Discussion</a><br>
 <a href='#conclusion' class='toc_1'>Conclusion</a><br>
 <a href='#future_work' class='toc_1'>Future Work</a><br>
@@ -66,7 +64,7 @@
 </div>
 
 
-<h1 id='table_of_figures'>Table of figures</h1>
+<h1 id='table_of_figures' class='notoc'>Table of figures</h1>
 
 <div>
 <a href='#hclocalmaximum' class='figtoc'>A function that has a local maximum</a><br>
@@ -80,10 +78,11 @@
 </div>
 
 
-<h1 id='table_of_tables'>Table of tables</h1>
-<a href='#reference_1' title='Husk class='notoc''>[1]</a>
+<h1 id='table_of_tables' class='notoc'>Table of tables</h1>
 
 <div>
+<a href='#testing' class='tabletoc'>Test results for fun testing</a><br>
+<a href='#testing2' class='tabletoc'>Before-and-after test results</a><br>
 </div>
 
 
@@ -101,22 +100,22 @@ As each student is unique, we believe that they also have different learning met
 A lot of research has already been done on the area of E-learning, and there exists multiple definitions. We have chosen to use the following one, because it emphasizes the individual student, which goes hand in hand with individual adaption of application.
 </p>
 
-<i>"We will call e-Learning all forms of electronic supported learning and teaching, which ... aim to effect the construction of knowledge with reference to individual experience, practive and knowledge of the learner..."</i> <a href='#reference_2' title='Tavangarian, D., Leypold, M. E., Nölting, K., Röser, M., & Voigt, D. (2004). Is e-learning the Solution for Individual Learning. <i>Electronic Journal of E-learning</i>, 2(2), 273-280.'>[2]</a>.
+<i>"We will call e-Learning all forms of electronic supported learning and teaching, which ... aim to effect the construction of knowledge with reference to individual experience, practive and knowledge of the learner..."</i> <a href='#reference_1' title='Tavangarian, D., Leypold, M. E., Nölting, K., Röser, M., & Voigt, D. (2004). Is e-learning the Solution for Individual Learning. <i>Electronic Journal of E-learning</i>, 2(2), 273-280.'>[1]</a>.
 
 <p>
-Gamification is a concept that has been around for a long time, and has increased with popularity since 2010. <a href='#reference_3' title='Marczewski, A. (2012). <i>Gamification: A Simple Introduction.</i> Andrzej Marczewski.'>[3]</a> <a href='#reference_4' title='Zichermann, G., & Cunningham, C. (2011). <i>Gamification by design: Implementing game mechanics in web and mobile apps.</i> O'Reilly Media.'>[4]</a>. We present the two following definitions, as we think both of them show that gamification can be used well in conjunction with E-learning.
+Gamification is a concept that has been around for a long time, and has increased with popularity since 2010. <a href='#reference_2' title='Marczewski, A. (2012). <i>Gamification: A Simple Introduction.</i> Andrzej Marczewski.'>[2]</a> <a href='#reference_3' title='Zichermann, G., & Cunningham, C. (2011). <i>Gamification by design: Implementing game mechanics in web and mobile apps.</i> O'Reilly Media.'>[3]</a>. We present the two following definitions, as we think both of them show that gamification can be used well in conjunction with E-learning.
 </p>
  
-<i>"The process of game-thinking and game mechanics to engage users and solve problems."</i> <a href='#reference_4' title='Zichermann, G., & Cunningham, C. (2011). <i>Gamification by design: Implementing game mechanics in web and mobile apps.</i> O'Reilly Media.'>[4]</a>.<br/>
+<i>"The process of game-thinking and game mechanics to engage users and solve problems."</i> <a href='#reference_3' title='Zichermann, G., & Cunningham, C. (2011). <i>Gamification by design: Implementing game mechanics in web and mobile apps.</i> O'Reilly Media.'>[3]</a>.<br/>
 <br/>
-<i>"A process of enhancing a service with affordances for gameful experiences in order to support user's overall value creation."</i> <a href='#reference_5' title='Huotari, K., & Hamari, J. (2012, October). Defining gamification: a service marketing perspective. In <i>Proceeding of the 16th International Academic MindTrek Conference</i> (pp. 17-22). ACM.'>[5]</a>.
+<i>"A process of enhancing a service with affordances for gameful experiences in order to support user's overall value creation."</i> <a href='#reference_4' title='Huotari, K., & Hamari, J. (2012, October). Defining gamification: a service marketing perspective. In <i>Proceeding of the 16th International Academic MindTrek Conference</i> (pp. 17-22). ACM.'>[4]</a>.
 
 <p>
 The latter definition is directed towards service marketing, but if one reads 'service' as 'learning process' and 'user's overall value creation' as 'learning outcomes', we believe that gamification is something that could be used together with both tradition learning methods and E-learning.
 </p>
 
 <p>
-If one is to create a game that is meant for learning purposes, it is important to note that the game needs to be fun. <a href='#reference_4' title='Zichermann, G., & Cunningham, C. (2011). <i>Gamification by design: Implementing game mechanics in web and mobile apps.</i> O'Reilly Media.'>[4]</a>. If a game is not fun, it will not be able to educate either, because players lose interest in games the same way as students lose interest lectures, should they be boring. This is why it is important to figure out how it is possible to maximize the fun in any kind of game, thus keeping the interest of players. Since games appeal to a wide variety of players, the perceived level of fun may often vary among its players, due to personal preferences. In order to accomodote for such varying preferences, traditional games have often implemented several levels of difficulty the player may choose from, as well as providing the player with several settings or options for how they want the game to behave. When it comes to difficulty, other work has already been done on how to scale and adapt this to the level of player, in order to make even games, but in order to make a game fun, we believe that more than difficulty needs to adapt to individual preferences, thus more aspects of a game should be able to change on the fly. <a href='#reference_6' title='Spronck, P., Sprinkhuizen-Kuyper, I., & Postma, E. (2004). Difficulty scaling of game AI. In <i>Proceedings of the 5th International Conference on Intelligent Games and Simulation (GAME-ON 2004)</i> (pp. 33-37).'>[6]</a>.
+If one is to create a game that is meant for learning purposes, it is important to note that the game needs to be fun. <a href='#reference_3' title='Zichermann, G., & Cunningham, C. (2011). <i>Gamification by design: Implementing game mechanics in web and mobile apps.</i> O'Reilly Media.'>[3]</a>. If a game is not fun, it will not be able to educate either, because players lose interest in games the same way as students lose interest lectures, should they be boring. This is why it is important to figure out how it is possible to maximize the fun in any kind of game, thus keeping the interest of players. Since games appeal to a wide variety of players, the perceived level of fun may often vary among its players, due to personal preferences. In order to accomodote for such varying preferences, traditional games have often implemented several levels of difficulty the player may choose from, as well as providing the player with several settings or options for how they want the game to behave. When it comes to difficulty, other work has already been done on how to scale and adapt this to the level of player, in order to make even games, but in order to make a game fun, we believe that more than difficulty needs to adapt to individual preferences, thus more aspects of a game should be able to change on the fly. <a href='#reference_5' title='Spronck, P., Sprinkhuizen-Kuyper, I., & Postma, E. (2004). Difficulty scaling of game AI. In <i>Proceedings of the 5th International Conference on Intelligent Games and Simulation (GAME-ON 2004)</i> (pp. 33-37).'>[5]</a>.
 </p>
 
 <h2 id='introduction_-_problem_statement'>Problem Statement</h2>
@@ -132,7 +131,7 @@ We have chosen to create a game using the tower defence genre, as this requires 
 <h1 id='stochastic_hill_climbing'>Stochastic hill climbing</h1>
 
 <p>
-A hill climbing algorithm is an iterative improvement algorithm, searching for a local maximum. It tries to maximize a function f(X), where X could be a node, state, position or, in our case, a vector of parameters. It compares neighboring nodes to the one it is standing on, and checks if they are an improvement on f(X). If one of the other nodes is improving the situation, then the algorithm moves to the new node, commonly the best node, and repeats the process. The process is repeated until no more improvements can be found, thus the algorithm has found a local maximum. <a href='#reference_7' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[7]</a>
+A hill climbing algorithm is an iterative improvement algorithm, searching for a local maximum. It tries to maximize a function f(X), where X could be a node, state, position or, in our case, a vector of parameters. It compares neighboring nodes to the one it is standing on, and checks if they are an improvement on f(X). If one of the other nodes is improving the situation, then the algorithm moves to the new node, commonly the best node, and repeats the process. The process is repeated until no more improvements can be found, thus the algorithm has found a local maximum. <a href='#reference_6' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[6]</a>
 </p>
 
 <div id='hclocalmaximum' class='figure'><img src='Hill_Climbing_Local_Maximum.png' alt='A function that has a local maximum' title='A function that has a local maximum'><div class='caption'>A function that has a local maximum</div></div>
@@ -140,11 +139,11 @@ A hill climbing algorithm is an iterative improvement algorithm, searching for a
 <div id='hcsteep' class='figure'><img src='Hill_Climbing_Steep.png' alt='A function that is very steep' title='A function that is very steep'><div class='caption'>A function that is very steep</div></div>
 
 <p>
-One issue with this algorithm, is that it can become stuck on a local maximum, which may not be the global maximum, as in <a href='#hclocalmaximum' class='figref'>this figure</a>. One way to reduce the probability of this to happen, is to allow the algorithm to jump larger distances each jump, or to make sure that the landscape is convex. Another issue shown by <a href='#hcflat' class='figref'>this figure</a> is that the search area may be flat, that is, each node is as good as all its neighbors. In this case, any jump will not bring any improvement. A third issue in <a href='#hcsteep' class='figref'>this figure</a> is that a node may be lying on a very steep ridge, that is, the 'area' of parameters that give a good node is very small, and can thus be hard to find. <a href='#reference_7' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[7]</a>
+One issue with this algorithm, is that it can become stuck on a local maximum, which may not be the global maximum, as in <a href='#hclocalmaximum' class='figref'>this figure</a>. One way to reduce the probability of this to happen, is to allow the algorithm to jump larger distances each jump, or to make sure that the landscape is convex. Another issue shown by <a href='#hcflat' class='figref'>this figure</a> is that the search area may be flat, that is, each node is as good as all its neighbors. In this case, any jump will not bring any improvement. A third issue in <a href='#hcsteep' class='figref'>this figure</a> is that a node may be lying on a very steep ridge, that is, the 'area' of parameters that give a good node is very small, and can thus be hard to find. <a href='#reference_6' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[6]</a>
 </p>
 
 <p>
-There are different variants of hill climbing algorithms, with different ways of deciding where and when to jump. The stochastic hill climbing algorithm, closely resembling simulated annealing, chooses a position at random, then evaluates whether it is an improvement, and if it is, jumps to the new position. If the new position is not an improvement, it will go back to the last one. With stochastic hill climbing, it may be wise to set a specific maximum jump distance, and let this decrease over time. This allows the algorithm to converge or settle on a position after some time. <a href='#reference_7' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[7]</a>
+There are different variants of hill climbing algorithms, with different ways of deciding where and when to jump. The stochastic hill climbing algorithm, closely resembling simulated annealing, chooses a position at random, then evaluates whether it is an improvement, and if it is, jumps to the new position. If the new position is not an improvement, it will go back to the last one. With stochastic hill climbing, it may be wise to set a specific maximum jump distance, and let this decrease over time. This allows the algorithm to converge or settle on a position after some time. <a href='#reference_6' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[6]</a>
 </p>
 
 <h2 id='stochastic_hill_climbing_-_stochastic_hill_climbing_example'>Stochastic hill climbing example</h2>
@@ -170,7 +169,7 @@ With a starting maximum jump distance of 1.0, decreasing by 0.1 with each jump, 
 <h1 id='our_algorithm'>Our algorithm</h1>
 
 <p>
-Our algorithm works with a set of parameters which affects the game, these parameters are listed in <a href='#reference_8' title='Some Chapter'>[8]</a>. We have done some testing and found some values for these which we think make an ok game for most people. After each game there is a questionnaire which asks "How fun was this game?" and "How difficult was this game?", which is then saved and used to create the next game. We save the value we receive in "How fun was this game?" as a metric, and use it to determine wether to jump from the current or the last game.
+Our algorithm works with a set of parameters which affects the game, these parameters are listed in <a href='#reference_7' title='Some Chapter'>[7]</a>. We have done some testing and found some values for these which we think make an ok game for most people. After each game there is a questionnaire which asks "How fun was this game?" and "How difficult was this game?", which is then saved and used to create the next game. We save the value we receive in "How fun was this game?" as a metric, and use it to determine wether to jump from the current or the last game.
 </p>
 
 <p>
@@ -202,24 +201,56 @@ Our game is very similar to classic tower defence games, in that the player has 
 Our testing is split into two parts. The first part contains two case tests of the algorithm, and the second part contains tests from our fellow students and friends.
 </p>
 
-<h2 id='testing_-_case_tests'>Case tests</h2>
+<h2 id='testing_-_difficulty_testing'>Difficulty testing</h2>
 <p>
 This is how our algorithm performed.
 </p>
 
-<h2 id='testing_-_fun_tests'>Fun tests</h2>
+<h2 id='fun_testing'>Fun testing</h2>
 <p>
-After we finished the game, it was mainly sent to friends at the university. They were told to test the game for as long as they wanted, and when they were finished, they sent us a logfile containing some information about their games. They were also asked to rate how fun they thought the game was in total.
+After we finished the game, it was mainly sent to friends at the university. They were told to test the game for as long as they wanted, and when they were finished, they sent us a logfile containing some information about their games. An example logfile is in REFERERE APPENDIX! They were also asked to rate how fun they thought the game was in total.
 </p>
 
+<div id='testing' class='table'>
+<table>
+<tr><td>"Subject"</td><td>"Estimated game experience"</td><td>"Games played"</td><td>"Rating"</td></tr>
+<tr><td>1</td><td>"High"</td><td>6</td><td>10</td></tr>
+<tr><td>2</td><td>"Medium"</td><td>2</td><td>8</td></tr>
+<tr><td>3</td><td>"High"</td><td>10</td><td>5</td></tr>
+<tr><td>4</td><td>"High"</td><td>6</td><td>7</td></tr>
+<tr><td>5</td><td>"Medium"</td><td>8</td><td>8</td></tr>
+<tr><td>6</td><td>"High"</td><td>17</td><td>5</td></tr>
+</table>
+<div class='caption'>Test results for fun testing</div>
+</div>
+
 <p>
-As you can see in the table, the game was rated on average. ....gfdlgdfg. Which is not exceptionally fun, but not boring either.
+As you can see in <a href='#testing' class='tableref'>this table</a>, the game was played 8.17 times on average, given a rating of 7.17 on average. Four out of the six subjects were also asked to rate the game at the beginning and at the end, in order to say something about whether the game converged at a better position or not.
 </p>
-f
 
+<div id='testing2' class='table'>
+<table>
+<tr><td>"Subject"</td><td>"Estimated game experience"</td><td>"Games played"</td><td>"Start rating"</td><td>"End rating"</td></tr>
+<tr><td>1</td><td>"High"</td><td>6</td><td>10</td><td>3</td></tr>
+<tr><td>2</td><td>"Medium"</td><td>2</td><td>8</td><td>7</td></tr>
+<tr><td>3</td><td>"High"</td><td>10</td><td>5</td><td>6</td></tr>
+<tr><td>4</td><td>"High"</td><td>6</td><td>7</td><td>5</td></tr>
+</table>
+<div class='caption'>Before-and-after test results</div>
+</div>
 
+<p>
+Three out of four rated the game better before the algorithm changed the game, than after, which is not actually very positive. However, as we note in the discussion chapter, we believe that small parts of the implementation may cause some parts of these tests to be somewhat flawed.
+</p>
 
 <h1 id='discussion'>Discussion</h1>
+<p>
+Case testing:
+</p>
+
+<p>
+When looking at the fun testing results, we see that our game was generally rated rather fun, with an average og 7.17 our of 10. But since our testers were mainly friends and fellow students, we were expecting to receive rather high values, as they did not want to make us feel bad. But a 7.17 out of 10 is not actually bad for the game itself, as much of the game content, such as audio and graphics, was made without a budget. The second part of the fun testing results reveals that the subjects thought the game was actually becoming worse over time, instead of maximizing fun. As mentioned in <a href='#fun_testing' class='chapref_2'>Fun testing</a>, we believe that two of our parameters, named "SuperChance" and "DiggerChance" REFERERE APPENDIX!, are probably not normalized well enough, and has too big an impact on the game, causing the game to become unbeatable, due to the game creating too many difficult enemies to handle. To the best of our knowledge, this is a result of our modified algorithm, which we believe can be fixed by having multiple specialized algorithms, instead of a central one.
+</p>
 
 <p>
 One of the main issues with our process has been that it is hard to measure fun, it is also possible that our game in itself was not a 10/10 in fun, which can influence the results and not tell us much about the algorithm.  While our game is entertaining for a short while, it is certainly not an industry grade game. Our main feedback for how well the game worked is the ratings we get from players, and from that we are satisfied with how fun the game was perceived to be.
@@ -282,14 +313,13 @@ IEEE, ACM, Springer
 </p>
 
 <div>
-<span id='reference_1'>[1] Husk class='notoc'</span><br>
-<span id='reference_2'>[2] Tavangarian, D., Leypold, M. E., Nölting, K., Röser, M., & Voigt, D. (2004). Is e-learning the Solution for Individual Learning. <i>Electronic Journal of E-learning</i>, 2(2), 273-280.</span><br>
-<span id='reference_3'>[3] Marczewski, A. (2012). <i>Gamification: A Simple Introduction.</i> Andrzej Marczewski.</span><br>
-<span id='reference_4'>[4] Zichermann, G., & Cunningham, C. (2011). <i>Gamification by design: Implementing game mechanics in web and mobile apps.</i> O'Reilly Media.</span><br>
-<span id='reference_5'>[5] Huotari, K., & Hamari, J. (2012, October). Defining gamification: a service marketing perspective. In <i>Proceeding of the 16th International Academic MindTrek Conference</i> (pp. 17-22). ACM.</span><br>
-<span id='reference_6'>[6] Spronck, P., Sprinkhuizen-Kuyper, I., & Postma, E. (2004). Difficulty scaling of game AI. In <i>Proceedings of the 5th International Conference on Intelligent Games and Simulation (GAME-ON 2004)</i> (pp. 33-37).</span><br>
-<span id='reference_7'>[7] Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall</span><br>
-<span id='reference_8'>[8] Some Chapter</span><br>
+<span id='reference_1'>[1] Tavangarian, D., Leypold, M. E., Nölting, K., Röser, M., & Voigt, D. (2004). Is e-learning the Solution for Individual Learning. <i>Electronic Journal of E-learning</i>, 2(2), 273-280.</span><br>
+<span id='reference_2'>[2] Marczewski, A. (2012). <i>Gamification: A Simple Introduction.</i> Andrzej Marczewski.</span><br>
+<span id='reference_3'>[3] Zichermann, G., & Cunningham, C. (2011). <i>Gamification by design: Implementing game mechanics in web and mobile apps.</i> O'Reilly Media.</span><br>
+<span id='reference_4'>[4] Huotari, K., & Hamari, J. (2012, October). Defining gamification: a service marketing perspective. In <i>Proceeding of the 16th International Academic MindTrek Conference</i> (pp. 17-22). ACM.</span><br>
+<span id='reference_5'>[5] Spronck, P., Sprinkhuizen-Kuyper, I., & Postma, E. (2004). Difficulty scaling of game AI. In <i>Proceedings of the 5th International Conference on Intelligent Games and Simulation (GAME-ON 2004)</i> (pp. 33-37).</span><br>
+<span id='reference_6'>[6] Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall</span><br>
+<span id='reference_7'>[7] Some Chapter</span><br>
 </div>
 
 </body></html>

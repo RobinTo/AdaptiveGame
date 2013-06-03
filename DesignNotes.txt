@@ -3,14 +3,12 @@ Our algorithm - bilde av questionnaire
 Our game - bilde (Ikke '-')
 Appendix - Parameterliste
 Appendix - Example logfile
+Abstract
 
 
 JV
-- Testing: Fun tests
 - Discussion (ikke 10/10*), ref flat, diskutere test resultater
 - Conclusion - Sammenligne paragraph2 med, én param av gangen, mer content for å lage adaptivt gøy, ikke bare min/makse parametere
 - Future Work - samme spill uten adaptivitet, samme spill med random maps + plitt guiding, samme spill, annet spill, annet spill med elearning
-Case tests
 
 Pending
-- Abstract

@@ -13,15 +13,17 @@ $abstract = Duis aute irure dolor in reprehenderit in voluptate velit esse cillu
 @file(frontpage.txt)
 
 $ Table of contents | toc
+"Husk class='notoc'"
 
 @toc
 
-# Table of figures
+$ Table of figures
+"Husk class='notoc'"
 
 @figures
 
-# Table of tables
-@("Husk class='notoc'")
+$ Table of tables
+"Husk class='notoc'"
 
 @tables
 
@@ -100,18 +102,24 @@ Our game is very similar to classic tower defence games, in that the player has 
 # Testing
 Our testing is split into two parts. The first part contains two case tests of the algorithm, and the second part contains tests from our fellow students and friends.
 
-## Case tests
+## Difficulty testing
 This is how our algorithm performed.
 
-## Fun tests
-After we finished the game, it was mainly sent to friends at the university. They were told to test the game for as long as they wanted, and when they were finished, they sent us a logfile containing some information about their games. They were also asked to rate how fun they thought the game was in total.
+## Fun testing | fun_testing
+After we finished the game, it was mainly sent to friends at the university. They were told to test the game for as long as they wanted, and when they were finished, they sent us a logfile containing some information about their games. An example logfile is in REFERERE APPENDIX! They were also asked to rate how fun they thought the game was in total.
 
-As you can see in the table, the game was rated on average. ....gfdlgdfg. Which is not exceptionally fun, but not boring either.
-f
+@table(testing, Test_Table_1.csv, Test results for fun testing, )
 
+As you can see in @tableref(testing), the game was played 8.17 times on average, given a rating of 7.17 on average. Four out of the six subjects were also asked to rate the game at the beginning and at the end, in order to say something about whether the game converged at a better position or not.
 
+@table(testing2, Test_Table_2.csv, Before-and-after test results, )
+
+Three out of four rated the game better before the algorithm changed the game, than after, which is not actually very positive. However, as we note in the discussion chapter, we believe that small parts of the implementation may cause some parts of these tests to be somewhat flawed.
 
 # Discussion
+Case testing:
+
+When looking at the fun testing results, we see that our game was generally rated rather fun, with an average og 7.17 our of 10. But since our testers were mainly friends and fellow students, we were expecting to receive rather high values, as they did not want to make us feel bad. But a 7.17 out of 10 is not actually bad for the game itself, as much of the game content, such as audio and graphics, was made without a budget. The second part of the fun testing results reveals that the subjects thought the game was actually becoming worse over time, instead of maximizing fun. As mentioned in @chapref(fun_testing), we believe that two of our parameters, named "SuperChance" and "DiggerChance" REFERERE APPENDIX!, are probably not normalized well enough, and has too big an impact on the game, causing the game to become unbeatable, due to the game creating too many difficult enemies to handle. To the best of our knowledge, this is a result of our modified algorithm, which we believe can be fixed by having multiple specialized algorithms, instead of a central one.
 
 One of the main issues with our process has been that it is hard to measure fun, it is also possible that our game in itself was not a 10/10 in fun, which can influence the results and not tell us much about the algorithm.  While our game is entertaining for a short while, it is certainly not an industry grade game. Our main feedback for how well the game worked is the ratings we get from players, and from that we are satisfied with how fun the game was perceived to be.
 
