@@ -1,4 +1,4 @@
-$title = Adaptive Game Difficulty
+﻿$title = Adaptive Game Difficulty
 $authors = Jon Vegard Jansen, Robin Tollisen
 $supervisors = Sondre Glimsdal
 $course = IKT411
@@ -44,6 +44,8 @@ Gamification is a concept that has been around for a long time, and has increase
 <i>"A process of enhancing a service with affordances for gameful experiences in order to support user's overall value creation."</i> @("Huotari, K., & Hamari, J. (2012, October). Defining gamification: a service marketing perspective. In <i>Proceeding of the 16th International Academic MindTrek Conference</i> (pp. 17-22). ACM.").
 
 The latter definition is directed towards service marketing, but if one reads 'service' as 'learning process' and 'user's overall value creation' as 'learning outcomes', we believe that gamification is something that could be used together with both tradition learning methods and E-learning.
+
+While we believe in the concept of gamification, for this project we will create our own game to test an algorithm for adaptive games.
 
 If one is to create a game that is meant for learning purposes, it is important to note that the game needs to be fun. @("Zichermann, G., & Cunningham, C. (2011). <i>Gamification by design: Implementing game mechanics in web and mobile apps.</i> O'Reilly Media."). If a game is not fun, it will not be able to educate either, because players lose interest in games the same way as students lose interest lectures, should they be boring. This is why it is important to figure out how it is possible to maximize the fun in any kind of game, thus keeping the interest of players. Since games appeal to a wide variety of players, the perceived level of fun may often vary among its players, due to personal preferences. In order to accomodote for such varying preferences, traditional games have often implemented several levels of difficulty the player may choose from, as well as providing the player with several settings or options for how they want the game to behave. When it comes to difficulty, other work has already been done on how to scale and adapt this to the level of player, in order to make even games, but in order to make a game fun, we believe that more than difficulty needs to adapt to individual preferences, thus more aspects of a game should be able to change on the fly. @("Spronck, P., Sprinkhuizen-Kuyper, I., & Postma, E. (2004). Difficulty scaling of game AI. In <i>Proceedings of the 5th International Conference on Intelligent Games and Simulation (GAME-ON 2004)</i> (pp. 33-37).").
 

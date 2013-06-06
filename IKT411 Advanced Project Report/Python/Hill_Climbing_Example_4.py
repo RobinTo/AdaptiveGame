@@ -12,8 +12,8 @@ plt.plot([0],[2],'yo')
 plt.text(0, 2, r'(0,2) Global maximum')
 
 
-plt.plot([1.2],[0.56],'ro')
-plt.text(1.2, 0.56, r'(1.2,0.56) Previous position')
+plt.plot([-0.5],[1.75],'ro')
+plt.text(-2.5, 1.75, r'(-0.5,1.75) Previous position')
 
 plt.axis([-3,3,-3,4])
 
