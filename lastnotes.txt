@@ -5,7 +5,7 @@ Report outline
 Stochastic hill climbing
 - Kodeblokk
 
-Flytte Game Description til kap 2
+Game Description
 - Mer bilder i kapittelet'
 - Java, tablet.
 - Verktøy brukt
@@ -25,6 +25,5 @@ Tegne opp en del av parameterne
 Our algorithm
 - Flytdiagram
 - Google draw
-- solution
 - Koble sammen med HC
 - Koble sammen med spillet

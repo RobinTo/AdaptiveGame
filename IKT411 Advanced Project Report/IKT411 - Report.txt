@@ -1,4 +1,4 @@
-$title = Adaptive Game Difficulty
+$title = Maximizing Fun in An Adaptive Tower Defense Game using Stochastic Hill Climbing
 $authors = Jon Vegard Jansen, Robin Tollisen
 $supervisors = Sondre Glimsdal
 $course = IKT411
@@ -53,7 +53,46 @@ If one is to create a game that is meant for learning purposes, it is important 
 Our project is to research whether it is possible to create a game, that uses an unsupervised online learning algorithm, which will adapt the game to the user's preferences based on limited user feedback.
 
 ## Problem Solution
-We have chosen to create a game using the tower defense genre, as this requires somewhat less work and graphics than many other genres, as well as having a lot of possible parameters that can be tweaked in order to adapt the contents of the game (henceforth: gameplay). The game uses a modified stochastic hill climbing algorithm together with some user feedback after each game, to adapt itself towards the individual player.
+We have chosen to create a game using the tower defense genre, as this requires somewhat less work and graphics than many other genres, as well as having a lot of possible parameters that can be tweaked in order to adapt the contents of the game (henceforth: gameplay). The game uses a modified stochastic hill climbing algorithm together with some user feedback after each game, to adapt itself towards the individual player. We call the game Adaptive Tower Defense, and abbrieviate it AdaptiveTD.
+
+## Report Outline
+Quick and short and concrete
+
+# Adaptive Tower Defense
+This chapter gives some pictures and a short description of our game, as well as some general information about the game genre, namely tower defense.
+
+@figure(tdimg, Tower_Defense.png, Left: AdaptiveTD. Right: A tower defense game called Fieldrunners @("http://wp.appadvice.com/wp-content/uploads/2010/04/IMG_0005.jpg"))
+
+## A short overview
+AdaptiveTD is a real-time strategy game, more precisely it would be referred to as a tower defense game. As you can see in @figref(tdimg), both images have some sort of path that the enemies, like the ones below in @figref(enemies), can walk upon.
+
+@figure(enemies, Images/enemies.png, Enemies from AdaptiveTD)
+
+The goal of both games is to build enough towers, like the ones in @figref(towers) below, that will try to kill the enemies, before they can cross the path. If too many enemies cross the path, the player will lose.
+
+@figure(towers, Images/towers.png, Towers from AdaptiveTD)
+
+In order to build towers, the player needs money/gold represented by the number next to the symbol seen in @figref(gold) below. Whenever the player to kill an enemy, it will bring in gold to his or her money bank.
+
+@figure(gold, Images/gold.png, Gold is represented by the number next to this symbol)
+
+Already here, there are a lot of parameters that an algorithm can tweak in order to maximize fun. For instance, one could change the balance between the build cost for each tower, and the amount of gold each enemy killed will yield. Another example is to change the health of enemies, making them more or less vulnerable to attack, while at the same time adjusting the damage that each tower does, so that the overall difficulty balance is not changed. In @chapref(parameters) we provide a detailed list of many of the chosen parameters, how they impact the game, and why they were chosen.
+
+We created AdaptiveTD using LibGDX, which is "a cross-platform game development library written in Java", that "abstracts away the differences between writting desktop, Android, iOS and HTML5 games based on standards like OpenGL ES/WebGL", where "Applications can be prototyped and developed entirely on the desktop, then only 6 lines of code are needed to run your app on Android or HTML5." @("https://code.google.com/p/libgdx/").
+This makes it possible to test and possibly publish AdaptiveTD on Android and iPhones, as well as tablets and computers, both for desktop in all major OS's, and for HTML.
+
+@figure(phone, Images/phone.jpg, AdaptiveTD on a mobile device)
+
+## Parameters and their importance | parameters
+
+In the following sub-chapter we provide some of the parameters we keep track of in AdaptiveTD, what they represent, and some general comments on their usefulness.
+
+## AdaptiveTD vs. similar games
+AdaptiveTD is very similar to classic tower defense games, in that the player has to stop different kinds of enemies from reaching the destination on their path, by using different kinds of towers. AdaptiveTD differs slightly from other tower defense games on several points.
+
+There are no scripted or static levels, since each game is a step closer towards the player's 'ideal game', that is, the game that is perceived as the most fun. Other than that the game learns after each level, the player has nothing that is carried over to the next game, such as tower access, special items or game progress in general. The player simply plays successive games until he or she quits.
+
+The game has modular towers and enemies. This is not necessarily new to the tower defense genre, as not all tower defense games may have pre-defined enemies and towers, but this is something that can be used in order to adapt the game towards personal preferences. (Guided) Randomly generated maps. Not necessarily new to the genre either, but is another useful technology that can be used to adapt the game to the player. Note that our game did not use this for game adaption, only to make the game seem less static.
 
 # Stochastic hill climbing | shc
 
@@ -110,19 +149,6 @@ The figure above illustrate how relations work. We have the relation GlobelMonst
 @figure(difficultyexample, difficulty.png, Difficulty does not change in relations.)
 
 We also get feedback on the difficulty, while this is not the main focus of this report, it does indicate something about the user. Since a game that is to easy or to hard is not fun, we found that we needed to implement some sort of difficulty scalign as well. We have implemented Stochastic Hillclimbing for the difficulty. Here however we just have parameters, and since the metric here in the sense of a graph would be "Too Low"(Easy), "Perfect" and "Too High"(Difficult), it is quite easy to guide the search and make it less random.
-
-# Game Description
-This chapter gives some pictures and a short description of our game, as well as some general information about the game genre, namely tower defense.
-
-## Genre
-The game we created to demonstrate our algorithm is a real-time strategy game, more precisely it would be refered to as a tower defense game. The goal of the game is to build tower tactically accross a map to prevent computer controlled enemies from reaching the other side.
-
-## Our game
-Our game is very similar to classic tower defense games, in that the player has to stop different kinds of enemies from reaching the destination on their path, by using different kinds of towers. Our game differs slightly from other tower defense games on several points.
-
-There are no scripted or static levels, since each game is a step closer towards the player's 'ideal game', that is, the game that is perceived as the most fun. Other than that the game learns after each level, the player has nothing that is carried over to the next game, such as tower access, special items or game progress in general. The player simply plays successive games until he or she quits.
-
-The game has modular towers and enemies. This is not necessarily new to the tower defense genre, as not all tower defense games may have pre-defined enemies and towers, but this is something that can be used in order to adapt the game towards personal preferences. (Guided) Randomly generated maps. Not necessarily new to the genre either, but is another useful technology that can be used to adapt the game to the player. Note that our game did not use this for game adaption, only to make the game seem less static.
 
 # Testing
 Our testing is split into two parts. The first part contains two case tests of the algorithm, and the second part contains tests from our fellow students and friends.

@@ -1,14 +1,31 @@
-Robin
-Our algorithm - bilde av questionnaire
-Our game - bilde (Ikke '-')
-Appendix - Parameterliste
-Appendix - Example logfile
-Abstract
 
 
-JV
-- Discussion (ikke 10/10*), ref flat, diskutere test resultater
-- Conclusion - Sammenligne paragraph2 med, én param av gangen, mer content for å lage adaptivt gøy, ikke bare min/makse parametere
-- Future Work - samme spill uten adaptivitet, samme spill med random maps + plitt guiding, samme spill, annet spill, annet spill med elearning
+Report outline
+- Konkret
+- Kort
 
-Pending
+Stochastic hill climbing
+- Kodeblokk
+
+Game Description
+- Mer bilder i kapittelet'
+- Java, tablet.
+- Verktøy brukt
+- Diggers
+- Monstre, hva de gjør med spilleren
+- Hva er det adaptive i spillet
+- Hvorfor er hvilke parametere lagd
+- Fine tuning
+
+
+Ha med bilde tidlig
+
+Visuell tilbakemedling ved sliders, colorchange, earthquake, diggers,cost
+
+Tegne opp en del av parameterne
+
+Our algorithm
+- Flytdiagram
+- Google draw
+- Koble sammen med HC
+- Koble sammen med spillet

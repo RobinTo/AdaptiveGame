@@ -22,7 +22,7 @@
 <p><br></p>
 <p><br></p>
 
-<div style="font-size: 16pt; text-align: center"><b>Adaptive Game Difficulty</b></div>
+<div style="font-size: 16pt; text-align: center"><b>Maximizing Fun in An Adaptive Tower Defense Game using Stochastic Hill Climbing</b></div>
 
 <p><br></p>
 <p style="text-align: center">By<br>
@@ -51,14 +51,22 @@
 <a href='#background' class='toc_2'>Background</a><br>
 <a href='#introduction_-_problem_statement' class='toc_2'>Problem Statement</a><br>
 <a href='#introduction_-_problem_solution' class='toc_2'>Problem Solution</a><br>
+<a href='#introduction_-_report_outline' class='toc_2'>Report Outline</a><br>
+<a href='#adaptive_tower_defense' class='toc_1'>Adaptive Tower Defense</a><br>
+<a href='#adaptive_tower_defense_-_a_short_overview' class='toc_2'>A short overview</a><br>
+<a href='#parameters' class='toc_2'>Parameters and their importance</a><br>
+<a href='#adaptive_tower_defense_-_adaptivetd_vs__similar_games' class='toc_2'>AdaptiveTD vs. similar games</a><br>
 <a href='#shc' class='toc_1'>Stochastic hill climbing</a><br>
 <a href='#stochastic_hill_climbing_-_stochastic_hill_climbing_example' class='toc_2'>Stochastic hill climbing example</a><br>
 <a href='#solution' class='toc_1'>Solution</a><br>
+<<<<<<< HEAD
 <a href='#solution_-_algorithm' class='toc_2'>Algorithm</a><br>
 <a href='#solution_-_litt_lang_setning__som_er_en_hel_paragraf_' class='toc_2'>Litt lang setning, som er en hel paragraf?</a><br>
 <a href='#game_description' class='toc_1'>Game Description</a><br>
 <a href='#game_description_-_genre' class='toc_2'>Genre</a><br>
 <a href='#game_description_-_our_game' class='toc_2'>Our game</a><br>
+=======
+>>>>>>> Report work
 <a href='#testing' class='toc_1'>Testing</a><br>
 <a href='#testing_-_difficulty_testing' class='toc_2'>Difficulty testing</a><br>
 <a href='#fun_testing' class='toc_2'>Fun testing</a><br>
@@ -78,6 +86,11 @@
 </p>
 
 <div>
+<a href='#tdimg' class='figtoc'>Left: AdaptiveTD. Right: A tower defense game called Fieldrunners <a href="http://wp.appadvice.com/wp-content/uploads/2010/04/IMG_0005.jpg">[6]</a></a><br>
+<a href='#enemies' class='figtoc'>Enemies from AdaptiveTD</a><br>
+<a href='#towers' class='figtoc'>Towers from AdaptiveTD</a><br>
+<a href='#gold' class='figtoc'>Gold is represented by the number next to this symbol</a><br>
+<a href='#phone' class='figtoc'>AdaptiveTD on a mobile device</a><br>
 <a href='#hclocalmaximum' class='figtoc'>A function that has a local maximum</a><br>
 <a href='#hcflat' class='figtoc'>A function that is too flat to search on</a><br>
 <a href='#hcsteep' class='figtoc'>A function that is very steep</a><br>
@@ -148,47 +161,50 @@ Our project is to research whether it is possible to create a game, that uses an
 
 <h2 id='introduction_-_problem_solution'>Problem Solution</h2>
 <p>
-We have chosen to create a game using the tower defense genre, as this requires somewhat less work and graphics than many other genres, as well as having a lot of possible parameters that can be tweaked in order to adapt the contents of the game (henceforth: gameplay). The game uses a modified stochastic hill climbing algorithm together with some user feedback after each game, to adapt itself towards the individual player.
+We have chosen to create a game using the tower defense genre, as this requires somewhat less work and graphics than many other genres, as well as having a lot of possible parameters that can be tweaked in order to adapt the contents of the game (henceforth: gameplay). The game uses a modified stochastic hill climbing algorithm together with some user feedback after each game, to adapt itself towards the individual player. We call the game Adaptive Tower Defense, and abbrieviate it AdaptiveTD.
 </p>
 
-<h1 id='shc'>Stochastic hill climbing</h1>
+<h2 id='introduction_-_report_outline'>Report Outline</h2>
+<p>
+Quick and short and concrete
+</p>
+
+<h1 id='adaptive_tower_defense'>Adaptive Tower Defense</h1>
+<p>
+This chapter gives some pictures and a short description of our game, as well as some general information about the game genre, namely tower defense.
+</p>
+
+<div id='tdimg' class='figure'><img src='Tower_Defense.png' alt='Left: AdaptiveTD. Right: A tower defense game called Fieldrunners <a href="http://wp.appadvice.com/wp-content/uploads/2010/04/IMG_0005.jpg">[6]</a>' title='Left: AdaptiveTD. Right: A tower defense game called Fieldrunners <a href="http://wp.appadvice.com/wp-content/uploads/2010/04/IMG_0005.jpg">[6]</a>'><div class='caption'>Left: AdaptiveTD. Right: A tower defense game called Fieldrunners <a href="http://wp.appadvice.com/wp-content/uploads/2010/04/IMG_0005.jpg">[6]</a></div></div>
+
+<h2 id='adaptive_tower_defense_-_a_short_overview'>A short overview</h2>
+<p>
+AdaptiveTD is a real-time strategy game, more precisely it would be referred to as a tower defense game. As you can see in <a href='#tdimg' class='figref'>this figure</a>, both images have some sort of path that the enemies, like the ones below in <a href='#enemies' class='figref'>this figure</a>, can walk upon.
+</p>
+
+<div id='enemies' class='figure'><img src='Images/enemies.png' alt='Enemies from AdaptiveTD' title='Enemies from AdaptiveTD'><div class='caption'>Enemies from AdaptiveTD</div></div>
 
 <p>
-A hill climbing algorithm is an iterative improvement algorithm, searching for a local maximum. It tries to maximize a function f(X), where X could be a node, state, position or, in our case, a vector of parameters. It compares neighboring nodes to the one it is standing on, and checks if they are an improvement on f(X). If one of the other nodes is improving the situation, then the algorithm moves to the new node, commonly the best node, and repeats the process. The process is repeated until no more improvements can be found, thus the algorithm has found a local maximum. <a href='#reference_6' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[6]</a>
+The goal of both games is to build enough towers, like the ones in <a href='#towers' class='figref'>this figure</a> below, that will try to kill the enemies, before they can cross the path. If too many enemies cross the path, the player will lose.
 </p>
 
-<div id='hclocalmaximum' class='figure'><img src='Hill_Climbing_Local_Maximum.png' alt='A function that has a local maximum' title='A function that has a local maximum'><div class='caption'>A function that has a local maximum</div></div>
-<div id='hcflat' class='figure'><img src='Hill_Climbing_Flat.png' alt='A function that is too flat to search on' title='A function that is too flat to search on'><div class='caption'>A function that is too flat to search on</div></div>
-<div id='hcsteep' class='figure'><img src='Hill_Climbing_Steep.png' alt='A function that is very steep' title='A function that is very steep'><div class='caption'>A function that is very steep</div></div>
+<div id='towers' class='figure'><img src='Images/towers.png' alt='Towers from AdaptiveTD' title='Towers from AdaptiveTD'><div class='caption'>Towers from AdaptiveTD</div></div>
 
 <p>
-One issue with this algorithm, is that it can become stuck on a local maximum, which may not be the global maximum, as in <a href='#hclocalmaximum' class='figref'>this figure</a>. One way to reduce the probability of this to happen, is to allow the algorithm to jump larger distances each jump, or to make sure that the landscape is convex. Another issue shown by <a href='#hcflat' class='figref'>this figure</a> is that the search area may be flat, that is, each node is as good as all its neighbors. In this case, any jump will not bring any improvement. A third issue in <a href='#hcsteep' class='figref'>this figure</a> is that a node may be lying on a very steep ridge, that is, the 'area' of parameters that give a good node is very small, and can thus be hard to find. <a href='#reference_6' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[6]</a>
+In order to build towers, the player needs money/gold represented by the number next to the symbol seen in <a href='#gold' class='figref'>this figure</a> below. Whenever the player to kill an enemy, it will bring in gold to his or her money bank.
 </p>
 
-<p>
-There are different variants of hill climbing algorithms, with different ways of deciding where and when to jump. The stochastic hill climbing algorithm, closely resembling simulated annealing, chooses a position at random, then evaluates whether it is an improvement, and if it is, jumps to the new position. If the new position is not an improvement, it will go back to the last one. With stochastic hill climbing, it may be wise to set a specific maximum jump distance, and let this decrease over time. This allows the algorithm to converge or settle on a position after some time. <a href='#reference_6' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[6]</a>
-</p>
-
-<h2 id='stochastic_hill_climbing_-_stochastic_hill_climbing_example'>Stochastic hill climbing example</h2>
+<div id='gold' class='figure'><img src='Images/gold.png' alt='Gold is represented by the number next to this symbol' title='Gold is represented by the number next to this symbol'><div class='caption'>Gold is represented by the number next to this symbol</div></div>
 
 <p>
-Here is an example for how to use stochastic hill climbing for how to find the maximum value of the function f(X) = 2 - X<sup>2</sup>. which has a maximum value of 2. We initialize the maximum jump distance (in x-direction) to a value of 1.0, and let this decrease by 0.1 with each jump.
-</p>
-
-<div id='hcex1' class='figure'><img src='Hill_Climbing_Example_1.png' alt='The startpoint for the search' title='The startpoint for the search'><div class='caption'>The startpoint for the search</div></div>
-<div id='hcex2' class='figure'><img src='Hill_Climbing_Example_2.png' alt='The first jump' title='The first jump'><div class='caption'>The first jump</div></div>
-<div id='hcex3' class='figure'><img src='Hill_Climbing_Example_3.png' alt='An attempted jump' title='An attempted jump'><div class='caption'>An attempted jump</div></div>
-<div id='hcex4' class='figure'><img src='Hill_Climbing_Example_4.png' alt='Achieving global maximum' title='Achieving global maximum'><div class='caption'>Achieving global maximum</div></div>
-<div id='hcex5' class='figure'><img src='Hill_Climbing_Example_5.png' alt='Further jumps are discarded' title='Further jumps are discarded'><div class='caption'>Further jumps are discarded</div></div>
-
-<p>
-This is a short example of how stochastic hill climbing will eventually find the local, or global, maximum on a graph. This example is very short, compared to how many jumps it would normally take, but this is actually possible.
+Already here, there are a lot of parameters that an algorithm can tweak in order to maximize fun. For instance, one could change the balance between the build cost for each tower, and the amount of gold each enemy killed will yield. Another example is to change the health of enemies, making them more or less vulnerable to attack, while at the same time adjusting the damage that each tower does, so that the overall difficulty balance is not changed. In <a href='#parameters' class='chapref_2'>Parameters and their importance</a> we provide a detailed list of many of the chosen parameters, how they impact the game, and why they were chosen.
 </p>
 
 <p>
-With a starting maximum jump distance of 1.0, decreasing by 0.1 with each jump, the algorithm will have converged after ten jumps, hopefully at an acceptable position. In a game setting, it may be wise to let the maximum jump distance never decrease to zero, because it can make the game feel more lively.
+We created AdaptiveTD using LibGDX, which is "a cross-platform game development library written in Java", that "abstracts away the differences between writting desktop, Android, iOS and HTML5 games based on standards like OpenGL ES/WebGL", where "Applications can be prototyped and developed entirely on the desktop, then only 6 lines of code are needed to run your app on Android or HTML5." <a href="https://code.google.com/p/libgdx/">[7]</a>.<br>
+This makes it possible to test and possibly publish AdaptiveTD on Android and iPhones, as well as tablets and computers, both for desktop in all major OS's, and for HTML.
 </p>
 
+<<<<<<< HEAD
 <h1 id='solution'>Solution</h1>
 
 <p>
@@ -230,21 +246,19 @@ The figure above illustrate how relations work. We have the relation GlobelMonst
 
 <p>
 We also get feedback on the difficulty, while this is not the main focus of this report, it does indicate something about the user. Since a game that is to easy or to hard is not fun, we found that we needed to implement some sort of difficulty scalign as well. We have implemented Stochastic Hillclimbing for the difficulty. Here however we just have parameters, and since the metric here in the sense of a graph would be "Too Low"(Easy), "Perfect" and "Too High"(Difficult), it is quite easy to guide the search and make it less random.
+=======
+<div id='phone' class='figure'><img src='Images/phone.jpg' alt='AdaptiveTD on a mobile device' title='AdaptiveTD on a mobile device'><div class='caption'>AdaptiveTD on a mobile device</div></div>
+
+<h2 id='parameters'>Parameters and their importance</h2>
+
+<p>
+In the following sub-chapter we provide some of the parameters we keep track of in AdaptiveTD, what they represent, and some general comments on their usefulness.
 </p>
 
-<h1 id='game_description'>Game Description</h1>
+<h2 id='adaptive_tower_defense_-_adaptivetd_vs__similar_games'>AdaptiveTD vs. similar games</h2>
 <p>
-This chapter gives some pictures and a short description of our game, as well as some general information about the game genre, namely tower defense.
-</p>
-
-<h2 id='game_description_-_genre'>Genre</h2>
-<p>
-The game we created to demonstrate our algorithm is a real-time strategy game, more precisely it would be refered to as a tower defense game. The goal of the game is to build tower tactically accross a map to prevent computer controlled enemies from reaching the other side.
-</p>
-
-<h2 id='game_description_-_our_game'>Our game</h2>
-<p>
-Our game is very similar to classic tower defense games, in that the player has to stop different kinds of enemies from reaching the destination on their path, by using different kinds of towers. Our game differs slightly from other tower defense games on several points.
+AdaptiveTD is very similar to classic tower defense games, in that the player has to stop different kinds of enemies from reaching the destination on their path, by using different kinds of towers. AdaptiveTD differs slightly from other tower defense games on several points.
+>>>>>>> Report work
 </p>
 
 <p>
@@ -253,6 +267,54 @@ There are no scripted or static levels, since each game is a step closer towards
 
 <p>
 The game has modular towers and enemies. This is not necessarily new to the tower defense genre, as not all tower defense games may have pre-defined enemies and towers, but this is something that can be used in order to adapt the game towards personal preferences. (Guided) Randomly generated maps. Not necessarily new to the genre either, but is another useful technology that can be used to adapt the game to the player. Note that our game did not use this for game adaption, only to make the game seem less static.
+</p>
+
+<h1 id='shc'>Stochastic hill climbing</h1>
+
+<p>
+A hill climbing algorithm is an iterative improvement algorithm, searching for a local maximum. It tries to maximize a function f(X), where X could be a node, state, position or, in our case, a vector of parameters. It compares neighboring nodes to the one it is standing on, and checks if they are an improvement on f(X). If one of the other nodes is improving the situation, then the algorithm moves to the new node, commonly the best node, and repeats the process. The process is repeated until no more improvements can be found, thus the algorithm has found a local maximum. <a href='#reference_8' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[8]</a>
+</p>
+
+<div id='hclocalmaximum' class='figure'><img src='Hill_Climbing_Local_Maximum.png' alt='A function that has a local maximum' title='A function that has a local maximum'><div class='caption'>A function that has a local maximum</div></div>
+<div id='hcflat' class='figure'><img src='Hill_Climbing_Flat.png' alt='A function that is too flat to search on' title='A function that is too flat to search on'><div class='caption'>A function that is too flat to search on</div></div>
+<div id='hcsteep' class='figure'><img src='Hill_Climbing_Steep.png' alt='A function that is very steep' title='A function that is very steep'><div class='caption'>A function that is very steep</div></div>
+
+<p>
+One issue with this algorithm, is that it can become stuck on a local maximum, which may not be the global maximum, as in <a href='#hclocalmaximum' class='figref'>this figure</a>. One way to reduce the probability of this to happen, is to allow the algorithm to jump larger distances each jump, or to make sure that the landscape is convex. Another issue shown by <a href='#hcflat' class='figref'>this figure</a> is that the search area may be flat, that is, each node is as good as all its neighbors. In this case, any jump will not bring any improvement. A third issue in <a href='#hcsteep' class='figref'>this figure</a> is that a node may be lying on a very steep ridge, that is, the 'area' of parameters that give a good node is very small, and can thus be hard to find. <a href='#reference_8' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[8]</a>
+</p>
+
+<p>
+There are different variants of hill climbing algorithms, with different ways of deciding where and when to jump. The stochastic hill climbing algorithm, closely resembling simulated annealing, chooses a position at random, then evaluates whether it is an improvement, and if it is, jumps to the new position. If the new position is not an improvement, it will go back to the last one. With stochastic hill climbing, it may be wise to set a specific maximum jump distance, and let this decrease over time. This allows the algorithm to converge or settle on a position after some time. <a href='#reference_8' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[8]</a>
+</p>
+
+<h2 id='stochastic_hill_climbing_-_stochastic_hill_climbing_example'>Stochastic hill climbing example</h2>
+
+<p>
+Here is an example for how to use stochastic hill climbing for how to find the maximum value of the function f(X) = 2 - X<sup>2</sup>. which has a maximum value of 2. We initialize the maximum jump distance (in x-direction) to a value of 1.0, and let this decrease by 0.1 with each jump.
+</p>
+
+<div id='hcex1' class='figure'><img src='Hill_Climbing_Example_1.png' alt='The startpoint for the search' title='The startpoint for the search'><div class='caption'>The startpoint for the search</div></div>
+<div id='hcex2' class='figure'><img src='Hill_Climbing_Example_2.png' alt='The first jump' title='The first jump'><div class='caption'>The first jump</div></div>
+<div id='hcex3' class='figure'><img src='Hill_Climbing_Example_3.png' alt='An attempted jump' title='An attempted jump'><div class='caption'>An attempted jump</div></div>
+<div id='hcex4' class='figure'><img src='Hill_Climbing_Example_4.png' alt='Achieving global maximum' title='Achieving global maximum'><div class='caption'>Achieving global maximum</div></div>
+<div id='hcex5' class='figure'><img src='Hill_Climbing_Example_5.png' alt='Further jumps are discarded' title='Further jumps are discarded'><div class='caption'>Further jumps are discarded</div></div>
+
+<p>
+This is a short example of how stochastic hill climbing will eventually find the local, or global, maximum on a graph. This example is very short, compared to how many jumps it would normally take, but this is actually possible.
+</p>
+
+<p>
+With a starting maximum jump distance of 1.0, decreasing by 0.1 with each jump, the algorithm will have converged after ten jumps, hopefully at an acceptable position. In a game setting, it may be wise to let the maximum jump distance never decrease to zero, because it can make the game feel more lively.
+</p>
+
+<h1 id='solution'>Solution</h1>
+
+<p>
+Our algorithm works with a set of parameters which affects the game, these parameters are listed in <a href='#reference_9' title='Some Chapter'>[9]</a>. We have done some testing and found some values for these which we think make an ok game for most people. After each game there is a questionnaire which asks "How fun was this game?" and "How difficult was this game?", which is then saved and used to create the next game. We save the value we receive in "How fun was this game?" as a metric, and use it to determine wether to jump from the current or the last game.
+</p>
+
+<p>
+We scale the difficulty based on certain paramteres, and "fun" based on other parameters. The parameters which fall into the category of scaling fun are related in pairs of a "positive" and a "negative parameter such that if one jumps, the other one jumps equally as much, such as to keep difficulty even. By positive parameter we mean one which when scaled up would make the game easier for the player, and a negative would make it harder for the player when scaled up.
 </p>
 
 <h1 id='testing'>Testing</h1>
@@ -332,7 +394,11 @@ Another problem we have noticed during the development process, is that the jump
 </p>
 
 <p>
+<<<<<<< HEAD
 Lastly, we also noticed that the tower defense genre may not be well suited for creating an adaptive game. This is mainly because of the three following reasons. Firstly, the core game elements are rather static, which makes it difficult to make the game look and feel adaptive to the player. A different genre, such as the platformer, with game a example like Super Mario Bros. <a href="http://mario.nintendo.com/">[7]</a>. Secondly, the parameters in a tower defense game are very tightly knit together, in order to keep the game difficulty in balance. It is difficult to map how they all fit together, which makes it difficult for our algorithm to jump randomly to a new position, while still maintaining mentioned balance. Thirdly, the fun factor in a tower defense game is often related to the feeling of accomplishment. For instance, this feeling may occur when the player has lost a couple of games at the same challenge, and finally is able to beat the game. Since the game adapts itself to the player, thus is never the same, some would feel that their accomplishment is diminished.
+=======
+Lastly, we also noticed that the tower defense genre may not be well suited for creating an adaptive game. This is mainly because of the three following reasons. Firstly, the core game elements are rather static, which makes it difficult to make the game look and feel adaptive to the player. A different genre, such as the platformer, with game a example like Super Mario Bros. <a href="http://mario.nintendo.com/">[10]</a>. Secondly, the parameters in a tower defense game are very tightly knit together, in order to keep the game difficulty in balance. It is difficult to map how they all fit together, which makes it difficult for our algorithm to jump randomly to a new position, while still maintaining mentioned balance. Thirdly, the fun factor in a tower defense game is often related to the feeling of accomplishment. For instance, this feeling may occur when the player has lost a couple of games at the same challenge, and finally is able to beat the game. Since the game adapts itself to the player, thus is never the same, some would feel that their accomplishment is diminished.
+>>>>>>> Report work
 </p>
 
 <h1 id='conclusion'>Conclusion</h1>
@@ -384,8 +450,16 @@ IEEE, ACM, Springer
 <span id='reference_3'>[3] Zichermann, G., & Cunningham, C. (2011). <i>Gamification by design: Implementing game mechanics in web and mobile apps.</i> O'Reilly Media.</span><br>
 <span id='reference_4'>[4] Huotari, K., & Hamari, J. (2012, October). Defining gamification: a service marketing perspective. In <i>Proceeding of the 16th International Academic MindTrek Conference</i> (pp. 17-22). ACM.</span><br>
 <span id='reference_5'>[5] Spronck, P., Sprinkhuizen-Kuyper, I., & Postma, E. (2004). Difficulty scaling of game AI. In <i>Proceedings of the 5th International Conference on Intelligent Games and Simulation (GAME-ON 2004)</i> (pp. 33-37).</span><br>
+<<<<<<< HEAD
 <span id='reference_6'>[6] Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall</span><br>
 <a id='reference_7' href="http://mario.nintendo.com/">[7] http://mario.nintendo.com/</a><br>
+=======
+<a id='reference_6' href="http://wp.appadvice.com/wp-content/uploads/2010/04/IMG_0005.jpg">[6] http://wp.appadvice.com/wp-content/uploads/2010/04/IMG_0005.jpg</a><br>
+<a id='reference_7' href="https://code.google.com/p/libgdx/">[7] https://code.google.com/p/libgdx/</a><br>
+<span id='reference_8'>[8] Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall</span><br>
+<span id='reference_9'>[9] Some Chapter</span><br>
+<a id='reference_10' href="http://mario.nintendo.com/">[10] http://mario.nintendo.com/</a><br>
+>>>>>>> Report work
 </div>
 
 
