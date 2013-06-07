@@ -58,7 +58,7 @@ In this report, we first describe the proof of concept game we created. Secondy,
 
 This chapter gives some pictures and a short description of AdaptiveTD, as well as some general information about the game genre, namely tower defense.
 
-@figure(tdimg, Tower_Defense.png, Left: AdaptiveTD. Right: A tower defense game called Fieldrunners @("http://wp.appadvice.com/wp-content/uploads/2010/04/IMG_0005.jpg"))
+@figure(tdimg, Tower_Defense.png, Left: AdaptiveTD. Right: A tower defense game called Fieldrunners)
 
 ## A short overview
 AdaptiveTD is a real-time strategy game, more precisely it would be referred to as a tower defense game. As you can see in @figref(tdimg), both images have some sort of path that the enemies, like the ones below in @figref(enemies), can walk upon.
@@ -112,7 +112,7 @@ AdaptiveTD is very similar to classic tower defense games, in that the player ha
 There are no scripted or static levels, since each game is a step closer towards the player's 'ideal game', that is, the game that is perceived as the most fun. Other than that the game learns after each level, the player has nothing that is carried over to the next game, such as tower access, special items or game progress in general. The player simply plays successive games until he or she quits. AdaptiveTD features modular towers and enemies. This is not necessarily new to the tower defense genre, as not all tower defense games may have predefined enemies and towers, but this is something that can be used in order to adapt the game towards personal preferences. AdaptiveTD also has randomly generated maps. Not necessarily new to the genre either, but is a useful tool that can be used to adapt the game to the player. Note that AdaptiveTD did not use this for game adaption, only to make the game seem less static.
 
 ## Tools
-We created AdaptiveTD using LibGDX, which is "a cross-platform game development library written in Java", that "abstracts away the differences between writting desktop, Android, iOS and HTML5 games based on standards like OpenGL ES/WebGL", where "Applications can be prototyped and developed entirely on the desktop, then only 6 lines of code are needed to run your app on Android or HTML5." @("https://code.google.com/p/libgdx/").
+We created AdaptiveTD using LibGDX, which is "a cross-platform game development library written in Java", that "abstracts away the differences between writting desktop, Android, iOS and HTML5 games based on standards like OpenGL ES/WebGL", where "Applications can be prototyped and developed entirely on the desktop, then only 6 lines of code are needed to run your app on Android or HTML5." @("Author unknown. (2013). <i>Google Code</i>. Fetched from https://code.google.com/p/libgdx/").
 This makes it possible to test and possibly publish AdaptiveTD on Android and iPhones, as well as tablets and computers, both for desktop in all major OS's, and even in HTML5 with some slight modification.
 
 @figure(phone, Images/phone2.jpg, AdaptiveTD on a mobile device)
@@ -225,7 +225,7 @@ We also used these tests to see that the relations work correctly. GlobalReloadT
 
 ### Case test: Two variables | case_2
 
-Since the algorithm is stochastic, we asume that with more variables with a desired value, the time it takes will increase. Thus we decided to test with two variables, global reload time and global build cost. We rated the game three hearts if all values increased, and one heart if not. We ran 100 tests with 100 games in each, and the following graph show the average values during these games. These tests are run on the version where one heart metrics can not be chosen as the best known metric.
+Since the algorithm is stochastic, we assume that with more variables with a desired value, the time it takes will increase. Thus we decided to test with two variables, global reload time and global build cost. We rated the game three hearts if all values increased, and one heart if not. We ran 100 tests with 100 games in each, and the following graph show the average values during these games. These tests are run on the version where one heart metrics can not be chosen as the best known metric.
 
 @figure(avg100x100buildreload, avg100x100BuildReload.png, Average values for two variables.)
 
@@ -241,7 +241,8 @@ As we now see the two variables in relations reach the top even more slowly, as 
 
 ### Case test: No max jump distance increase | ctnomax
 
-We ran a few tests with different values in the algorithm. We thought that perhaps what limited us from converging properly was the reset of the max jump distance when receiving a one star rating. We ran 100 tests with 100 games in each, to see whether it would converge more clearly. This may however cause players to be less satisified when playing for an extended period of time, as they may be stuck at a position. In @chapref(discussion) we discuss this more in-depth.
+We ran a few tests with different values in the algorithm. We thought that perhaps what limited us from converging properly was the reset of the max jump distance when receiving a one star rating. We ran 100 tests with 100 games in each, to see whether it would converge more clearly. This may however cause players to be less satisified when playing for an extended period of time, as they may be stuck at a position. In @chapref(discussion) we discuss this more in-depth. This test is run on the version where one heart metrics can not be chosen as the best known metric.
+
 
 @figure(NoMaxJumpDistanceIncrease, NoMaxJumpIncrease.png, Graph when maximum jump distance does not increase on one heart ratings.)
 
@@ -249,7 +250,7 @@ We see a more clear trend, which continues further upwards. However, it increase
 
 ### Case test: Max jump distance increase less | ctlessmax
 
-After having ran the previous test, we believe that perhaps tweaking the increase of the max jump distance upon receiving a one heart rating will give us much better result. Instead of setting it back to the maximum we will just double the current value, and when receiving a three heart rating we will divide it by two.
+After having ran the previous test, we believe that perhaps tweaking the increase of the max jump distance upon receiving a one heart rating will give us much better result. Instead of setting it back to the maximum we will just double the current value, and when receiving a three heart rating we will divide it by two. This test is also run on the version where one heart metrics can not be chosen as the best known metric.
 
 @figure(MaxJumpIncreaseLess, MaxJumpDistanceIncreaseLess.png, Graph when maximum jump distance increases less upon one heart rating.)
 
@@ -275,7 +276,7 @@ The algorithm from @chapref(ctnomax) and the one from @chapref(ctlessmax) are pe
 ## Other observations | observations
 A problem we have noticed during the development process, is that the jumps themselves may be too subtle for a player to notice when jump distance shortens. The algorithm requires positive feedback when it goes in a direction the player likes, but if the change is not noticable the player may give it the same score, thus have a decent chance of ending up jumping from his old game each jump. This issue is similar to the one in chapter 5, @chapref(shc), @figref(hcissues), figure in the middle.
 
-Lastly, we also noticed that the tower defense genre may not be well suited for creating an adaptive game. This is mainly because of the three following reasons. Firstly, the core game elements are rather static, which makes it difficult to make the game look and feel adaptive to the player. A different genre, such as the platformer, with game a example like Super Mario Bros. @("http://mario.nintendo.com/"). Secondly, the parameters in a tower defense game are very tightly knit together, in order to keep the game difficulty in balance. It is difficult to map how they all fit together, which makes it difficult for our algorithm to jump randomly to a new position, while still maintaining mentioned balance. Thirdly, the fun factor in a tower defense game is often related to the feeling of accomplishment. For instance, this feeling may occur when the player has lost a couple of games at the same challenge, and finally is able to beat the game. Since the game adapts itself to the player, thus is never the same, some would feel that their accomplishment is diminished.
+Lastly, we also noticed that the tower defense genre may not be well suited for creating an adaptive game. This is mainly because of the three following reasons. Firstly, the core game elements are rather static, which makes it difficult to make the game look and feel adaptive to the player. A different genre, such as the platformer, with game a example like Super Mario Bros. Secondly, the parameters in a tower defense game are very tightly knit together, in order to keep the game difficulty in balance. It is difficult to map how they all fit together, which makes it difficult for our algorithm to jump randomly to a new position, while still maintaining mentioned balance. Thirdly, the fun factor in a tower defense game is often related to the feeling of accomplishment. For instance, this feeling may occur when the player has lost a couple of games at the same challenge, and finally is able to beat the game. Since the game adapts itself to the player, thus is never the same, some would feel that their accomplishment is diminished.
 
 A problem with the relations, is that a parameter which is represented in many relations will have a higher probability to increase or decrease more drastically, as each relation gives every parameter it holds a chance to jump. Also, our predefined relations are not completely preserving the game difficulty at each jump, making the fun search of our algorithm also slightly change the game difficulty at the same time.
 

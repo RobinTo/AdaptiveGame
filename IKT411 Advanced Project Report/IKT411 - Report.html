@@ -66,6 +66,7 @@
 <a href='#case_3' class='toc_3'>Case test: Three variables</a><br>
 <a href='#ctnomax' class='toc_3'>Case test: No max jump distance increase</a><br>
 <a href='#ctlessmax' class='toc_3'>Case test: Max jump distance increase less</a><br>
+<a href='#testing_-_results_from_testing' class='toc_2'>Results from testing</a><br>
 <a href='#discussion' class='toc_1'>Discussion</a><br>
 <a href='#discussion_-_discussing_the_tests' class='toc_2'>Discussing the tests</a><br>
 <a href='#observations' class='toc_2'>Other observations</a><br>
@@ -78,7 +79,7 @@
 <h1 id='table_of_figures' class='notoc'>Table of figures</h1>
 
 <div>
-<a href='#tdimg' class='figtoc'>Left: AdaptiveTD. Right: A tower defense game called Fieldrunners <a href="http://wp.appadvice.com/wp-content/uploads/2010/04/IMG_0005.jpg">[6]</a></a><br>
+<a href='#tdimg' class='figtoc'>Left: AdaptiveTD. Right: A tower defense game called Fieldrunners</a><br>
 <a href='#enemies' class='figtoc'>Enemies from AdaptiveTD</a><br>
 <a href='#towers' class='figtoc'>Towers from AdaptiveTD</a><br>
 <a href='#gold' class='figtoc'>Gold is represented by the number next to this symbol</a><br>
@@ -172,7 +173,7 @@ In this report, we first describe the proof of concept game we created. Secondy,
 This chapter gives some pictures and a short description of AdaptiveTD, as well as some general information about the game genre, namely tower defense.
 </p>
 
-<div id='tdimg' class='figure'><img src='Tower_Defense.png' alt='Left: AdaptiveTD. Right: A tower defense game called Fieldrunners <a href="http://wp.appadvice.com/wp-content/uploads/2010/04/IMG_0005.jpg">[6]</a>' title='Left: AdaptiveTD. Right: A tower defense game called Fieldrunners <a href="http://wp.appadvice.com/wp-content/uploads/2010/04/IMG_0005.jpg">[6]</a>'><div class='caption'>Left: AdaptiveTD. Right: A tower defense game called Fieldrunners <a href="http://wp.appadvice.com/wp-content/uploads/2010/04/IMG_0005.jpg">[6]</a></div></div>
+<div id='tdimg' class='figure'><img src='Tower_Defense.png' alt='Left: AdaptiveTD. Right: A tower defense game called Fieldrunners' title='Left: AdaptiveTD. Right: A tower defense game called Fieldrunners'><div class='caption'>Left: AdaptiveTD. Right: A tower defense game called Fieldrunners</div></div>
 
 <h2 id='adaptive_tower_defense_-_a_short_overview'>A short overview</h2>
 <p>
@@ -259,7 +260,7 @@ There are no scripted or static levels, since each game is a step closer towards
 
 <h2 id='adaptive_tower_defense_-_tools'>Tools</h2>
 <p>
-We created AdaptiveTD using LibGDX, which is "a cross-platform game development library written in Java", that "abstracts away the differences between writting desktop, Android, iOS and HTML5 games based on standards like OpenGL ES/WebGL", where "Applications can be prototyped and developed entirely on the desktop, then only 6 lines of code are needed to run your app on Android or HTML5." <a href="https://code.google.com/p/libgdx/">[7]</a>.<br>
+We created AdaptiveTD using LibGDX, which is "a cross-platform game development library written in Java", that "abstracts away the differences between writting desktop, Android, iOS and HTML5 games based on standards like OpenGL ES/WebGL", where "Applications can be prototyped and developed entirely on the desktop, then only 6 lines of code are needed to run your app on Android or HTML5." <a href='#reference_6' title='Author unknown. (2013). <i>Google Code</i>. Fetched from https://code.google.com/p/libgdx/'>[6]</a>.<br>
 This makes it possible to test and possibly publish AdaptiveTD on Android and iPhones, as well as tablets and computers, both for desktop in all major OS's, and even in HTML5 with some slight modification.
 </p>
 
@@ -272,17 +273,17 @@ Since this is only a proof of concept game meant for testing purposes, we are no
 <h1 id='shc'>Stochastic hill climbing</h1>
 
 <p>
-A hill climbing algorithm is an iterative improvement algorithm, searching for a local maximum. It tries to maximize a function f(X), where X could be a node, state, position or, in our case, a vector of parameters. It compares neighboring nodes to the one it is standing on, and checks if they are an improvement on f(X). If one of the other nodes is improving the situation, then the algorithm moves to the new node, commonly the best node, and repeats the process. The process is repeated until no more improvements can be found, thus the algorithm has found a local maximum. <a href='#reference_8' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[8]</a>. 
+A hill climbing algorithm is an iterative improvement algorithm, searching for a local maximum. It tries to maximize a function f(X), where X could be a node, state, position or, in our case, a vector of parameters. It compares neighboring nodes to the one it is standing on, and checks if they are an improvement on f(X). If one of the other nodes is improving the situation, then the algorithm moves to the new node, commonly the best node, and repeats the process. The process is repeated until no more improvements can be found, thus the algorithm has found a local maximum. <a href='#reference_7' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[7]</a>. 
 </p>
 
 <div id='hcissues' class='figure'><img src='Images/hillclimbingissues.png' alt='Some issues with Hill Climbing' title='Some issues with Hill Climbing'><div class='caption'>Some issues with Hill Climbing</div></div>
 
 <p>
-In <a href='#hcissues' class='figref'>this figure</a> above, there are three issues with this algorithm, that the user must be aware of. One issue is that the algorithm can become stuck on a local maximum, which may not be the global maximum, as to the right. One way to reduce the probability of this to happen, is to allow the algorithm to jump larger distances each jump, or to make sure that the landscape is convex. In our case, the player probably has more than one area that he or she considers fun, so when the player is bored by the area he or she currently is in, AdaptiveTD expands the maximum jump distance to try to find other local maxima. Another issue, shown in the middle, is that the search area may be flat, that is, each node is as good as all its neighbors, and any jump will not bring any improvement. A game with little or no visual feedback, would probably have been subject to this issue, but through the of use visual effects, we believe that this effect can be reduced. A third issue, as seen to the left, is that a node may be lying on a very steep ridge, that is, the 'area' of parameters that give a good node is very small, and can thus be hard to find. <a href='#reference_8' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[8]</a>. Since the preferred area for each individual players is different, this can be a problem for players who enjoy very few variations of AdaptiveTD. 
+In <a href='#hcissues' class='figref'>this figure</a> above, there are three issues with this algorithm, that the user must be aware of. One issue is that the algorithm can become stuck on a local maximum, which may not be the global maximum, as to the right. One way to reduce the probability of this to happen, is to allow the algorithm to jump larger distances each jump, or to make sure that the landscape is convex. In our case, the player probably has more than one area that he or she considers fun, so when the player is bored by the area he or she currently is in, AdaptiveTD expands the maximum jump distance to try to find other local maxima. Another issue, shown in the middle, is that the search area may be flat, that is, each node is as good as all its neighbors, and any jump will not bring any improvement. A game with little or no visual feedback, would probably have been subject to this issue, but through the of use visual effects, we believe that this effect can be reduced. A third issue, as seen to the left, is that a node may be lying on a very steep ridge, that is, the 'area' of parameters that give a good node is very small, and can thus be hard to find. <a href='#reference_7' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[7]</a>. Since the preferred area for each individual players is different, this can be a problem for players who enjoy very few variations of AdaptiveTD. 
 </p>
 
 <p>
-There are different variants of hill climbing algorithms, with different ways of deciding where and when to jump. The stochastic hill climbing algorithm, closely resembling simulated annealing, chooses a position at random, then evaluates whether it is an improvement, and if it is, jumps to the new position. If the new position is not an improvement, it will go back to the last one. With stochastic hill climbing, it may be wise to set a specific maximum jump distance, and let this decrease over time. This allows the algorithm to converge or settle on a position after some time. <a href='#reference_8' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[8]</a>.
+There are different variants of hill climbing algorithms, with different ways of deciding where and when to jump. The stochastic hill climbing algorithm, closely resembling simulated annealing, chooses a position at random, then evaluates whether it is an improvement, and if it is, jumps to the new position. If the new position is not an improvement, it will go back to the last one. With stochastic hill climbing, it may be wise to set a specific maximum jump distance, and let this decrease over time. This allows the algorithm to converge or settle on a position after some time. <a href='#reference_7' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[7]</a>.
 </p>
 
 <div id='pseudoshc' class='figure'><img src='pseudoStochastic.png' alt='Pseudocode for stochastic hill climbing using example in the following subchapter' title='Pseudocode for stochastic hill climbing using example in the following subchapter'><div class='caption'>Pseudocode for stochastic hill climbing using example in the following subchapter</div></div>
@@ -326,7 +327,7 @@ After the metric has been created we compare it with the best known metric, and 
 <div id='pseudorelations' class='figure'><img src='pseudoRelations.png' alt='Pseudocode for jumping of relations' title='Pseudocode for jumping of relations'><div class='caption'>Pseudocode for jumping of relations</div></div>
 
 <p>
-We randomly increase or decrease the parameters with parameters with values from zero up to a maximum jump distance, and let the user play again and repeat the process. The maximum jump distance decreases each time we find a better game, and thus we attempt to converge at a position where the player enjoys the game. Perceived fun is fleeting though, and if the player grows tired of an area he or she might start to rate it lower. To combat stagnation we decided to increase the maximum jump distance whenever a player gives the one heart feedback as described earlier in this chapter.
+We randomly increase or decrease the parameters with parameters with values from zero up to a maximum jump distance, and let the user play again and repeat the process. The maximum jump distance decreases each time we find a better game, and thus we attempt to converge at a position where the player enjoys the game. Perceived fun is fleeting though, and if the player grows tired of an area he or she might start to rate it lower. To combat stagnation we decided to increase the maximum jump distance whenever a player gives the one heart feedback as described earlier in this chapter. We also found this to be the best approach when testing, as seen in <a href='#testing' class='chapref_1'>Testing</a>.
 </p>
 
 <p>
@@ -420,7 +421,7 @@ We also used these tests to see that the relations work correctly. GlobalReloadT
 <h3 id='case_2'>Case test: Two variables</h3>
 
 <p>
-Since the algorithm is stochastic, we asume that with more variables with a desired value, the time it takes will increase. Thus we decided to test with two variables, global reload time and global build cost. We rated the game three hearts if all values increased, and one heart if not. We ran 100 tests with 100 games in each, and the following graph show the average values during these games. These tests are run on the version where one heart metrics can not be chosen as the best known metric.
+Since the algorithm is stochastic, we assume that with more variables with a desired value, the time it takes will increase. Thus we decided to test with two variables, global reload time and global build cost. We rated the game three hearts if all values increased, and one heart if not. We ran 100 tests with 100 games in each, and the following graph show the average values during these games. These tests are run on the version where one heart metrics can not be chosen as the best known metric.
 </p>
 
 <div id='avg100x100buildreload' class='figure'><img src='avg100x100BuildReload.png' alt='Average values for two variables.' title='Average values for two variables.'><div class='caption'>Average values for two variables.</div></div>
@@ -444,8 +445,9 @@ As we now see the two variables in relations reach the top even more slowly, as 
 <h3 id='ctnomax'>Case test: No max jump distance increase</h3>
 
 <p>
-We ran a few tests with different values in the algorithm. We thought that perhaps what limited us from converging properly was the reset of the max jump distance when receiving a one star rating. We ran 100 tests with 100 games in each, to see whether it would converge more clearly. This may however cause players to be less satisified when playing for an extended period of time, as they may be stuck at a position. In <a href='#discussion' class='chapref_1'>Discussion</a> we discuss this more in-depth.
+We ran a few tests with different values in the algorithm. We thought that perhaps what limited us from converging properly was the reset of the max jump distance when receiving a one star rating. We ran 100 tests with 100 games in each, to see whether it would converge more clearly. This may however cause players to be less satisified when playing for an extended period of time, as they may be stuck at a position. In <a href='#discussion' class='chapref_1'>Discussion</a> we discuss this more in-depth. This test is run on the version where one heart metrics can not be chosen as the best known metric.
 </p>
+
 
 <div id='nomaxjumpdistanceincrease' class='figure'><img src='NoMaxJumpIncrease.png' alt='Graph when maximum jump distance does not increase on one heart ratings.' title='Graph when maximum jump distance does not increase on one heart ratings.'><div class='caption'>Graph when maximum jump distance does not increase on one heart ratings.</div></div>
 
@@ -456,13 +458,19 @@ We see a more clear trend, which continues further upwards. However, it increase
 <h3 id='ctlessmax'>Case test: Max jump distance increase less</h3>
 
 <p>
-After having ran the previous test, we believe that perhaps tweaking the increase of the max jump distance upon receiving a one heart rating will give us much better result. Instead of setting it back to the maximum we will just double the current value, and when receiving a three heart rating we will divide it by two.
+After having ran the previous test, we believe that perhaps tweaking the increase of the max jump distance upon receiving a one heart rating will give us much better result. Instead of setting it back to the maximum we will just double the current value, and when receiving a three heart rating we will divide it by two. This test is also run on the version where one heart metrics can not be chosen as the best known metric.
 </p>
 
 <div id='maxjumpincreaseless' class='figure'><img src='MaxJumpDistanceIncreaseLess.png' alt='Graph when maximum jump distance increases less upon one heart rating.' title='Graph when maximum jump distance increases less upon one heart rating.'><div class='caption'>Graph when maximum jump distance increases less upon one heart rating.</div></div>
 
 <p>
-However, we see here that this perform worse than the algorithm we used in <a href='#case_1' class='chapref_3'>Case test: One variable</a>. We will discuss this further in the <a href='#discussion' class='chapref_1'>Discussion</a> and <a href='#conclusion' class='chapref_1'>Conclusion</a>.
+However, we see here that this perform worse than the algorithm we used in <a href='#case_1' class='chapref_3'>Case test: One variable</a>.
+</p>
+
+<h2 id='testing_-_results_from_testing'>Results from testing</h2>
+
+<p>
+We concluded from these tests that the best algorithm, atleast as far as our research has shown, has been the ones we had for the initial test where the jump distance increases back to max upon a one heart, and decreases drastically when three hearts are given. This is also what we believe would give the best results in future playtests, because then people will converge quickly at places they love, and jump quickly away from places they dislike. 
 </p>
 
 <h1 id='discussion'>Discussion</h1>
@@ -494,7 +502,7 @@ A problem we have noticed during the development process, is that the jumps them
 </p>
 
 <p>
-Lastly, we also noticed that the tower defense genre may not be well suited for creating an adaptive game. This is mainly because of the three following reasons. Firstly, the core game elements are rather static, which makes it difficult to make the game look and feel adaptive to the player. A different genre, such as the platformer, with game a example like Super Mario Bros. <a href="http://mario.nintendo.com/">[9]</a>. Secondly, the parameters in a tower defense game are very tightly knit together, in order to keep the game difficulty in balance. It is difficult to map how they all fit together, which makes it difficult for our algorithm to jump randomly to a new position, while still maintaining mentioned balance. Thirdly, the fun factor in a tower defense game is often related to the feeling of accomplishment. For instance, this feeling may occur when the player has lost a couple of games at the same challenge, and finally is able to beat the game. Since the game adapts itself to the player, thus is never the same, some would feel that their accomplishment is diminished.
+Lastly, we also noticed that the tower defense genre may not be well suited for creating an adaptive game. This is mainly because of the three following reasons. Firstly, the core game elements are rather static, which makes it difficult to make the game look and feel adaptive to the player. A different genre, such as the platformer, with game a example like Super Mario Bros. Secondly, the parameters in a tower defense game are very tightly knit together, in order to keep the game difficulty in balance. It is difficult to map how they all fit together, which makes it difficult for our algorithm to jump randomly to a new position, while still maintaining mentioned balance. Thirdly, the fun factor in a tower defense game is often related to the feeling of accomplishment. For instance, this feeling may occur when the player has lost a couple of games at the same challenge, and finally is able to beat the game. Since the game adapts itself to the player, thus is never the same, some would feel that their accomplishment is diminished.
 </p>
 
 <p>
@@ -539,10 +547,8 @@ There are also interesting applications for this sort of algorithm in E-learning
 <span id='reference_3'>[3] Zichermann, G., & Cunningham, C. (2011). <i>Gamification by design: Implementing game mechanics in web and mobile apps.</i> O'Reilly Media.</span><br>
 <span id='reference_4'>[4] Huotari, K., & Hamari, J. (2012, October). Defining gamification: a service marketing perspective. In <i>Proceeding of the 16th International Academic MindTrek Conference</i> (pp. 17-22). ACM.</span><br>
 <span id='reference_5'>[5] Spronck, P., Sprinkhuizen-Kuyper, I., & Postma, E. (2004). Difficulty scaling of game AI. In <i>Proceedings of the 5th International Conference on Intelligent Games and Simulation (GAME-ON 2004)</i> (pp. 33-37).</span><br>
-<a id='reference_6' href="http://wp.appadvice.com/wp-content/uploads/2010/04/IMG_0005.jpg">[6] http://wp.appadvice.com/wp-content/uploads/2010/04/IMG_0005.jpg</a><br>
-<a id='reference_7' href="https://code.google.com/p/libgdx/">[7] https://code.google.com/p/libgdx/</a><br>
-<span id='reference_8'>[8] Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall</span><br>
-<a id='reference_9' href="http://mario.nintendo.com/">[9] http://mario.nintendo.com/</a><br>
+<span id='reference_6'>[6] Author unknown. (2013). <i>Google Code</i>. Fetched from https://code.google.com/p/libgdx/</span><br>
+<span id='reference_7'>[7] Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall</span><br>
 </div>
 
 
