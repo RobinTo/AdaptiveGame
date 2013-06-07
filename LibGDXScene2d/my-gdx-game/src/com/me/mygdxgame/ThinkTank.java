@@ -217,7 +217,7 @@ public class ThinkTank
 		thinkTankInfo.gameLengthMultiplier += 0.2;
 		thinkTankInfo.lastMetric = thinkTankInfo.currentMetric;
 		// Jump from variables if metric is higher than last one.
-		if ((thinkTankInfo.challengerMetric >= thinkTankInfo.currentMetric || (happy == 3)) && happy != 1)
+		if ((thinkTankInfo.challengerMetric >= thinkTankInfo.currentMetric || (happy == 3)))
 		{
 			// Jump between specified interval
 			// So all variables are added a random value between
@@ -294,7 +294,10 @@ public class ThinkTank
 		this.initializeParameters(Gdx.files.external(parameterSavePath));
 		Gdx.files.external(relationsSavePath).delete();
 		this.initializeRelations(Gdx.files.external(relationsSavePath));
+		oldParameters = this.deepCopyParameters(parameters);
 		thinkTankInfo.successiveGameCounter = 0;
+		thinkTankInfo.currentMetric = 0;
+		thinkTankInfo.challengerMetric = 0;
 	}
 
 	private void setNewStats()

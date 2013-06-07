@@ -153,10 +153,7 @@ The figure above illustrate how relations work. We have the relation GlobelMonst
 We also get feedback on the difficulty, while this is not the main focus of this report, it does indicate something about the user. Since a game that is to easy or to hard is not fun, we found that we needed to implement some sort of difficulty scalign as well. We have implemented Stochastic Hillclimbing for the difficulty. Here however we just have parameters, and since the metric here in the sense of a graph would be "Too Low"(Easy), "Perfect" and "Too High"(Difficult), it is quite easy to guide the search and make it less random.
 
 # Testing
-Our testing is split into two parts. The first part contains two case tests of the algorithm, and the second part contains tests from our fellow students and friends.
-
-## Difficulty testing
-This is how our algorithm performed.
+This chapter contains the tests we performed to see how well the algorithm worked. One of the main problems with testing is that it is hard to measure fun, thus from actual players we have gathered feedback in general, rather than just asking them to rate the game. Tests for how well the algorithm works are in case tests, which contains tests where we attempt to maximize a value by playing  and giving the questionnaire feedback.
 
 ## Fun testing | fun_testing
 After we finished the game, we ran several tests to research the viability of our algorithm.
@@ -171,28 +168,24 @@ While it is hard to plot exactly what they thought, since measuring fun is not a
 - The difficulty scales well, and you can feel the changes quickly if you are dissatisfied with your game.
 - 
 
-There are also some stats that certain people enjoy whiel others do not enjoy, and since the jumping is currently random for 15 parameters you may end up with not getting everything you desire. The main thing we heard here was that the diggers, as talked about in @chapref(parameters) can quickly become overwhelming if you get an unlucky jump while the max jump distance is still high. While you should generally end up with your old parameters if you did not enjoy the game, there are cases where the one roll of the die from one heart can give a metric higher than the old best metric. We have discussed never picking the current parameters the best known if a user rated it with one heart, however we have not had the time to do playtests using this, but believe it would give a better experience.
+There are also some stats that certain people enjoy whiel others do not enjoy, and since the jumping is currently random for 15 parameters you may end up with not getting everything you desire. The main thing we heard here was that the diggers, as talked about in @chapref(parameters) can quickly become overwhelming if you get an unlucky jump while the max jump distance is still high. While you should generally end up with your old parameters if you did not enjoy the game, there are cases where the one roll of the die from one heart can give a metric higher than the old best metric, especially due to the multiplication from the GameLengthMultiplier which increases as you play more games. We have discussed never picking the current parameters the best known if a user rated it with one heart, however we have not had the time to do playtests using this, but believe it would give players a better experience. We tested this in case tests after we got this feedback, and numerically it gives much better results.
 
 ### Case tests
-We also did some case tests ourselves, where we decided on a parameter which we wanted to maximize or minimize, and tested if we would get the desired result. We created some methods to make these tests quick, and played. For each test we played 15 games, and gave the game three hearts if it went in the correct direction with our stat, and one if not. We also gave the game the feedback of "Perfect" in the difficulty, such that this part of the game did not alter any stats.
 
-<b>Case Test one: Global Reload Time maximized</b>
+To test how well the algorithm worked, by just trying to achieve certain values in certain stats we made some case tests. We created a way to automate testing, such that when the parameter in question moved in the direction we desired we rated the game three hearts, and one heart if it went the wrong way.
 
-For this test we attempted to maximize the Global Reload time. Which means that the parameter GlobalReloadTime should preferably go upwards as we play.
+For each test we ran 100 rounds of 30 games each.
 
-Here are the plot from five playthroughs attempting this.
+<b>Case test 1: Global Reload time</b>
+In this case test we attempted to maximize global reload time. We basically wanted the GlobalReloadTime parameter to increase when playing. Following is a plot of its value through the games.
 
-@figure(reloadfun, GlobalReloadfuntest.png, Plot of the case tests for Global Reload time.)
+@figure(prereload, avg100prereload.png, Plots of reload time.)
 
-@figure(avgreloadfun, avgGlobalReloadfuntest.png, Average values from the case tests for Global Reload time.)
+As you can see, the general trend is upwards, but it seemed to be slightly to random. To fix this we thought to implement one of the things we thought about when running playtests, which was that when giving one heart ratings it is never chosen as the current best, regardless of the metric that is generated from the roll. This resulted in the following graph over 100 rounds of 30 games each.
 
-As you can see it is moderately successfull each time, but since the jumps are random we do expect jagged graphs as it is as likely to decrease as it is to increase. The trend is however quite clear, the GlobalReloadTime is increasing. We believed that this could also be made even more clear by never choosing the parameters after choosing one heart, as described in the end of @chapref(rpt) after it was pointed out by one of the subjects in the playtest, and we tested with exactly this, as plotted below.
+@figure(postreload, avg100postreload.png, Plots of reload time.)
 
-@figure(postreloadfun, PostHighReloadFuntest.png, Plot of the case tests after one heart not chosen.)
-
-This had little effect, but we do believe that it will help users not get stuck in with a game they disliked as the currently best known game. It performed a little better than the old one on the 15th game, but a 5 * 15 games is not enough to be conclusive. We wish we had the time to automate tests and run the test more times with more games to see whether it is acctually better, worse or equal. Following is the plot of the average from both tests, blue is the average from the tests where one heart could still be chosen as best known, green is the average from the tests where it could not.
-
-@figure(avgreloadpostreload, avgbothreloads.png, Average Reload time for all playthroughs for both versions.)
+As you notice, the trend is that global reload time increases much more quickly. Additionally that we never pick one heart games as the current best should result in players not getting stuck with games they disliked.
 
 We also used these tests to see that the relations work correctly. GlobalReloadTime affect TEDamage, such that if the reload time goes up, the damage should also increase. Here is a plot of one of the more successfull playthroughs, with GlobalReloadTime in blue and TEDamage in green. Damage is also affected by other relations, which is why there are deviations in the values.
 

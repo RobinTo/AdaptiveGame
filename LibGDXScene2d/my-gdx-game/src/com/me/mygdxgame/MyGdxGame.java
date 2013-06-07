@@ -1,5 +1,6 @@
 package com.me.mygdxgame;
 
+import java.io.File;
 import java.text.ParseException;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -95,6 +96,8 @@ public class MyGdxGame implements ApplicationListener
 		logger = new Logger();
 		gameCamera = new OrthographicCamera(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
 		Gdx.graphics.setTitle("Adaptive Tower Defense v0.001");
+		Gdx.graphics.setVSync(false);
+		
 		spriteBatch = new SpriteBatch();
 
 		assetManager = new AssetManager();
@@ -189,6 +192,7 @@ public class MyGdxGame implements ApplicationListener
 		stage.dispose();
 	}
 
+	int counters = 0;
 	@Override
 	public void render()
 	{
@@ -196,6 +200,27 @@ public class MyGdxGame implements ApplicationListener
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		if (won || lost)
 		{
+			if(thinkTank.thinkTankInfo.successiveGameCounter < 30)
+			{
+				if(thinkTank.oldParameters.get("GlobalReloadTime") == null || thinkTank.parameters.get("GlobalReloadTime").value > thinkTank.oldParameters.get("GlobalReloadTime").value)
+				{
+					questionaire.happy = 3;
+					questionaire.difficult = 2;
+				}
+				else
+				{
+					questionaire.happy = 1;
+					questionaire.difficult = 2;
+				}
+			}
+			else if (counters < 100)
+			{
+			    Gdx.files.external(logSavePath).copyTo(Gdx.files.external("/AdaptiveTD/Log/Logfile"+counters+".txt"));
+			    Gdx.files.external(logSavePath).delete();
+			    counters++;
+			    resetGame();
+			    thinkTank.clean(parameterSavePath, relationsSavePath);
+			}
 			if (questionaire != null && questionaire.happy > 0
 					&& questionaire.difficult > 0)
 			{
@@ -451,7 +476,7 @@ public class MyGdxGame implements ApplicationListener
 		building = false;
 		
 		float statMultiplier = 1.0f;
-		for (int t = 0; t < gameProcessor.waveParts; t++)
+		/*for (int t = 0; t < gameProcessor.waveParts; t++)
 		{
 			for (int i = 0; i < gameProcessor.waveSize
 					+ (t * gameProcessor.waveIncrements); i++)
@@ -462,7 +487,7 @@ public class MyGdxGame implements ApplicationListener
 			}
 			statMultiplier += 0.25f;
 			gameProcessor.lastMinionTime += gameProcessor.wavePartDelay;
-		}
+		}*/
 		hud.updateConsoleState(false, thinkTank.parameters,
 				thinkTank.thinkTankInfo);
 		savedParametersAndRelations = false;
