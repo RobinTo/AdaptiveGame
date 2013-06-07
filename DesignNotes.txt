@@ -1,38 +1,18 @@
+ref i sidetall figur 1
+Abstract
+Minske bilder i Example, Questionnaire
 
+In the
+Algorithm chapter we go through in detail how the game jumps to change its content
+and difficulty.
 
-Report outline
-- Konkret
-- Kort
+The "Probability for a digger enemy to appear" parameter is simply the
+probability that each of these 45 enemies is a digger. So a value of 0.67 out of 1, should
+result in approximately 30 diggers, which is really a challenge. In the Discussion
+chapter we discuss some weaknesses of this approach.
 
-Stochastic hill climbing
-- Kodeblokk
-- Mindre bilder (komprimer) (generelt)
+In Discussion we
+discuss the earthquake functionality, as we received some mixed feedback on it.
 
-Game Description
-- Mer bilder i kapittelet'
-- Java, tablet.
-- Verktøy brukt
-- Diggers
-- Monstre, hva de gjør med spilleren
-- Hva er det adaptive i spillet
-- Hvorfor er hvilke parametere lagd
-- Fine tuning
-- Forklare parametere som helse og speed
-
-- Overview
-- Adaptivity
-- Parameters
-  - Hva er deres funksjon
-  - Hvorfor akkurat disse
-- Fun
-- Tools and process
-- Compared to other games
-- Visuell tilbakemedling ved sliders, colorchange, earthquake, diggers,cost
-
-- Sjekke på "Hopper i relation with themselves"
-
-Our algorithm
-- Flytdiagram
-- Google draw
-- Koble sammen med HC
-- Koble sammen med spillet
+However, in Future
+Work we present some possibilities for further development and use for AdaptiveTD.

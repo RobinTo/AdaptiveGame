@@ -53,7 +53,7 @@ Our project is to research whether it is possible to create a game, that uses an
 We have chosen to create a game using the tower defense genre, as this requires somewhat less work and graphics than many other genres, as well as having a lot of possible parameters that can be tweaked in order to adapt the contents of the game. The game uses a modified stochastic hill climbing algorithm together with some user feedback after each game, to adapt itself towards the individual player. We call the game Adaptive Tower Defense, and abbrieviate it AdaptiveTD.
 
 ## Report Outline
-Quick and short and concrete
+In this report, we first describe the proof of concept game we created. Secondy, we give an introduction to stochastic hill climbing, and then describe the algorithm used for our solution. Thirdly, we describe our tests, and discuss our results. Lastly, we end with some concluding notes and future work.
 
 # Adaptive Tower Defense
 
@@ -89,7 +89,7 @@ AdaptiveTD keeps track of 15 different parameters, that are represented in 12 di
 
 @figure(relations, Images/relations.png, Parameters in relation to each other)
 
-Every relation involving at least two parameters has a number next to each parameter. This number represents the proportion of how much a parameter should increase or decrease, when a related parameter is changed. For instance in relation 1, Tower Build Cost Multiplier and Enemy Gold Yield Multiplier both have the number '1' next to them. This means, that if one of them is changed by a certain value, the other one should also change with the same value, thus they are still in balance. Relation 2 is inverse proportional, but similar to relation 1, in that if one of them changes with a value, the other one should change with the same, negative value. Relation 3 is different, because it involves three parameters, but it functions in the same way. If Enemy Health Multiplier is changed, then Enemy Speed Multiplier should change by half the negative value, and Tower Damage whould change by half the value. Note that Enemy Speed Multiplier and Enemy Health Multiplier is in the same relation twice. This is not a problem, because if one relation decides to change the internal balance, the other relations are not influenced. So if Enemy Speed Multiplier changes in one relation, the change will NOT propagate to the other relations.
+Every relation involving at least two parameters has a number next to each parameter. This number is the impact factor, and represents the proportion of how much a parameter should increase or decrease, when a related parameter is changed. For instance in relation 1, Tower Build Cost Multiplier and Enemy Gold Yield Multiplier both have the number '1' next to them. This means, that if one of them is changed by a certain value, the other one should also change with the same value, thus they are still in balance. Relation 2 is inverse proportional, but similar to relation 1, in that if one of them changes with a value, the other one should change with the same, negative value. Relation 3 is different, because it involves three parameters, but it functions in the same way. If Enemy Health Multiplier is changed, then Enemy Speed Multiplier should change by half the negative value, and Tower Damage whould change by half the value. Note that Enemy Speed Multiplier and Enemy Health Multiplier is in the same relation twice. This is not a problem, because if one relation decides to change the internal balance, the other relations are not influenced. So if Enemy Speed Multiplier changes in one relation, the change will NOT propagate to the other relations.
 
 These relations and numbers are what we believe is approximately good enough to keep the difficulty balance constant. For instance, if the enemy health increases by 20%, it should be sufficient that tower damage is also increased by 20%, in order to keep balance. Of course, towers that do not deal direct damage, but have a more tactical effect, such as slowing the speed of an enemy, will be somewhat less efficient after a change like this.
 
@@ -97,7 +97,7 @@ To the left there are four parameters that are not in relation with any other pa
 
 Probability for a super enemy to appear is a value from 0 to 1 that the next enemy generated will have some super properties, i.e. have more health, more speed, sometimes be invisible and/or be impossible to harm for a short time period, as seen in @figref(super).
 
-@figure(super, Images/super.png, A tough enemy who has been given extra, super abilities an enemy can have at a time: More health, more speed, invisibility and impossible to harm)
+@figure(super, Images/super.png, An enemy who has been given extra, super abilities: Normal, more health, more speed, invisibility and impossible to harm)
 
 Probability for a digger enemy to appear works a little differently from super abilities. A round of the game consists of 45 enemies, with four possible types of enemies that can be generated. The "Probability for a digger enemy to appear" parameter is simply the probability that each of these 45 enemies is a digger. So a value of 0.67 out of 1, should result in approximately 30 diggers, which is really a challenge. In the @chapref(discussion) chapter we discuss some weaknesses of this approach. Below is a figure of a digger enemy and what it can do.
 
@@ -193,31 +193,27 @@ Further description of what each does can be found in @chapref(app_1).
 
 # Testing
 
-This chapter contains the tests we performed to see how well the algorithm worked. One of the main problems with testing is that it is hard to measure fun, thus from actual players we have gathered feedback in general, rather than just asking them to rate the game. Tests for how well the algorithm works are in case tests, which contains tests where we attempt to maximize a value by playing  and giving the questionnaire feedback.
+This chapter contains the tests we performed to see how well the algorithm worked. One of the main problems with testing is that it is hard to measure fun, so from actual players we have gathered feedback in general, rather than just asking them to rate the game. The algorithm was tested using case tests as well, which contain tests where we attempt to maximize a value by playing and giving the questionnaire proper feedback.
 
-## Fun testing | fun_testing
-After we finished the game, we ran several tests to research the viability of our algorithm.
-
-### Real Playtests | rpt
+## Real Playtests | rpt
 We ran some actual playtests, having people who had never played the game before download and play it. These people varied in age, computer background, and experience with games, to get a sense whether we could please a wide variety of people by adapting to their preferences.
 
 While it is hard to plot exactly what they thought, since measuring fun is not an exact science we have gathered some feedback from them which we will summarize here.
 
-- The game is fun to begin with, but gets somewhat monotone when you play it for an extended period of time. 
-- It is exciting when the game changes radically and new stuff happens that you have to deal with.
-- Changes make the game more fun, but the game has to little content to keep you entertained for a long time. Even if the hp and speed is in a preferable range, it does not make you want to spend hours playing.
-- The difficulty scales well, and you can feel the changes quickly if you are dissatisfied with your game.
+<ul>
+<li>The game is fun to begin with, but becomes somewhat monotone when you play it for an extended period of time.</li>
+<li>It is exciting when the game changes radically and new stuff happens that you have to deal with.</li>
+<li>Changes make AdaptiveTD more fun, but the game has too little content to keep the player entertained for a long time. Even if the enemy health and speed is in a preferable range, it does not make you want to spend hours playing, due to the lack of progress and content.</li>
+<li>The difficulty scales well, and the player is able to feel the changes quickly, should they be dissatisfied.</li>
 
-There are also some stats that certain people enjoy while others do not enjoy, and since the jumping is currently random for 15 parameters you may end up with not getting everything you desire. The main thing we heard here was that the diggers, as talked about in @chapref(parameters) can quickly become overwhelming if you get an unlucky jump while the max jump distance is still high. While you should generally end up with your old parameters if you did not enjoy the game, there are cases where the one roll of the die from one heart can give a metric higher than the old best metric, especially due to the multiplication from the GameLengthMultiplier which increases as you play more games. We have discussed never picking the current parameters the best known if a user rated it with one heart, however we have not had the time to do playtests using this, but believe it would give players a better experience. We tested this in case tests after we got this feedback, and atleast numerically it gives much better results, we hope that players testing the game after this change will enjoy it as well.
+There are also some features that certain people enjoy while others do not, and since the jumping is currently random for 15 parameters the player may receive some, but usually not all, of his or her preferences. The main thing we heard was that the diggers, as described in @chapref(parameters) can quickly become overwhelming if the player gets an unlucky jump while the maximum jump distance is high. The player should generally end up with the best known parameters if they did not enjoy the game, but there are cases where one roll of the die from one heart can give a metric higher than the best known metric, especially due to the multiplication from the GameLengthMultiplier, which increases as you play more games. One solution we found, was to never pick the current parameters as the best known if the player rated with one heart. However, we have not had the time to do real playtests using this, but believe it would give players a better experience. We tested this in the case tests below, after we received this feedback. At least numerically it gives much better results, and we hope that players testing the game in the future, will enjoy it as well.
 
-### Case tests
+## Case tests
 
-To test how well the algorithm worked, by just trying to achieve certain values in certain stats we made a case test. We created a way to automate testing, such that when the parameter in question moved in the direction we desired we rated the game three hearts, and one heart if it went the wrong way.
+To test how well the algorithm worked, we test if the algorithm is able to achieve maximum or minimum values in certain parameters. We created a way to automate testing, such that when the parameter(s) in question moved in the direction we desired we rated the game three hearts, and one heart if it went in the opposite direction. For each test we ran 100 rounds of 30 games each.
 
-For each test we ran 100 rounds of 30 games each.
-
-<b>Case test: Global Reload time</b>
-In this case test we attempted to maximize global reload time. We basically wanted the GlobalReloadTime parameter to increase when playing. Following is a plot of its value through the games.
+### Case test: Global Reload time
+In this case test we attempted to maximize global reload time. We basically wanted the GlobalReloadTime parameter to increase to 3.0. In @figref(prereload) is a plot of its value through the tests.
 
 @figure(prereload, avg100prereload.png, Plots of reload time.)
 
@@ -225,11 +221,11 @@ As you can see, the general trend is upwards, but it seemed to be slightly to ra
 
 @figure(postreload, avg100postreload.png, Plots of reload time.)
 
-As you notice, the trend is that global reload time increases much more quickly. Additionally that we never pick one heart games as the current best should result in players not getting stuck with games they disliked. The following figure shows the average of both through the 100 tests, here you can clearly see the difference.
+The trend is that global reload time increases much more quickly. Additionally, the fact that it never picked one heart games as the current best should result in players not getting stuck with games they disliked. @figref(bothreload) shows the average of both through the 100 tests, here we can clearly see the difference in efficiency.
 
 @figure(bothreload, avg100bothreload.png, Plots of the average for both tests.)
 
-We also used these tests to see that the relations work correctly. GlobalReloadTime affect TEDamage, such that if the reload time goes up, the damage should also increase. Here is a plot of GlobalReloadTime and TEDamage during the 100 games played after we made games with heart value one unable to be the best known game. GlobalReloadTime is the blue graph and TEDamage is the green graph. The parameters are also affected by other relations, which is why there are deviations in the values instead of always being the same.
+We also used these tests to see that the relations work correctly. GlobalReloadTime affect TEDamage, such that if GlobalReloadTime goes up, TEDamage should also increase. Here is a plot of GlobalReloadTime and TEDamage during the 100 games played after we made games with heart value one unable to be the best known game. GlobalReloadTime is the blue graph and TEDamage is the green graph. The parameters are also affected by other relations, which is why there are deviations in the values instead of always being the same.
 
 @figure(reloaddamage, figreloadrelateddamage.png, Plot of how global reload and tower damage changed over time.)
 
@@ -240,7 +236,7 @@ In this chapter, we discuss three topics. First we discuss the results from the 
 ## Discussing the fun testing | discfun
 When looking at the fun testing results, we see that our game was generally rated fun, with an average of 7.17 our of 10. But since our testers were mainly friends and fellow students, we were expecting to receive rather high values, as they did not want to make us feel bad. But a 7.17 out of 10 is not actually bad for the game itself, as much of the game content, such as audio and graphics, was made without a budget. But a difficult aspect of this project, is that it is hard to measure whether something is fun or not. Our main feedback for how well the game worked is the ratings from players, and from that we are satisfied with how fun the game was perceived to be, but even if the game was characterized 10 out of 10, the test results could mostly reflect the game and its contents, and not tell us much about the algorithm itself.
 
-The second part of the fun testing results tells us more about the algorithm itself. The results reveal that the subjects thought the game was actually becoming worse over time, instead of maximizing fun. As mentioned in @chapref(fun_testing), we believe that two of our parameters, named "SuperChance" and "DiggerChance", see @chapref(app_2), should have been normalized. As of now, they have too big an impact on the game, because their values are varying too much each jump. To the best of our knowledge, this is a result of our modified algorithm, which we believe can be fixed by having multiple specialized algorithms, instead of a central one. Another solution could be to only alter a single parameter each jump, because the algorithm would then be more sure about what the player enjoyed after each jump. This latter solution would make the algorithm work more slowly, which is maybe a too valuable trade-off.
+The second part of the fun testing results tells us more about the algorithm itself. The results reveal that the subjects thought the game was actually becoming worse over time, instead of maximizing fun. As mentioned in @chapref(testing), we believe that two of our parameters, named "SuperChance" and "DiggerChance", see @chapref(app_2), should have been normalized. As of now, they have too big an impact on the game, because their values are varying too much each jump. To the best of our knowledge, this is a result of our modified algorithm, which we believe can be fixed by having multiple specialized algorithms, instead of a central one. Another solution could be to only alter a single parameter each jump, because the algorithm would then be more sure about what the player enjoyed after each jump. This latter solution would make the algorithm work more slowly, which is maybe a too valuable trade-off.
 
 ## Discussing the difficulty testing
 The difficulty test results are good, in that the algorithm is able to change the difficulty based on the feedback it receives, relatively quickly. However, the algorithm we use for difficulty scaling is not the same as the one we use for maximizing fun. Since the difficulty can only be either too difficult, perfect or too easy, it is easier to scale difficulty, than to maximize fun.
