@@ -180,13 +180,21 @@ We also did some case tests ourselves, where we decided on a parameter which we 
 
 For this test we attempted to maximize the Global Reload time. Which means that the parameter GlobalReloadTime should preferably go upwards as we play.
 
-Here are the plot from three playthroughs attempting this.
+Here are the plot from five playthroughs attempting this.
 
 @figure(reloadfun, GlobalReloadfuntest.png, Plot of the case tests for Global Reload time.)
 
-As you can see it is moderately successfull each time, but since the jumps are random we do expect jagged graphs as it is as likely to decrease as it is to increase. The trend is however quite clear, the GlobalReloadTime is increasing. We do believe that this could also be made even more clear by never choosing the parameters after choosing one heart, as described in the end of @chapref(rpt).
+@figure(avgreloadfun, avgGlobalReloadfuntest.png, Average values from the case tests for Global Reload time.)
 
-We can also see that the relations work correctly. GlobalReloadTime affect TEDamage, such that if the reload time goes up, the damage should also increase. Here is a plot of one of the more successfull playthroughs, with GlobalReloadTime in blue and TEDamage in green.
+As you can see it is moderately successfull each time, but since the jumps are random we do expect jagged graphs as it is as likely to decrease as it is to increase. The trend is however quite clear, the GlobalReloadTime is increasing. We believed that this could also be made even more clear by never choosing the parameters after choosing one heart, as described in the end of @chapref(rpt) after it was pointed out by one of the subjects in the playtest, and we tested with exactly this, as plotted below.
+
+@figure(postreloadfun, PostHighReloadFuntest.png, Plot of the case tests after one heart not chosen.)
+
+This had little effect, but we do believe that it will help users not get stuck in with a game they disliked as the currently best known game. It performed a little better than the old one on the 15th game, but a 5 * 15 games is not enough to be conclusive. We wish we had the time to automate tests and run the test more times with more games to see whether it is acctually better, worse or equal. Following is the plot of the average from both tests, blue is the average from the tests where one heart could still be chosen as best known, green is the average from the tests where it could not.
+
+@figure(avgreloadpostreload, avgbothreloads.png, Average Reload time for all playthroughs for both versions.)
+
+We also used these tests to see that the relations work correctly. GlobalReloadTime affect TEDamage, such that if the reload time goes up, the damage should also increase. Here is a plot of one of the more successfull playthroughs, with GlobalReloadTime in blue and TEDamage in green. Damage is also affected by other relations, which is why there are deviations in the values.
 
 @figure(reloaddamage, figreloadrelateddamage.png, Plot of how global reload and tower damage changed over time.)
 

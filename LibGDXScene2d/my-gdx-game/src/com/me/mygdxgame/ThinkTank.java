@@ -217,7 +217,7 @@ public class ThinkTank
 		thinkTankInfo.gameLengthMultiplier += 0.2;
 		thinkTankInfo.lastMetric = thinkTankInfo.currentMetric;
 		// Jump from variables if metric is higher than last one.
-		if (thinkTankInfo.challengerMetric >= thinkTankInfo.currentMetric || (happy == 3))
+		if ((thinkTankInfo.challengerMetric >= thinkTankInfo.currentMetric || (happy == 3)) && happy != 1)
 		{
 			// Jump between specified interval
 			// So all variables are added a random value between
