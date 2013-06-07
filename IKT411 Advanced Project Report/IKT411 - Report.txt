@@ -28,6 +28,7 @@ $ Table of tables
 @tables
 
 # Introduction | intro
+
 Today, there exists more commercial video and computer games (henceforth: games) than ever before, and the number of persons owning a smart-phone or personal computer is increasing. Many students and pupils neglect their studies in favor of watching television or playing games, maybe because they consider it more fun. We believe that through the use of E-learning and gamification, which enhances traditional learning methods with elements from games, it is possible to make any learning process more fun, resulting in more interested students and better grades.
 
 As each student is unique, we believe that they also have different learning methods that work best for them, which is why we have chosen to look into adaptive games. In this project we research whether a game can be made, such that it adapts to each player on the fly.
@@ -59,6 +60,7 @@ We have chosen to create a game using the tower defense genre, as this requires 
 Quick and short and concrete
 
 # Adaptive Tower Defense
+
 This chapter gives some pictures and a short description of AdaptiveTD, as well as some general information about the game genre, namely tower defense.
 
 @figure(tdimg, Tower_Defense.png, Left: AdaptiveTD. Right: A tower defense game called Fieldrunners @("http://wp.appadvice.com/wp-content/uploads/2010/04/IMG_0005.jpg"))
@@ -87,7 +89,7 @@ Also, AdaptiveTD provides the player with three different sliderbars, see @figre
 In @chapref(parameters) we provide a detailed list of many of the chosen parameters, how they impact the game, and why they were chosen.
 
 ## Parameters and Adaptivity | parameters
-In AdaptiveTD we keep track of 15 different parameters, that are represented in 12 different relations. These 12 relations are important to keep the game difficulty balanced at all times, by letting related parameters be adjusted whenever a parameter is changed. In @figref(relations) we provide the most important relations and parameters in AdaptiveTD.
+In AdaptiveTD we keep track of 15 different parameters, that are represented in 12 different relations. In @chapref(app_1) there is a full list of parameters. The 12 relations are important to keep the game difficulty balanced at all times, by letting related parameters be adjusted whenever a parameter is changed. In @figref(relations) we provide the most important relations and parameters in AdaptiveTD.
 
 @figure(relations, Images/relations.png, Parameters in relation to each other)
 
@@ -128,19 +130,19 @@ Since this is only a proof of concept game meant for testing purposes, we are no
 
 A hill climbing algorithm is an iterative improvement algorithm, searching for a local maximum. It tries to maximize a function f(X), where X could be a node, state, position or, in our case, a vector of parameters. It compares neighboring nodes to the one it is standing on, and checks if they are an improvement on f(X). If one of the other nodes is improving the situation, then the algorithm moves to the new node, commonly the best node, and repeats the process. The process is repeated until no more improvements can be found, thus the algorithm has found a local maximum. @("Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall"). 
 
-@figure(pseudoshc, pseudoStochastic.png, Pseudo-code for Stochastic Hillclimbing, as done in @chapref(shce).)
+@figure(pseudoshc, pseudoStochastic.png, Pseudocode for Stochastic Hill Climbing using example below)
 
-@figure(hclocalmaximum, Hill_Climbing_Local_Maximum.png, A function that has a local maximum)
-@figure(hcflat, Hill_Climbing_Flat.png, A function that is too flat to search on)
-@figure(hcsteep, Hill_Climbing_Steep.png, A function that is very steep)
+The pseudocode shown above in @figref(pseudoshc) is an example of a search for maximum value, using stochastic hill climbing. Given enough time, stochastic hill climbing should be able to locate the maximum value, however there are some issues with it, that may cause problems.
 
-One issue with this algorithm, is that it can become stuck on a local maximum, which may not be the global maximum, as in @figref(hclocalmaximum). One way to reduce the probability of this to happen, is to allow the algorithm to jump larger distances each jump, or to make sure that the landscape is convex. Another issue shown by @figref(hcflat) is that the search area may be flat, that is, each node is as good as all its neighbors. In this case, any jump will not bring any improvement. A third issue in @figref(hcsteep) is that a node may be lying on a very steep ridge, that is, the 'area' of parameters that give a good node is very small, and can thus be hard to find. @("Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall")
+@figure(hcissues, Images/hillclimbingissues.png, Some issues with Hill Climbing)
+
+In @figref(hcissues) above, there are three issues with this algorithm, that the user must be aware of. One issue is that the algorithm can become stuck on a local maximum, which may not be the global maximum, as to the right. One way to reduce the probability of this to happen, is to allow the algorithm to jump larger distances each jump, or to make sure that the landscape is convex. In our case, the player probably has more than one area that he or she considers fun, so when the player is bored by the area he or she currently is in, AdaptiveTD expands the maximum jump distance to try to find other local maxima. Another issue, shown in the middle, is that the search area may be flat, that is, each node is as good as all its neighbors, and any jump will not bring any improvement. A game with little or no visual feedback, would probably have been subject to this issue, but through the of use visual effects, we believe that this effect can be reduced. A third issue, as seen to the left, is that a node may be lying on a very steep ridge, that is, the 'area' of parameters that give a good node is very small, and can thus be hard to find. @("Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall"). Since the preferred area for each individual players is different, this can be a problem for players who enjoy very few variations of AdaptiveTD. 
 
 There are different variants of hill climbing algorithms, with different ways of deciding where and when to jump. The stochastic hill climbing algorithm, closely resembling simulated annealing, chooses a position at random, then evaluates whether it is an improvement, and if it is, jumps to the new position. If the new position is not an improvement, it will go back to the last one. With stochastic hill climbing, it may be wise to set a specific maximum jump distance, and let this decrease over time. This allows the algorithm to converge or settle on a position after some time. @("Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall")
 
 ## Stochastic hill climbing example | shce
 
-Here is an example for how to use stochastic hill climbing for how to find the maximum value of the function f(X) = 2 - X<sup>2</sup>. which has a maximum value of 2. We initialize the maximum jump distance (in x-direction) to a value of 1.0, and let this decrease by 0.1 with each jump.
+Here is an example for how to use stochastic hill climbing for how to find the maximum value of the function f(X) = 2 - X<sup>2</sup>. which has a maximum value of 2. We initialize the maximum jump distance (in x-direction) to a value of 1.0, and let this decrease by 0.1 with each jump that is making an improvement. The example uses the pseudocode from @figref(pseudoshc).
 
 @figure(hcex1, Hill_Climbing_Example_1.png, The startpoint for the search)
 @figure(hcex2, Hill_Climbing_Example_2.png, The first jump)
@@ -150,7 +152,7 @@ Here is an example for how to use stochastic hill climbing for how to find the m
 
 This is a short example of how stochastic hill climbing will eventually find the local, or global, maximum on a graph. This example is very short, compared to how many jumps it would normally take, but this is actually possible.
 
-With a starting maximum jump distance of 1.0, decreasing by 0.1 with each jump, the algorithm will have converged after ten jumps, hopefully at an acceptable position. In a game setting, it may be wise to let the maximum jump distance never decrease to zero, because it can make the game feel more lively.
+With a starting maximum jump distance of 1.0, decreasing by 0.1 with each jump, the algorithm will have converged after ten successful jumps, hopefully at an acceptable position. In a game setting, it may be wise to let the maximum jump distance never decrease to zero, because it can make the game feel more lively.
 
 # Solution
 
@@ -158,8 +160,7 @@ In this chapter we will talk about our solution which is an implementation of th
 
 ## Algorithm | algorithm
 
-@figure(pseudoalgorithm, pseudoAlgorithm.png, Pseudo-code for the algorithm.)
-
+@figure(pseudoalgorithm, pseudoAlgorithm.png, Pseudocode for the algorithm.)
 
 @figure(algorithmexample, algorithm.png, The flow of our algorithm.)
 
@@ -168,7 +169,7 @@ As indicated in @figref(pseudoalgorithm) and @figref(algorithmexample) we start 
 ## Litt lang setning, som er en hel paragraf?
 After the metric has been created we compare it with the currently best known metric, and if we find that the new metric is better we save these as the best known metric conintue to jump from there, else we restore the parameters from the game where we received the best metric.
 
-@figure(pseudorelations, pseudoRelations.png, Pseudo-code for jumping of relations)
+@figure(pseudorelations, pseudoRelations.png, Pseudocode for jumping of relations)
 
 We randomly increase or decrease the parameters with parameters from zero up to a max jump distance, and let the user play again and repeat the process. The max jump distance decreases each time we find a better game, and thus we attempt to converge at a point where the user enjoys the game. Perceived fun is fleeting though, and if the user grows tired of an area he might start to rate it lower, and thus when a user gives a game the lowest rating we increase the max jump distance, to enable users to find new games.
 
@@ -183,6 +184,7 @@ The figure above illustrate how relations work. We have the relation GlobelMonst
 We also get feedback on the difficulty, while this is not the main focus of this report, it does indicate something about the user. Since a game that is to easy or to hard is not fun, we found that we needed to implement some sort of difficulty scalign as well. We have implemented Stochastic Hillclimbing for the difficulty. Here however we just have parameters, and since the metric here in the sense of a graph would be "Too Low"(Easy), "Perfect" and "Too High"(Difficult), it is quite easy to guide the search and make it less random.
 
 # Testing
+
 This chapter contains the tests we performed to see how well the algorithm worked. One of the main problems with testing is that it is hard to measure fun, thus from actual players we have gathered feedback in general, rather than just asking them to rate the game. Tests for how well the algorithm works are in case tests, which contains tests where we attempt to maximize a value by playing  and giving the questionnaire feedback.
 
 ## Fun testing | fun_testing
@@ -236,7 +238,7 @@ The second part of the fun testing results tells us more about the algorithm its
 The difficulty test results are good, in that the algorithm is able to change the difficulty based on the feedback it receives, relatively quickly. However, the algorithm we use for difficulty scaling is not the same as the one we use for maximizing fun. Since the difficulty can only be either too difficult, perfect or too easy, it is easier to scale difficulty, than to maximize fun.
 
 ## Other observations | observations
-Another problem we have noticed during the development process, is that the jumps themselves may be too subtle for a player to notice when jump distance shortens. The algorithm requires positive feedback when it goes in a direction the player likes, but if the change is not noticable the player may give it the same score, thus have a decent chance of ending up jumping from his old game each jump. This issue is similar to the one in chapter 5, @chapref(shc), @figref(hcflat).
+Another problem we have noticed during the development process, is that the jumps themselves may be too subtle for a player to notice when jump distance shortens. The algorithm requires positive feedback when it goes in a direction the player likes, but if the change is not noticable the player may give it the same score, thus have a decent chance of ending up jumping from his old game each jump. This issue is similar to the one in chapter 5, @chapref(shc), @figref(hcissues), figure in the middle.
 
 Lastly, we also noticed that the tower defense genre may not be well suited for creating an adaptive game. This is mainly because of the three following reasons. Firstly, the core game elements are rather static, which makes it difficult to make the game look and feel adaptive to the player. A different genre, such as the platformer, with game a example like Super Mario Bros. @("http://mario.nintendo.com/"). Secondly, the parameters in a tower defense game are very tightly knit together, in order to keep the game difficulty in balance. It is difficult to map how they all fit together, which makes it difficult for our algorithm to jump randomly to a new position, while still maintaining mentioned balance. Thirdly, the fun factor in a tower defense game is often related to the feeling of accomplishment. For instance, this feeling may occur when the player has lost a couple of games at the same challenge, and finally is able to beat the game. Since the game adapts itself to the player, thus is never the same, some would feel that their accomplishment is diminished.
 
@@ -245,11 +247,12 @@ A problem with the relations, is that a parameter which is represented in many r
 The diggers, super enemies and earthquake functionality is probably what makes AdaptiveTD 
 
 # Conclusion
+
 Although some of the test results came out negative, we still believe that the concept of adapting a game to an individual is something that can be done, in order to maximize fun. The game itself was considered fun, and we believe that some of the reason lays in the variety of the game, caused by its adaptivity. But in order to be able to maximize fun, the algorithm needs to become more refined, and could work much better if we fetch specialized information, indicating what the player really enjoyed. This information could then be used to let the algorithm do a more guided search to find out where to jump next, and not do a completely random jump. On the other hand, the difficulty scaling, works very well, and is something that we can re-use in later projects, such as for E-learning purposes.
 
 As noted in @chapref(observations), the 'flat-issue' that can be experienced with hill-climbing in general, also occurred at some point during our own development process. In order to combat this, an adaptive game itself needs to have much and varied game content, so the different games is felt different by the player. The player can then give better feedback to how the game was, and whether the algorithm should jump from a new location or not.
 
-We would also probably have gotten a better result by choosing a different game genre than tower defense. When the game uses a stochastic hill climbing algorithm relying on too many parameters, it is unlikely that all will go in an optimal direction at once. As mentioned in the second part of @chapref(discfun), we believe that if the game had used multiple specialized algorithms, which examines fewer parameters at a time, the total algorithm could have been more precise in its jumps. If specialized enough, one of the algorithms could also automatically detect feedback through how a player plays, rather than requiring a questionnaire at the end.
+We would also probably have gotten a better result by choosing a different game genre than tower defense. When the game uses a stochastic hill climbing algorithm relying on too many parameters, it is unlikely that all will go in an optimal direction at once. As mentioned in the second part of @chapref(discfun), we believe that if the game had used multiple specialized algorithms, which examines fewer parameters at a time, the total algorithm could have been more precise in its jumps. If specialized enough, one of the algorithms could also automatically detect feedback through how a player plays, rather than requiring a questionnaire at the end. Referere til flat:Løses ved annen mer visuell genre
 
 If we do stochastic hill climbing based on metrics created based on how the player is playing, on few parameters for each part of the algorithm, we believe that we could get much better results. However, as this has been, to the best of our knowledge, the first venture into creating games which adapt based on fun, we are quite happy with our result.
 

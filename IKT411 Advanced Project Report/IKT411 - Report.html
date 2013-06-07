@@ -60,14 +60,9 @@
 <a href='#shc' class='toc_1'>Stochastic hill climbing</a><br>
 <a href='#shce' class='toc_2'>Stochastic hill climbing example</a><br>
 <a href='#solution' class='toc_1'>Solution</a><br>
-<<<<<<< HEAD
-<a href='#solution_-_algorithm' class='toc_2'>Algorithm</a><br>
-=======
 <a href='#algorithm' class='toc_2'>Algorithm</a><br>
->>>>>>> Report work before submit
 <a href='#solution_-_litt_lang_setning__som_er_en_hel_paragraf_' class='toc_2'>Litt lang setning, som er en hel paragraf?</a><br>
 <a href='#testing' class='toc_1'>Testing</a><br>
-<a href='#testing_-_difficulty_testing' class='toc_2'>Difficulty testing</a><br>
 <a href='#fun_testing' class='toc_2'>Fun testing</a><br>
 <a href='#rpt' class='toc_3'>Real Playtests</a><br>
 <a href='#testing_-_fun_testing_-_case_tests' class='toc_3'>Case tests</a><br>
@@ -97,24 +92,20 @@
 <a href='#super' class='figtoc'>A tough enemy who has been given extra, super abilities an enemy can have at a time: More health, more speed, invisibility and impossible to harm</a><br>
 <a href='#digger' class='figtoc'>The digger enemy is a difficult opponent</a><br>
 <a href='#phone' class='figtoc'>AdaptiveTD on a mobile device</a><br>
-<a href='#pseudoshc' class='figtoc'>Pseudo-code for Stochastic Hillclimbing, as done in @chapref(shce).</a><br>
-<a href='#hclocalmaximum' class='figtoc'>A function that has a local maximum</a><br>
-<a href='#hcflat' class='figtoc'>A function that is too flat to search on</a><br>
-<a href='#hcsteep' class='figtoc'>A function that is very steep</a><br>
+<a href='#pseudoshc' class='figtoc'>Pseudocode for Stochastic Hill Climbing using example below</a><br>
+<a href='#hcissues' class='figtoc'>Some issues with Hill Climbing</a><br>
 <a href='#hcex1' class='figtoc'>The startpoint for the search</a><br>
 <a href='#hcex2' class='figtoc'>The first jump</a><br>
 <a href='#hcex3' class='figtoc'>An attempted jump</a><br>
 <a href='#hcex4' class='figtoc'>Achieving global maximum</a><br>
 <a href='#hcex5' class='figtoc'>Further jumps are discarded</a><br>
-<a href='#pseudoalgorithm' class='figtoc'>Pseudo-code for the algorithm.</a><br>
+<a href='#pseudoalgorithm' class='figtoc'>Pseudocode for the algorithm.</a><br>
 <a href='#algorithmexample' class='figtoc'>The flow of our algorithm.</a><br>
-<a href='#pseudorelations' class='figtoc'>Pseudo-code for jumping of relations</a><br>
+<a href='#pseudorelations' class='figtoc'>Pseudocode for jumping of relations</a><br>
 <a href='#relationsexample' class='figtoc'>Basic relations example.</a><br>
 <a href='#difficultyexample' class='figtoc'>Difficulty does not change in relations.</a><br>
-<a href='#reloadfun' class='figtoc'>Plot of the case tests for Global Reload time.</a><br>
-<a href='#avgreloadfun' class='figtoc'>Average values from the case tests for Global Reload time.</a><br>
-<a href='#postreloadfun' class='figtoc'>Plot of the case tests after one heart not chosen.</a><br>
-<a href='#avgreloadpostreload' class='figtoc'>Average Reload time for all playthroughs for both versions.</a><br>
+<a href='#prereload' class='figtoc'>Plots of reload time.</a><br>
+<a href='#postreload' class='figtoc'>Plots of reload time.</a><br>
 <a href='#reloaddamage' class='figtoc'>Plot of how global reload and tower damage changed over time.</a><br>
 </div>
 
@@ -129,6 +120,7 @@
 
 
 <h1 id='intro'>Introduction</h1>
+
 <p>
 Today, there exists more commercial video and computer games (henceforth: games) than ever before, and the number of persons owning a smart-phone or personal computer is increasing. Many students and pupils neglect their studies in favor of watching television or playing games, maybe because they consider it more fun. We believe that through the use of E-learning and gamification, which enhances traditional learning methods with elements from games, it is possible to make any learning process more fun, resulting in more interested students and better grades.
 </p>
@@ -180,6 +172,7 @@ Quick and short and concrete
 </p>
 
 <h1 id='adaptive_tower_defense'>Adaptive Tower Defense</h1>
+
 <p>
 This chapter gives some pictures and a short description of AdaptiveTD, as well as some general information about the game genre, namely tower defense.
 </p>
@@ -215,11 +208,6 @@ Already here, there are a lot of parameters that can be tweaked in order to maxi
 Also, AdaptiveTD provides the player with three different sliderbars, see <a href='#sliderbars' class='figref'>this figure</a>, game music playback speed, based on enemy speed, earthquakes that make the game screen shake, and different sizes and symbols on enemies, see <a href='#enemies' class='figref'>this figure</a> to let the player know that the game is changing.
 </p>
 
-<<<<<<< HEAD
-<div id='phone' class='figure'><img src='Images/phone.jpg' alt='AdaptiveTD on a mobile device' title='AdaptiveTD on a mobile device'><div class='caption'>AdaptiveTD on a mobile device</div></div>
-
-<h2 id='parameters'>Parameters and their importance</h2>
-=======
 <div id='sliderbars' class='figure'><img src='Images/sliderbars.png' alt='Sliderbars that indicate the current level of enemy health, enemy speed and tower damage' title='Sliderbars that indicate the current level of enemy health, enemy speed and tower damage'><div class='caption'>Sliderbars that indicate the current level of enemy health, enemy speed and tower damage</div></div>
 
 <p>
@@ -260,7 +248,6 @@ Probability for a digger enemy to appear works a little differently from super a
 <p>
 The earthquake functionality shakes the game screen, causing towers to be randomly moved, unless they have been properly built or upgraded. The earthquake is dependant upon two parameters, the first which is the Probability for earthquakes to be turned on at all, and the probability that earthquakes occur, if they are on at all. In <a href='#discussion' class='chapref_1'>Discussion</a> we discuss the earthquake functionality, as we received some mixed feedback on it.
 </p>
->>>>>>> Report work before submit
 
 <p>
 The rest of the parameters are more subtle, only changing underlying variables. In the <a href='#algorithm' class='chapref_2'>Algorithm</a> chapter we go through in detail how the game jumps to change its content and difficulty.
@@ -297,14 +284,16 @@ Since this is only a proof of concept game meant for testing purposes, we are no
 A hill climbing algorithm is an iterative improvement algorithm, searching for a local maximum. It tries to maximize a function f(X), where X could be a node, state, position or, in our case, a vector of parameters. It compares neighboring nodes to the one it is standing on, and checks if they are an improvement on f(X). If one of the other nodes is improving the situation, then the algorithm moves to the new node, commonly the best node, and repeats the process. The process is repeated until no more improvements can be found, thus the algorithm has found a local maximum. <a href='#reference_8' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[8]</a>. 
 </p>
 
-@figure(pseudoshc, pseudoStochastic.png, Pseudo-code for Stochastic Hillclimbing, as done in <a href='#shce' class='chapref_2'>Stochastic hill climbing example</a>.)
-
-<div id='hclocalmaximum' class='figure'><img src='Hill_Climbing_Local_Maximum.png' alt='A function that has a local maximum' title='A function that has a local maximum'><div class='caption'>A function that has a local maximum</div></div>
-<div id='hcflat' class='figure'><img src='Hill_Climbing_Flat.png' alt='A function that is too flat to search on' title='A function that is too flat to search on'><div class='caption'>A function that is too flat to search on</div></div>
-<div id='hcsteep' class='figure'><img src='Hill_Climbing_Steep.png' alt='A function that is very steep' title='A function that is very steep'><div class='caption'>A function that is very steep</div></div>
+<div id='pseudoshc' class='figure'><img src='pseudoStochastic.png' alt='Pseudocode for Stochastic Hill Climbing using example below' title='Pseudocode for Stochastic Hill Climbing using example below'><div class='caption'>Pseudocode for Stochastic Hill Climbing using example below</div></div>
 
 <p>
-One issue with this algorithm, is that it can become stuck on a local maximum, which may not be the global maximum, as in <a href='#hclocalmaximum' class='figref'>this figure</a>. One way to reduce the probability of this to happen, is to allow the algorithm to jump larger distances each jump, or to make sure that the landscape is convex. Another issue shown by <a href='#hcflat' class='figref'>this figure</a> is that the search area may be flat, that is, each node is as good as all its neighbors. In this case, any jump will not bring any improvement. A third issue in <a href='#hcsteep' class='figref'>this figure</a> is that a node may be lying on a very steep ridge, that is, the 'area' of parameters that give a good node is very small, and can thus be hard to find. <a href='#reference_8' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[8]</a>
+The pseudocode shown above 
+</p>
+
+<div id='hcissues' class='figure'><img src='Images/hillclimbingissues.png' alt='Some issues with Hill Climbing' title='Some issues with Hill Climbing'><div class='caption'>Some issues with Hill Climbing</div></div>
+
+<p>
+In <a href='#hcissues' class='figref'>this figure</a> above, there are three issues that can cause problems with this algorithm. One issue  is that the algorithm can become stuck on a local maximum, which may not be the global maximum, as to the right. One way to reduce the probability of this to happen, is to allow the algorithm to jump larger distances each jump, or to make sure that the landscape is convex. Another issue, shown in the middle, is that the search area may be flat, that is, each node is as good as all its neighbors. In this case, any jump will not bring any improvement. A third issue, as seen to the left, is that a node may be lying on a very steep ridge, that is, the 'area' of parameters that give a good node is very small, and can thus be hard to find. <a href='#reference_8' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[8]</a>
 </p>
 
 <p>
@@ -314,7 +303,7 @@ There are different variants of hill climbing algorithms, with different ways of
 <h2 id='shce'>Stochastic hill climbing example</h2>
 
 <p>
-Here is an example for how to use stochastic hill climbing for how to find the maximum value of the function f(X) = 2 - X<sup>2</sup>. which has a maximum value of 2. We initialize the maximum jump distance (in x-direction) to a value of 1.0, and let this decrease by 0.1 with each jump.
+Here is an example for how to use stochastic hill climbing for how to find the maximum value of the function f(X) = 2 - X<sup>2</sup>. which has a maximum value of 2. We initialize the maximum jump distance (in x-direction) to a value of 1.0, and let this decrease by 0.1 with each jump that is making an improvement. The example uses the pseudocode from <a href='#pseudoshc' class='figref'>this figure</a>.
 </p>
 
 <div id='hcex1' class='figure'><img src='Hill_Climbing_Example_1.png' alt='The startpoint for the search' title='The startpoint for the search'><div class='caption'>The startpoint for the search</div></div>
@@ -328,44 +317,18 @@ This is a short example of how stochastic hill climbing will eventually find the
 </p>
 
 <p>
-With a starting maximum jump distance of 1.0, decreasing by 0.1 with each jump, the algorithm will have converged after ten jumps, hopefully at an acceptable position. In a game setting, it may be wise to let the maximum jump distance never decrease to zero, because it can make the game feel more lively.
+With a starting maximum jump distance of 1.0, decreasing by 0.1 with each jump, the algorithm will have converged after ten successful jumps, hopefully at an acceptable position. In a game setting, it may be wise to let the maximum jump distance never decrease to zero, because it can make the game feel more lively.
 </p>
 
 <h1 id='solution'>Solution</h1>
 
 <p>
 In this chapter we will talk about our solution which is an implementation of the Stochastic Hillclimbig algorithm along with a few features needed to adapt it for our use. We work with the paramteres listed in <a href='#app_1' class='chapref_1'>Appendix I - Parameters</a>.
-<<<<<<< HEAD
-</p>
-
-<h2 id='solution_-_algorithm'>Algorithm</h2>
-
-<div id='pseudoalgorithm' class='figure'><img src='pseudoAlgorithm.png' alt='Pseudo-code for the algorithm.' title='Pseudo-code for the algorithm.'><div class='caption'>Pseudo-code for the algorithm.</div></div>
-
-
-<div id='algorithmexample' class='figure'><img src='algorithm.png' alt='The flow of our algorithm.' title='The flow of our algorithm.'><div class='caption'>The flow of our algorithm.</div></div>
-
-<p>
-As indicated in <a href='#pseudoalgorithm' class='figref'>this figure</a> and <a href='#algorithmexample' class='figref'>this figure</a> we start with set values for all parameters, which is a prior we have found to give a decent game. After playing a game the user gives feedback we use to create the metric is "How fun was this game?" and "How difficult was this game?". The first one presents the user with three hearts, and for each heart selected we roll a die from one to ten one time. This number is multiplied with a multiplier which increases as more games are played. This is to not end up stuck in a place just because the feedback received a high random value.
-</p>
-
-<h2 id='solution_-_litt_lang_setning__som_er_en_hel_paragraf_'>Litt lang setning, som er en hel paragraf?</h2>
-<p>
-After the metric has been created we compare it with the currently best known metric, and if we find that the new metric is better we save these as the best known metric conintue to jump from there, else we restore the parameters from the game where we received the best metric.
-</p>
-
-<div id='pseudorelations' class='figure'><img src='pseudoRelations.png' alt='Pseudo-code for jumping of relations' title='Pseudo-code for jumping of relations'><div class='caption'>Pseudo-code for jumping of relations</div></div>
-
-<p>
-We randomly increase or decrease the parameters with parameters from zero up to a max jump distance, and let the user play again and repeat the process. The max jump distance decreases each time we find a better game, and thus we attempt to converge at a point where the user enjoys the game. Perceived fun is fleeting though, and if the user grows tired of an area he might start to rate it lower, and thus when a user gives a game the lowest rating we increase the max jump distance, to enable users to find new games.
-=======
->>>>>>> Report work before submit
 </p>
 
 <h2 id='algorithm'>Algorithm</h2>
 
-<div id='pseudoalgorithm' class='figure'><img src='pseudoAlgorithm.png' alt='Pseudo-code for the algorithm.' title='Pseudo-code for the algorithm.'><div class='caption'>Pseudo-code for the algorithm.</div></div>
-
+<div id='pseudoalgorithm' class='figure'><img src='pseudoAlgorithm.png' alt='Pseudocode for the algorithm.' title='Pseudocode for the algorithm.'><div class='caption'>Pseudocode for the algorithm.</div></div>
 
 <div id='algorithmexample' class='figure'><img src='algorithm.png' alt='The flow of our algorithm.' title='The flow of our algorithm.'><div class='caption'>The flow of our algorithm.</div></div>
 
@@ -378,7 +341,7 @@ As indicated in <a href='#pseudoalgorithm' class='figref'>this figure</a> and <a
 After the metric has been created we compare it with the currently best known metric, and if we find that the new metric is better we save these as the best known metric conintue to jump from there, else we restore the parameters from the game where we received the best metric.
 </p>
 
-<div id='pseudorelations' class='figure'><img src='pseudoRelations.png' alt='Pseudo-code for jumping of relations' title='Pseudo-code for jumping of relations'><div class='caption'>Pseudo-code for jumping of relations</div></div>
+<div id='pseudorelations' class='figure'><img src='pseudoRelations.png' alt='Pseudocode for jumping of relations' title='Pseudocode for jumping of relations'><div class='caption'>Pseudocode for jumping of relations</div></div>
 
 <p>
 We randomly increase or decrease the parameters with parameters from zero up to a max jump distance, and let the user play again and repeat the process. The max jump distance decreases each time we find a better game, and thus we attempt to converge at a point where the user enjoys the game. Perceived fun is fleeting though, and if the user grows tired of an area he might start to rate it lower, and thus when a user gives a game the lowest rating we increase the max jump distance, to enable users to find new games.
@@ -397,32 +360,13 @@ The figure above illustrate how relations work. We have the relation GlobelMonst
 <div id='difficultyexample' class='figure'><img src='difficulty.png' alt='Difficulty does not change in relations.' title='Difficulty does not change in relations.'><div class='caption'>Difficulty does not change in relations.</div></div>
 
 <p>
-<<<<<<< HEAD
-The main feature we have implemented to adapt the stochastic hillclimbing algorithm to work with our parameters is relations. We needed to change the game, while not necessarily changing the difficulty. To do this we decided to put most of the parameters in relations. We do not change all parameters individually when jumping, but cycle through all relations and jump parameter one, and parameter two is changed as defined by the relation.
-</p>
-
-<div id='relationsexample' class='figure'><img src='relationsFun.png' alt='Basic relations example.' title='Basic relations example.'><div class='caption'>Basic relations example.</div></div>
-
-<p>
-The figure above illustrate how relations work. We have the relation GlobelMonsterHP->GlobalMonsterSpeed, when one goes up, the other one goes down proportionally. This may also be between two parameters which will change in the same direction as also seen in <a href='#relationsexample' class='figref'>this figure</a> where GlobalMonsterHp->TEDamage(Tower Damage) and both increase. As you may have noted, parameters can also be in more than one relation, thus when GlobalMonsterHP changes, it affects both GlobalMonsterSpeed and TEDamage.
-</p>
-
-<div id='difficultyexample' class='figure'><img src='difficulty.png' alt='Difficulty does not change in relations.' title='Difficulty does not change in relations.'><div class='caption'>Difficulty does not change in relations.</div></div>
-
-<p>
-=======
->>>>>>> Report work before submit
 We also get feedback on the difficulty, while this is not the main focus of this report, it does indicate something about the user. Since a game that is to easy or to hard is not fun, we found that we needed to implement some sort of difficulty scalign as well. We have implemented Stochastic Hillclimbing for the difficulty. Here however we just have parameters, and since the metric here in the sense of a graph would be "Too Low"(Easy), "Perfect" and "Too High"(Difficult), it is quite easy to guide the search and make it less random.
 </p>
 
 <h1 id='testing'>Testing</h1>
-<p>
-Our testing is split into two parts. The first part contains two case tests of the algorithm, and the second part contains tests from our fellow students and friends.
-</p>
 
-<h2 id='testing_-_difficulty_testing'>Difficulty testing</h2>
 <p>
-This is how our algorithm performed.
+This chapter contains the tests we performed to see how well the algorithm worked. One of the main problems with testing is that it is hard to measure fun, thus from actual players we have gathered feedback in general, rather than just asking them to rate the game. Tests for how well the algorithm works are in case tests, which contains tests where we attempt to maximize a value by playing  and giving the questionnaire feedback.
 </p>
 
 <h2 id='fun_testing'>Fun testing</h2>
@@ -447,39 +391,35 @@ While it is hard to plot exactly what they thought, since measuring fun is not a
 </p>
 
 <p>
-There are also some stats that certain people enjoy whiel others do not enjoy, and since the jumping is currently random for 15 parameters you may end up with not getting everything you desire. The main thing we heard here was that the diggers, as talked about in <a href='#parameters' class='chapref_2'>Parameters and their importance</a> can quickly become overwhelming if you get an unlucky jump while the max jump distance is still high. While you should generally end up with your old parameters if you did not enjoy the game, there are cases where the one roll of the die from one heart can give a metric higher than the old best metric. We have discussed never picking the current parameters the best known if a user rated it with one heart, however we have not had the time to do playtests using this, but believe it would give a better experience.
+There are also some stats that certain people enjoy whiel others do not enjoy, and since the jumping is currently random for 15 parameters you may end up with not getting everything you desire. The main thing we heard here was that the diggers, as talked about in <a href='#parameters' class='chapref_2'>Parameters and Adaptivity</a> can quickly become overwhelming if you get an unlucky jump while the max jump distance is still high. While you should generally end up with your old parameters if you did not enjoy the game, there are cases where the one roll of the die from one heart can give a metric higher than the old best metric, especially due to the multiplication from the GameLengthMultiplier which increases as you play more games. We have discussed never picking the current parameters the best known if a user rated it with one heart, however we have not had the time to do playtests using this, but believe it would give players a better experience. We tested this in case tests after we got this feedback, and numerically it gives much better results.
 </p>
 
 <h3 id='testing_-_fun_testing_-_case_tests'>Case tests</h3>
-<p>
-We also did some case tests ourselves, where we decided on a parameter which we wanted to maximize or minimize, and tested if we would get the desired result. We created some methods to make these tests quick, and played. For each test we played 15 games, and gave the game three hearts if it went in the correct direction with our stat, and one if not. We also gave the game the feedback of "Perfect" in the difficulty, such that this part of the game did not alter any stats.
-</p>
-
-<b>Case Test one: Global Reload Time maximized</b>
 
 <p>
-For this test we attempted to maximize the Global Reload time. Which means that the parameter GlobalReloadTime should preferably go upwards as we play.
+To test how well the algorithm worked, by just trying to achieve certain values in certain stats we made some case tests. We created a way to automate testing, such that when the parameter in question moved in the direction we desired we rated the game three hearts, and one heart if it went the wrong way.
 </p>
 
 <p>
-Here are the plot from five playthroughs attempting this.
+For each test we ran 100 rounds of 30 games each.
 </p>
 
-<div id='reloadfun' class='figure'><img src='GlobalReloadfuntest.png' alt='Plot of the case tests for Global Reload time.' title='Plot of the case tests for Global Reload time.'><div class='caption'>Plot of the case tests for Global Reload time.</div></div>
+<b>Case test 1: Global Reload time</b>
+<p>
+In this case test we attempted to maximize global reload time. We basically wanted the GlobalReloadTime parameter to increase when playing. Following is a plot of its value through the games.
+</p>
 
-<div id='avgreloadfun' class='figure'><img src='avgGlobalReloadfuntest.png' alt='Average values from the case tests for Global Reload time.' title='Average values from the case tests for Global Reload time.'><div class='caption'>Average values from the case tests for Global Reload time.</div></div>
+<div id='prereload' class='figure'><img src='avg100prereload.png' alt='Plots of reload time.' title='Plots of reload time.'><div class='caption'>Plots of reload time.</div></div>
 
 <p>
-As you can see it is moderately successfull each time, but since the jumps are random we do expect jagged graphs as it is as likely to decrease as it is to increase. The trend is however quite clear, the GlobalReloadTime is increasing. We believed that this could also be made even more clear by never choosing the parameters after choosing one heart, as described in the end of <a href='#rpt' class='chapref_3'>Real Playtests</a> after it was pointed out by one of the subjects in the playtest, and we tested with exactly this, as plotted below.
+As you can see, the general trend is upwards, but it seemed to be slightly to random. To fix this we thought to implement one of the things we thought about when running playtests, which was that when giving one heart ratings it is never chosen as the current best, regardless of the metric that is generated from the roll. This resulted in the following graph over 100 rounds of 30 games each.
 </p>
 
-<div id='postreloadfun' class='figure'><img src='PostHighReloadFuntest.png' alt='Plot of the case tests after one heart not chosen.' title='Plot of the case tests after one heart not chosen.'><div class='caption'>Plot of the case tests after one heart not chosen.</div></div>
+<div id='postreload' class='figure'><img src='avg100postreload.png' alt='Plots of reload time.' title='Plots of reload time.'><div class='caption'>Plots of reload time.</div></div>
 
 <p>
-This had little effect, but we do believe that it will help users not get stuck in with a game they disliked as the currently best known game. It performed a little better than the old one on the 15th game, but a 5 * 15 games is not enough to be conclusive. We wish we had the time to automate tests and run the test more times with more games to see whether it is acctually better, worse or equal. Following is the plot of the average from both tests, blue is the average from the tests where one heart could still be chosen as best known, green is the average from the tests where it could not.
+As you notice, the trend is that global reload time increases much more quickly. Additionally that we never pick one heart games as the current best should result in players not getting stuck with games they disliked.
 </p>
-
-<div id='avgreloadpostreload' class='figure'><img src='avgbothreloads.png' alt='Average Reload time for all playthroughs for both versions.' title='Average Reload time for all playthroughs for both versions.'><div class='caption'>Average Reload time for all playthroughs for both versions.</div></div>
 
 <p>
 We also used these tests to see that the relations work correctly. GlobalReloadTime affect TEDamage, such that if the reload time goes up, the damage should also increase. Here is a plot of one of the more successfull playthroughs, with GlobalReloadTime in blue and TEDamage in green. Damage is also affected by other relations, which is why there are deviations in the values.
@@ -513,13 +453,11 @@ The difficulty test results are good, in that the algorithm is able to change th
 
 <h2 id='observations'>Other observations</h2>
 <p>
-Another problem we have noticed during the development process, is that the jumps themselves may be too subtle for a player to notice when jump distance shortens. The algorithm requires positive feedback when it goes in a direction the player likes, but if the change is not noticable the player may give it the same score, thus have a decent chance of ending up jumping from his old game each jump. This issue is similar to the one in chapter 5, <a href='#shc' class='chapref_1'>Stochastic hill climbing</a>, <a href='#hcflat' class='figref'>this figure</a>.
+Another problem we have noticed during the development process, is that the jumps themselves may be too subtle for a player to notice when jump distance shortens. The algorithm requires positive feedback when it goes in a direction the player likes, but if the change is not noticable the player may give it the same score, thus have a decent chance of ending up jumping from his old game each jump. This issue is similar to the one in chapter 5, <a href='#shc' class='chapref_1'>Stochastic hill climbing</a>, <a href='#hcissues' class='figref'>this figure</a>, figure in the middle.
 </p>
 
 <p>
 Lastly, we also noticed that the tower defense genre may not be well suited for creating an adaptive game. This is mainly because of the three following reasons. Firstly, the core game elements are rather static, which makes it difficult to make the game look and feel adaptive to the player. A different genre, such as the platformer, with game a example like Super Mario Bros. <a href="http://mario.nintendo.com/">[9]</a>. Secondly, the parameters in a tower defense game are very tightly knit together, in order to keep the game difficulty in balance. It is difficult to map how they all fit together, which makes it difficult for our algorithm to jump randomly to a new position, while still maintaining mentioned balance. Thirdly, the fun factor in a tower defense game is often related to the feeling of accomplishment. For instance, this feeling may occur when the player has lost a couple of games at the same challenge, and finally is able to beat the game. Since the game adapts itself to the player, thus is never the same, some would feel that their accomplishment is diminished.
-<<<<<<< HEAD
-=======
 </p>
 
 <p>
@@ -528,10 +466,10 @@ A problem with the relations, is that a parameter which is represented in many r
 
 <p>
 The diggers, super enemies and earthquake functionality is probably what makes AdaptiveTD 
->>>>>>> Report work before submit
 </p>
 
 <h1 id='conclusion'>Conclusion</h1>
+
 <p>
 Although some of the test results came out negative, we still believe that the concept of adapting a game to an individual is something that can be done, in order to maximize fun. The game itself was considered fun, and we believe that some of the reason lays in the variety of the game, caused by its adaptivity. But in order to be able to maximize fun, the algorithm needs to become more refined, and could work much better if we fetch specialized information, indicating what the player really enjoyed. This information could then be used to let the algorithm do a more guided search to find out where to jump next, and not do a completely random jump. On the other hand, the difficulty scaling, works very well, and is something that we can re-use in later projects, such as for E-learning purposes.
 </p>
