@@ -202,7 +202,7 @@ public class MyGdxGame implements ApplicationListener
 		{
 			if(thinkTank.thinkTankInfo.successiveGameCounter < 100)
 			{
-				if((thinkTank.oldParameters.get("GlobalReloadTime") == null || thinkTank.parameters.get("GlobalReloadTime").value > thinkTank.oldParameters.get("GlobalReloadTime").value) && (thinkTank.oldParameters.get("GlobalBuildCost") == null || thinkTank.parameters.get("GlobalBuildCost").value > thinkTank.oldParameters.get("GlobalBuildCost").value) && (thinkTank.oldParameters.get("DiggerChance") == null || thinkTank.parameters.get("DiggerChance").value > thinkTank.oldParameters.get("DiggerChance").value))
+				if((thinkTank.oldParameters.get("GlobalReloadTime") == null || thinkTank.parameters.get("GlobalReloadTime").value > thinkTank.oldParameters.get("GlobalReloadTime").value) )
 				{
 					questionaire.happy = 3;
 					questionaire.difficult = 2;

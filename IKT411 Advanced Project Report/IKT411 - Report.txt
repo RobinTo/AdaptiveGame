@@ -211,7 +211,7 @@ There are also some features that certain people enjoy while others do not, and 
 
 To test how well the algorithm worked, we test if the algorithm is able to achieve maximum or minimum values in certain parameters. We created a way to automate testing, such that when the parameter(s) in question moved in the direction we desired we rated the game three hearts, and one heart if it went in the opposite direction.
 
-### Case test: One variable
+### Case test: One variable | ctone
 In this case test we attempted to maximize global reload time. We basically wanted the GlobalReloadTime parameter to increase towards 3.0. We ran 100 tests of 30 games each. In @figref(prereload) is a plot of its value through the tests.
 
 @figure(prereload, avg100prereload.png, Plots of reload time.)
@@ -243,6 +243,22 @@ Finally we ran the test with three different variables. We rated the game three 
 @figure(avg100x100BuildReloadDigger, avg100x100BuildReloadDigger.png, Average values for three variables.)
 
 As we now see the two variables in relations reach the top even more slowly, as expected.
+
+### Case test: No max jump distance increase | ctnomax
+
+We ran a few tests with different values in the algorithm. We thought that perhaps what limited us from converging properly was the reset of the max jump distance when receiving a one star rating. We ran 100 tests with 100 games in each, to see whether it would converge more clearly. This may however cause players to be less satisified when playing for an extended period of time, as they may be stuck at a position. In @chapref(discussion) we discuss this more in-depth.
+
+@figure(NoMaxJumpDistanceIncrease, NoMaxJumpIncrease.png, Graph when maximum jump distance does not increase on one heart ratings.)
+
+We see a more clear trend, which continues further upwards. However, it increases way to slowly. This was because we reduce the maximum jump distance by to one fifth of the current value each time we find a better value, because we wanted the game to converge quickly again after increasing the maximum jump distance.
+
+### Case test: Max jump distance increase less | ctlessmax
+
+After having ran the previous test, we believe that perhaps tweaking the increase of the max jump distance upon receiving a one heart rating will give us much better result. Instead of setting it back to the maximum we will just double the current value, and when receiving a three heart rating we will divide it by two.
+
+@figure(MaxJumpIncreaseLess, MaxJumpDistanceIncreaseLess.png, Graph when maximum jump distance increases less upon one heart rating.)
+
+However, we see here that this perform worse than the algorithm we used in @chapref(ctone). We will discuss this further in the @chapref(discussion) and @chapref(conclusion).
 
 # Discussion | discussion
 
