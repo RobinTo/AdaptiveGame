@@ -253,7 +253,7 @@ After having ran the previous test, we believe that perhaps tweaking the increas
 
 @figure(MaxJumpIncreaseLess, MaxJumpDistanceIncreaseLess.png, Graph when maximum jump distance increases less upon one heart rating.)
 
-However, we see here that this perform worse than the algorithm we used in @chapref(ctone). We will discuss this further in the @chapref(discussion) and @chapref(conclusion).
+However, we see here that this perform worse than the algorithm we used in @chapref(case_1). We will discuss this further in the @chapref(discussion) and @chapref(conclusion).
 
 # Discussion | discussion
 
@@ -266,7 +266,7 @@ From @figref(reloaddamage), we can see that the relations work fine, as paramete
 
 From @figref(avg100x100buildreload) and @figref(avg100x100buildreloaddigger), we can see that the algorithm still maximize up to three parameters at a time, albeit at a slower rate. We believe that the algorithm should be able to maximize fun for all parameters, but at a very slow rate. In order to combat this, one could divide the algorithm into multiple parts, each being more specialized towards receiving exact feedback on what the player really enjoyed, and what they did not.
 
-The algorithm from @figref(ctnomax) has no jump distance increase, and the one from @figref(ctlessmax) increases maximum jump distance only a little, each time one heart is given as feedback. Both of these approaches are performing worse than the one from @chapref(case_1), which sets the maximum jump distance to the original (maximum) value. By performing worse, we mean that the algorithm converges slower on a high position.
+The algorithm from @chapref(ctnomax) and the one from @chapref(ctlessmax) are performing worse than the one from @chapref(case_1), which sets the maximum jump distance to the original (maximum) value. By performing worse, we mean that the algorithm converges slower on a high position.
 
 ## Other observations | observations
 A problem we have noticed during the development process, is that the jumps themselves may be too subtle for a player to notice when jump distance shortens. The algorithm requires positive feedback when it goes in a direction the player likes, but if the change is not noticable the player may give it the same score, thus have a decent chance of ending up jumping from his old game each jump. This issue is similar to the one in chapter 5, @chapref(shc), @figref(hcissues), figure in the middle.
@@ -277,26 +277,21 @@ A problem with the relations, is that a parameter which is represented in many r
 
 # Conclusion
 
-Although some of the test results came out negative, we still believe that the concept of adapting a game to an individual is something that can be done, in order to maximize fun. The game itself was considered fun, and we believe that some of the reason lays in the variety of the game, caused by its adaptivity. But in order to be able to maximize fun, the algorithm needs to become more refined, and could work much better if we fetch specialized information, indicating what the player really enjoyed. This information could then be used to let the algorithm do a more guided search to find out where to jump next, and not do a completely random jump. On the other hand, the difficulty scaling, works very well, and is something that we can re-use in later projects, such as for E-learning purposes.
+We would probably have gotten a better result by choosing a different game genre than tower defense. When the game uses a stochastic hill climbing algorithm relying on too many parameters, it is unlikely that all will go in an optimal direction at once.
 
-As noted in @chapref(observations), the 'flat-issue' that can be experienced with hill-climbing in general, also occurred at some point during our own development process. In order to combat this, an adaptive game itself needs to have much and varied game content, so the different games is felt different by the player. The player can then give better feedback to how the game was, and whether the algorithm should jump from a new location or not.
+As mentioned in the @chapref(discussion), we also believe that if the game had used multiple specialized algorithms, which examines fewer parameters at a time, the total algorithm could have been more precise in its jumps. If specialized enough, one of the algorithms could also automatically detect feedback through how a player plays, rather than requiring a questionnaire at the end. 
 
-We would also probably have gotten a better result by choosing a different game genre than tower defense. When the game uses a stochastic hill climbing algorithm relying on too many parameters, it is unlikely that all will go in an optimal direction at once. As mentioned in the @chapref(discussion), we believe that if the game had used multiple specialized algorithms, which examines fewer parameters at a time, the total algorithm could have been more precise in its jumps. If specialized enough, one of the algorithms could also automatically detect feedback through how a player plays, rather than requiring a questionnaire at the end. Referere til flat:Løses ved annen mer visuell genre
+When it comes to the game itself, we believe that it needs more content to be fun in the long run. In addition, while the diggers, super enemies and earthquake functionality is probably what makes AdaptiveTD a relatively interesting and fun game for now, they do need more tweaking and balancing.
 
-If we do stochastic hill climbing based on metrics created based on how the player is playing, on few parameters for each part of the algorithm, we believe that we could get much better results. However, as this has been, to the best of our knowledge, the first venture into creating games which adapt based on fun, we are quite happy with our result.
-
-The diggers, super enemies and earthquake functionality is probably what makes AdaptiveTD a relatively interesting and fun game, however, they need
+When it comes to E-learning, we believe that an improved version of the algorithm can be used for creating video games for E-learning. However, game difficulty, balancing and content seem to be more vital parts of a game, rather than the adaptivity itself. We conclude that adaptivity can be used to increase the amount of fun in a video game, but the adaptivity needs the other components of a a classic video game as well.
 
 # Future Work | futurework
 
-The algorithm works ok, but it needs to be more refined. We believe that with some work refining the algorithm, and doing more testing with different sensors to see if certain feedback can be interprented to liking certain things in the game, we can create a great algorithm to maximize fun even in games with many parameters.
+With a more refined algorithm we believe this could be highly useful in a game, however we would like to split it into smaller, more specialized algorithms, that can automatically detect what the user likes and dislikes without the need for a questionnaire. It would be interesting to run more tests, but we feel that we have a good base for future work.
 
-We would like to try to implement this sort of algorithm in a game related to e-learning. Currently one of the problems with e-learning games is that they feel to much like learning and to little like games. If we could be able to create a game which can maximize the fun a player has, while also scaling the difficulty appropriately we believe we could create an effective learning tools for many skills.
+There are also interesting applications for this sort of algorithm in E-learning, because it can help to detect what sort of learning methods works best for the individual student, as well as help scale the level of difficulty. In E-learning games, such an algorithm can also help to increase the amount of fun, which will motivate the player the play more, and thus learn more.
 
-With a more refined algorithm we believe this could be highly useful in a game, however it needs more sensors or ways to detect which parameters the players are satisfied with and not. There are also interesting applications for this sort of algorithm in E-learning, if we can detect how to make an e-learning game fun for a player and also scale the difficulty to their ability we may create an effective game for learning.
-
-Use search algorithm also for relations. We have most of the implementation ready for this, but the theory behind is a little more complex than the scope of this project.
-
+@figure(future, presentationimage.png, E-learning + games = true?)
 
 # References
 
