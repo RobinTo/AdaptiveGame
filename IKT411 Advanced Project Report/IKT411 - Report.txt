@@ -96,7 +96,9 @@ The game has modular towers and enemies. This is not necessarily new to the towe
 
 # Stochastic hill climbing | shc
 
-A hill climbing algorithm is an iterative improvement algorithm, searching for a local maximum. It tries to maximize a function f(X), where X could be a node, state, position or, in our case, a vector of parameters. It compares neighboring nodes to the one it is standing on, and checks if they are an improvement on f(X). If one of the other nodes is improving the situation, then the algorithm moves to the new node, commonly the best node, and repeats the process. The process is repeated until no more improvements can be found, thus the algorithm has found a local maximum. @("Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall")
+A hill climbing algorithm is an iterative improvement algorithm, searching for a local maximum. It tries to maximize a function f(X), where X could be a node, state, position or, in our case, a vector of parameters. It compares neighboring nodes to the one it is standing on, and checks if they are an improvement on f(X). If one of the other nodes is improving the situation, then the algorithm moves to the new node, commonly the best node, and repeats the process. The process is repeated until no more improvements can be found, thus the algorithm has found a local maximum. @("Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall"). 
+
+@figure(pseudoshc, pseudoStochastic.png, Pseudo-code for Stochastic Hillclimbing, as done in @chapref(shce).)
 
 @figure(hclocalmaximum, Hill_Climbing_Local_Maximum.png, A function that has a local maximum)
 @figure(hcflat, Hill_Climbing_Flat.png, A function that is too flat to search on)
@@ -106,7 +108,7 @@ One issue with this algorithm, is that it can become stuck on a local maximum, w
 
 There are different variants of hill climbing algorithms, with different ways of deciding where and when to jump. The stochastic hill climbing algorithm, closely resembling simulated annealing, chooses a position at random, then evaluates whether it is an improvement, and if it is, jumps to the new position. If the new position is not an improvement, it will go back to the last one. With stochastic hill climbing, it may be wise to set a specific maximum jump distance, and let this decrease over time. This allows the algorithm to converge or settle on a position after some time. @("Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall")
 
-## Stochastic hill climbing example 
+## Stochastic hill climbing example | shce
 
 Here is an example for how to use stochastic hill climbing for how to find the maximum value of the function f(X) = 2 - X<sup>2</sup>. which has a maximum value of 2. We initialize the maximum jump distance (in x-direction) to a value of 1.0, and let this decrease by 0.1 with each jump.
 
@@ -157,17 +159,38 @@ Our testing is split into two parts. The first part contains two case tests of t
 This is how our algorithm performed.
 
 ## Fun testing | fun_testing
-After we finished the game, it was mainly sent to friends at the university. They were told to test the game for as long as they wanted, and when they were finished, they sent us a logfile containing some information about their games. An example logfile can be found in @chapref(app_2). They were also asked to rate how fun they thought the game was in total.
+After we finished the game, we ran several tests to research the viability of our algorithm.
 
-@table(testing, Test_Table_1.csv, Test results for fun testing, )
+### Real Playtests | rpt
+We ran some actual playtests, having people who had never played the game before download and play it. These people varied in age, computer background, and experience with games, to get a sense whether we could please a wide variety of people by adapting to their preferences.
 
-As you can see in @tableref(testing), the game was played 8.17 times on average, given a rating of 7.17 on average. This is quite high values, which is something we consider to be good test results for the game itself.
+While it is hard to plot exactly what they thought, since measuring fun is not an exact science we have gathered some feedback from them which we will summarize here.
 
-Four out of the six subjects were also asked to rate the game at the beginning and at the end, in order to say something about whether the game converged at a better position or not.
+- The game is fun to begin with, but gets somewhat monotone when you play it for an extended period of time. 
+- It is exciting when the game changes radically and new stuff happens that you have to deal with.
+- The difficulty scales well, and you can feel the changes quickly if you are dissatisfied with your game.
+- 
 
-@table(testing2, Test_Table_2.csv, Before-and-after test results, )
+There are also some stats that certain people enjoy whiel others do not enjoy, and since the jumping is currently random for 15 parameters you may end up with not getting everything you desire. The main thing we heard here was that the diggers, as talked about in @chapref(parameters) can quickly become overwhelming if you get an unlucky jump while the max jump distance is still high. While you should generally end up with your old parameters if you did not enjoy the game, there are cases where the one roll of the die from one heart can give a metric higher than the old best metric. We have discussed never picking the current parameters the best known if a user rated it with one heart, however we have not had the time to do playtests using this, but believe it would give a better experience.
 
-Three out of four rated the game better before the algorithm changed the game, than after, which is not actually very positive. However, as we note in chapter 9, @chapref(discussion), we believe that some of the parameters are having too big an impact on the game, resulting in poorer test results.
+### Case tests
+We also did some case tests ourselves, where we decided on a parameter which we wanted to maximize or minimize, and tested if we would get the desired result. We created some methods to make these tests quick, and played. For each test we played 15 games, and gave the game three hearts if it went in the correct direction with our stat, and one if not. We also gave the game the feedback of "Perfect" in the difficulty, such that this part of the game did not alter any stats.
+
+<b>Case Test one: Global Reload Time maximized</b>
+
+For this test we attempted to maximize the Global Reload time. Which means that the parameter GlobalReloadTime should preferably go upwards as we play.
+
+Here are the plot from three playthroughs attempting this.
+
+@figure(reloadfun, GlobalReloadfuntest.png, Plot of the case tests for Global Reload time.)
+
+As you can see it is moderately successfull each time, but since the jumps are random we do expect jagged graphs as it is as likely to decrease as it is to increase. The trend is however quite clear, the GlobalReloadTime is increasing. We do believe that this could also be made even more clear by never choosing the parameters after choosing one heart, as described in the end of @chapref(rpt).
+
+We can also see that the relations work correctly. GlobalReloadTime affect TEDamage, such that if the reload time goes up, the damage should also increase. Here is a plot of one of the more successfull playthroughs, with GlobalReloadTime in blue and TEDamage in green.
+
+@figure(reloaddamage, figreloadrelateddamage.png, Plot of how global reload and tower damage changed over time.)
+
+As you can see they increase almost simultaneously.
 
 # Discussion | discussion
 
