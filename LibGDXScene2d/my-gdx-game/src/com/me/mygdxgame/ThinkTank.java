@@ -193,10 +193,14 @@ public class ThinkTank
 		// ---End Calculate playerLevel---
 
 		if (happy == 1)
-			thinkTankInfo.maxJumpDistance = thinkTankInfo.maxJumpDistanceConst;
+		{
+			thinkTankInfo.maxJumpDistance *= 2;
+			if(thinkTankInfo.maxJumpDistance > thinkTankInfo.maxJumpDistanceConst)
+				thinkTankInfo.maxJumpDistance = thinkTankInfo.maxJumpDistanceConst;
+		}
 		else if (happy == 3)
 		{
-			thinkTankInfo.maxJumpDistance -= thinkTankInfo.maxJumpDistance / 5;
+			thinkTankInfo.maxJumpDistance -= thinkTankInfo.maxJumpDistance *= 0.5;
 			thinkTankInfo.maxJumpDistance = thinkTankInfo.maxJumpDistance < 0.05f ? 0.05f : thinkTankInfo.maxJumpDistance;
 		}
 
