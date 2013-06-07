@@ -81,11 +81,21 @@ This is a short example of how stochastic hill climbing will eventually find the
 
 With a starting maximum jump distance of 1.0, decreasing by 0.1 with each jump, the algorithm will have converged after ten jumps, hopefully at an acceptable position. In a game setting, it may be wise to let the maximum jump distance never decrease to zero, because it can make the game feel more lively.
 
-# Our algorithm
+# Solution
 
-Our algorithm works with a set of parameters which affects the game, these parameters are listed in @("Some Chapter"). We have done some testing and found some values for these which we think make an ok game for most people. After each game there is a questionnaire which asks "How fun was this game?" and "How difficult was this game?", which is then saved and used to create the next game. We save the value we receive in "How fun was this game?" as a metric, and use it to determine wether to jump from the current or the last game.
+Our solution is an implementation of the Stochastic Hillclimbig algorithm along with a few features needed to adapt it for our use. We work with the paramteres listed in @chapref(app_1).
 
-We scale the difficulty based on certain paramteres, and "fun" based on other parameters. The parameters which fall into the category of scaling fun are related in pairs of a "positive" and a "negative parameter such that if one jumps, the other one jumps equally as much, such as to keep difficulty even. By positive parameter we mean one which when scaled up would make the game easier for the player, and a negative would make it harder for the player when scaled up.
+@figure(algorithmExample, algorithm.png, The flow of our algorithm.)
+
+The feedback we use to create the metric is "How fun was this game?" and "How difficult was this game?". The first one presents the user with three hearts, and for each heart selected we roll a die from one to ten one time. This number is multiplied with a multiplier which increases as more games are played. This is to not end up stuck in a place just because the feedback received a high random value.
+
+The main feature we have implemented to adapt the stochastic hillclimbing algorithm to work with our parameters is relations. We needed to change the game, while not necessarily changing the difficulty. To do this we decided to put most of the parameters in relations.
+
+@figure(relationsExample, relations.png, Basic relations example.)
+
+The figure above illustrate how relations work. We have the relation GlobelMonsterHP->GlobalMonsterSpeed, when one goes up, the other one goes down proportionally. This may also be between two parameters which will change in the same direction, for instance GlobalMonsterHp->TEDamage(Tower Damage). As you may have noted, parameters can also be in more than one relation, thus when GlobalMonsterHP changes, it affects both GlobalMonsterSpeed and TEDamage.
+
+We also get feedback on the difficulty, while this is not the main focus of this report, it does indicate something about the user. Since a game that is to easy or to hard is not fun, we found that we needed to implement some sort of difficulty scalign as well. We have implemented Stochastic Hillclimbing for the difficulty. Here however we just have parameters, and since the metric here in the sense of a graph would be "Too Low"(Easy), "Perfect" and "Too High"(Difficult), it is quite easy to guide the search and make it less random.
 
 # Game Description
 This chapter gives some pictures and a short description of our game, as well as some general information about the game genre, namely tower defense.
