@@ -59,7 +59,7 @@ We have chosen to create a game using the tower defense genre, as this requires 
 Quick and short and concrete
 
 # Adaptive Tower Defense
-This chapter gives some pictures and a short description of our game, as well as some general information about the game genre, namely tower defense.
+This chapter gives some pictures and a short description of AdaptiveTD, as well as some general information about the game genre, namely tower defense.
 
 @figure(tdimg, Tower_Defense.png, Left: AdaptiveTD. Right: A tower defense game called Fieldrunners @("http://wp.appadvice.com/wp-content/uploads/2010/04/IMG_0005.jpg"))
 
@@ -76,16 +76,38 @@ In order to build towers, the player needs money/gold represented by the number 
 
 @figure(gold, Images/gold.png, Gold is represented by the number next to this symbol)
 
-Already here, there are a lot of parameters that an algorithm can tweak in order to maximize fun. For instance, one could change the balance between the build cost for each tower, and the amount of gold each enemy killed will yield. Another example is to change the health of enemies, making them more or less vulnerable to attack, while at the same time adjusting the damage that each tower does, so that the overall difficulty balance is not changed. In @chapref(parameters) we provide a detailed list of many of the chosen parameters, how they impact the game, and why they were chosen.
+Already here, there are a lot of parameters that can be tweaked in order to maximize fun. For instance, one could change the balance between the build cost for each tower, and the amount of gold gaind from killed enemies. Another example is to change the health of enemies, making them more or less vulnerable to attack, while at the same time adjusting the damage that each tower does, so that the overall difficulty balance is not changed. As you can see, there are a lot of underlying parameters, and small changes can be enough to make or break a fun tower defense game. The problem with all these underlying parameters is that they can be hard to observe, thus the player does not know that the game has actually changed. That is why it is important to give the player some visual feedback that the game has changed. An example shown in @figref(colordifference) below, shows that the background color of the game changes in direct relation to the level of enemy health, thus making a more difficult game look darker, and easier games brighter.
 
-We created AdaptiveTD using LibGDX, which is "a cross-platform game development library written in Java", that "abstracts away the differences between writting desktop, Android, iOS and HTML5 games based on standards like OpenGL ES/WebGL", where "Applications can be prototyped and developed entirely on the desktop, then only 6 lines of code are needed to run your app on Android or HTML5." @("https://code.google.com/p/libgdx/").
-This makes it possible to test and possibly publish AdaptiveTD on Android and iPhones, as well as tablets and computers, both for desktop in all major OS's, and for HTML.
+@figure(colordifference, Images/darkbright.png, The level of enemy health (difficulty) is reflected in the background color)
 
-@figure(phone, Images/phone.jpg, AdaptiveTD on a mobile device)
+Also, AdaptiveTD provides the player with three different sliderbars, see @figref(sliderbars), game music playback speed, based on enemy speed, earthquakes that make the game screen shake, and different sizes and symbols on enemies, see @figref(enemies) to let the player know that the game is changing.
 
-## Parameters and their importance | parameters
+@figure(sliderbars, Images/sliderbars.png, Sliderbars that indicate the current level of enemy health, enemy speed and tower damage)
 
-In the following sub-chapter we provide some of the parameters we keep track of in AdaptiveTD, what they represent, and some general comments on their usefulness.
+In @chapref(parameters) we provide a detailed list of many of the chosen parameters, how they impact the game, and why they were chosen.
+
+## Parameters and Adaptivity | parameters
+In AdaptiveTD we keep track of 15 different parameters, that are represented in 12 different relations. These 12 relations are important to keep the game difficulty balanced at all times, by letting related parameters be adjusted whenever a parameter is changed. In @figref(relations) we provide the most important relations and parameters in AdaptiveTD.
+
+@figure(relations, Images/relations.png, Parameters in relation to each other)
+
+Every relation involving at least to parameters has a number next to each parameter. This number represents the proportion of how much a parameter should change, when another one is changed. For instance in relation 1, Tower Build Cost Multiplier and Enemy Gold Yield Multiplier both have the number '1' next to them. This means, that if one of them is changed by a certain value, the other one should also change with the same value, thus they are still in balance. Relation 2 is inverse proportional, but similar to relation 1, in that if one of them changes with a value, the other one should change with the same, negative value. Relation 3 is different, because it involves three parameters, but it functions in the same way. If Enemy Health Multiplier is changed, then Enemy Speed Multiplier should change by half the negative value, and Tower Damage whould change by half the value. Note that Enemy Speed Multiplier and Enemy Health Multiplier is in the same relation twice. This is not a problem, because if one relation deides to change the internal balance, the other relations are not influenced. So if Enemy Speed Multiplier changes in one relation, the change will NOT propagate to the other relations.
+
+These relations and numbers are what we believe is approximately good enough to keep the difficulty balance constant. For instance, if the Enemy Health increases by 50%, it should be sufficient that Tower Damage is also increased by 50%, in order to keep balance. Of course, towers that do not deal direct damage, but have a more tactical effect, such as slowing the current speed of an enemy, will be somewhat less efficient after a balancing change like this. This makes the difficulty scaling in the game less predictable.
+
+To the left there are four parameters that are not in relation with any other parameters. They are still in relation with themselves, in order to be able to jump, more about jumping in the @chapref(algorithm) chapter. These four parameters hold the probabilities digger and super enemies to appear and the probability for earthquakes to occur, all of which are described more in detail below.
+
+Probability for a super enemy to appear is a value from 0 to 1 that the next enemy generated will have some super properties, i.e. have more health, more speed, sometimes be invisible and be impossible to harm for a short time period, as seen in @figref(super).
+
+@figure(super, Images/super.png, A tough enemy who has been given extra, super abilities an enemy can have at a time: More health, more speed, invisibility and impossible to harm)
+
+Probability for a digger enemy to appear works a little differently from super abilities. A game consists of 45 enemies, with four possible types of enemies that can be generated. The "Probability for a digger enemy to appear" parameter is simply the probability that each of these 45 enemies is a digger. So a value of 0.67 out of 1, should result in approximately 30 diggers, which is really a challenge. In the @chapref(discussion) chapter we discuss some weaknesses of this approach. Below is a figure of a digger enemy and what it can do.
+
+@figure(digger, Images/digger.png, The digger enemy is a difficult opponent)
+
+The earthquake functionality shakes the game screen, causing towers to be randomly moved, unless they have been properly built or upgraded. The earthquake is dependant upon two parameters, the first which is the Probability for earthquakes to be turned on at all, and the probability that earthquakes occur, if they are on at all. In @chapref(discussion) we discuss the earthquake functionality, as we received some mixed feedback on it.
+
+The rest of the parameters are more subtle, only changing underlying variables. In the @chapref(algorithm) chapter we go through in detail how the game jumps to change its content and difficulty.
 
 ## AdaptiveTD vs. similar games
 AdaptiveTD is very similar to classic tower defense games, in that the player has to stop different kinds of enemies from reaching the destination on their path, by using different kinds of towers. AdaptiveTD differs slightly from other tower defense games on several points.
@@ -93,6 +115,14 @@ AdaptiveTD is very similar to classic tower defense games, in that the player ha
 There are no scripted or static levels, since each game is a step closer towards the player's 'ideal game', that is, the game that is perceived as the most fun. Other than that the game learns after each level, the player has nothing that is carried over to the next game, such as tower access, special items or game progress in general. The player simply plays successive games until he or she quits.
 
 The game has modular towers and enemies. This is not necessarily new to the tower defense genre, as not all tower defense games may have pre-defined enemies and towers, but this is something that can be used in order to adapt the game towards personal preferences. (Guided) Randomly generated maps. Not necessarily new to the genre either, but is another useful technology that can be used to adapt the game to the player. Note that our game did not use this for game adaption, only to make the game seem less static.
+
+## Tools and publishing
+We created AdaptiveTD using LibGDX, which is "a cross-platform game development library written in Java", that "abstracts away the differences between writting desktop, Android, iOS and HTML5 games based on standards like OpenGL ES/WebGL", where "Applications can be prototyped and developed entirely on the desktop, then only 6 lines of code are needed to run your app on Android or HTML5." @("https://code.google.com/p/libgdx/").
+This makes it possible to test and possibly publish AdaptiveTD on Android and iPhones, as well as tablets and computers, both for desktop in all major OS's, and for HTML.
+
+@figure(phone, Images/phone2.jpg, AdaptiveTD on a mobile device)
+
+Since this is only a proof of concept game meant for testing purposes, we are not planning on publishing the game, nor make it publicly available. However, in @chapref(futurework) we present some possibilities for further development and use for AdaptiveTD.
 
 # Stochastic hill climbing | shc
 
@@ -126,7 +156,7 @@ With a starting maximum jump distance of 1.0, decreasing by 0.1 with each jump, 
 
 In this chapter we will talk about our solution which is an implementation of the Stochastic Hillclimbig algorithm along with a few features needed to adapt it for our use. We work with the paramteres listed in @chapref(app_1).
 
-## Algorithm
+## Algorithm | algorithm
 
 @figure(pseudoalgorithm, pseudoAlgorithm.png, Pseudo-code for the algorithm.)
 
@@ -210,6 +240,10 @@ Another problem we have noticed during the development process, is that the jump
 
 Lastly, we also noticed that the tower defense genre may not be well suited for creating an adaptive game. This is mainly because of the three following reasons. Firstly, the core game elements are rather static, which makes it difficult to make the game look and feel adaptive to the player. A different genre, such as the platformer, with game a example like Super Mario Bros. @("http://mario.nintendo.com/"). Secondly, the parameters in a tower defense game are very tightly knit together, in order to keep the game difficulty in balance. It is difficult to map how they all fit together, which makes it difficult for our algorithm to jump randomly to a new position, while still maintaining mentioned balance. Thirdly, the fun factor in a tower defense game is often related to the feeling of accomplishment. For instance, this feeling may occur when the player has lost a couple of games at the same challenge, and finally is able to beat the game. Since the game adapts itself to the player, thus is never the same, some would feel that their accomplishment is diminished.
 
+A problem with the relations, is that a parameter which is represented in many relations will have a higher probability to increase or decrease more drastically, as each relation gives every parameter it holds a chance to jump. Also, our predefined relations are not completely preserving the game difficulty at each jump, making the fun search of our algorithm also slightly change the game difficulty at the same time.
+
+The diggers, super enemies and earthquake functionality is probably what makes AdaptiveTD 
+
 # Conclusion
 Although some of the test results came out negative, we still believe that the concept of adapting a game to an individual is something that can be done, in order to maximize fun. The game itself was considered fun, and we believe that some of the reason lays in the variety of the game, caused by its adaptivity. But in order to be able to maximize fun, the algorithm needs to become more refined, and could work much better if we fetch specialized information, indicating what the player really enjoyed. This information could then be used to let the algorithm do a more guided search to find out where to jump next, and not do a completely random jump. On the other hand, the difficulty scaling, works very well, and is something that we can re-use in later projects, such as for E-learning purposes.
 
@@ -217,11 +251,11 @@ As noted in @chapref(observations), the 'flat-issue' that can be experienced wit
 
 We would also probably have gotten a better result by choosing a different game genre than tower defense. When the game uses a stochastic hill climbing algorithm relying on too many parameters, it is unlikely that all will go in an optimal direction at once. As mentioned in the second part of @chapref(discfun), we believe that if the game had used multiple specialized algorithms, which examines fewer parameters at a time, the total algorithm could have been more precise in its jumps. If specialized enough, one of the algorithms could also automatically detect feedback through how a player plays, rather than requiring a questionnaire at the end.
 
-If we do stochastic hill climbing based on metrics created based on how the player is playing, on few parameters for each part of the algorithm, we believe that we could get much better results. However, as this has been, to the best of our knowledge, the first venture into creating games which adapt based on fun, we are quite happy with our result. 
+If we do stochastic hill climbing based on metrics created based on how the player is playing, on few parameters for each part of the algorithm, we believe that we could get much better results. However, as this has been, to the best of our knowledge, the first venture into creating games which adapt based on fun, we are quite happy with our result.
 
 SPØRRE ROBIN
 
-# Future Work
+# Future Work | futurework
 
 The algorithm works ok, but it needs to be more refined. We believe that with some work refining the algorithm, and doing more testing with different sensors to see if certain feedback can be interprented to liking certain things in the game, we can create a great algorithm to maximize fun even in games with many parameters.
 
@@ -229,6 +263,7 @@ We would like to try to implement this sort of algorithm in a game related to e-
 
 With a more refined algorithm we believe this could be highly useful in a game, however it needs more sensors or ways to detect which parameters the players are satisfied with and not. There are also interesting applications for this sort of algorithm in E-learning, if we can detect how to make an e-learning game fun for a player and also scale the difficulty to their ability we may create an effective game for learning.
 
+Use search algorithm also for relations. We have most of the implementation ready for this, but the theory behind is a little more complex than the scope of this project.
 
 
 # References
