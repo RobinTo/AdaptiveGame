@@ -64,7 +64,7 @@
 <a href='#testing' class='toc_1'>Testing</a><br>
 <a href='#testing_-_difficulty_testing' class='toc_2'>Difficulty testing</a><br>
 <a href='#fun_testing' class='toc_2'>Fun testing</a><br>
-<a href='#testing_-_fun_testing_-_real_playtests' class='toc_3'>Real Playtests</a><br>
+<a href='#rpt' class='toc_3'>Real Playtests</a><br>
 <a href='#testing_-_fun_testing_-_case_tests' class='toc_3'>Case tests</a><br>
 <a href='#discussion' class='toc_1'>Discussion</a><br>
 <a href='#discfun' class='toc_2'>Discussing the fun testing</a><br>
@@ -102,6 +102,9 @@
 <a href='#relationsexample' class='figtoc'>Basic relations example.</a><br>
 <a href='#difficultyexample' class='figtoc'>Difficulty does not change in relations.</a><br>
 <a href='#reloadfun' class='figtoc'>Plot of the case tests for Global Reload time.</a><br>
+<a href='#avgreloadfun' class='figtoc'>Average values from the case tests for Global Reload time.</a><br>
+<a href='#postreloadfun' class='figtoc'>Plot of the case tests after one heart not chosen.</a><br>
+<a href='#avgreloadpostreload' class='figtoc'>Average Reload time for all playthroughs for both versions.</a><br>
 <a href='#reloaddamage' class='figtoc'>Plot of how global reload and tower damage changed over time.</a><br>
 </div>
 
@@ -321,7 +324,7 @@ This is how our algorithm performed.
 After we finished the game, we ran several tests to research the viability of our algorithm.
 </p>
 
-<h3 id='testing_-_fun_testing_-_real_playtests'>Real Playtests</h3>
+<h3 id='rpt'>Real Playtests</h3>
 <p>
 We ran some actual playtests, having people who had never played the game before download and play it. These people varied in age, computer background, and experience with games, to get a sense whether we could please a wide variety of people by adapting to their preferences.
 </p>
@@ -346,36 +349,40 @@ There are also some stats that certain people enjoy whiel others do not enjoy, a
 We also did some case tests ourselves, where we decided on a parameter which we wanted to maximize or minimize, and tested if we would get the desired result. We created some methods to make these tests quick, and played. For each test we played 15 games, and gave the game three hearts if it went in the correct direction with our stat, and one if not. We also gave the game the feedback of "Perfect" in the difficulty, such that this part of the game did not alter any stats.
 </p>
 
-<p>
-Case Test one: Global Reload Time maximized
-</p>
+<b>Case Test one: Global Reload Time maximized</b>
 
 <p>
 For this test we attempted to maximize the Global Reload time. Which means that the parameter GlobalReloadTime should preferably go upwards as we play.
 </p>
 
 <p>
-Here are the plot from three playthroughs attempting this.
+Here are the plot from five playthroughs attempting this.
 </p>
 
 <div id='reloadfun' class='figure'><img src='GlobalReloadfuntest.png' alt='Plot of the case tests for Global Reload time.' title='Plot of the case tests for Global Reload time.'><div class='caption'>Plot of the case tests for Global Reload time.</div></div>
 
-<p>
-As you can see it is moderately successfull each time, but since the jumps are random we do expect jagged graphs as it is as likely to decrease as it is to increase.
-</p>
+<div id='avgreloadfun' class='figure'><img src='avgGlobalReloadfuntest.png' alt='Average values from the case tests for Global Reload time.' title='Average values from the case tests for Global Reload time.'><div class='caption'>Average values from the case tests for Global Reload time.</div></div>
 
 <p>
-We can also see that the relations work correctly. GlobalReloadTime affect TEDamage, such that if the reload time goes up, the damage should also increase. Here is a plot of one of the more successfull playthroughs, with GlobalReloadTime in blue and TEDamage in green.
+As you can see it is moderately successfull each time, but since the jumps are random we do expect jagged graphs as it is as likely to decrease as it is to increase. The trend is however quite clear, the GlobalReloadTime is increasing. We believed that this could also be made even more clear by never choosing the parameters after choosing one heart, as described in the end of <a href='#rpt' class='chapref_3'>Real Playtests</a> after it was pointed out by one of the subjects in the playtest, and we tested with exactly this, as plotted below.
+</p>
+
+<div id='postreloadfun' class='figure'><img src='PostHighReloadFuntest.png' alt='Plot of the case tests after one heart not chosen.' title='Plot of the case tests after one heart not chosen.'><div class='caption'>Plot of the case tests after one heart not chosen.</div></div>
+
+<p>
+This had little effect, but we do believe that it will help users not get stuck in with a game they disliked as the currently best known game. It performed a little better than the old one on the 15th game, but a 5 * 15 games is not enough to be conclusive. We wish we had the time to automate tests and run the test more times with more games to see whether it is acctually better, worse or equal. Following is the plot of the average from both tests, blue is the average from the tests where one heart could still be chosen as best known, green is the average from the tests where it could not.
+</p>
+
+<div id='avgreloadpostreload' class='figure'><img src='avgbothreloads.png' alt='Average Reload time for all playthroughs for both versions.' title='Average Reload time for all playthroughs for both versions.'><div class='caption'>Average Reload time for all playthroughs for both versions.</div></div>
+
+<p>
+We also used these tests to see that the relations work correctly. GlobalReloadTime affect TEDamage, such that if the reload time goes up, the damage should also increase. Here is a plot of one of the more successfull playthroughs, with GlobalReloadTime in blue and TEDamage in green. Damage is also affected by other relations, which is why there are deviations in the values.
 </p>
 
 <div id='reloaddamage' class='figure'><img src='figreloadrelateddamage.png' alt='Plot of how global reload and tower damage changed over time.' title='Plot of how global reload and tower damage changed over time.'><div class='caption'>Plot of how global reload and tower damage changed over time.</div></div>
 
 <p>
 As you can see they increase almost simultaneously.
-</p>
-
-<p>
-Case Test two: 
 </p>
 
 <h1 id='discussion'>Discussion</h1>
