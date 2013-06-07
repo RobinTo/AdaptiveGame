@@ -1,6 +1,5 @@
 ref i sidetall figur 1
-Abstract
-Minske bilder i Example, Questionnaire
+Minske bilder i Testing
 
 In the
 Algorithm chapter we go through in detail how the game jumps to change its content

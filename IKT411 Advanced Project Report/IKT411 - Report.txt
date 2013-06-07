@@ -8,7 +8,9 @@ $date = 7th of June
 $status = Final
 $keywords = E-learning, unsupervised online learning, stochastic hill climbing, maximize fun
 
-$abstract = Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+$abstract = This document presents the research work done in the course IKT411 - Advanced Project. The project has been to research whether it is possible to create a game, that will adapt itself to the user's preferences. In order to do this, we created a proof of concept game, called Adaptive Tower Defense, and tested our solution by running case tests and real playtests. We conclude that it is possible to create an adaptive game, but great care in game design must be taken. If done properly, this is also applicable for the field of E-learning.
+
+
 
 @file(frontpage.txt)
 
@@ -137,13 +139,9 @@ The pseudocode shown above in @figref(pseudoshc) is an example of a search for m
 
 Here is an example for how to use stochastic hill climbing for how to find the maximum value of the function f(X) = 2 - X<sup>2</sup>. which has a maximum value of 2. We initialize the maximum jump distance (in x-direction) to a value of 1.0, and let this decrease by 0.1 with each jump that is making an improvement. The example uses the pseudocode from @figref(pseudoshc).
 
-@figure(hcex1, Hill_Climbing_Example_1.png, The startpoint for the search)
-@figure(hcex2, Hill_Climbing_Example_2.png, The first jump)
-@figure(hcex3, Hill_Climbing_Example_3.png, An attempted jump)
-@figure(hcex4, Hill_Climbing_Example_4.png, Achieving global maximum)
-@figure(hcex5, Hill_Climbing_Example_5.png, Further jumps are discarded)
+@figure(hcex, Images/hillclimbingexample.png, An example of stochastic hill climbing)
 
-This is a short example of how stochastic hill climbing will eventually find the local or global maximum on a graph. With a starting maximum jump distance of 1.0, decreasing by 0.1 with each jump, the algorithm will have converged after ten successful jumps, hopefully at an acceptable position. In an adaptive game setting, it may be wise to let the maximum jump distance never decrease to zero, because it can make the game feel more lively. In fact we found that people grow tired of being in a certain area for a long time, so we even increase the maximum jump distance when we receive the one heart feedback as described in @chapref(algorithm). This example is very short, compared to how many jumps it would normally take, but this is actually possible.
+@figref(hcex) shows a short example of how stochastic hill climbing eventually will find the local or global maximum on a graph. With a starting maximum jump distance of 1.0, decreasing by 0.1 with each jump, the algorithm will have converged after ten successful jumps, hopefully at an acceptable position. In an adaptive game setting, it may be wise to let the maximum jump distance never decrease to zero, because it can make the game feel more lively. In fact we found that people grow tired of being in a certain area for a long time, so we even increase the maximum jump distance when we receive the one heart feedback as described in @chapref(algorithm). This example is very short, compared to how many jumps it would normally take, but this is actually possible.
 
 # Solution
 
@@ -195,15 +193,14 @@ Further description of what each does can be found in @chapref(app_1).
 This chapter contains the tests we performed to see how well the algorithm worked. One of the main problems with testing is that it is hard to measure fun, so from actual players we have gathered feedback in general, rather than just asking them to rate the game. The algorithm was tested using case tests as well, which contain tests where we attempt to maximize a value by playing and giving the questionnaire proper feedback.
 
 ## Real Playtests | rpt
-We ran some actual playtests, having people who had never played the game before download and play it. These people varied in age, computer background, and experience with games, to get a sense whether we could please a wide variety of people by adapting to their preferences.
-
-While it is hard to plot exactly what they thought, since measuring fun is not an exact science we have gathered some feedback from them which we will summarize here.
+We ran some actual playtests, having people who had never played the game before download and play it. These people varied in age, computer background, and experience with games, to get a sense whether we could please a wide variety of people by adapting to their preferences. While it is hard to plot exactly what they thought, since measuring fun is not an exact science we have gathered some feedback from them which we will summarize here.
 
 <ul>
 <li>The game is fun to begin with, but becomes somewhat monotone when you play it for an extended period of time.</li>
 <li>It is exciting when the game changes radically and new stuff happens that you have to deal with.</li>
 <li>Changes make AdaptiveTD more fun, but the game has too little content to keep the player entertained for a long time. Even if the enemy health and speed is in a preferable range, it does not make you want to spend hours playing, due to the lack of progress and content.</li>
 <li>The difficulty scales well, and the player is able to feel the changes quickly, should they be dissatisfied.</li>
+</ul>
 
 There are also some features that certain people enjoy while others do not, and since the jumping is currently random for 15 parameters the player may receive some, but usually not all, of his or her preferences. The main thing we heard was that the diggers, as described in @chapref(parameters) can quickly become overwhelming if the player gets an unlucky jump while the maximum jump distance is high. The player should generally end up with the best known parameters if they did not enjoy the game, but there are cases where one roll of the die from one heart can give a metric higher than the best known metric, especially due to the multiplication from the GameLengthMultiplier, which increases as you play more games. One solution we found, was to never pick the current parameters as the best known if the player rated with one heart. However, we have not had the time to do real playtests using this, but believe it would give players a better experience. We tested this in the case tests below, after we received this feedback. At least numerically it gives much better results, and we hope that players testing the game in the future, will enjoy it as well.
 
@@ -275,8 +272,6 @@ We would also probably have gotten a better result by choosing a different game 
 
 If we do stochastic hill climbing based on metrics created based on how the player is playing, on few parameters for each part of the algorithm, we believe that we could get much better results. However, as this has been, to the best of our knowledge, the first venture into creating games which adapt based on fun, we are quite happy with our result.
 
-SPØRRE ROBIN
-
 # Future Work | futurework
 
 The algorithm works ok, but it needs to be more refined. We believe that with some work refining the algorithm, and doing more testing with different sensors to see if certain feedback can be interprented to liking certain things in the game, we can create a great algorithm to maximize fun even in games with many parameters.
@@ -289,8 +284,6 @@ Use search algorithm also for relations. We have most of the implementation read
 
 
 # References
-
-IEEE, ACM, Springer
 
 @references
 

@@ -18,6 +18,8 @@
 
 
 
+
+
 <p style='text-align: center'><img src="http://www.uia.no/no/content/download/79969/1326369/file/UiA+logo+engelsk.jpg" width="50%" height="50%" alt="UiA Logo"></p>
 <p><br></p>
 <p><br></p>
@@ -36,15 +38,12 @@
 </p>
 
 <p style='text-align: center'>Status: Final</p>
-<p><b>Keywords:</b> E-learning, gamification, unsupervised online learning, stochastic hill climbing, maximize fun<br></p>
+<p><b>Keywords:</b> E-learning, unsupervised online learning, stochastic hill climbing, maximize fun<br></p>
 
-<p><b>Abstract:</b><br>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p><b>Abstract:</b><br>This document presents the research work done in the course IKT411 - Advanced Project. The project has been to research whether it is possible to create a game, that will adapt itself to the user's preferences. In order to do this, we created a proof of concept game, called Adaptive Tower Defense, and tested our solution by running case tests and real playtests. We conclude that it is possible to create an adaptive game, but great care in game design must be taken. If done properly, this is also applicable for the field of E-learning.</p>
 
 
 <h1 id='toc' class='notoc'>Table of contents</h1>
-<p>
-"Husk class='notoc'"
-</p>
 
 <div>
 <a href='#intro' class='toc_1'>Introduction</a><br>
@@ -54,14 +53,13 @@
 <a href='#introduction_-_report_outline' class='toc_2'>Report Outline</a><br>
 <a href='#adaptive_tower_defense' class='toc_1'>Adaptive Tower Defense</a><br>
 <a href='#adaptive_tower_defense_-_a_short_overview' class='toc_2'>A short overview</a><br>
-<a href='#parameters' class='toc_2'>Parameters and Adaptivity</a><br>
+<a href='#parameters' class='toc_2'>Parameters and Functionality</a><br>
 <a href='#adaptive_tower_defense_-_adaptivetd_vs__similar_games' class='toc_2'>AdaptiveTD vs. similar games</a><br>
-<a href='#adaptive_tower_defense_-_tools_and_publishing' class='toc_2'>Tools and publishing</a><br>
+<a href='#adaptive_tower_defense_-_tools' class='toc_2'>Tools</a><br>
 <a href='#shc' class='toc_1'>Stochastic hill climbing</a><br>
 <a href='#shce' class='toc_2'>Stochastic hill climbing example</a><br>
 <a href='#solution' class='toc_1'>Solution</a><br>
 <a href='#algorithm' class='toc_2'>Algorithm</a><br>
-<a href='#solution_-_litt_lang_setning__som_er_en_hel_paragraf_' class='toc_2'>Litt lang setning, som er en hel paragraf?</a><br>
 <a href='#testing' class='toc_1'>Testing</a><br>
 <a href='#rpt' class='toc_2'>Real Playtests</a><br>
 <a href='#testing_-_case_tests' class='toc_2'>Case tests</a><br>
@@ -77,12 +75,9 @@
 
 
 <h1 id='table_of_figures' class='notoc'>Table of figures</h1>
-<p>
-"Husk class='notoc'"
-</p>
 
 <div>
-<a href='#tdimg' class='figtoc'>Left: AdaptiveTD. Right: A tower defense game called Fieldrunners, taken from "http://wp.appadvice.com/wp-content/uploads/2010/04/IMG_0005.jpg"</a><br>
+<a href='#tdimg' class='figtoc'>Left: AdaptiveTD. Right: A tower defense game called Fieldrunners <a href="http://wp.appadvice.com/wp-content/uploads/2010/04/IMG_0005.jpg">[6]</a></a><br>
 <a href='#enemies' class='figtoc'>Enemies from AdaptiveTD</a><br>
 <a href='#towers' class='figtoc'>Towers from AdaptiveTD</a><br>
 <a href='#gold' class='figtoc'>Gold is represented by the number next to this symbol</a><br>
@@ -92,31 +87,25 @@
 <a href='#super' class='figtoc'>An enemy who has been given extra, super abilities: Normal, more health, more speed, invisibility and impossible to harm</a><br>
 <a href='#digger' class='figtoc'>The digger enemy is a difficult opponent</a><br>
 <a href='#phone' class='figtoc'>AdaptiveTD on a mobile device</a><br>
-<a href='#pseudoshc' class='figtoc'>Pseudocode for Stochastic Hill Climbing using example below</a><br>
 <a href='#hcissues' class='figtoc'>Some issues with Hill Climbing</a><br>
+<a href='#pseudoshc' class='figtoc'>Pseudocode for stochastic hill climbing using example in the following subchapter</a><br>
 <a href='#hcex1' class='figtoc'>The startpoint for the search</a><br>
 <a href='#hcex2' class='figtoc'>The first jump</a><br>
 <a href='#hcex3' class='figtoc'>An attempted jump</a><br>
 <a href='#hcex4' class='figtoc'>Achieving global maximum</a><br>
 <a href='#hcex5' class='figtoc'>Further jumps are discarded</a><br>
+<a href='#hcex' class='figtoc'>An example of stochastic hill climbing</a><br>
 <a href='#pseudoalgorithm' class='figtoc'>Pseudocode for the algorithm.</a><br>
 <a href='#algorithmexample' class='figtoc'>The flow of our algorithm.</a><br>
+<a href='#questionaire' class='figtoc'>The questionnaire the user takes post-game.</a><br>
 <a href='#pseudorelations' class='figtoc'>Pseudocode for jumping of relations</a><br>
 <a href='#relationsexample' class='figtoc'>Basic relations example.</a><br>
 <a href='#difficultyexample' class='figtoc'>Difficulty does not change in relations.</a><br>
+<a href='#pseudodifficulty' class='figtoc'>Pseudocode for the difficultyscaling.</a><br>
 <a href='#prereload' class='figtoc'>Plots of reload time.</a><br>
 <a href='#postreload' class='figtoc'>Plots of reload time.</a><br>
-<a href='#bothreload' class='figtoc'>Plots of the Average for both tests.</a><br>
+<a href='#bothreload' class='figtoc'>Plots of the average for both tests.</a><br>
 <a href='#reloaddamage' class='figtoc'>Plot of how global reload and tower damage changed over time.</a><br>
-</div>
-
-
-<h1 id='table_of_tables' class='notoc'>Table of tables</h1>
-<p>
-"Husk class='notoc'"
-</p>
-
-<div>
 </div>
 
 
@@ -154,7 +143,11 @@ While we believe in the concept of gamification, for this project we will create
 </p>
 
 <p>
-If one is to create a game that is meant for learning purposes, it is important to note that the game needs to be fun. <a href='#reference_3' title='Zichermann, G., & Cunningham, C. (2011). <i>Gamification by design: Implementing game mechanics in web and mobile apps.</i> O'Reilly Media.'>[3]</a>. If a game is not fun, it will not be able to educate either, because players lose interest in games the same way as students lose interest lectures, should they be boring. This is why it is important to figure out how it is possible to maximize the fun in any kind of game, thus keeping the interest of players. Since games appeal to a wide variety of players, the perceived level of fun may often vary among its players, due to personal preferences. In order to accomodote for such varying preferences, traditional games have often implemented several levels of difficulty the player may choose from, as well as providing the player with several settings or options for how they want the game to behave. When it comes to difficulty, other work has already been done on how to scale and adapt this to the level of player, in order to make even games, but in order to make a game fun, we believe that more than difficulty needs to adapt to individual preferences, thus more aspects of a game should be able to change on the fly. <a href='#reference_5' title='Spronck, P., Sprinkhuizen-Kuyper, I., & Postma, E. (2004). Difficulty scaling of game AI. In <i>Proceedings of the 5th International Conference on Intelligent Games and Simulation (GAME-ON 2004)</i> (pp. 33-37).'>[5]</a>.
+If one is to create a game that is meant for learning purposes, it is important to note that the game needs to be fun. <a href='#reference_3' title='Zichermann, G., & Cunningham, C. (2011). <i>Gamification by design: Implementing game mechanics in web and mobile apps.</i> O'Reilly Media.'>[3]</a>. If a game is not fun, it will not be able to educate either, because players lose interest in games the same way as students lose interest in lectures, should they be boring. This is why it is important to figure out how it is possible to maximize the fun in any kind of game, thus keeping the interest of players. Since games appeal to a wide variety of players, the perceived level of fun may often vary among its players, due to personal preferences. In order to accomodote for such varying preferences, traditional games have often implemented several levels of difficulty the player may choose from, as well as providing the player with several settings or options for how they want the game to behave. When it comes to difficulty, other work has already been done on how to scale and adapt this to the level of the player.<a href='#reference_5' title='Spronck, P., Sprinkhuizen-Kuyper, I., & Postma, E. (2004). Difficulty scaling of game AI. In <i>Proceedings of the 5th International Conference on Intelligent Games and Simulation (GAME-ON 2004)</i> (pp. 33-37).'>[5]</a> However, in order to make a game fun, we believe that more than difficulty needs to adapt to individual preferences, thus more aspects of a game should be able to change on the fly.
+</p>
+
+<p>
+To the best of our knowledge there has not been done much research into how to create adaptive game content, which adapts based on the perceived amount of fun the user has.
 </p>
 
 <h2 id='introduction_-_problem_statement'>Problem Statement</h2>
@@ -164,12 +157,12 @@ Our project is to research whether it is possible to create a game, that uses an
 
 <h2 id='introduction_-_problem_solution'>Problem Solution</h2>
 <p>
-We have chosen to create a game using the tower defense genre, as this requires somewhat less work and graphics than many other genres, as well as having a lot of possible parameters that can be tweaked in order to adapt the contents of the game (henceforth: gameplay). The game uses a modified stochastic hill climbing algorithm together with some user feedback after each game, to adapt itself towards the individual player. We call the game Adaptive Tower Defense, and abbrieviate it AdaptiveTD.
+We have chosen to create a game using the tower defense genre, as this requires somewhat less work and graphics than many other genres, as well as having a lot of possible parameters that can be tweaked in order to adapt the contents of the game. The game uses a modified stochastic hill climbing algorithm together with some user feedback after each game, to adapt itself towards the individual player. We call the game Adaptive Tower Defense, and abbrieviate it AdaptiveTD.
 </p>
 
 <h2 id='introduction_-_report_outline'>Report Outline</h2>
 <p>
-Quick and short and concrete
+In this report, we first describe the proof of concept game we created. Secondy, we give an introduction to stochastic hill climbing, and then describe the algorithm used for our solution. Thirdly, we describe our tests, and discuss our results. Lastly, we end with some concluding notes and future work.
 </p>
 
 <h1 id='adaptive_tower_defense'>Adaptive Tower Defense</h1>
@@ -178,7 +171,7 @@ Quick and short and concrete
 This chapter gives some pictures and a short description of AdaptiveTD, as well as some general information about the game genre, namely tower defense.
 </p>
 
-<div id='tdimg' class='figure'><img src='Tower_Defense.png' alt='Left: AdaptiveTD. Right: A tower defense game called Fieldrunners, taken from "http://wp.appadvice.com/wp-content/uploads/2010/04/IMG_0005.jpg"' title='Left: AdaptiveTD. Right: A tower defense game called Fieldrunners, taken from "http://wp.appadvice.com/wp-content/uploads/2010/04/IMG_0005.jpg"'><div class='caption'>Left: AdaptiveTD. Right: A tower defense game called Fieldrunners, taken from "http://wp.appadvice.com/wp-content/uploads/2010/04/IMG_0005.jpg"</div></div>
+<div id='tdimg' class='figure'><img src='Tower_Defense.png' alt='Left: AdaptiveTD. Right: A tower defense game called Fieldrunners <a href="http://wp.appadvice.com/wp-content/uploads/2010/04/IMG_0005.jpg">[6]</a>' title='Left: AdaptiveTD. Right: A tower defense game called Fieldrunners <a href="http://wp.appadvice.com/wp-content/uploads/2010/04/IMG_0005.jpg">[6]</a>'><div class='caption'>Left: AdaptiveTD. Right: A tower defense game called Fieldrunners <a href="http://wp.appadvice.com/wp-content/uploads/2010/04/IMG_0005.jpg">[6]</a></div></div>
 
 <h2 id='adaptive_tower_defense_-_a_short_overview'>A short overview</h2>
 <p>
@@ -188,66 +181,66 @@ AdaptiveTD is a real-time strategy game, more precisely it would be referred to 
 <div id='enemies' class='figure'><img src='Images/enemies.png' alt='Enemies from AdaptiveTD' title='Enemies from AdaptiveTD'><div class='caption'>Enemies from AdaptiveTD</div></div>
 
 <p>
-The goal of both games is to build enough towers, like the ones in <a href='#towers' class='figref'>this figure</a> below, that will try to kill the enemies, before they can cross the path. If too many enemies cross the path, the player will lose.
+The goal of both games is to build enough towers, like the ones in <a href='#towers' class='figref'>this figure</a>, that will try to kill the enemies, before they can cross the path. If too many enemies cross the path, the player will lose.
 </p>
 
 <div id='towers' class='figure'><img src='Images/towers.png' alt='Towers from AdaptiveTD' title='Towers from AdaptiveTD'><div class='caption'>Towers from AdaptiveTD</div></div>
 
 <p>
-In order to build towers, the player needs money/gold represented by the number next to the symbol seen in <a href='#gold' class='figref'>this figure</a> below. Whenever the player to kill an enemy, it will bring in gold to his or her money bank.
+In order to build towers, the player needs money/gold represented by the number next to the symbol seen in <a href='#gold' class='figref'>this figure</a> below. Whenever the towers kill an enemy, it will bring in gold to the player's money bank.
 </p>
 
 <div id='gold' class='figure'><img src='Images/gold.png' alt='Gold is represented by the number next to this symbol' title='Gold is represented by the number next to this symbol'><div class='caption'>Gold is represented by the number next to this symbol</div></div>
 
 <p>
-Already here, there are a lot of parameters that can be tweaked in order to maximize fun. For instance, one could change the balance between the build cost for each tower, and the amount of gold gaind from killed enemies. Another example is to change the health of enemies, making them more or less vulnerable to attack, while at the same time adjusting the damage that each tower does, so that the overall difficulty balance is not changed. As you can see, there are a lot of underlying parameters, and small changes can be enough to make or break a fun tower defense game. The problem with all these underlying parameters is that they can be hard to observe, thus the player does not know that the game has actually changed. That is why it is important to give the player some visual feedback that the game has changed. An example shown in <a href='#colordifference' class='figref'>this figure</a> below, shows that the background color of the game changes in direct relation to the level of enemy health, thus making a more difficult game look darker, and easier games brighter.
+Already here, in the parts of the game mentioned above, there are a lot of parameters that can be tweaked in order to maximize fun. For instance, one could change the balance between the tower build cost and the amount of gold gained from killed enemies. Another example is to change the health of enemies, while at the same time adjusting the damage that each tower does, so that the overall game difficulty is not changed. As you can see, there are a lot of underlying parameters, and small changes can be enough to make or break a fun tower defense game. The problem with all these underlying parameters is that they can be hard to observe, thus the player does not know that the game has actually changed. That is why it is important to give the player some visual feedback when the game changes. An example shown in <a href='#colordifference' class='figref'>this figure</a>, shows that the background color of the game changes in direct relation to the level of enemy health, thus making a more difficult game look darker, and easier games look brighter.
 </p>
 
 <div id='colordifference' class='figure'><img src='Images/darkbright.png' alt='The level of enemy health (difficulty) is reflected in the background color' title='The level of enemy health (difficulty) is reflected in the background color'><div class='caption'>The level of enemy health (difficulty) is reflected in the background color</div></div>
 
 <p>
-Also, AdaptiveTD provides the player with three different sliderbars, see <a href='#sliderbars' class='figref'>this figure</a>, game music playback speed, based on enemy speed, earthquakes that make the game screen shake, and different sizes and symbols on enemies, see <a href='#enemies' class='figref'>this figure</a> to let the player know that the game is changing.
+AdaptiveTD also provides the player with three different sliderbars, see <a href='#sliderbars' class='figref'>this figure</a>, different game music playback speeds, based on enemy speed, earthquakes that make the game screen shake and different sizes and symbols on enemies, see <a href='#enemies' class='figref'>this figure</a>, to inform the player that the game is changing.
 </p>
 
 <div id='sliderbars' class='figure'><img src='Images/sliderbars.png' alt='Sliderbars that indicate the current level of enemy health, enemy speed and tower damage' title='Sliderbars that indicate the current level of enemy health, enemy speed and tower damage'><div class='caption'>Sliderbars that indicate the current level of enemy health, enemy speed and tower damage</div></div>
 
 <p>
-In <a href='#parameters' class='chapref_2'>Parameters and Adaptivity</a> we provide a detailed list of many of the chosen parameters, how they impact the game, and why they were chosen.
+In <a href='#parameters' class='chapref_2'>Parameters and Functionality</a> we provide a detailed list of many of the chosen parameters, how they impact the game, and why they were chosen.
 </p>
 
-<h2 id='parameters'>Parameters and Adaptivity</h2>
+<h2 id='parameters'>Parameters and Functionality</h2>
 <p>
-In AdaptiveTD we keep track of 15 different parameters, that are represented in 12 different relations. In <a href='#app_1' class='chapref_1'>Appendix I - Parameters</a> there is a full list of parameters. The 12 relations are important to keep the game difficulty balanced at all times, by letting related parameters be adjusted whenever a parameter is changed. In <a href='#relations' class='figref'>this figure</a> we provide the most important relations and parameters in AdaptiveTD.
+AdaptiveTD keeps track of 15 different parameters, that are represented in 12 different relations. <a href='#app_1' class='chapref_1'>Appendix I - Parameters</a> contains a complete list of parameters. In this subchapter we explain the parameters which have the most direct impact on the game. The 12 relations are important to keep the game difficulty balanced at all times, by letting related parameters be adjusted whenever a parameter is changed. In <a href='#relations' class='figref'>this figure</a> we provide the most important relations and parameters in AdaptiveTD. Note that the parameters are renamed for explanatory purposes, and appear in <a href='#app_1' class='chapref_1'>Appendix I - Parameters</a> under a different name.
 </p>
 
 <div id='relations' class='figure'><img src='Images/relations.png' alt='Parameters in relation to each other' title='Parameters in relation to each other'><div class='caption'>Parameters in relation to each other</div></div>
 
 <p>
-Every relation involving at least to parameters has a number next to each parameter. This number is the impact factor, and represents the proportion of how much a parameter should change, when another one is changed. For instance in relation 1, Tower Build Cost Multiplier and Enemy Gold Yield Multiplier both have the number '1' next to them. This means, that if one of them is changed by a certain value, the other one should also change with the same value, thus they are still in balance. Relation 2 is inverse proportional, but similar to relation 1, in that if one of them changes with a value, the other one should change with the same, negative value. Relation 3 is different, because it involves three parameters, but it functions in the same way. If Enemy Health Multiplier is changed, then Enemy Speed Multiplier should change by half the negative value, and Tower Damage whould change by half the value. Note that Enemy Speed Multiplier and Enemy Health Multiplier is in the same relation twice. This is not a problem, because if one relation deides to change the internal balance, the other relations are not influenced. So if Enemy Speed Multiplier changes in one relation, the change will NOT propagate to the other relations.
+Every relation involving at least two parameters has a number next to each parameter. This number is the impact factor, and represents the proportion of how much a parameter should increase or decrease, when a related parameter is changed. For instance in relation 1, Tower Build Cost Multiplier and Enemy Gold Yield Multiplier both have the number '1' next to them. This means, that if one of them is changed by a certain value, the other one should also change with the same value, thus they are still in balance. Relation 2 is inverse proportional, but similar to relation 1, in that if one of them changes with a value, the other one should change with the same, negative value. Relation 3 is different, because it involves three parameters, but it functions in the same way. If Enemy Health Multiplier is changed, then Enemy Speed Multiplier should change by half the negative value, and Tower Damage whould change by half the value. Note that Enemy Speed Multiplier and Enemy Health Multiplier is in the same relation twice. This is not a problem, because if one relation decides to change the internal balance, the other relations are not influenced. So if Enemy Speed Multiplier changes in one relation, the change will NOT propagate to the other relations.
 </p>
 
 <p>
-These relations and numbers are what we believe is approximately good enough to keep the difficulty balance constant. For instance, if the Enemy Health increases by 50%, it should be sufficient that Tower Damage is also increased by 50%, in order to keep balance. Of course, towers that do not deal direct damage, but have a more tactical effect, such as slowing the current speed of an enemy, will be somewhat less efficient after a balancing change like this. This makes the difficulty scaling in the game less predictable.
+These relations and numbers are what we believe is approximately good enough to keep the difficulty balance constant. For instance, if the enemy health increases by 20%, it should be sufficient that tower damage is also increased by 20%, in order to keep balance. Of course, towers that do not deal direct damage, but have a more tactical effect, such as slowing the speed of an enemy, will be somewhat less efficient after a change like this.
 </p>
 
 <p>
-To the left there are four parameters that are not in relation with any other parameters. They are still in relation with themselves, in order to be able to jump, more about jumping in the <a href='#algorithm' class='chapref_2'>Algorithm</a> chapter. These four parameters hold the probabilities digger and super enemies to appear and the probability for earthquakes to occur, all of which are described more in detail below.
+To the left there are four parameters that are not in relation with any other parameters. They are still in relation with themselves, in order to be able to jump, more about jumping in the <a href='#algorithm' class='chapref_2'>Algorithm</a> chapter. These four parameters hold the probabilities for digger and super enemies to appear and for earthquakes to occur, all of which are described more in detail below.
 </p>
 
 <p>
-Probability for a super enemy to appear is a value from 0 to 1 that the next enemy generated will have some super properties, i.e. have more health, more speed, sometimes be invisible and be impossible to harm for a short time period, as seen in <a href='#super' class='figref'>this figure</a>.
+Probability for a super enemy to appear is a value from 0 to 1 that the next enemy generated will have some super properties, i.e. have more health, more speed, sometimes be invisible and/or be impossible to harm for a short time period, as seen in <a href='#super' class='figref'>this figure</a>.
 </p>
 
 <div id='super' class='figure'><img src='Images/super.png' alt='An enemy who has been given extra, super abilities: Normal, more health, more speed, invisibility and impossible to harm' title='An enemy who has been given extra, super abilities: Normal, more health, more speed, invisibility and impossible to harm'><div class='caption'>An enemy who has been given extra, super abilities: Normal, more health, more speed, invisibility and impossible to harm</div></div>
 
 <p>
-Probability for a digger enemy to appear works a little differently from super abilities. A game consists of 45 enemies, with four possible types of enemies that can be generated. The "Probability for a digger enemy to appear" parameter is simply the probability that each of these 45 enemies is a digger. So a value of 0.67 out of 1, should result in approximately 30 diggers, which is really a challenge. In the <a href='#discussion' class='chapref_1'>Discussion</a> chapter we discuss some weaknesses of this approach. Below is a figure of a digger enemy and what it can do.
+Probability for a digger enemy to appear works a little differently from super abilities. A round of the game consists of 45 enemies, with four possible types of enemies that can be generated. The "Probability for a digger enemy to appear" parameter is simply the probability that each of these 45 enemies is a digger. So a value of 0.67 out of 1, should result in approximately 30 diggers, which is really a challenge. In the <a href='#discussion' class='chapref_1'>Discussion</a> chapter we discuss some weaknesses of this approach. Below is a figure of a digger enemy and what it can do.
 </p>
 
 <div id='digger' class='figure'><img src='Images/digger.png' alt='The digger enemy is a difficult opponent' title='The digger enemy is a difficult opponent'><div class='caption'>The digger enemy is a difficult opponent</div></div>
 
 <p>
-The earthquake functionality shakes the game screen, causing towers to be randomly moved, unless they have been properly built or upgraded. The earthquake is dependant upon two parameters, the first which is the Probability for earthquakes to be turned on at all, and the probability that earthquakes occur, if they are on at all. In <a href='#discussion' class='chapref_1'>Discussion</a> we discuss the earthquake functionality, as we received some mixed feedback on it.
+The earthquake functionality shakes the game screen, causing towers to be randomly moved, unless they have been placed in a place where they cannot move or upgraded with an anti earthquake upgrade. The earthquake is dependent upon two parameters, the first which is the Probability for earthquakes to be turned on and off every five seconds, and the probability that earthquakes occur, when they are on at all. In <a href='#discussion' class='chapref_1'>Discussion</a> we discuss the earthquake functionality, as we received some mixed feedback on it.
 </p>
 
 <p>
@@ -260,17 +253,13 @@ AdaptiveTD is very similar to classic tower defense games, in that the player ha
 </p>
 
 <p>
-There are no scripted or static levels, since each game is a step closer towards the player's 'ideal game', that is, the game that is perceived as the most fun. Other than that the game learns after each level, the player has nothing that is carried over to the next game, such as tower access, special items or game progress in general. The player simply plays successive games until he or she quits.
+There are no scripted or static levels, since each game is a step closer towards the player's 'ideal game', that is, the game that is perceived as the most fun. Other than that the game learns after each level, the player has nothing that is carried over to the next game, such as tower access, special items or game progress in general. The player simply plays successive games until he or she quits. AdaptiveTD features modular towers and enemies. This is not necessarily new to the tower defense genre, as not all tower defense games may have predefined enemies and towers, but this is something that can be used in order to adapt the game towards personal preferences. AdaptiveTD also has randomly generated maps. Not necessarily new to the genre either, but is a useful tool that can be used to adapt the game to the player. Note that AdaptiveTD did not use this for game adaption, only to make the game seem less static.
 </p>
 
+<h2 id='adaptive_tower_defense_-_tools'>Tools</h2>
 <p>
-The game has modular towers and enemies. This is not necessarily new to the tower defense genre, as not all tower defense games may have pre-defined enemies and towers, but this is something that can be used in order to adapt the game towards personal preferences. (Guided) Randomly generated maps. Not necessarily new to the genre either, but is another useful technology that can be used to adapt the game to the player. Note that our game did not use this for game adaption, only to make the game seem less static.
-</p>
-
-<h2 id='adaptive_tower_defense_-_tools_and_publishing'>Tools and publishing</h2>
-<p>
-We created AdaptiveTD using LibGDX, which is "a cross-platform game development library written in Java", that "abstracts away the differences between writting desktop, Android, iOS and HTML5 games based on standards like OpenGL ES/WebGL", where "Applications can be prototyped and developed entirely on the desktop, then only 6 lines of code are needed to run your app on Android or HTML5." <a href="https://code.google.com/p/libgdx/">[6]</a>.<br>
-This makes it possible to test and possibly publish AdaptiveTD on Android and iPhones, as well as tablets and computers, both for desktop in all major OS's, and for HTML.
+We created AdaptiveTD using LibGDX, which is "a cross-platform game development library written in Java", that "abstracts away the differences between writting desktop, Android, iOS and HTML5 games based on standards like OpenGL ES/WebGL", where "Applications can be prototyped and developed entirely on the desktop, then only 6 lines of code are needed to run your app on Android or HTML5." <a href="https://code.google.com/p/libgdx/">[7]</a>.<br>
+This makes it possible to test and possibly publish AdaptiveTD on Android and iPhones, as well as tablets and computers, both for desktop in all major OS's, and even in HTML5 with some slight modification.
 </p>
 
 <div id='phone' class='figure'><img src='Images/phone2.jpg' alt='AdaptiveTD on a mobile device' title='AdaptiveTD on a mobile device'><div class='caption'>AdaptiveTD on a mobile device</div></div>
@@ -282,23 +271,23 @@ Since this is only a proof of concept game meant for testing purposes, we are no
 <h1 id='shc'>Stochastic hill climbing</h1>
 
 <p>
-A hill climbing algorithm is an iterative improvement algorithm, searching for a local maximum. It tries to maximize a function f(X), where X could be a node, state, position or, in our case, a vector of parameters. It compares neighboring nodes to the one it is standing on, and checks if they are an improvement on f(X). If one of the other nodes is improving the situation, then the algorithm moves to the new node, commonly the best node, and repeats the process. The process is repeated until no more improvements can be found, thus the algorithm has found a local maximum. <a href='#reference_7' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[7]</a>. 
-</p>
-
-<div id='pseudoshc' class='figure'><img src='pseudoStochastic.png' alt='Pseudocode for Stochastic Hill Climbing using example below' title='Pseudocode for Stochastic Hill Climbing using example below'><div class='caption'>Pseudocode for Stochastic Hill Climbing using example below</div></div>
-
-<p>
-The pseudocode shown above in <a href='#pseudoshc' class='figref'>this figure</a> is an example of a search for maximum value, using stochastic hill climbing. Given enough time, stochastic hill climbing should be able to locate the maximum value, however there are some issues with it, that may cause problems.
+A hill climbing algorithm is an iterative improvement algorithm, searching for a local maximum. It tries to maximize a function f(X), where X could be a node, state, position or, in our case, a vector of parameters. It compares neighboring nodes to the one it is standing on, and checks if they are an improvement on f(X). If one of the other nodes is improving the situation, then the algorithm moves to the new node, commonly the best node, and repeats the process. The process is repeated until no more improvements can be found, thus the algorithm has found a local maximum. <a href='#reference_8' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[8]</a>. 
 </p>
 
 <div id='hcissues' class='figure'><img src='Images/hillclimbingissues.png' alt='Some issues with Hill Climbing' title='Some issues with Hill Climbing'><div class='caption'>Some issues with Hill Climbing</div></div>
 
 <p>
-In <a href='#hcissues' class='figref'>this figure</a> above, there are three issues with this algorithm, that the user must be aware of. One issue is that the algorithm can become stuck on a local maximum, which may not be the global maximum, as to the right. One way to reduce the probability of this to happen, is to allow the algorithm to jump larger distances each jump, or to make sure that the landscape is convex. In our case, the player probably has more than one area that he or she considers fun, so when the player is bored by the area he or she currently is in, AdaptiveTD expands the maximum jump distance to try to find other local maxima. Another issue, shown in the middle, is that the search area may be flat, that is, each node is as good as all its neighbors, and any jump will not bring any improvement. A game with little or no visual feedback, would probably have been subject to this issue, but through the of use visual effects, we believe that this effect can be reduced. A third issue, as seen to the left, is that a node may be lying on a very steep ridge, that is, the 'area' of parameters that give a good node is very small, and can thus be hard to find. <a href='#reference_7' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[7]</a>. Since the preferred area for each individual players is different, this can be a problem for players who enjoy very few variations of AdaptiveTD. 
+In <a href='#hcissues' class='figref'>this figure</a> above, there are three issues with this algorithm, that the user must be aware of. One issue is that the algorithm can become stuck on a local maximum, which may not be the global maximum, as to the right. One way to reduce the probability of this to happen, is to allow the algorithm to jump larger distances each jump, or to make sure that the landscape is convex. In our case, the player probably has more than one area that he or she considers fun, so when the player is bored by the area he or she currently is in, AdaptiveTD expands the maximum jump distance to try to find other local maxima. Another issue, shown in the middle, is that the search area may be flat, that is, each node is as good as all its neighbors, and any jump will not bring any improvement. A game with little or no visual feedback, would probably have been subject to this issue, but through the of use visual effects, we believe that this effect can be reduced. A third issue, as seen to the left, is that a node may be lying on a very steep ridge, that is, the 'area' of parameters that give a good node is very small, and can thus be hard to find. <a href='#reference_8' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[8]</a>. Since the preferred area for each individual players is different, this can be a problem for players who enjoy very few variations of AdaptiveTD. 
 </p>
 
 <p>
-There are different variants of hill climbing algorithms, with different ways of deciding where and when to jump. The stochastic hill climbing algorithm, closely resembling simulated annealing, chooses a position at random, then evaluates whether it is an improvement, and if it is, jumps to the new position. If the new position is not an improvement, it will go back to the last one. With stochastic hill climbing, it may be wise to set a specific maximum jump distance, and let this decrease over time. This allows the algorithm to converge or settle on a position after some time. <a href='#reference_7' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[7]</a>
+There are different variants of hill climbing algorithms, with different ways of deciding where and when to jump. The stochastic hill climbing algorithm, closely resembling simulated annealing, chooses a position at random, then evaluates whether it is an improvement, and if it is, jumps to the new position. If the new position is not an improvement, it will go back to the last one. With stochastic hill climbing, it may be wise to set a specific maximum jump distance, and let this decrease over time. This allows the algorithm to converge or settle on a position after some time. <a href='#reference_8' title='Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall'>[8]</a>.
+</p>
+
+<div id='pseudoshc' class='figure'><img src='pseudoStochastic.png' alt='Pseudocode for stochastic hill climbing using example in the following subchapter' title='Pseudocode for stochastic hill climbing using example in the following subchapter'><div class='caption'>Pseudocode for stochastic hill climbing using example in the following subchapter</div></div>
+
+<p>
+The pseudocode shown above in <a href='#pseudoshc' class='figref'>this figure</a> is an example of a search for maximum value, using stochastic hill climbing. Given enough time, stochastic hill climbing should be able to locate the maximum value, however there are some issues with it, that may cause problems.
 </p>
 
 <h2 id='shce'>Stochastic hill climbing example</h2>
@@ -313,18 +302,16 @@ Here is an example for how to use stochastic hill climbing for how to find the m
 <div id='hcex4' class='figure'><img src='Hill_Climbing_Example_4.png' alt='Achieving global maximum' title='Achieving global maximum'><div class='caption'>Achieving global maximum</div></div>
 <div id='hcex5' class='figure'><img src='Hill_Climbing_Example_5.png' alt='Further jumps are discarded' title='Further jumps are discarded'><div class='caption'>Further jumps are discarded</div></div>
 
-<p>
-This is a short example of how stochastic hill climbing will eventually find the local, or global, maximum on a graph. This example is very short, compared to how many jumps it would normally take, but this is actually possible.
-</p>
+<div id='hcex' class='figure'><img src='Images/hillclimbingexample.png' alt='An example of stochastic hill climbing' title='An example of stochastic hill climbing'><div class='caption'>An example of stochastic hill climbing</div></div>
 
 <p>
-With a starting maximum jump distance of 1.0, decreasing by 0.1 with each jump, the algorithm will have converged after ten successful jumps, hopefully at an acceptable position. In a game setting, it may be wise to let the maximum jump distance never decrease to zero, because it can make the game feel more lively.
+This is a short example of how stochastic hill climbing will eventually find the local or global maximum on a graph. With a starting maximum jump distance of 1.0, decreasing by 0.1 with each jump, the algorithm will have converged after ten successful jumps, hopefully at an acceptable position. In an adaptive game setting, it may be wise to let the maximum jump distance never decrease to zero, because it can make the game feel more lively. In fact we found that people grow tired of being in a certain area for a long time, so we even increase the maximum jump distance when we receive the one heart feedback as described in <a href='#algorithm' class='chapref_2'>Algorithm</a>. This example is very short, compared to how many jumps it would normally take, but this is actually possible.
 </p>
 
 <h1 id='solution'>Solution</h1>
 
 <p>
-In this chapter we will talk about our solution which is an implementation of the Stochastic Hillclimbig algorithm along with a few features needed to adapt it for our use. We work with the paramteres listed in <a href='#app_1' class='chapref_1'>Appendix I - Parameters</a>.
+In this chapter we talk about our solution which is an implementation of the stochastic hill climbing algorithm along with a few features needed to adapt it for our use. We work with the paramteres listed in <a href='#app_1' class='chapref_1'>Appendix I - Parameters</a>.
 </p>
 
 <h2 id='algorithm'>Algorithm</h2>
@@ -334,34 +321,54 @@ In this chapter we will talk about our solution which is an implementation of th
 <div id='algorithmexample' class='figure'><img src='algorithm.png' alt='The flow of our algorithm.' title='The flow of our algorithm.'><div class='caption'>The flow of our algorithm.</div></div>
 
 <p>
-As indicated in <a href='#pseudoalgorithm' class='figref'>this figure</a> and <a href='#algorithmexample' class='figref'>this figure</a> we start with set values for all parameters, which is a prior we have found to give a decent game. After playing a game the user gives feedback we use to create the metric is "How fun was this game?" and "How difficult was this game?". The first one presents the user with three hearts, and for each heart selected we roll a die from one to ten one time. This number is multiplied with a multiplier which increases as more games are played. This is to not end up stuck in a place just because the feedback received a high random value.
+As indicated in <a href='#pseudoalgorithm' class='figref'>this figure</a> and <a href='#algorithmexample' class='figref'>this figure</a> we start with set values for all parameters, which is a prior we have found to give a decent game. After playing a round of AdaptiveTD the player gives feedback we use to create the metric. As you can see in <a href='#questionaire' class='figref'>this figure</a> the player answers two questions after the game. The first question presents the user with three hearts, and for each heart selected we roll a die from one to ten one time. This number is multiplied with a multiplier which increases as more games are played. This is to not end up stuck in a local maximum point, as described in <a href='#shc' class='chapref_1'>Stochastic hill climbing</a>, just because the metric was assigned a high random value by the die.
 </p>
 
-<h2 id='solution_-_litt_lang_setning__som_er_en_hel_paragraf_'>Litt lang setning, som er en hel paragraf?</h2>
+<div id='questionaire' class='figure'><img src='quest.png' alt='The questionnaire the user takes post-game.' title='The questionnaire the user takes post-game.'><div class='caption'>The questionnaire the user takes post-game.</div></div>
+
 <p>
-After the metric has been created we compare it with the currently best known metric, and if we find that the new metric is better we save these as the best known metric conintue to jump from there, else we restore the parameters from the game where we received the best metric.
+After the metric has been created we compare it with the best known metric, and if we find that the new metric is better we save this one as the best known metric continue. Then we continue to jump from the parameters we had when receiving the new metric, else we restore the parameters from the game where we received the best known metric previously.
 </p>
 
 <div id='pseudorelations' class='figure'><img src='pseudoRelations.png' alt='Pseudocode for jumping of relations' title='Pseudocode for jumping of relations'><div class='caption'>Pseudocode for jumping of relations</div></div>
 
 <p>
-We randomly increase or decrease the parameters with parameters from zero up to a max jump distance, and let the user play again and repeat the process. The max jump distance decreases each time we find a better game, and thus we attempt to converge at a point where the user enjoys the game. Perceived fun is fleeting though, and if the user grows tired of an area he might start to rate it lower, and thus when a user gives a game the lowest rating we increase the max jump distance, to enable users to find new games.
+We randomly increase or decrease the parameters with parameters with values from zero up to a maximum jump distance, and let the user play again and repeat the process. The maximum jump distance decreases each time we find a better game, and thus we attempt to converge at a position where the player enjoys the game. Perceived fun is fleeting though, and if the player grows tired of an area he or she might start to rate it lower. To combat stagnation we decided to increase the maximum jump distance whenever a player gives the one heart feedback as described earlier in this chapter.
 </p>
 
 <p>
-The main feature we have implemented to adapt the stochastic hillclimbing algorithm to work with our parameters is relations. We needed to change the game, while not necessarily changing the difficulty. To do this we decided to put most of the parameters in relations. We do not change all parameters individually when jumping, but cycle through all relations and jump parameter one, and parameter two is changed as defined by the relation.
+As described in <a href='#parameters' class='chapref_2'>Parameters and Functionality</a>, instead of just jumping all parameters randomly, as one would normally do in a stochastic hillclimbing algoritm, we jump on relations, which change the game while keeping the difficulty close to constant. We do not change all parameters individually when jumping, but cycle through all relations and jump the primary parameter in the relation, and then jump all related parameters by the distance multiplied with the impact factor.
 </p>
 
 <div id='relationsexample' class='figure'><img src='relationsFun.png' alt='Basic relations example.' title='Basic relations example.'><div class='caption'>Basic relations example.</div></div>
 
-<p>
-The figure above illustrate how relations work. We have the relation GlobelMonsterHP->GlobalMonsterSpeed, when one goes up, the other one goes down proportionally. This may also be between two parameters which will change in the same direction as also seen in <a href='#relationsexample' class='figref'>this figure</a> where GlobalMonsterHp->TEDamage(Tower Damage) and both increase. As you may have noted, parameters can also be in more than one relation, thus when GlobalMonsterHP changes, it affects both GlobalMonsterSpeed and TEDamage.
-</p>
+<a href='#relationsexample' class='figref'>this figure</a> illustrate how relations work. We have the relation GlobelMonsterHP->GlobalMonsterSpeed, when one goes up, the other one goes down proportionally. This may also be between two parameters which will change in the same direction as also seen in <a href='#relationsexample' class='figref'>this figure</a> where GlobalMonsterHp->TEDamage(Tower Damage) and both increase. As you may have noted, parameters can also be in more than one relation, thus when GlobalMonsterHP changes, it affects both GlobalMonsterSpeed and TEDamage.
 
 <div id='difficultyexample' class='figure'><img src='difficulty.png' alt='Difficulty does not change in relations.' title='Difficulty does not change in relations.'><div class='caption'>Difficulty does not change in relations.</div></div>
 
 <p>
-We also get feedback on the difficulty, while this is not the main focus of this report, it does indicate something about the user. Since a game that is to easy or to hard is not fun, we found that we needed to implement some sort of difficulty scalign as well. We have implemented Stochastic Hillclimbing for the difficulty. Here however we just have parameters, and since the metric here in the sense of a graph would be "Too Low"(Easy), "Perfect" and "Too High"(Difficult), it is quite easy to guide the search and make it less random.
+We also receive feedback on the difficulty. This is not the main focus of our research, but it does indicate something about the user that we can use to adapt the game. This feedback would become increasingly relevant in future projects, if we attempt to detect the player's preferences without a questionnaire. We will talk more about this in <a href='#futurework' class='chapref_1'>Future Work</a>. 
+</p>
+
+<p>
+Since a game that is too easy or too hard is not fun, we found that we needed to implement some sort of difficulty scaling as well. We have implemented a simple algorithm which changes a few parameters for the difficulty scaling. Since the feedback here is accurate, we can easily move the difficulty in the direction the player desires. To do this we change a few parameters, without impacting their relations such as to actually change the difficulty.
+</p>
+
+<p>
+The simple algorithm that controls the difficulty is a form of hill climbing algorithm, but here we know in exactly what direction the player wants us to go due to the accuracy of the feedback.
+</p>
+
+<div id='pseudodifficulty' class='figure'><img src='pseudoDifficulty.png' alt='Pseudocode for the difficultyscaling.' title='Pseudocode for the difficultyscaling.'><div class='caption'>Pseudocode for the difficultyscaling.</div></div>
+
+<p>
+The additional parameters we change all have a 1/6 probability of being modified, and are as follows:<br>
+- EarthquakeChance<br>
+- DiggerChance<br>
+- SuperChance<br>
+- TEDamage<br>
+- GlobalTowerRange<br>
+- GlobalMonsterGoldYield<br>
+Further description of what each does can be found in <a href='#app_1' class='chapref_1'>Appendix I - Parameters</a>.
 </p>
 
 <h1 id='testing'>Testing</h1>
@@ -372,11 +379,7 @@ This chapter contains the tests we performed to see how well the algorithm worke
 
 <h2 id='rpt'>Real Playtests</h2>
 <p>
-We ran some actual playtests, having people who had never played the game before download and play it. These people varied in age, computer background, and experience with games, to get a sense whether we could please a wide variety of people by adapting to their preferences.
-</p>
-
-<p>
-While it is hard to plot exactly what they thought, since measuring fun is not an exact science we have gathered some feedback from them which we will summarize here.
+We ran some actual playtests, having people who had never played the game before download and play it. These people varied in age, computer background, and experience with games, to get a sense whether we could please a wide variety of people by adapting to their preferences. While it is hard to plot exactly what they thought, since measuring fun is not an exact science we have gathered some feedback from them which we will summarize here.
 </p>
 
 <ul>
@@ -384,9 +387,10 @@ While it is hard to plot exactly what they thought, since measuring fun is not a
 <li>It is exciting when the game changes radically and new stuff happens that you have to deal with.</li>
 <li>Changes make AdaptiveTD more fun, but the game has too little content to keep the player entertained for a long time. Even if the enemy health and speed is in a preferable range, it does not make you want to spend hours playing, due to the lack of progress and content.</li>
 <li>The difficulty scales well, and the player is able to feel the changes quickly, should they be dissatisfied.</li>
+</ul>
 
 <p>
-There are also some features that certain people enjoy while others do not, and since the jumping is currently random for 15 parameters the player may receive some, but usually not all, of his or her preferences. The main thing we heard was that the diggers, as described in <a href='#parameters' class='chapref_2'>Parameters and Adaptivity</a> can quickly become overwhelming if the player gets an unlucky jump while the maximum jump distance is high. The player should generally end up with the best known parameters if they did not enjoy the game, but there are cases where one roll of the die from one heart can give a metric higher than the best known metric, especially due to the multiplication from the GameLengthMultiplier, which increases as you play more games. One solution we found, was to never pick the current parameters as the best known if the player rated with one heart. However, we have not had the time to do real playtests using this, but believe it would give players a better experience. We tested this in the case tests below, after we received this feedback. At least numerically it gives much better results, and we hope that players testing the game in the future, will enjoy it as well.
+There are also some features that certain people enjoy while others do not, and since the jumping is currently random for 15 parameters the player may receive some, but usually not all, of his or her preferences. The main thing we heard was that the diggers, as described in <a href='#parameters' class='chapref_2'>Parameters and Functionality</a> can quickly become overwhelming if the player gets an unlucky jump while the maximum jump distance is high. The player should generally end up with the best known parameters if they did not enjoy the game, but there are cases where one roll of the die from one heart can give a metric higher than the best known metric, especially due to the multiplication from the GameLengthMultiplier, which increases as you play more games. One solution we found, was to never pick the current parameters as the best known if the player rated with one heart. However, we have not had the time to do real playtests using this, but believe it would give players a better experience. We tested this in the case tests below, after we received this feedback. At least numerically it gives much better results, and we hope that players testing the game in the future, will enjoy it as well.
 </p>
 
 <h2 id='testing_-_case_tests'>Case tests</h2>
@@ -412,7 +416,7 @@ As you can see, the general trend is upwards, but it seemed to be slightly to ra
 The trend is that global reload time increases much more quickly. Additionally, the fact that it never picked one heart games as the current best should result in players not getting stuck with games they disliked. <a href='#bothreload' class='figref'>this figure</a> shows the average of both through the 100 tests, here we can clearly see the difference in efficiency.
 </p>
 
-<div id='bothreload' class='figure'><img src='avg100bothreload.png' alt='Plots of the Average for both tests.' title='Plots of the Average for both tests.'><div class='caption'>Plots of the Average for both tests.</div></div>
+<div id='bothreload' class='figure'><img src='avg100bothreload.png' alt='Plots of the average for both tests.' title='Plots of the average for both tests.'><div class='caption'>Plots of the average for both tests.</div></div>
 
 <p>
 We also used these tests to see that the relations work correctly. GlobalReloadTime affect TEDamage, such that if GlobalReloadTime goes up, TEDamage should also increase. Here is a plot of GlobalReloadTime and TEDamage during the 100 games played after we made games with heart value one unable to be the best known game. GlobalReloadTime is the blue graph and TEDamage is the green graph. The parameters are also affected by other relations, which is why there are deviations in the values instead of always being the same.
@@ -446,7 +450,7 @@ Another problem we have noticed during the development process, is that the jump
 </p>
 
 <p>
-Lastly, we also noticed that the tower defense genre may not be well suited for creating an adaptive game. This is mainly because of the three following reasons. Firstly, the core game elements are rather static, which makes it difficult to make the game look and feel adaptive to the player. A different genre, such as the platformer, with game a example like Super Mario Bros. <a href="http://mario.nintendo.com/">[8]</a>. Secondly, the parameters in a tower defense game are very tightly knit together, in order to keep the game difficulty in balance. It is difficult to map how they all fit together, which makes it difficult for our algorithm to jump randomly to a new position, while still maintaining mentioned balance. Thirdly, the fun factor in a tower defense game is often related to the feeling of accomplishment. For instance, this feeling may occur when the player has lost a couple of games at the same challenge, and finally is able to beat the game. Since the game adapts itself to the player, thus is never the same, some would feel that their accomplishment is diminished.
+Lastly, we also noticed that the tower defense genre may not be well suited for creating an adaptive game. This is mainly because of the three following reasons. Firstly, the core game elements are rather static, which makes it difficult to make the game look and feel adaptive to the player. A different genre, such as the platformer, with game a example like Super Mario Bros. <a href="http://mario.nintendo.com/">[9]</a>. Secondly, the parameters in a tower defense game are very tightly knit together, in order to keep the game difficulty in balance. It is difficult to map how they all fit together, which makes it difficult for our algorithm to jump randomly to a new position, while still maintaining mentioned balance. Thirdly, the fun factor in a tower defense game is often related to the feeling of accomplishment. For instance, this feeling may occur when the player has lost a couple of games at the same challenge, and finally is able to beat the game. Since the game adapts itself to the player, thus is never the same, some would feel that their accomplishment is diminished.
 </p>
 
 <p>
@@ -475,10 +479,6 @@ We would also probably have gotten a better result by choosing a different game 
 If we do stochastic hill climbing based on metrics created based on how the player is playing, on few parameters for each part of the algorithm, we believe that we could get much better results. However, as this has been, to the best of our knowledge, the first venture into creating games which adapt based on fun, we are quite happy with our result.
 </p>
 
-<p>
-SPØRRE ROBIN
-</p>
-
 <h1 id='futurework'>Future Work</h1>
 
 <p>
@@ -500,19 +500,16 @@ Use search algorithm also for relations. We have most of the implementation read
 
 <h1 id='references'>References</h1>
 
-<p>
-IEEE, ACM, Springer
-</p>
-
 <div>
 <span id='reference_1'>[1] Tavangarian, D., Leypold, M. E., Nölting, K., Röser, M., & Voigt, D. (2004). Is e-learning the Solution for Individual Learning. <i>Electronic Journal of E-learning</i>, 2(2), 273-280.</span><br>
 <span id='reference_2'>[2] Marczewski, A. (2012). <i>Gamification: A Simple Introduction.</i> Andrzej Marczewski.</span><br>
 <span id='reference_3'>[3] Zichermann, G., & Cunningham, C. (2011). <i>Gamification by design: Implementing game mechanics in web and mobile apps.</i> O'Reilly Media.</span><br>
 <span id='reference_4'>[4] Huotari, K., & Hamari, J. (2012, October). Defining gamification: a service marketing perspective. In <i>Proceeding of the 16th International Academic MindTrek Conference</i> (pp. 17-22). ACM.</span><br>
 <span id='reference_5'>[5] Spronck, P., Sprinkhuizen-Kuyper, I., & Postma, E. (2004). Difficulty scaling of game AI. In <i>Proceedings of the 5th International Conference on Intelligent Games and Simulation (GAME-ON 2004)</i> (pp. 33-37).</span><br>
-<a id='reference_6' href="https://code.google.com/p/libgdx/">[6] https://code.google.com/p/libgdx/</a><br>
-<span id='reference_7'>[7] Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall</span><br>
-<a id='reference_8' href="http://mario.nintendo.com/">[8] http://mario.nintendo.com/</a><br>
+<a id='reference_6' href="http://wp.appadvice.com/wp-content/uploads/2010/04/IMG_0005.jpg">[6] http://wp.appadvice.com/wp-content/uploads/2010/04/IMG_0005.jpg</a><br>
+<a id='reference_7' href="https://code.google.com/p/libgdx/">[7] https://code.google.com/p/libgdx/</a><br>
+<span id='reference_8'>[8] Russell, S. J., & Norvig, P. (1995), <i>Artificial Intelligence: A Modern Approach</i>. Upper Saddle River, NJ: Prentice Hall</span><br>
+<a id='reference_9' href="http://mario.nintendo.com/">[9] http://mario.nintendo.com/</a><br>
 </div>
 
 
