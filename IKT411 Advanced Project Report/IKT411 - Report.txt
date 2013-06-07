@@ -202,11 +202,11 @@ There are also some stats that certain people enjoy whiel others do not enjoy, a
 
 ### Case tests
 
-To test how well the algorithm worked, by just trying to achieve certain values in certain stats we made some case tests. We created a way to automate testing, such that when the parameter in question moved in the direction we desired we rated the game three hearts, and one heart if it went the wrong way.
+To test how well the algorithm worked, by just trying to achieve certain values in certain stats we made a case test. We created a way to automate testing, such that when the parameter in question moved in the direction we desired we rated the game three hearts, and one heart if it went the wrong way.
 
 For each test we ran 100 rounds of 30 games each.
 
-<b>Case test 1: Global Reload time</b>
+<b>Case test: Global Reload time</b>
 In this case test we attempted to maximize global reload time. We basically wanted the GlobalReloadTime parameter to increase when playing. Following is a plot of its value through the games.
 
 @figure(prereload, avg100prereload.png, Plots of reload time.)
@@ -215,7 +215,9 @@ As you can see, the general trend is upwards, but it seemed to be slightly to ra
 
 @figure(postreload, avg100postreload.png, Plots of reload time.)
 
-As you notice, the trend is that global reload time increases much more quickly. Additionally that we never pick one heart games as the current best should result in players not getting stuck with games they disliked.
+As you notice, the trend is that global reload time increases much more quickly. Additionally that we never pick one heart games as the current best should result in players not getting stuck with games they disliked. The following figure shows the average of both through the 100 tests, here you can clearly see the difference.
+
+@figure(bothreload, avg100bothreload.png, Plots of the Average for both tests.)
 
 We also used these tests to see that the relations work correctly. GlobalReloadTime affect TEDamage, such that if the reload time goes up, the damage should also increase. Here is a plot of one of the more successfull playthroughs, with GlobalReloadTime in blue and TEDamage in green. Damage is also affected by other relations, which is why there are deviations in the values.
 
