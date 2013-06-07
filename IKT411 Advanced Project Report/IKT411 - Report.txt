@@ -10,8 +10,6 @@ $keywords = E-learning, unsupervised online learning, stochastic hill climbing, 
 
 $abstract = This document presents the research work done in the course IKT411 - Advanced Project. The project has been to research whether it is possible to create a game, that will adapt itself to the user's preferences. In order to do this, we created a proof of concept game, called Adaptive Tower Defense, and tested our solution by running case tests and real playtests. We conclude that it is possible to create an adaptive game, but great care in game design must be taken. If done properly, this is also applicable for the field of E-learning.
 
-
-
 @file(frontpage.txt)
 
 $ Table of contents | toc
@@ -208,7 +206,7 @@ There are also some features that certain people enjoy while others do not, and 
 
 To test how well the algorithm worked, we test if the algorithm is able to achieve maximum or minimum values in certain parameters. We created a way to automate testing, such that when the parameter(s) in question moved in the direction we desired we rated the game three hearts, and one heart if it went in the opposite direction.
 
-### Case test: One variable | ctone
+### Case test: One variable | case_1
 In this case test we attempted to maximize global reload time. We basically wanted the GlobalReloadTime parameter to increase towards 3.0. We ran 100 tests of 30 games each. In @figref(prereload) is a plot of its value through the tests.
 
 @figure(prereload, avg100prereload.png, Plots of reload time.)
@@ -225,19 +223,19 @@ We also used these tests to see that the relations work correctly. GlobalReloadT
 
 @figure(reloaddamage, figreloadrelateddamage.png, Plot of how global reload and tower damage changed over time.)
 
-### Case test: Two variables
+### Case test: Two variables | case_2
 
 Since the algorithm is stochastic, we asume that with more variables with a desired value, the time it takes will increase. Thus we decided to test with two variables, global reload time and global build cost. We rated the game three hearts if all values increased, and one heart if not. We ran 100 tests with 100 games in each, and the following graph show the average values during these games. These tests are run on the version where one heart metrics can not be chosen as the best known metric.
 
-@figure(avg100x100BuildReload, avg100x100BuildReload.png, Average values for two variables.)
+@figure(avg100x100buildreload, avg100x100BuildReload.png, Average values for two variables.)
 
 These two variables both have the maximum value of 3.0, thus we expect the average to be somewhere below that, but still well above the starting point of 1.0. We can see in the graph that this is the case, but it takes quite a bit longer than for one variable.
 
-### Case test: Three variables
+### Case test: Three variables | case_3
 
-Finally we ran the test with three different variables. We rated the game three hearts if all values increased, and one heart if not. Here however not all variables had the maximum of 3.0, the red line, DiggerChance, has a maximum of 1.0, which is why it is stable at a much lower level. We also note that Diggerchance reach a stable value much earlier than the others. While we would expect this as it has less than half the way to travel, it reaches it  much earlier than expected. We believe this may be because it is not in any relations which affect it, and thus it can move freely on it's own, while the others are affected by the jumps of other variables as well. We ran 100 tests with 100 games in each. These tests are run on the version where one heart metrics can not be chosen as the best known metric.
+Finally we ran the test with three different variables. We rated the game three hearts if all values increased, and one heart if not. Here however, not all variables had the maximum of 3.0, the red line, DiggerChance, has a maximum of 1.0, which is why it is stable at a much lower level. We also note that Diggerchance reach a stable value much earlier than the others. While we would expect this as it has less than half the way to travel, it reaches it  much earlier than expected. We believe this may be because it is not in any relations which affect it, and thus it can move freely on it's own, while the others are affected by the jumps of other variables as well. We ran 100 tests with 100 games in each. These tests are run on the version where one heart metrics can not be chosen as the best known metric.
 
-@figure(avg100x100BuildReloadDigger, avg100x100BuildReloadDigger.png, Average values for three variables.)
+@figure(avg100x100buildreloaddigger, avg100x100BuildReloadDigger.png, Average values for three variables.)
 
 As we now see the two variables in relations reach the top even more slowly, as expected.
 
@@ -259,24 +257,23 @@ However, we see here that this perform worse than the algorithm we used in @chap
 
 # Discussion | discussion
 
-In this chapter, we discuss three topics. First we discuss the results from the fun testing, then the results from the difficulty or case testing, and lastly we discuss some other observations noted during the development process.
+In this chapter, we discuss two topics. Firstly, we discuss the results from the playtests and case tests, and secondly we discuss some other observations noted during the development process.
 
-## Discussing the fun testing | discfun
-When looking at the fun testing results, we see that our game was generally rated fun, with an average of 7.17 our of 10. But since our testers were mainly friends and fellow students, we were expecting to receive rather high values, as they did not want to make us feel bad. But a 7.17 out of 10 is not actually bad for the game itself, as much of the game content, such as audio and graphics, was made without a budget. But a difficult aspect of this project, is that it is hard to measure whether something is fun or not. Our main feedback for how well the game worked is the ratings from players, and from that we are satisfied with how fun the game was perceived to be, but even if the game was characterized 10 out of 10, the test results could mostly reflect the game and its contents, and not tell us much about the algorithm itself.
+## Discussing the tests
+When looking at the playtests, it seems that AdaptiveTD lacks content and traditional game progress. However, the playtesters had faith in the concept of adaptivity, although the game had certain elements, which some people disliked. The elements people generally did not like was the overwhelming amount of diggers, as well as the earthquakes. We believe we have fixed this by not allowing games with a metric of one heart to give best known parameters, as the case tests in the @chapref(case_1) chapter implied. Also, the nature of the DiggerChance and EarthquakeChance could have been implemented in perhaps a better way, by only allowing smaller changes to the values be allowed at each jump.
 
-The second part of the fun testing results tells us more about the algorithm itself. The results reveal that the subjects thought the game was actually becoming worse over time, instead of maximizing fun. As mentioned in @chapref(testing), we believe that two of our parameters, named "SuperChance" and "DiggerChance", see @chapref(app_2), should have been normalized. As of now, they have too big an impact on the game, because their values are varying too much each jump. To the best of our knowledge, this is a result of our modified algorithm, which we believe can be fixed by having multiple specialized algorithms, instead of a central one. Another solution could be to only alter a single parameter each jump, because the algorithm would then be more sure about what the player enjoyed after each jump. This latter solution would make the algorithm work more slowly, which is maybe a too valuable trade-off.
+From @figref(reloaddamage), we can see that the relations work fine, as parameters in relation are kept close to each other. However, relations make the algorithm perform its search more slowly, and can also keep some parameters maxed out at lower values, due to the related parameters. The last issue is something that can be fixed by using normalized parameters, while the first is a trade-off that is important in order to keep the game difficulty balanced.
 
-## Discussing the difficulty testing
-The difficulty test results are good, in that the algorithm is able to change the difficulty based on the feedback it receives, relatively quickly. However, the algorithm we use for difficulty scaling is not the same as the one we use for maximizing fun. Since the difficulty can only be either too difficult, perfect or too easy, it is easier to scale difficulty, than to maximize fun.
+From @figref(avg100x100buildreload) and @figref(avg100x100buildreloaddigger), we can see that the algorithm still maximize up to three parameters at a time, albeit at a slower rate. We believe that the algorithm should be able to maximize fun for all parameters, but at a very slow rate. In order to combat this, one could divide the algorithm into multiple parts, each being more specialized towards receiving exact feedback on what the player really enjoyed, and what they did not.
+
+The algorithm from @figref(ctnomax) has no jump distance increase, and the one from @figref(ctlessmax) increases maximum jump distance only a little, each time one heart is given as feedback. Both of these approaches are performing worse than the one from @chapref(case_1), which sets the maximum jump distance to the original (maximum) value. By performing worse, we mean that the algorithm converges slower on a high position.
 
 ## Other observations | observations
-Another problem we have noticed during the development process, is that the jumps themselves may be too subtle for a player to notice when jump distance shortens. The algorithm requires positive feedback when it goes in a direction the player likes, but if the change is not noticable the player may give it the same score, thus have a decent chance of ending up jumping from his old game each jump. This issue is similar to the one in chapter 5, @chapref(shc), @figref(hcissues), figure in the middle.
+A problem we have noticed during the development process, is that the jumps themselves may be too subtle for a player to notice when jump distance shortens. The algorithm requires positive feedback when it goes in a direction the player likes, but if the change is not noticable the player may give it the same score, thus have a decent chance of ending up jumping from his old game each jump. This issue is similar to the one in chapter 5, @chapref(shc), @figref(hcissues), figure in the middle.
 
 Lastly, we also noticed that the tower defense genre may not be well suited for creating an adaptive game. This is mainly because of the three following reasons. Firstly, the core game elements are rather static, which makes it difficult to make the game look and feel adaptive to the player. A different genre, such as the platformer, with game a example like Super Mario Bros. @("http://mario.nintendo.com/"). Secondly, the parameters in a tower defense game are very tightly knit together, in order to keep the game difficulty in balance. It is difficult to map how they all fit together, which makes it difficult for our algorithm to jump randomly to a new position, while still maintaining mentioned balance. Thirdly, the fun factor in a tower defense game is often related to the feeling of accomplishment. For instance, this feeling may occur when the player has lost a couple of games at the same challenge, and finally is able to beat the game. Since the game adapts itself to the player, thus is never the same, some would feel that their accomplishment is diminished.
 
 A problem with the relations, is that a parameter which is represented in many relations will have a higher probability to increase or decrease more drastically, as each relation gives every parameter it holds a chance to jump. Also, our predefined relations are not completely preserving the game difficulty at each jump, making the fun search of our algorithm also slightly change the game difficulty at the same time.
-
-The diggers, super enemies and earthquake functionality is probably what makes AdaptiveTD 
 
 # Conclusion
 
@@ -284,9 +281,11 @@ Although some of the test results came out negative, we still believe that the c
 
 As noted in @chapref(observations), the 'flat-issue' that can be experienced with hill-climbing in general, also occurred at some point during our own development process. In order to combat this, an adaptive game itself needs to have much and varied game content, so the different games is felt different by the player. The player can then give better feedback to how the game was, and whether the algorithm should jump from a new location or not.
 
-We would also probably have gotten a better result by choosing a different game genre than tower defense. When the game uses a stochastic hill climbing algorithm relying on too many parameters, it is unlikely that all will go in an optimal direction at once. As mentioned in the second part of @chapref(discfun), we believe that if the game had used multiple specialized algorithms, which examines fewer parameters at a time, the total algorithm could have been more precise in its jumps. If specialized enough, one of the algorithms could also automatically detect feedback through how a player plays, rather than requiring a questionnaire at the end. Referere til flat:Løses ved annen mer visuell genre
+We would also probably have gotten a better result by choosing a different game genre than tower defense. When the game uses a stochastic hill climbing algorithm relying on too many parameters, it is unlikely that all will go in an optimal direction at once. As mentioned in the @chapref(discussion), we believe that if the game had used multiple specialized algorithms, which examines fewer parameters at a time, the total algorithm could have been more precise in its jumps. If specialized enough, one of the algorithms could also automatically detect feedback through how a player plays, rather than requiring a questionnaire at the end. Referere til flat:Løses ved annen mer visuell genre
 
 If we do stochastic hill climbing based on metrics created based on how the player is playing, on few parameters for each part of the algorithm, we believe that we could get much better results. However, as this has been, to the best of our knowledge, the first venture into creating games which adapt based on fun, we are quite happy with our result.
+
+The diggers, super enemies and earthquake functionality is probably what makes AdaptiveTD a relatively interesting and fun game, however, they need
 
 # Future Work | futurework
 

@@ -15,3 +15,13 @@ discuss the earthquake functionality, as we received some mixed feedback on it.
 
 However, in Future
 Work we present some possibilities for further development and use for AdaptiveTD.
+
+
+Relations make our game balanced, but slow search
+Since Digger, which is not in relation, this seems to be the case.
+
+The algorithm will not necessarily converge, if in a bad position, thus the algorithm will jump.
+This is positive, but lets average not reach maximum.
+
+Generell trend er oppover, men går treigere etter hvert, og jo flere du vil ha oppover. Derfor vil v ha specialized guided.
+

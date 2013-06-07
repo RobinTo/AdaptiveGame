@@ -18,8 +18,6 @@
 
 
 
-
-
 <p style='text-align: center'><img src="http://www.uia.no/no/content/download/79969/1326369/file/UiA+logo+engelsk.jpg" width="50%" height="50%" alt="UiA Logo"></p>
 <p><br></p>
 <p><br></p>
@@ -63,7 +61,9 @@
 <a href='#testing' class='toc_1'>Testing</a><br>
 <a href='#rpt' class='toc_2'>Real Playtests</a><br>
 <a href='#testing_-_case_tests' class='toc_2'>Case tests</a><br>
-<a href='#testing_-_case_tests_-_case_test__global_reload_time' class='toc_3'>Case test: Global Reload time</a><br>
+<a href='#testing_-_case_tests_-_case_test__one_variable' class='toc_3'>Case test: One variable</a><br>
+<a href='#testing_-_case_tests_-_case_test__two_variables' class='toc_3'>Case test: Two variables</a><br>
+<a href='#testing_-_case_tests_-_case_test__three_variables' class='toc_3'>Case test: Three variables</a><br>
 <a href='#discussion' class='toc_1'>Discussion</a><br>
 <a href='#discfun' class='toc_2'>Discussing the fun testing</a><br>
 <a href='#discussion_-_discussing_the_difficulty_testing' class='toc_2'>Discussing the difficulty testing</a><br>
@@ -89,11 +89,6 @@
 <a href='#phone' class='figtoc'>AdaptiveTD on a mobile device</a><br>
 <a href='#hcissues' class='figtoc'>Some issues with Hill Climbing</a><br>
 <a href='#pseudoshc' class='figtoc'>Pseudocode for stochastic hill climbing using example in the following subchapter</a><br>
-<a href='#hcex1' class='figtoc'>The startpoint for the search</a><br>
-<a href='#hcex2' class='figtoc'>The first jump</a><br>
-<a href='#hcex3' class='figtoc'>An attempted jump</a><br>
-<a href='#hcex4' class='figtoc'>Achieving global maximum</a><br>
-<a href='#hcex5' class='figtoc'>Further jumps are discarded</a><br>
 <a href='#hcex' class='figtoc'>An example of stochastic hill climbing</a><br>
 <a href='#pseudoalgorithm' class='figtoc'>Pseudocode for the algorithm.</a><br>
 <a href='#algorithmexample' class='figtoc'>The flow of our algorithm.</a><br>
@@ -106,6 +101,8 @@
 <a href='#postreload' class='figtoc'>Plots of reload time.</a><br>
 <a href='#bothreload' class='figtoc'>Plots of the average for both tests.</a><br>
 <a href='#reloaddamage' class='figtoc'>Plot of how global reload and tower damage changed over time.</a><br>
+<a href='#avg100x100buildreload' class='figtoc'>Average values for two variables.</a><br>
+<a href='#avg100x100buildreloaddigger' class='figtoc'>Average values for three variables.</a><br>
 </div>
 
 
@@ -296,17 +293,9 @@ The pseudocode shown above in <a href='#pseudoshc' class='figref'>this figure</a
 Here is an example for how to use stochastic hill climbing for how to find the maximum value of the function f(X) = 2 - X<sup>2</sup>. which has a maximum value of 2. We initialize the maximum jump distance (in x-direction) to a value of 1.0, and let this decrease by 0.1 with each jump that is making an improvement. The example uses the pseudocode from <a href='#pseudoshc' class='figref'>this figure</a>.
 </p>
 
-<div id='hcex1' class='figure'><img src='Hill_Climbing_Example_1.png' alt='The startpoint for the search' title='The startpoint for the search'><div class='caption'>The startpoint for the search</div></div>
-<div id='hcex2' class='figure'><img src='Hill_Climbing_Example_2.png' alt='The first jump' title='The first jump'><div class='caption'>The first jump</div></div>
-<div id='hcex3' class='figure'><img src='Hill_Climbing_Example_3.png' alt='An attempted jump' title='An attempted jump'><div class='caption'>An attempted jump</div></div>
-<div id='hcex4' class='figure'><img src='Hill_Climbing_Example_4.png' alt='Achieving global maximum' title='Achieving global maximum'><div class='caption'>Achieving global maximum</div></div>
-<div id='hcex5' class='figure'><img src='Hill_Climbing_Example_5.png' alt='Further jumps are discarded' title='Further jumps are discarded'><div class='caption'>Further jumps are discarded</div></div>
-
 <div id='hcex' class='figure'><img src='Images/hillclimbingexample.png' alt='An example of stochastic hill climbing' title='An example of stochastic hill climbing'><div class='caption'>An example of stochastic hill climbing</div></div>
 
-<p>
-This is a short example of how stochastic hill climbing will eventually find the local or global maximum on a graph. With a starting maximum jump distance of 1.0, decreasing by 0.1 with each jump, the algorithm will have converged after ten successful jumps, hopefully at an acceptable position. In an adaptive game setting, it may be wise to let the maximum jump distance never decrease to zero, because it can make the game feel more lively. In fact we found that people grow tired of being in a certain area for a long time, so we even increase the maximum jump distance when we receive the one heart feedback as described in <a href='#algorithm' class='chapref_2'>Algorithm</a>. This example is very short, compared to how many jumps it would normally take, but this is actually possible.
-</p>
+<a href='#hcex' class='figref'>this figure</a> shows a short example of how stochastic hill climbing eventually will find the local or global maximum on a graph. With a starting maximum jump distance of 1.0, decreasing by 0.1 with each jump, the algorithm will have converged after ten successful jumps, hopefully at an acceptable position. In an adaptive game setting, it may be wise to let the maximum jump distance never decrease to zero, because it can make the game feel more lively. In fact we found that people grow tired of being in a certain area for a long time, so we even increase the maximum jump distance when we receive the one heart feedback as described in <a href='#algorithm' class='chapref_2'>Algorithm</a>. This example is very short, compared to how many jumps it would normally take, but this is actually possible.
 
 <h1 id='solution'>Solution</h1>
 
@@ -396,12 +385,12 @@ There are also some features that certain people enjoy while others do not, and 
 <h2 id='testing_-_case_tests'>Case tests</h2>
 
 <p>
-To test how well the algorithm worked, we test if the algorithm is able to achieve maximum or minimum values in certain parameters. We created a way to automate testing, such that when the parameter(s) in question moved in the direction we desired we rated the game three hearts, and one heart if it went in the opposite direction. For each test we ran 100 rounds of 30 games each.
+To test how well the algorithm worked, we test if the algorithm is able to achieve maximum or minimum values in certain parameters. We created a way to automate testing, such that when the parameter(s) in question moved in the direction we desired we rated the game three hearts, and one heart if it went in the opposite direction.
 </p>
 
-<h3 id='testing_-_case_tests_-_case_test__global_reload_time'>Case test: Global Reload time</h3>
+<h3 id='testing_-_case_tests_-_case_test__one_variable'>Case test: One variable</h3>
 <p>
-In this case test we attempted to maximize global reload time. We basically wanted the GlobalReloadTime parameter to increase to 3.0. In <a href='#prereload' class='figref'>this figure</a> is a plot of its value through the tests.
+In this case test we attempted to maximize global reload time. We basically wanted the GlobalReloadTime parameter to increase towards 3.0. We ran 100 tests of 30 games each. In <a href='#prereload' class='figref'>this figure</a> is a plot of its value through the tests.
 </p>
 
 <div id='prereload' class='figure'><img src='avg100prereload.png' alt='Plots of reload time.' title='Plots of reload time.'><div class='caption'>Plots of reload time.</div></div>
@@ -423,6 +412,30 @@ We also used these tests to see that the relations work correctly. GlobalReloadT
 </p>
 
 <div id='reloaddamage' class='figure'><img src='figreloadrelateddamage.png' alt='Plot of how global reload and tower damage changed over time.' title='Plot of how global reload and tower damage changed over time.'><div class='caption'>Plot of how global reload and tower damage changed over time.</div></div>
+
+<h3 id='testing_-_case_tests_-_case_test__two_variables'>Case test: Two variables</h3>
+
+<p>
+Since the algorithm is stochastic, we asume that with more variables with a desired value, the time it takes will increase. Thus we decided to test with two variables, global reload time and global build cost. We rated the game three hearts if all values increased, and one heart if not. We ran 100 tests with 100 games in each, and the following graph show the average values during these games. These tests are run on the version where one heart metrics can not be chosen as the best known metric.
+</p>
+
+<div id='avg100x100buildreload' class='figure'><img src='avg100x100BuildReload.png' alt='Average values for two variables.' title='Average values for two variables.'><div class='caption'>Average values for two variables.</div></div>
+
+<p>
+These two variables both have the maximum value of 3.0, thus we expect the average to be somewhere below that, but still well above the starting point of 1.0. We can see in the graph that this is the case, but it takes quite a bit longer than for one variable.
+</p>
+
+<h3 id='testing_-_case_tests_-_case_test__three_variables'>Case test: Three variables</h3>
+
+<p>
+Finally we ran the test with three different variables. We rated the game three hearts if all values increased, and one heart if not. Here however not all variables had the maximum of 3.0, the red line, DiggerChance, has a maximum of 1.0, which is why it is stable at a much lower level. We also note that Diggerchance reach a stable value much earlier than the others. While we would expect this as it has less than half the way to travel, it reaches it  much earlier than expected. We believe this may be because it is not in any relations which affect it, and thus it can move freely on it's own, while the others are affected by the jumps of other variables as well. We ran 100 tests with 100 games in each. These tests are run on the version where one heart metrics can not be chosen as the best known metric.
+</p>
+
+<div id='avg100x100buildreloaddigger' class='figure'><img src='avg100x100BuildReloadDigger.png' alt='Average values for three variables.' title='Average values for three variables.'><div class='caption'>Average values for three variables.</div></div>
+
+<p>
+As we now see the two variables in relations reach the top even more slowly, as expected.
+</p>
 
 <h1 id='discussion'>Discussion</h1>
 
