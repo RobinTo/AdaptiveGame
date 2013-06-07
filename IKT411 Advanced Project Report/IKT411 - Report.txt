@@ -1,4 +1,4 @@
-﻿$title = Adaptive Game Difficulty
+$title = Adaptive Game Difficulty
 $authors = Jon Vegard Jansen, Robin Tollisen
 $supervisors = Sondre Glimsdal
 $course = IKT411
@@ -83,17 +83,31 @@ With a starting maximum jump distance of 1.0, decreasing by 0.1 with each jump, 
 
 # Solution
 
-Our solution is an implementation of the Stochastic Hillclimbig algorithm along with a few features needed to adapt it for our use. We work with the paramteres listed in @chapref(app_1).
+In this chapter we will talk about our solution which is an implementation of the Stochastic Hillclimbig algorithm along with a few features needed to adapt it for our use. We work with the paramteres listed in @chapref(app_1).
 
-@figure(algorithmExample, algorithm.png, The flow of our algorithm.)
+## Algorithm
 
-The feedback we use to create the metric is "How fun was this game?" and "How difficult was this game?". The first one presents the user with three hearts, and for each heart selected we roll a die from one to ten one time. This number is multiplied with a multiplier which increases as more games are played. This is to not end up stuck in a place just because the feedback received a high random value.
+@figure(pseudoalgorithm, pseudoAlgorithm.png, Pseudo-code for the algorithm.)
 
-The main feature we have implemented to adapt the stochastic hillclimbing algorithm to work with our parameters is relations. We needed to change the game, while not necessarily changing the difficulty. To do this we decided to put most of the parameters in relations.
 
-@figure(relationsExample, relations.png, Basic relations example.)
+@figure(algorithmexample, algorithm.png, The flow of our algorithm.)
 
-The figure above illustrate how relations work. We have the relation GlobelMonsterHP->GlobalMonsterSpeed, when one goes up, the other one goes down proportionally. This may also be between two parameters which will change in the same direction, for instance GlobalMonsterHp->TEDamage(Tower Damage). As you may have noted, parameters can also be in more than one relation, thus when GlobalMonsterHP changes, it affects both GlobalMonsterSpeed and TEDamage.
+As indicated in @figref(pseudoalgorithm) and @figref(algorithmexample) we start with set values for all parameters, which is a prior we have found to give a decent game. After playing a game the user gives feedback we use to create the metric is "How fun was this game?" and "How difficult was this game?". The first one presents the user with three hearts, and for each heart selected we roll a die from one to ten one time. This number is multiplied with a multiplier which increases as more games are played. This is to not end up stuck in a place just because the feedback received a high random value.
+
+## Litt lang setning, som er en hel paragraf?
+After the metric has been created we compare it with the currently best known metric, and if we find that the new metric is better we save these as the best known metric conintue to jump from there, else we restore the parameters from the game where we received the best metric.
+
+@figure(pseudorelations, pseudoRelations.png, Pseudo-code for jumping of relations)
+
+We randomly increase or decrease the parameters with parameters from zero up to a max jump distance, and let the user play again and repeat the process. The max jump distance decreases each time we find a better game, and thus we attempt to converge at a point where the user enjoys the game. Perceived fun is fleeting though, and if the user grows tired of an area he might start to rate it lower, and thus when a user gives a game the lowest rating we increase the max jump distance, to enable users to find new games.
+
+The main feature we have implemented to adapt the stochastic hillclimbing algorithm to work with our parameters is relations. We needed to change the game, while not necessarily changing the difficulty. To do this we decided to put most of the parameters in relations. We do not change all parameters individually when jumping, but cycle through all relations and jump parameter one, and parameter two is changed as defined by the relation.
+
+@figure(relationsexample, relationsFun.png, Basic relations example.)
+
+The figure above illustrate how relations work. We have the relation GlobelMonsterHP->GlobalMonsterSpeed, when one goes up, the other one goes down proportionally. This may also be between two parameters which will change in the same direction as also seen in @figref(relationsexample) where GlobalMonsterHp->TEDamage(Tower Damage) and both increase. As you may have noted, parameters can also be in more than one relation, thus when GlobalMonsterHP changes, it affects both GlobalMonsterSpeed and TEDamage.
+
+@figure(difficultyexample, difficulty.png, Difficulty does not change in relations.)
 
 We also get feedback on the difficulty, while this is not the main focus of this report, it does indicate something about the user. Since a game that is to easy or to hard is not fun, we found that we needed to implement some sort of difficulty scalign as well. We have implemented Stochastic Hillclimbing for the difficulty. Here however we just have parameters, and since the metric here in the sense of a graph would be "Too Low"(Easy), "Perfect" and "Too High"(Difficult), it is quite easy to guide the search and make it less random.
 
