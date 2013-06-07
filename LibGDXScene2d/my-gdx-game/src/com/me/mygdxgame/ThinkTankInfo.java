@@ -25,7 +25,6 @@ public class ThinkTankInfo
 	public void initialize()
 	{
 		nudgeChance = 0;
-		lastMetric = 0;
 		currentMetric = 0;
 		challengerMetric = 0;
 		maxJumpDistance = 0.4f;
