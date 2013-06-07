@@ -159,7 +159,7 @@ After the metric has been created we compare it with the best known metric, and 
 
 @figure(pseudorelations, pseudoRelations.png, Pseudocode for jumping of relations)
 
-We randomly increase or decrease the parameters with parameters with values from zero up to a maximum jump distance, and let the user play again and repeat the process. The maximum jump distance decreases each time we find a better game, and thus we attempt to converge at a position where the player enjoys the game. Perceived fun is fleeting though, and if the player grows tired of an area he or she might start to rate it lower. To combat stagnation we decided to increase the maximum jump distance whenever a player gives the one heart feedback as described earlier in this chapter.
+We randomly increase or decrease the parameters with parameters with values from zero up to a maximum jump distance, and let the user play again and repeat the process. The maximum jump distance decreases each time we find a better game, and thus we attempt to converge at a position where the player enjoys the game. Perceived fun is fleeting though, and if the player grows tired of an area he or she might start to rate it lower. To combat stagnation we decided to increase the maximum jump distance whenever a player gives the one heart feedback as described earlier in this chapter. We also found this to be the best approach when testing, as seen in @chapref(testing).
 
 As described in @chapref(parameters), instead of just jumping all parameters randomly, as one would normally do in a stochastic hillclimbing algoritm, we jump on relations, which change the game while keeping the difficulty close to constant. We do not change all parameters individually when jumping, but cycle through all relations and jump the primary parameter in the relation, and then jump all related parameters by the distance multiplied with the impact factor.
 
@@ -253,7 +253,11 @@ After having ran the previous test, we believe that perhaps tweaking the increas
 
 @figure(MaxJumpIncreaseLess, MaxJumpDistanceIncreaseLess.png, Graph when maximum jump distance increases less upon one heart rating.)
 
-However, we see here that this perform worse than the algorithm we used in @chapref(ctone). We will discuss this further in the @chapref(discussion) and @chapref(conclusion).
+However, we see here that this perform worse than the algorithm we used in @chapref(ctone). 
+
+## Results from testing
+
+We concluded from these tests that the best algorithm, atleast as far as our research has shown, has been the ones we had for the initial test where the jump distance increases back to max upon a one heart, and decreases drastically when three hearts are given. This is also what we believe would give the best results in future playtests, because then people will converge quickly at places they love, and jump quickly away from places they dislike. 
 
 # Discussion | discussion
 
