@@ -17,7 +17,6 @@ $ Table of contents | toc
 @toc
 
 $ Table of figures
-"Husk class='notoc'"
 
 @figures
 
@@ -210,10 +209,10 @@ There are also some features that certain people enjoy while others do not, and 
 
 ## Case tests
 
-To test how well the algorithm worked, we test if the algorithm is able to achieve maximum or minimum values in certain parameters. We created a way to automate testing, such that when the parameter(s) in question moved in the direction we desired we rated the game three hearts, and one heart if it went in the opposite direction. For each test we ran 100 rounds of 30 games each.
+To test how well the algorithm worked, we test if the algorithm is able to achieve maximum or minimum values in certain parameters. We created a way to automate testing, such that when the parameter(s) in question moved in the direction we desired we rated the game three hearts, and one heart if it went in the opposite direction.
 
-### Case test: Global Reload time
-In this case test we attempted to maximize global reload time. We basically wanted the GlobalReloadTime parameter to increase to 3.0. In @figref(prereload) is a plot of its value through the tests.
+### Case test: One variable
+In this case test we attempted to maximize global reload time. We basically wanted the GlobalReloadTime parameter to increase towards 3.0. We ran 100 tests of 30 games each. In @figref(prereload) is a plot of its value through the tests.
 
 @figure(prereload, avg100prereload.png, Plots of reload time.)
 
@@ -228,6 +227,22 @@ The trend is that global reload time increases much more quickly. Additionally, 
 We also used these tests to see that the relations work correctly. GlobalReloadTime affect TEDamage, such that if GlobalReloadTime goes up, TEDamage should also increase. Here is a plot of GlobalReloadTime and TEDamage during the 100 games played after we made games with heart value one unable to be the best known game. GlobalReloadTime is the blue graph and TEDamage is the green graph. The parameters are also affected by other relations, which is why there are deviations in the values instead of always being the same.
 
 @figure(reloaddamage, figreloadrelateddamage.png, Plot of how global reload and tower damage changed over time.)
+
+### Case test: Two variables
+
+Since the algorithm is stochastic, we asume that with more variables with a desired value, the time it takes will increase. Thus we decided to test with two variables, global reload time and global build cost. We rated the game three hearts if all values increased, and one heart if not. We ran 100 tests with 100 games in each, and the following graph show the average values during these games. These tests are run on the version where one heart metrics can not be chosen as the best known metric.
+
+@figure(avg100x100BuildReload, avg100x100BuildReload.png, Average values for two variables.)
+
+These two variables both have the maximum value of 3.0, thus we expect the average to be somewhere below that, but still well above the starting point of 1.0. We can see in the graph that this is the case, but it takes quite a bit longer than for one variable.
+
+### Case test: Three variables
+
+Finally we ran the test with three different variables. We rated the game three hearts if all values increased, and one heart if not. Here however not all variables had the maximum of 3.0, the red line, DiggerChance, has a maximum of 1.0, which is why it is stable at a much lower level. We also note that Diggerchance reach a stable value much earlier than the others. While we would expect this as it has less than half the way to travel, it reaches it  much earlier than expected. We believe this may be because it is not in any relations which affect it, and thus it can move freely on it's own, while the others are affected by the jumps of other variables as well. We ran 100 tests with 100 games in each. These tests are run on the version where one heart metrics can not be chosen as the best known metric.
+
+@figure(avg100x100BuildReloadDigger, avg100x100BuildReloadDigger.png, Average values for three variables.)
+
+As we now see the two variables in relations reach the top even more slowly, as expected.
 
 # Discussion | discussion
 
