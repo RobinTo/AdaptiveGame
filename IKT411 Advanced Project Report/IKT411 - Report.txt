@@ -195,10 +195,10 @@ While it is hard to plot exactly what they thought, since measuring fun is not a
 
 - The game is fun to begin with, but gets somewhat monotone when you play it for an extended period of time. 
 - It is exciting when the game changes radically and new stuff happens that you have to deal with.
+- Changes make the game more fun, but the game has to little content to keep you entertained for a long time. Even if the hp and speed is in a preferable range, it does not make you want to spend hours playing.
 - The difficulty scales well, and you can feel the changes quickly if you are dissatisfied with your game.
-- 
 
-There are also some stats that certain people enjoy whiel others do not enjoy, and since the jumping is currently random for 15 parameters you may end up with not getting everything you desire. The main thing we heard here was that the diggers, as talked about in @chapref(parameters) can quickly become overwhelming if you get an unlucky jump while the max jump distance is still high. While you should generally end up with your old parameters if you did not enjoy the game, there are cases where the one roll of the die from one heart can give a metric higher than the old best metric, especially due to the multiplication from the GameLengthMultiplier which increases as you play more games. We have discussed never picking the current parameters the best known if a user rated it with one heart, however we have not had the time to do playtests using this, but believe it would give players a better experience. We tested this in case tests after we got this feedback, and numerically it gives much better results.
+There are also some stats that certain people enjoy while others do not enjoy, and since the jumping is currently random for 15 parameters you may end up with not getting everything you desire. The main thing we heard here was that the diggers, as talked about in @chapref(parameters) can quickly become overwhelming if you get an unlucky jump while the max jump distance is still high. While you should generally end up with your old parameters if you did not enjoy the game, there are cases where the one roll of the die from one heart can give a metric higher than the old best metric, especially due to the multiplication from the GameLengthMultiplier which increases as you play more games. We have discussed never picking the current parameters the best known if a user rated it with one heart, however we have not had the time to do playtests using this, but believe it would give players a better experience. We tested this in case tests after we got this feedback, and atleast numerically it gives much better results, we hope that players testing the game after this change will enjoy it as well.
 
 ### Case tests
 
@@ -219,11 +219,9 @@ As you notice, the trend is that global reload time increases much more quickly.
 
 @figure(bothreload, avg100bothreload.png, Plots of the Average for both tests.)
 
-We also used these tests to see that the relations work correctly. GlobalReloadTime affect TEDamage, such that if the reload time goes up, the damage should also increase. Here is a plot of one of the more successfull playthroughs, with GlobalReloadTime in blue and TEDamage in green. Damage is also affected by other relations, which is why there are deviations in the values.
+We also used these tests to see that the relations work correctly. GlobalReloadTime affect TEDamage, such that if the reload time goes up, the damage should also increase. Here is a plot of GlobalReloadTime and TEDamage during the 100 games played after we made games with heart value one unable to be the best known game. GlobalReloadTime is the blue graph and TEDamage is the green graph. The parameters are also affected by other relations, which is why there are deviations in the values instead of always being the same.
 
 @figure(reloaddamage, figreloadrelateddamage.png, Plot of how global reload and tower damage changed over time.)
-
-As you can see they increase almost simultaneously.
 
 # Discussion | discussion
 
